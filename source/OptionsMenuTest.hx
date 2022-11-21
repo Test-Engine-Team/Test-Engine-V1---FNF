@@ -27,6 +27,7 @@ class OptionsMenuTest extends MusicBeatState
 {
 	var selector:FlxText;
 	var curSelected:Int = 0;
+	var isSettingControl:Bool;
 
 	var controlsStrings:Array<String> = [];
 
@@ -58,16 +59,21 @@ class OptionsMenuTest extends MusicBeatState
 			// DONT PUT X IN THE FIRST PARAMETER OF new ALPHABET() !!
 		}
 	}	
+	function waitingInput():Void
+		{
+			if (FlxG.keys.getIsDown().length > 0)
+			{
+				PlayerSettings.player1.controls.replaceBinding(Control.LEFT, Keys, FlxG.keys.getIsDown()[0].ID, null);
+			}
+			// PlayerSettings.player1.controls.replaceBinding(Control)
+		}
+
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
 
 		if (controls.ACCEPT)
 		{
-			//flixel.FlxSubState('source/SwitchControlsSubstate');
-			openSubState(SwitchControlsSubstate()); 
-			//openSubState(new SwitchControlsSubstate());
-			//FlxG.switchSubState(new SwitchControlsSubstate());
 			changeBinding();
 		}
 
@@ -125,22 +131,4 @@ class OptionsMenuTest extends MusicBeatState
 			}
 		}
 	}
-	var isSettingControl:Bool = false;
-
-	function changeBinding():Void
-	{
-		if (!isSettingControl)
-		{
-			isSettingControl = true;
-		}
-	}
-	function waitingInput():Void
-		{
-			if (FlxG.keys.getIsDown().length > 0)
-			{
-				PlayerSettings.player1.controls.replaceBinding(Control.LEFT, Keys, FlxG.keys.getIsDown()[0].ID, null);
-			}
-			// PlayerSettings.player1.controls.replaceBinding(Control)
-		}
-		
 }
