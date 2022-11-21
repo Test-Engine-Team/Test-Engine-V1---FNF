@@ -1,82 +1,115 @@
 package;
 
 import flixel.FlxG;
-import flixel.FlxSprite;
-import flixel.addons.transition.FlxTransitionableState;
-import flixel.graphics.frames.FlxAtlasFrames;
-import flixel.input.gamepad.FlxGamepad;
-import flixel.tweens.FlxEase;
-import flixel.tweens.FlxTween;
+import flixel.FlxObject;
+import flixel.FlxSubState;
+import flixel.math.FlxPoint;
+import flixel.util.FlxColor;
+import flixel.util.FlxTimer;
 
-class GameOverState extends FlxTransitionableState
+class GameOverState extends MusicBeatSubstate
 {
-	var bfX:Float = 0;
-	var bfY:Float = 0;
+	var bf:Boyfriend;
+	var camFollow:FlxObject;
+
+	var stageSuffix:String = "";
 
 	public function new(x:Float, y:Float)
 	{
+		var daStage = PlayState.curStage;
+		var daBf:String = '';
+		switch (daStage)
+		{
+			case 'school':
+				stageSuffix = '-pixel';
+				daBf = 'bf-pixel-dead';
+			case 'schoolEvil':
+				stageSuffix = '-pixel';
+				daBf = 'bf-pixel-dead';
+			default:
+				daBf = 'bf';
+		}
+
 		super();
 
-		bfX = x;
-		bfY = y;
-	}
+		Conductor.songPosition = 0;
 
-	override function create()
-	{
-		/* var loser:FlxSprite = new FlxSprite(100, 100);
-			var loseTex = FlxAtlasFrames.fromSparrow(AssetPaths.lose.png, AssetPaths.lose.xml);
-			loser.frames = loseTex;
-			loser.animation.addByPrefix('lose', 'lose', 24, false);
-			loser.animation.play('lose');
-			// add(loser); */
-
-		var bf:Boyfriend = new Boyfriend(bfX, bfY);
-		// bf.scrollFactor.set();
+		bf = new Boyfriend(x, y, daBf);
 		add(bf);
+
+		camFollow = new FlxObject(bf.getGraphicMidpoint().x, bf.getGraphicMidpoint().y, 1, 1);
+		add(camFollow);
+
+		FlxG.sound.play('assets/sounds/fnf_loss_sfx' + stageSuffix + TitleState.soundExt);
+		Conductor.changeBPM(100);
+
+		// FlxG.camera.followLerp = 1;
+		// FlxG.camera.focusOn(FlxPoint.get(FlxG.width / 2, FlxG.height / 2));
+		FlxG.camera.scroll.set();
+		FlxG.camera.target = null;
+
 		bf.playAnim('firstDeath');
-
-		FlxG.camera.follow(bf, LOCKON, 0.001);
-		/* 
-			var restart:FlxSprite = new FlxSprite(500, 50).loadGraphic(AssetPaths.restart.png);
-			restart.setGraphicSize(Std.int(restart.width * 0.6));
-			restart.updateHitbox();
-			restart.alpha = 0;
-			restart.antialiasing = true;
-			// add(restart); */
-
-		FlxG.sound.music.fadeOut(2, FlxG.sound.music.volume * 0.6);
-
-		// FlxTween.tween(restart, {alpha: 1}, 1, {ease: FlxEase.quartInOut});
-		// FlxTween.tween(restart, {y: restart.y + 40}, 7, {ease: FlxEase.quartInOut, type: PINGPONG});
-
-		super.create();
 	}
-
-	private var fading:Bool = false;
 
 	override function update(elapsed:Float)
 	{
-		var pressed:Bool = FlxG.keys.justPressed.ANY;
+		super.update(elapsed);
 
-		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
-
-		if (gamepad != null)
+		if (controls.ACCEPT)
 		{
-			if (gamepad.justPressed.ANY)
-				pressed = true;
+			endBullshit();
 		}
 
-		pressed = false;
-
-		if (pressed && !fading)
+		if (controls.BACK)
 		{
-			fading = true;
-			FlxG.sound.music.fadeOut(0.5, 0, function(twn:FlxTween)
+			FlxG.sound.music.stop();
+
+			if (PlayState.isStoryMode)
+				FlxG.switchState(new StoryMenuState());
+			else
+				FlxG.switchState(new FreeplayState());
+		}
+
+		if (bf.animation.curAnim.name == 'firstDeath' && bf.animation.curAnim.curFrame == 12)
+		{
+			FlxG.camera.follow(camFollow, LOCKON, 0.01);
+		}
+
+		if (bf.animation.curAnim.name == 'firstDeath' && bf.animation.curAnim.finished)
+		{
+			FlxG.sound.playMusic('assets/music/gameOver' + stageSuffix + TitleState.soundExt);
+		}
+
+		if (FlxG.sound.music.playing)
+		{
+			Conductor.songPosition = FlxG.sound.music.time;
+		}
+	}
+
+	override function beatHit()
+	{
+		super.beatHit();
+
+		FlxG.log.add('beat');
+	}
+
+	var isEnding:Bool = false;
+
+	function endBullshit():Void
+	{
+		if (!isEnding)
+		{
+			isEnding = true;
+			bf.playAnim('deathConfirm', true);
+			FlxG.sound.music.stop();
+			FlxG.sound.play('assets/music/gameOverEnd' + stageSuffix + TitleState.soundExt);
+			new FlxTimer().start(0.7, function(tmr:FlxTimer)
 			{
-				FlxG.sound.music.stop();
-				FlxG.switchState(new PlayState());
+				FlxG.camera.fade(FlxColor.BLACK, 2, false, function()
+				{
+					FlxG.switchState(new PlayState());
+				});
 			});
 		}
-		super.update(elapsed);
 	}
 }

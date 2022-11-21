@@ -250,7 +250,6 @@ class FreeplayState extends MusicBeatState
 		#end
 
 		FlxG.sound.playMusic('assets/songs/' + songs[curSelected].toLowerCase() + "/Inst" + TitleState.soundExt, 0);
-		FlxG.sound.playMusic('assets/songs/' + songs[curSelected].toLowerCase() + "/Voices" + TitleState.soundExt, 0);
 
 		var bullShit:Int = 0;
 

@@ -31,6 +31,8 @@ class Song
 	public var player1:String = 'bf';
 	public var player2:String = 'dad';
 
+	public var stage:String = 'stage';
+
 	public function new(song, notes, bpm)
 	{
 		this.song = song;
