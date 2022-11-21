@@ -50,6 +50,7 @@ class FreeplayState extends MusicBeatState
 		{
 			songs.push('Spookeez');
 			songs.push('South');
+			songs.push('Monster');
 		}
 
 		if (StoryMenuState.weekUnlocked[3] || isDebug)
@@ -248,7 +249,8 @@ class FreeplayState extends MusicBeatState
 		// lerpScore = 0;
 		#end
 
-		FlxG.sound.playMusic('assets/music/' + songs[curSelected] + "_Inst" + TitleState.soundExt, 0);
+		FlxG.sound.playMusic('assets/songs/' + songs[curSelected] + "/Inst" + TitleState.soundExt, 0);
+		FlxG.sound.playMusic('assets/songs/' + songs[curSelected] + "/Voices" + TitleState.soundExt, 0);
 
 		var bullShit:Int = 0;
 

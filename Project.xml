@@ -52,6 +52,7 @@
 	<assets path="assets/music" include="*.ogg" unless="web"/>
 	<assets path="assets/sounds" include="*.mp3" if="web" />
 	<assets path="assets/sounds" include="*.ogg" unless="web" />
+	<assets path="assets/songs" include="*.ogg" unless="web" />
 
 	<assets path="CHANGELOG.md" rename='changelog.txt'/>
 

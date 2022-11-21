@@ -89,7 +89,7 @@ class PlayState extends MusicBeatState
 	private var camHUD:FlxCamera;
 	private var camGame:FlxCamera;
 
-	var dialogue:Array<String> = ['blah blah blah', 'coolswag'];
+	var dialogue:Array<String> = ['dad:blah blah blah', 'bf:coolswag'];
 
 	var halloweenBG:FlxSprite;
 	var isHalloween:Bool = false;
@@ -111,6 +111,7 @@ class PlayState extends MusicBeatState
 
 	var talking:Bool = true;
 	var songScore:Int = 0;
+	var songMisses:Int = 0;
 	var scoreTxt:FlxText;
 
 	public static var campaignScore:Int = 0;
@@ -968,7 +969,7 @@ class PlayState extends MusicBeatState
 		lastReportedPlayheadPosition = 0;
 
 		if (!paused)
-			FlxG.sound.playMusic("assets/music/" + SONG.song + "_Inst" + TitleState.soundExt, 1, false);
+			FlxG.sound.playMusic("assets/songs/" + SONG.song + "/Inst" + TitleState.soundExt, 1, false);
 		FlxG.sound.music.onComplete = endSong;
 		vocals.play();
 	}
@@ -985,7 +986,7 @@ class PlayState extends MusicBeatState
 		curSong = songData.song;
 
 		if (SONG.needsVoices)
-			vocals = new FlxSound().loadEmbedded("assets/music/" + curSong + "_Voices" + TitleState.soundExt);
+			vocals = new FlxSound().loadEmbedded("assets/songs/" + curSong + "/Voices" + TitleState.soundExt);
 		else
 			vocals = new FlxSound();
 
@@ -1575,6 +1576,9 @@ class PlayState extends MusicBeatState
 						{
 							health -= 0.0475;
 							vocals.volume = 0;
+							songMisses++;
+							songScore -= 10;
+							combo = 0;
 						}
 
 						daNote.active = false;
@@ -1965,6 +1969,8 @@ private function keyShit():Void
 			combo = 0;
 
 			songScore -= 10;
+
+			songMisses += 1;
 
 			FlxG.sound.play('assets/sounds/missnote' + FlxG.random.int(1, 3) + TitleState.soundExt, FlxG.random.float(0.1, 0.2));
 			// FlxG.sound.play('assets/sounds/missnote1' + TitleState.soundExt, 1, false);
