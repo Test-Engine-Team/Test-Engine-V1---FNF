@@ -969,7 +969,7 @@ class PlayState extends MusicBeatState
 		lastReportedPlayheadPosition = 0;
 
 		if (!paused)
-			FlxG.sound.playMusic("assets/songs/" + SONG.song + "/Inst" + TitleState.soundExt, 1, false);
+			FlxG.sound.playMusic("assets/songs/" + PlayState.SONG.song.toLowerCase() + "/Inst" + TitleState.soundExt, 1, false);
 		FlxG.sound.music.onComplete = endSong;
 		vocals.play();
 	}
@@ -986,7 +986,7 @@ class PlayState extends MusicBeatState
 		curSong = songData.song;
 
 		if (SONG.needsVoices)
-			vocals = new FlxSound().loadEmbedded("assets/songs/" + curSong + "/Voices" + TitleState.soundExt);
+			vocals = new FlxSound().loadEmbedded("assets/songs/" + PlayState.SONG.song.toLowerCase() + "/Voices" + TitleState.soundExt);
 		else
 			vocals = new FlxSound();
 
