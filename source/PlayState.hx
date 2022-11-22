@@ -2127,9 +2127,8 @@ private function keyShit():Void
 			{
 				popUpScore(note.strumTime);
 				combo += 1;
+				notesHit++;
 			}
-
-			notesHit++;
 
 			if (note.noteData >= 0)
 				health += 0.023;
