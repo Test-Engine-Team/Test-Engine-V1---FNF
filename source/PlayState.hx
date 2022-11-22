@@ -2258,6 +2258,12 @@ private function keyShit():Void
 		{
 			// dad.dance();
 		}
+
+		switch curStep{
+			case 60, 444, 524, 540, 542, 828:
+				if (SONG.song.toLowerCase() == 'ugh')
+					dad.playAnim('Ugh', true);
+		}
 	}
 
 	var lightningStrikeBeat:Int = 0;
@@ -2302,8 +2308,8 @@ private function keyShit():Void
 			camHUD.zoom += 0.03;
 		}
 
-		iconP1.setGraphicSize(Std.int(iconP1.width + 30));
-		iconP2.setGraphicSize(Std.int(iconP2.width + 30));
+		iconP1.setGraphicSize(Std.int(iconP1.width + 25));
+		iconP2.setGraphicSize(Std.int(iconP2.width + 25));
 
 		iconP1.updateHitbox();
 		iconP2.updateHitbox();
