@@ -110,22 +110,21 @@ class MainMenuState extends MusicBeatState
 
 	var selectedSomethin:Bool = false;
 
-	function changegtval() {
-		if (gtvalue == 1)
-			gtvalue = 0;
-		else 
-			gtvalue = 1;
-	}
-
 	override function update(elapsed:Float)
 	{
-		if (gtvalue == 1)
-		gtText.text = "Ghost Tapping Is Currently on";
+		if (ClientPrefs.ghostTapping == false) {
+			gtText.text = "Ghost Tapping Is Currently on";
+		}
 		else
-		gtText.text = "Ghost Tapping Is Currently off";
+		{
+			gtText.text = "Ghost Tapping Is Currently off";
+		}
 
 		if (FlxG.keys.justPressed.G)
-			changegtval();
+		{
+			ClientPrefs.ghostTapping = true;
+		}
+
 		if (FlxG.sound.music.volume < 0.8)
 		{
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
