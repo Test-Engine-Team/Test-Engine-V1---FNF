@@ -153,6 +153,17 @@ class MainMenuState extends MusicBeatState
 				changeItem(1);
 			}
 
+			if (FlxG.keys.justPressed.T) {
+				FlxG.sound.play('assets/sounds/confirmMenu' + TitleState.soundExt);
+				if (ClientPrefs.tankmanFloat == false) {
+					ClientPrefs.tankmanFloat = true;
+				}
+				else
+				{
+					ClientPrefs.tankmanFloat = false;
+				}
+			}
+
 			if (controls.BACK)
 			{
 				FlxG.switchState(new TitleState());
