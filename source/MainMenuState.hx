@@ -36,9 +36,6 @@ class MainMenuState extends MusicBeatState
 
 	override function create()
 	{
-		if (FlxG.save.data.ghost != gtvalue)
-			gtvalue = FlxG.save.data.ghost;
-
 		transIn = FlxTransitionableState.defaultTransIn;
 		transOut = FlxTransitionableState.defaultTransOut;
 

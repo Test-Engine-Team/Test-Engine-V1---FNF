@@ -1347,6 +1347,12 @@ class PlayState extends MusicBeatState
 
 		super.update(elapsed);
 
+		switch (curStep){
+			case 60, 444, 524, 540, 542, 828:
+				if (SONG.song.toLowerCase() == 'ugh')
+					dad.playAnim('Ugh', true);
+		}
+
 		infoText.text = "Score: " + songScore + " || Misses: " + songMisses + " || Combo: " + combo + " || Notes Hit: " + notesHit;
 
 		#if desktop
@@ -2260,12 +2266,6 @@ private function keyShit():Void
 		if (dad.curCharacter == 'spooky' && curStep % 4 == 2)
 		{
 			// dad.dance();
-		}
-
-		switch curStep{
-			case 60, 444, 524, 540, 542, 828:
-				if (SONG.song.toLowerCase() == 'ugh')
-					dad.playAnim('Ugh', true);
 		}
 	}
 

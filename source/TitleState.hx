@@ -115,6 +115,9 @@ class TitleState extends MusicBeatState
 			#if desktop
 			DiscordHandler.initialize();
 			#end
+
+			if (FlxG.save.data.ghost != MainMenuState.gtvalue)
+				MainMenuState.gtvalue = FlxG.save.data.ghost;
 		}
 
 		Conductor.changeBPM(102);

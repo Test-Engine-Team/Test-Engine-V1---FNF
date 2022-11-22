@@ -190,9 +190,9 @@ class FreeplayState extends MusicBeatState
 			changeSelection(1);
 		}
 
-		if (controls.LEFT_P)
+		if (controls.LEFT_P && songs[curSelected] != 'test')
 			changeDiff(-1);
-		if (controls.RIGHT_P)
+		if (controls.RIGHT_P && songs[curSelected] != 'test')
 			changeDiff(1);
 
 		if (controls.BACK)
