@@ -1241,9 +1241,6 @@ class PlayState extends MusicBeatState
 
 	override public function update(elapsed:Float)
 	{
-		#if !debug
-		perfectMode = false;
-		#end
 
 		if (FlxG.keys.justPressed.NINE)
 		{
@@ -1289,6 +1286,9 @@ class PlayState extends MusicBeatState
 		if (FlxG.keys.justPressed.SEVEN)
 		{
 			FlxG.switchState(new ChartingState());
+			#if desktop
+			DiscordHandler.changePresence('Charting ', SONG.song.toLowerCase());
+			#end
 		}
 
 		// FlxG.watch.addQuick('VOL', vocals.amplitudeLeft);
@@ -1318,13 +1318,11 @@ class PlayState extends MusicBeatState
 		else
 			iconP2.animation.curAnim.curFrame = 0;
 
-		/* if (FlxG.keys.justPressed.NINE)
-			FlxG.switchState(new Charting()); */
-
-		#if debug
-		if (FlxG.keys.justPressed.EIGHT)
+		if (FlxG.keys.justPressed.FIVE)
 			FlxG.switchState(new AnimationDebug(SONG.player2));
-		#end
+
+		if (FlxG.keys.justPressed.SIX)
+			FlxG.switchState(new AnimationDebug(SONG.player1));
 
 		if (startingSong)
 		{
@@ -1592,13 +1590,13 @@ class PlayState extends MusicBeatState
 		if (!inCutscene)
 			keyShit();
 
-		#if debug
 		if (FlxG.keys.justPressed.ONE)
 			endSong();
-		#end
+		if (FlxG.keys.justPressed.TWO)
+			perfectMode = true;
 	}
 
-	function endSong():Void
+	public static function endSong():Void
 	{
 		canPause = false;
 		FlxG.sound.music.volume = 0;
@@ -1608,14 +1606,14 @@ class PlayState extends MusicBeatState
 			#if !switch
 			Highscore.saveScore(SONG.song, songScore, storyDifficulty);
 			#end
-
-			#if desktop
-			DiscordHandler.changePresence('In The Menus The Last Song They Played Was', SONG.song.toLowerCase());
-			#end
 		}
 
 		if (isStoryMode)
 		{
+			#if desktop
+			DiscordHandler.changePresence('In The Menus The Last Song They Played Was', SONG.song.toLowerCase());
+			#end
+
 			campaignScore += songScore;
 
 			storyPlaylist.remove(storyPlaylist[0]);

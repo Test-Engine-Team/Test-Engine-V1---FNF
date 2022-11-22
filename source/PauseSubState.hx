@@ -14,7 +14,7 @@ class PauseSubState extends MusicBeatSubstate
 {
 	var grpMenuShit:FlxTypedGroup<Alphabet>;
 
-	var menuItems:Array<String> = ['Resume', 'Change Difficulty', /*'Restart Song',*/ 'Exit to menu'];
+	var menuItems:Array<String> = ['Resume', 'Restart Song', 'Skip Song', 'Exit to menu'];
 	var curSelected:Int = 0;
 
 	var pauseMusic:FlxSound;
@@ -78,14 +78,16 @@ class PauseSubState extends MusicBeatSubstate
 			{
 				case "Resume":
 					close();
-				/*
-				case "Change Difficulty":
-					openSubState(new ChangeDifficultySubState());
-				*/
 				case "Restart Song":
 					FlxG.resetState();
+				case "Skip Song":
+					PlayState.endSong();
+					close();
 				case "Exit to menu":
 					FlxG.switchState(new MainMenuState());
+					#if desktop
+					DiscordHandler.changePresence('In The Menus The Last Song They Played Was', SONG.song.toLowerCase());
+					#end
 			}
 		}
 
