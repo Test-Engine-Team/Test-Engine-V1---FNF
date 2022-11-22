@@ -39,6 +39,9 @@ import lime.utils.Assets;
 import openfl.display.BlendMode;
 import openfl.display.StageQuality;
 import openfl.filters.ShaderFilter;
+#if desktop
+import DiscordHandler;
+#end
 using StringTools;
 
 class PlayState extends MusicBeatState
@@ -675,8 +678,7 @@ class PlayState extends MusicBeatState
 		add(healthBar);
 
 		infoText = new FlxText(healthBarBG.x + healthBarBG.width - 450, healthBarBG.y + 40, 0, "", 20);
-		infoText.setFormat("assets/fonts/vcr.ttf", 16, FlxColor.WHITE, RIGHT, OUTLINE, 0x000000);
-		infoText.borderSize = 10;
+		infoText.setFormat("assets/fonts/vcr.ttf", 16, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		infoText.scrollFactor.set();
 		add(infoText);
 
@@ -1263,6 +1265,18 @@ class PlayState extends MusicBeatState
 
 		infoText.text = "Score:" + songScore + " || Misses:" + songMisses + " || Combo:" + combo;
 
+		#if desktop
+		var diff:String;
+		if (storyDifficulty == 0)
+		diff = 'easy';
+		else if
+		diff = 'normal';
+		else
+		diff = 'hard';
+		
+		DiscordHandler.changePresence('Playing ' + SONG.song.toLowerCase() + '-' + diff ' With ' + songScore + ' Score And ' + songMisses + ' Misses');
+		#end
+
 		if (FlxG.keys.justPressed.ENTER && startedCountdown && canPause)
 		{
 			persistentUpdate = false;
@@ -1593,6 +1607,10 @@ class PlayState extends MusicBeatState
 		{
 			#if !switch
 			Highscore.saveScore(SONG.song, songScore, storyDifficulty);
+			#end
+
+			#if desktop
+			DiscordHandler.changePresence('In The Menus The Last Song They Played Was', SONG.song.toLowerCase());
 			#end
 		}
 

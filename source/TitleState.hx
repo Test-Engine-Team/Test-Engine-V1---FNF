@@ -1,5 +1,7 @@
 package;
 
+import DiscordHandler;
+import openfl.display.Window;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
@@ -28,7 +30,7 @@ using StringTools;
 class TitleState extends MusicBeatState
 {
 	static var initialized:Bool = false;
-	static public var soundExt:String = ".mp3";
+	static public var soundExt:String = ".ogg";
 
 	var blackScreen:FlxSprite;
 	var credGroup:FlxGroup;
@@ -42,9 +44,8 @@ class TitleState extends MusicBeatState
 
 	override public function create():Void
 	{
-
 		#if (!web)
-		TitleState.soundExt = '.ogg';
+		TitleState.soundExt = '.mp3';
 		#end
 
 		PlayerSettings.init();
@@ -117,6 +118,10 @@ class TitleState extends MusicBeatState
 			FlxG.sound.playMusic('assets/music/freakyMenu' + TitleState.soundExt, 0);
 
 			FlxG.sound.music.fadeIn(4, 0, 0.7);
+
+			#if desktop
+			DiscordHandler.initialize();
+			#end
 		}
 
 		Conductor.changeBPM(102);
