@@ -122,6 +122,7 @@ class PlayState extends MusicBeatState
 	var smokeRight:FlxSprite;
 	var smokeLeft:FlxSprite;
 	var tower:FlxSprite;
+	var steve:FlxSprite;
 
 	var talking:Bool = true;
 	var songScore:Int = 0;
@@ -484,6 +485,15 @@ class PlayState extends MusicBeatState
 			buildings.antialiasing = true;
 			add(buildings);
 
+			steve = new FlxSprite(-420, -150);
+			steve.frames = FlxAtlasFrames.fromSparrow('assets/images/tank/tankRolling.png', 'assets/images/tank/tankRolling.xml');
+			steve.animation.addByPrefix('rollin', 'BG tank w lighting instance 1 ', 24, true);
+			steve.animation.play('rollin');
+			steve.setGraphicSize(Std.int(steve.width * 1.15));
+			steve.updateHitbox();
+			makedatakroil();
+			add(steve);
+
 			var smokeLeft:FlxSprite = new FlxSprite(-200, -100);
 			smokeLeft.frames = FlxAtlasFrames.fromSparrow('assets/images/tank/smokeLeft.png', 'assets/images/tank/smokeLeft.xml');
 			smokeLeft.animation.addByPrefix('idle', 'SmokeBlurLeft ', 24, true);
@@ -645,7 +655,7 @@ class PlayState extends MusicBeatState
 				dad.y += 100;
 				camPos.set(dad.getGraphicMidpoint().x + 300, dad.getGraphicMidpoint().y);
 			case 'tankman':
-				dad.x += 180;
+				dad.y += 180;
 		}
 
 		boyfriend = new Boyfriend(770, 450, SONG.player1);
@@ -1305,6 +1315,10 @@ class PlayState extends MusicBeatState
 
 	override public function update(elapsed:Float)
 	{
+		
+	if (curStage == 'tank'){
+		makedatakroil();
+	}
 
 		if (FlxG.keys.justPressed.NINE)
 		{
@@ -2369,6 +2383,19 @@ private function keyShit():Void
 		{
 			lightningStrikeShit();
 		}
+	}
+
+	function makedatakroil() {
+		var tankResetShit:Bool = false;
+		var tankMoving:Bool = false;
+		var tankAngle:Float = FlxG.random.int(-90, 45);
+		var tankSpeed:Float = FlxG.random.float(5, 7);
+		var tankX:Float = 400;
+
+		tankAngle += tankSpeed * FlxG.elapsed;
+		steve.angle = (tankAngle - 90 + 15);
+		steve.x = tankX + 1500 * Math.cos(Math.PI / 180 * (1 * tankAngle + 180));
+		steve.y = 1300 + 1100 * Math.sin(Math.PI / 180 * (1 * tankAngle + 180));
 	}
 
 	var curLight:Int = 0;
