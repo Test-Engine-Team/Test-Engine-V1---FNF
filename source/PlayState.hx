@@ -81,6 +81,7 @@ class PlayState extends MusicBeatState
 	private var gfSpeed:Int = 1;
 	private var health:Float = 1;
 	private var combo:Int = 0;
+	private var notesHit:Int = 0;
 
 	private var healthBarBG:FlxSprite;
 	private var healthBar:FlxBar;
@@ -759,7 +760,7 @@ class PlayState extends MusicBeatState
 		healthBar.createFilledBar(dad.hpcolor, boyfriend.hpcolor);
 		add(healthBar);
 
-		infoText = new FlxText(healthBarBG.x + healthBarBG.width - 450, healthBarBG.y + 40, 0, "", 20);
+		infoText = new FlxText(healthBarBG.x + healthBarBG.width - 480, healthBarBG.y + 40, 0, "", 20);
 		infoText.setFormat("assets/fonts/vcr.ttf", 16, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		infoText.scrollFactor.set();
 		add(infoText);
@@ -1346,7 +1347,7 @@ class PlayState extends MusicBeatState
 
 		super.update(elapsed);
 
-		infoText.text = "Score:" + songScore + " || Misses:" + songMisses + " || Combo:" + combo;
+		infoText.text = "Score: " + songScore + " || Misses: " + songMisses + " || Combo: " + combo + " || Notes Hit: " + notesHit;
 
 		#if desktop
 		DiscordHandler.changePresence('Playing ' + SONG.song.toLowerCase() + '-' + diff, 'With ' + songScore + ' Score And ' + songMisses + ' Misses');
@@ -2117,6 +2118,8 @@ private function keyShit():Void
 				popUpScore(note.strumTime);
 				combo += 1;
 			}
+
+			notesHit++;
 
 			if (note.noteData >= 0)
 				health += 0.023;
