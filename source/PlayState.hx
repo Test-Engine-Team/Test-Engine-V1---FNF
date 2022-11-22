@@ -676,6 +676,7 @@ class PlayState extends MusicBeatState
 
 		infoText = new FlxText(healthBarBG.x + healthBarBG.width - 450, healthBarBG.y + 40, 0, "", 20);
 		infoText.setFormat("assets/fonts/vcr.ttf", 16, FlxColor.WHITE, RIGHT, OUTLINE, 0x000000);
+		infoText.borderSize = 10;
 		infoText.scrollFactor.set();
 		add(infoText);
 
