@@ -1427,17 +1427,6 @@ class PlayState extends MusicBeatState
 					// FlxG.switchState(new TitleState());
 			}
 		}
-
-		if (curSong == 'Bopeebo')
-		{
-			switch (curBeat)
-			{
-				case 128, 129, 130:
-					vocals.volume = 0;
-					// FlxG.sound.music.stop();
-					// FlxG.switchState(new PlayState());
-			}
-		}
 		// better streaming of shit
 
 		// RESET = Quick Game Over Screen
@@ -2001,6 +1990,7 @@ private function keyShit():Void
 		var rightP = controls.RIGHT_P;
 		var downP = controls.DOWN_P;
 		var leftP = controls.LEFT_P;
+		if (MainMenuState.gtvalue == false){
 
 		if (leftP)
 			noteMiss(0);
@@ -2011,6 +2001,7 @@ private function keyShit():Void
 		if (rightP)
 			noteMiss(3);
 	}
+}
 
 	function noteCheck(keyP:Bool, note:Note):Void
 	{

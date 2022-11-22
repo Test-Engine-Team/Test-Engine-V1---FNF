@@ -22,8 +22,12 @@ class MainMenuState extends MusicBeatState
 
 	var menuItems:FlxTypedGroup<FlxSprite>;
 
+	var gtText:FlxText;
+
+	public static var gtvalue:Bool;
+
 	#if !switch
-	var optionShit:Array<String> = ['story mode', 'freeplay', 'donate', 'options'];
+	var optionShit:Array<String> = ['story mode', 'freeplay', 'donate'/*, 'options' commented cuz it softlocks rn*/];
 	#else
 	var optionShit:Array<String> = ['story mode', 'freeplay'];
 	#end
@@ -33,6 +37,9 @@ class MainMenuState extends MusicBeatState
 
 	override function create()
 	{
+		if (FlxG.save.data.ghost != gtvalue)
+			gtvalue = FlxG.save.data.ghost;
+
 		transIn = FlxTransitionableState.defaultTransIn;
 		transOut = FlxTransitionableState.defaultTransOut;
 
@@ -88,10 +95,15 @@ class MainMenuState extends MusicBeatState
 
 		FlxG.camera.follow(camFollow, null, 0.06);
 
-		var versionShit:FlxText = new FlxText(5, FlxG.height - 18, 0, "v" + Application.current.meta.get('version'), 12);
+		var versionShit:FlxText = new FlxText(5, FlxG.height - 36.2, 0, "v" + Application.current.meta.get('version'), 12);
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
+
+		gtText = new FlxText(5, FlxG.height - 18, 0, "", 12);
+		gtText.scrollFactor.set();
+		gtText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		add(gtText);
 
 		// NG.core.calls.event.logEvent('swag').send();
 
@@ -102,8 +114,22 @@ class MainMenuState extends MusicBeatState
 
 	var selectedSomethin:Bool = false;
 
+	function changegtval() {
+		if (gtvalue == true)
+			gtvalue = false;
+		else 
+			gtvalue = true;
+
+		if (gtvalue == null)
+			gtvalue = false;
+	}
+
 	override function update(elapsed:Float)
 	{
+		gtText.text = "Ghost Tapping Is Currently " + gtvalue;
+
+		if (FlxG.keys.justPressed.G)
+			changegtval();
 		if (FlxG.sound.music.volume < 0.8)
 		{
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
