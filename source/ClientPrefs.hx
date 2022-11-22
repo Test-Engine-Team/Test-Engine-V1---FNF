@@ -8,6 +8,7 @@ import Controls;
 
 class ClientPrefs {
     public static var ghostTapping:Bool = true;
+    public static var showComboText:Bool = true;
     
     //Every key has two binds, add your key bind down here and then add your control on options/ControlsSubState.hx and Controls.hx
 	public static var keyBinds:Map<String, Array<FlxKey>> = [

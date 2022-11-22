@@ -1840,6 +1840,7 @@ class PlayState extends MusicBeatState
 		comboSpr.x = coolText.x;
 		comboSpr.acceleration.y = 600;
 		comboSpr.velocity.y -= 150;
+		comboSpr.visible = ClientPrefs.showComboText;
 
 		comboSpr.velocity.x += FlxG.random.int(1, 10);
 		add(rating);
