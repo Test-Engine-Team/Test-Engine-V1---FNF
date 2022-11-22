@@ -79,8 +79,13 @@ class FreeplayState extends MusicBeatState
 			songs.push('Senpai');
 			songs.push('Roses');
 			songs.push('Thorns');
-			// songs.push('Winter-Horrorland');
 		}
+		if (StoryMenuState.weekUnlocked[6] || isDebug)
+			{
+				songs.push('Ugh');
+				songs.push('Guns');
+				songs.push('Stress');
+			}
 
 		// LOAD MUSIC
 
