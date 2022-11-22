@@ -11,11 +11,7 @@ class ClientPrefs {
     public static var showComboText:Bool = true;
 
     //funny
-    #if debug
-    public static var tankmanFloat:Bool = true;
-    #else
     public static var tankmanFloat:Bool = false;
-    #end
     
     //Every key has two binds, add your key bind down here and then add your control on options/ControlsSubState.hx and Controls.hx
 	public static var keyBinds:Map<String, Array<FlxKey>> = [
