@@ -1361,7 +1361,7 @@ class PlayState extends MusicBeatState
 					FlxTween.tween(dad, {y: -720}, 15);
 			case 1024:
 				if (SONG.song.toLowerCase() == 'guns' && ClientPrefs.tankmanFloat)
-					FlxTween.tween(boyfriend, {y: bfFloatHeight}, 15);
+					FlxTween.tween(boyfriend, {y: bfFloatHeight}, 13);
 		}
 
 		infoText.text = "Score: " + songScore + " || Misses: " + songMisses + " || Combo: " + combo + " || Notes Hit: " + notesHit;
