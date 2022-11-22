@@ -157,6 +157,7 @@ class MainMenuState extends MusicBeatState
 				FlxG.sound.play('assets/sounds/confirmMenu' + TitleState.soundExt);
 				if (ClientPrefs.tankmanFloat == false) {
 					ClientPrefs.tankmanFloat = true;
+					trace("Secret Found!");
 				}
 				else
 				{
