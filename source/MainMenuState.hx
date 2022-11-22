@@ -11,7 +11,6 @@ import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
-import io.newgrounds.NG;
 import lime.app.Application;
 
 using StringTools;
@@ -24,7 +23,7 @@ class MainMenuState extends MusicBeatState
 
 	var gtText:FlxText;
 
-	public static var gtvalue:Bool;
+	public static var gtvalue:Int;
 
 	#if !switch
 	var optionShit:Array<String> = ['story mode', 'freeplay', 'donate'/*, 'options' commented cuz it softlocks rn*/];
@@ -115,13 +114,10 @@ class MainMenuState extends MusicBeatState
 	var selectedSomethin:Bool = false;
 
 	function changegtval() {
-		if (gtvalue == true)
-			gtvalue = false;
+		if (gtvalue == 1)
+			gtvalue = 0;
 		else 
-			gtvalue = true;
-
-		if (gtvalue == null)
-			gtvalue = false;
+			gtvalue = 1;
 	}
 
 	override function update(elapsed:Float)
