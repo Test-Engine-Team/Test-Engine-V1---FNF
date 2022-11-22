@@ -1351,13 +1351,12 @@ class PlayState extends MusicBeatState
 
 		switch (curStep){
 			case 60, 444, 524, 540, 542, 828:
+				//until we code in alt notes
 				if (SONG.song.toLowerCase() == 'ugh')
 					dad.playAnim('Ugh', true);
 			case 895:
-				#if debug
-				if (SONG.song.toLowerCase() == 'guns')
+				if (SONG.song.toLowerCase() == 'guns' && ClientPrefs.tankmanFloat)
 					FlxTween.tween(dad, {y: -720}, 15);
-				#end
 		}
 
 		infoText.text = "Score: " + songScore + " || Misses: " + songMisses + " || Combo: " + combo + " || Notes Hit: " + notesHit;

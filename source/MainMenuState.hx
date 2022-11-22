@@ -32,6 +32,9 @@ class MainMenuState extends MusicBeatState
 	var magenta:FlxSprite;
 	var camFollow:FlxObject;
 
+	var funnyToggle:Bool = false;
+	var funnyNumber:Int = 0;
+
 	override function create()
 	{
 		transIn = FlxTransitionableState.defaultTransIn;
