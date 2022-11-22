@@ -62,6 +62,8 @@ class PlayState extends MusicBeatState
 	private var gf:Character;
 	private var boyfriend:Boyfriend;
 
+	public var elapsedtime:Float = 0;
+
 	private var notes:FlxTypedGroup<Note>;
 	private var unspawnNotes:Array<Note> = [];
 
@@ -1324,10 +1326,10 @@ class PlayState extends MusicBeatState
 
 	override public function update(elapsed:Float)
 	{
-		
-	if (curStage == 'tank'){
-		makedatakroil();
-	}
+		elapsedtime += elapsed;
+		if (curStage == 'tank'){
+			makedatakroil();
+		}
 
 		if (FlxG.keys.justPressed.NINE)
 		{
@@ -1370,10 +1372,31 @@ class PlayState extends MusicBeatState
 					FlxTween.tween(boyfriend, {y: bfFloatHeight}, 13);
 			case 1151:
 				if (SONG.song.toLowerCase() == 'guns' && ClientPrefs.tankmanFloat)
-					FlxTween.tween(dad, {y: tankmanPreFloatHeight}, 20);
+					FlxTween.tween(dad, {y: tankmanPreFloatHeight}, 20/*, {
+						onComplete: function(tmr:FlxTween) {
+							trace(curStep);
+						}
+					}*/);
 			case 1280:
 				if (SONG.song.toLowerCase() == 'guns' && ClientPrefs.tankmanFloat)
-					FlxTween.tween(boyfriend, {y: boyfriendPreFloatHeight}, 17);
+					FlxTween.tween(boyfriend, {y: boyfriendPreFloatHeight}, 18/*, {
+						onComplete: function(tmr:FlxTween) {
+							trace(curStep);
+						}
+					}*/);
+		}
+
+		if (curStep > 895 && curStep < 1398) {
+			dad.y += (Math.sin(elapsedtime) * 0.2);
+			if (!PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection) {
+				camFollow.y = dad.getMidpoint().y;
+			}
+		}
+		if (curStep > 1024 && curStep < 1439) {
+			boyfriend.y += (Math.sin(elapsedtime) * 0.2);
+			if (PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection) {
+				camFollow.y = boyfriend.getMidpoint().y;
+			}
 		}
 
 		infoText.text = "Score: " + songScore + " || Misses: " + songMisses + " || Combo: " + combo + " || Notes Hit: " + notesHit;
