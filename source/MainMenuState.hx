@@ -122,7 +122,10 @@ class MainMenuState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
-		gtText.text = "Ghost Tapping Is Currently " + gtvalue;
+		if (gtvalue == 1)
+		gtText.text = "Ghost Tapping Is Currently on";
+		else
+		gtText.text = "Ghost Tapping Is Currently off";
 
 		if (FlxG.keys.justPressed.G)
 			changegtval();
