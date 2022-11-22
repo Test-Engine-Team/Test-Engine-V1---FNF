@@ -126,6 +126,7 @@ class PlayState extends MusicBeatState
 	var steve:FlxSprite;
 
 	var bfFloatHeight:Int = -720;
+	var floatDoneBf:Bool = false;
 
 	var talking:Bool = true;
 	var songScore:Int = 0;
@@ -1362,6 +1363,12 @@ class PlayState extends MusicBeatState
 			case 1024:
 				if (SONG.song.toLowerCase() == 'guns' && ClientPrefs.tankmanFloat)
 					FlxTween.tween(boyfriend, {y: bfFloatHeight}, 13);
+			case 1151:
+				if (SONG.song.toLowerCase() == 'guns' && ClientPrefs.tankmanFloat)
+					FlxTween.tween(dad, {y: -100}, 15);
+			case 1280:
+				if (SONG.song.toLowerCase() == 'guns' && ClientPrefs.tankmanFloat)
+					FlxTween.tween(boyfriend, {y: 0}, 13);
 		}
 
 		infoText.text = "Score: " + songScore + " || Misses: " + songMisses + " || Combo: " + combo + " || Notes Hit: " + notesHit;
@@ -2072,14 +2079,17 @@ private function keyShit():Void
 			}
 			combo = 0;
 
+			/*
+			if (floatDoneBf == true && ClientPrefs.tankmanFloat == true && SONG.song.toLowerCase() == 'guns') {
+				var bfLowerHeight = bfFloatHeight - ((songMisses + 1) * 10);
+				FlxTween.tween(boyfriend, {y: bfLowerHeight}, 4);
+				trace("ow");
+			}
+			*/
+
 			songScore -= 10;
 
 			songMisses += 1;
-
-			if (curStep >= 1024 && ClientPrefs.tankmanFloat && SONG.song.toLowerCase() == 'guns') {
-				bfFloatHeight -= 10;
-				FlxTween.tween(boyfriend, {y: bfFloatHeight}, 2);
-			}
 
 			FlxG.sound.play('assets/sounds/missnote' + FlxG.random.int(1, 3) + TitleState.soundExt, FlxG.random.float(0.1, 0.2));
 			// FlxG.sound.play('assets/sounds/missnote1' + TitleState.soundExt, 1, false);

@@ -51,6 +51,8 @@ class ClientPrefs {
 
     public static function saveSettings() {
         FlxG.save.data.ghostTapping = ghostTapping;
+        FlxG.save.data.showComboText = showComboText;
+        FlxG.save.data.tankmanFloat = tankmanFloat;
 
         FlxG.save.flush();
 
