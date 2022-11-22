@@ -52,6 +52,7 @@ class PlayState extends MusicBeatState
 	public static var storyWeek:Int = 0;
 	public static var storyPlaylist:Array<String> = [];
 	public static var storyDifficulty:Int = 1;
+	public static var diff:String = null;
 
 	var halloweenLevel:Bool = false;
 
@@ -137,6 +138,13 @@ class PlayState extends MusicBeatState
 		FlxG.cameras.add(camHUD);
 
 		FlxCamera.defaultCameras = [camGame];
+
+		if (storyDifficulty == 0)
+			diff = 'easy';
+		if (storyDifficulty == 1)
+			diff = 'normal';
+		if (storyDifficulty == 2)
+			diff = 'hard';
 
 		persistentUpdate = true;
 		persistentDraw = true;
@@ -1266,15 +1274,7 @@ class PlayState extends MusicBeatState
 		infoText.text = "Score:" + songScore + " || Misses:" + songMisses + " || Combo:" + combo;
 
 		#if desktop
-		var diff:String;
-		if (storyDifficulty == 0)
-		diff = 'easy';
-		else if
-		diff = 'normal';
-		else
-		diff = 'hard';
-		
-		DiscordHandler.changePresence('Playing ' + SONG.song.toLowerCase() + '-' + diff ' With ' + songScore + ' Score And ' + songMisses + ' Misses');
+		DiscordHandler.changePresence('Playing ' + SONG.song.toLowerCase() + '-' + diff, 'With ' + songScore + ' Score And ' + songMisses + ' Misses');
 		#end
 
 		if (FlxG.keys.justPressed.ENTER && startedCountdown && canPause)
