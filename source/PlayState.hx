@@ -607,10 +607,10 @@ class PlayState extends MusicBeatState
 				gfVersion = 'gf-pixel';
 			case 'schoolEvil':
 				gfVersion = 'gf-pixel';
+			case 'tank':
+				if (SONG.song.toLowerCase() != 'stress')
+				gfVersion = 'gf-at-gunpoint';
 		}
-
-		if (curStage == 'limo')
-			gfVersion = 'gf-car';
 
 		gf = new Character(400, 130, gfVersion);
 		gf.scrollFactor.set(0.95, 0.95);
@@ -1353,6 +1353,11 @@ class PlayState extends MusicBeatState
 			case 60, 444, 524, 540, 542, 828:
 				if (SONG.song.toLowerCase() == 'ugh')
 					dad.playAnim('Ugh', true);
+			case 895:
+				#if debug
+				if (SONG.song.toLowerCase() == 'guns')
+					FlxTween.tween(dad, {y: -720}, 15);
+				#end
 		}
 
 		infoText.text = "Score: " + songScore + " || Misses: " + songMisses + " || Combo: " + combo + " || Notes Hit: " + notesHit;

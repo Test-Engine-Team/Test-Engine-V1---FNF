@@ -589,6 +589,21 @@ class Character extends FlxSprite
 				flipX = true;
 
 				hpcolor = 0xFF31B0D1;
+			case 'gf-at-gunpoint':
+				// GIRLFRIEND CODE
+				tex = FlxAtlasFrames.fromSparrow('assets/images/characters/gfTankmen.png', 'assets/images/characters/gfTankmen.xml');
+				frames = tex;
+				animation.addByIndices('sad', 'GF Crying at Gunpoint ', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], "", 24, false);
+				animation.addByIndices('danceLeft', 'GF Dancing at Gunpoint', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
+				animation.addByIndices('danceRight', 'GF Dancing at Gunpoint', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
+
+				addOffset('sad', -2, -2);
+				addOffset('danceLeft', -63, -9);
+				addOffset('danceRight', -63, -9);
+
+				playAnim('danceRight');
+
+				hpcolor = 0xFFFFFFFF;
 		}
 
 		dance();
@@ -699,6 +714,14 @@ class Character extends FlxSprite
 						else
 							playAnim('danceLeft');
 					}
+
+				case 'gf-at-gunpoint':
+					danced = !danced;
+
+					if (danced)
+						playAnim('danceRight');
+					else
+						playAnim('danceLeft');
 
 				case 'spooky':
 					danced = !danced;
