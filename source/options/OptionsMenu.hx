@@ -1,3 +1,4 @@
+/*
 package;
 
 import Controls.Control;
@@ -17,14 +18,13 @@ class OptionsMenu extends MusicBeatState
 	var selector:FlxText;
 	var curSelected:Int = 0;
 
-	var controlsStrings:Array<String> = [];
-
 	private var grpControls:FlxTypedGroup<Alphabet>;
+
+    var optionShit:Array<String> = ['Controls', 'Gameplay']
 
 	override function create()
 	{
 		var menuBG:FlxSprite = new FlxSprite().loadGraphic('assets/images/menuDesat.png');
-		controlsStrings = CoolUtil.coolTextFile('assets/data/controls.txt');
 		menuBG.color = 0xFFea71fd;
 		menuBG.setGraphicSize(Std.int(menuBG.width * 1.1));
 		menuBG.updateHitbox();
@@ -58,39 +58,21 @@ class OptionsMenu extends MusicBeatState
 		
 		if (controls.ACCEPT)
 		{
-			changeBinding();
+			switch (curSelected)
+            {
+                case 0:
+                    FlxG.switchState(new ControlsState());
+                case 1:
+                    FlxG.switchState(new GameplayOptionsState());
+            }
 		}
 
-		if (isSettingControl)
-			waitingInput();
-		else
-		{
-			if (controls.BACK)
-				FlxG.switchState(new MainMenuState());
-			if (controls.UP_P)
-				changeSelection(-1);
-			if (controls.DOWN_P)
-				changeSelection(1);
-		}
-	}
-
-	function waitingInput():Void
-	{
-		if (FlxG.keys.getIsDown().length > 0)
-		{
-			PlayerSettings.player1.controls.replaceBinding(Control.LEFT, Keys, FlxG.keys.getIsDown()[0].ID, null);
-		}
-		// PlayerSettings.player1.controls.replaceBinding(Control)
-	}
-
-	var isSettingControl:Bool = false;
-
-	function changeBinding():Void
-	{
-		if (!isSettingControl)
-		{
-			isSettingControl = true;
-		}
+        if (controls.BACK)
+            FlxG.switchState(new MainMenuState());
+        if (controls.UP_P)
+            changeSelection(-1);
+        if (controls.DOWN_P)
+            changeSelection(1);
 	}
 
 	function changeSelection(change:Int = 0)
@@ -100,15 +82,15 @@ class OptionsMenu extends MusicBeatState
 		curSelected += change;
 
 		if (curSelected < 0)
-			curSelected = grpControls.length - 1;
-		if (curSelected >= grpControls.length)
+			curSelected = optionShit.length - 1;
+		if (curSelected >= optionShit.length)
 			curSelected = 0;
 
 		// selector.y = (70 * curSelected) + 30;
 
 		var bullShit:Int = 0;
 
-		for (item in grpControls.members)
+		for (item in optionShit)
 		{
 			item.targetY = bullShit - curSelected;
 			bullShit++;
@@ -124,3 +106,4 @@ class OptionsMenu extends MusicBeatState
 		}
 	}
 }
+*/
