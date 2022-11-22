@@ -536,6 +536,59 @@ class Character extends FlxSprite
 				hpcolor = 0xFFAF66CE;
 
 				playAnim('idle');
+
+			case 'tankman':
+				frames = FlxAtlasFrames.fromSparrow('assets/images/characters/tankmanCaptain.png', 'assets/images/characters/tankmanCaptain.xml');
+
+				animation.addByPrefix('idle', 'Tankman Idle Dance instance 1', 24);
+				animation.addByPrefix('singUP', 'Tankman UP note instance 1', 24);
+				animation.addByPrefix('singRIGHT', 'Tankman Note Left instance 1', 24);
+				animation.addByPrefix('singDOWN', 'Tankman DOWN note instance 1', 24);
+				animation.addByPrefix('singLEFT', 'Tankman Right Note instance 1', 24);
+				animation.addByPrefix('Ugh', 'TANKMAN UGH instance 1', 24);
+				animation.addByPrefix('PrettyGood', 'PRETTY GOOD tankman instance 1', 24);
+
+				addOffset('idle');
+				addOffset("singUP", 24, 56);
+				addOffset("singRIGHT", -1, -7);
+				addOffset("singLEFT", 100, -14);
+				addOffset("singDOWN", 98, -90);
+				addOffset('Ugh');
+				addOffset('PrettyGood');
+
+				playAnim('idle');
+
+				flipX = true;
+
+				hpcolor = 0xFF0F0F0F;
+
+			case 'bf-holding-gf':
+				frames = FlxAtlasFrames.fromSparrow('assets/images/characters/bfAndGF.png', 'assets/images/characters/bfAndGF.xml');
+
+				animation.addByPrefix('idle', 'BF idle dance', 24, false);
+				animation.addByPrefix('singUP', 'BF NOTE UP0', 24, false);
+				animation.addByPrefix('singLEFT', 'BF NOTE LEFT0', 24, false);
+				animation.addByPrefix('singRIGHT', 'BF NOTE RIGHT0', 24, false);
+				animation.addByPrefix('singDOWN', 'BF NOTE DOWN0', 24, false);
+				animation.addByPrefix('singUPmiss', 'BF NOTE UP MISS', 24, false);
+				animation.addByPrefix('singLEFTmiss', 'BF NOTE LEFT MISS', 24, false);
+				animation.addByPrefix('singRIGHTmiss', 'BF NOTE RIGHT MISS', 24, false);
+				animation.addByPrefix('singDOWNmiss', 'BF NOTE DOWN MISS', 24, false);
+				addOffset('idle');
+				addOffset("singUP", -29, 10);
+				addOffset("singRIGHT", -41, 23);
+				addOffset("singLEFT", 12, 7);
+				addOffset("singDOWN", -10, -10);
+				addOffset("singUPmiss", -29, 10);
+				addOffset("singRIGHTmiss", -41, 23);
+				addOffset("singLEFTmiss", 12, 7);
+				addOffset("singDOWNmiss", -10, -10);
+
+				playAnim('idle');
+
+				flipX = true;
+
+				hpcolor = 0xFF31B0D1;
 		}
 
 		dance();
@@ -662,6 +715,9 @@ class Character extends FlxSprite
 
 	public function playAnim(AnimName:String, Force:Bool = false, Reversed:Bool = false, Frame:Int = 0):Void
 	{
+		if (!animOffsets.exists(AnimName))
+			return; // crashhandler real
+
 		animation.play(AnimName, Force, Reversed, Frame);
 
 		var daOffset = animOffsets.get(animation.curAnim.name);

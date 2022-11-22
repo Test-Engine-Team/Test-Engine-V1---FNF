@@ -113,6 +113,16 @@ class PlayState extends MusicBeatState
 	var bgGirls:BackgroundGirls;
 	var wiggleShit:WiggleEffect = new WiggleEffect();
 
+	var tankBop1:FlxSprite;
+	var tankBop2:FlxSprite;
+	var tankBop3:FlxSprite;
+	var tankBop4:FlxSprite;
+	var tankBop5:FlxSprite;
+	var tankBop6:FlxSprite;
+	var smokeRight:FlxSprite;
+	var smokeLeft:FlxSprite;
+	var tower:FlxSprite;
+
 	var talking:Bool = true;
 	var songScore:Int = 0;
 	var songMisses:Int = 0;
@@ -129,7 +139,6 @@ class PlayState extends MusicBeatState
 
 	override public function create()
 	{
-		// var gameCam:FlxCamera = FlxG.camera;
 		camGame = new FlxCamera();
 		camHUD = new FlxCamera();
 		camHUD.bgColor.alpha = 0;
@@ -449,50 +458,37 @@ class PlayState extends MusicBeatState
 			bg.scrollFactor.set(0.8, 0.9);
 			bg.scale.set(6, 6);
 			add(bg);
+		}
+		else if (SONG.song.toLowerCase() == 'ugh' || SONG.song.toLowerCase() == 'guns' || SONG.song.toLowerCase() == 'stress'){
+			defaultCamZoom = 0.9;
+			curStage = 'tank';
+			var bg:FlxSprite = new FlxSprite(400, 400).loadGraphic('assets/images/tank/tankSky.png');
+			sky.scrollFactor.set(0, 0);
+			sky.antialiasing = true;
+			sky.setGraphicSize(Std.int(sky.width * 1.5));
+			bg.active = false;
+			add(bg);
 
-			/*
-				var bg:FlxSprite = new FlxSprite(posX, posY).loadGraphic('assets/images/weeb/evilSchoolBG.png');
-				bg.scale.set(6, 6);
-				// bg.setGraphicSize(Std.int(bg.width * 6));
-				// bg.updateHitbox();
-				add(bg);
+			var mountain:FlxSprite = new FlxSprite(-420, -150).loadGraphic('assets/images/tankGround.png');
+			mountain.updateHitbox();
+			mountain.antialiasing = true;
+			mountain.scrollFactor.set(0.9, 0.9);
+			mountain.active = false;
+			add(mountain);
 
-				var fg:FlxSprite = new FlxSprite(posX, posY).loadGraphic('assets/images/weeb/evilSchoolFG.png');
-				fg.scale.set(6, 6);
-				// fg.setGraphicSize(Std.int(fg.width * 6));
-				// fg.updateHitbox();
-				add(fg);
+			tower = new FlxSprite(100, 120);
+			tower.frames = FlxAtlasFrames.fromSparrow('assets/images/tank/TankWatchtower.png', 'assets/images/tank/TankWatchtower.xml');
+			tower.animation.addByPrefix('idle', 'watchtower gradient color instance 1', 24, false);
+			tower.antialiasing = true;
+			add(tower);
 
-				wiggleShit.effectType = WiggleEffectType.DREAMY;
-				wiggleShit.waveAmplitude = 0.01;
-				wiggleShit.waveFrequency = 60;
-				wiggleShit.waveSpeed = 0.8;
-			 */
-
-			// bg.shader = wiggleShit.shader;
-			// fg.shader = wiggleShit.shader;
-
-			/*
-				var waveSprite = new FlxEffectSprite(bg, [waveEffectBG]);
-				var waveSpriteFG = new FlxEffectSprite(fg, [waveEffectFG]);
-
-				// Using scale since setGraphicSize() doesnt work???
-				waveSprite.scale.set(6, 6);
-				waveSpriteFG.scale.set(6, 6);
-				waveSprite.setPosition(posX, posY);
-				waveSpriteFG.setPosition(posX, posY);
-
-				waveSprite.scrollFactor.set(0.7, 0.8);
-				waveSpriteFG.scrollFactor.set(0.9, 0.8);
-
-				// waveSprite.setGraphicSize(Std.int(waveSprite.width * 6));
-				// waveSprite.updateHitbox();
-				// waveSpriteFG.setGraphicSize(Std.int(fg.width * 6));
-				// waveSpriteFG.updateHitbox();
-
-				add(waveSprite);
-				add(waveSpriteFG);
-			 */
+			var ground:FlxSprite = new FlxSprite(-420, -150).loadGraphic('assets/images/tankGround.png');
+			ground.setGraphicSize(Std.int(ground.width * 1.1));
+			ground.updateHitbox();
+			ground.antialiasing = true;
+			ground.scrollFactor.set(0.9, 0.9);
+			ground.active = false;
+			add(ground);
 		}
 		else
 		{
@@ -1596,7 +1592,7 @@ class PlayState extends MusicBeatState
 			perfectMode = true;
 	}
 
-	public static function endSong():Void
+	public function endSong():Void
 	{
 		canPause = false;
 		FlxG.sound.music.volume = 0;
@@ -2290,6 +2286,9 @@ private function keyShit():Void
 					trainCooldown = FlxG.random.int(-4, 0);
 					trainStart();
 				}
+
+			case "tank":
+				tower.animation.play('idle', true);
 		}
 
 		if (isHalloween && FlxG.random.bool(10) && curBeat > lightningStrikeBeat + lightningOffset)
