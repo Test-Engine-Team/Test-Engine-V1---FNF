@@ -86,6 +86,11 @@ class FreeplayState extends MusicBeatState
 				songs.push('Guns');
 				songs.push('Stress');
 			}
+		#if debug
+			{
+				songs.push('Test');
+			}
+		#end
 
 		// LOAD MUSIC
 

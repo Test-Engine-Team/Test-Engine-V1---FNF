@@ -1,5 +1,6 @@
 package;
 
+import flixel.FlxG;
 import lime.utils.Assets;
 
 using StringTools;
@@ -26,5 +27,8 @@ class CoolUtil
 			dumbArray.push(i);
 		}
 		return dumbArray;
+	}
+	public static function error(error:String, name:String) {
+		FlxG.stage.window.alert(error, name);
 	}
 }
