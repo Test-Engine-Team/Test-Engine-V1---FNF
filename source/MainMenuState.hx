@@ -113,25 +113,12 @@ class MainMenuState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
-		if (ClientPrefs.ghostTapping == false) {
+		if (ClientPrefs.ghostTapping == true) {
 			gtText.text = "Ghost Tapping Is Currently on";
 		}
 		else
 		{
 			gtText.text = "Ghost Tapping Is Currently off";
-		}
-
-		if (FlxG.keys.justPressed.G)
-		{
-			if (ClientPrefs.ghostTapping == false) {
-				ClientPrefs.ghostTapping = true;
-				trace("on");
-			}
-			else
-			{
-				ClientPrefs.ghostTapping = false;
-				trace("off");
-			}
 		}
 
 		if (FlxG.sound.music.volume < 0.8)
@@ -152,6 +139,19 @@ class MainMenuState extends MusicBeatState
 				FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
 				changeItem(1);
 			}
+
+			if (FlxG.keys.justPressed.G)
+				{
+					if (ClientPrefs.ghostTapping == false) {
+						ClientPrefs.ghostTapping = true;
+						trace("on");
+					}
+					else
+					{
+						ClientPrefs.ghostTapping = false;
+						trace("off");
+					}
+				}
 
 			if (FlxG.keys.justPressed.T) {
 				FlxG.sound.play('assets/sounds/confirmMenu' + TitleState.soundExt);
