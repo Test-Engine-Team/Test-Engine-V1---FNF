@@ -23,8 +23,6 @@ class MainMenuState extends MusicBeatState
 
 	var gtText:FlxText;
 
-	public static var gtvalue:Int;
-
 	#if !switch
 	var optionShit:Array<String> = ['story mode', 'freeplay', 'donate'/*, 'options' commented cuz it softlocks rn*/];
 	#else
@@ -122,7 +120,15 @@ class MainMenuState extends MusicBeatState
 
 		if (FlxG.keys.justPressed.G)
 		{
-			ClientPrefs.ghostTapping = true;
+			if (ClientPrefs.ghostTapping == false) {
+				ClientPrefs.ghostTapping = true;
+				trace("on");
+			}
+			else
+			{
+				ClientPrefs.ghostTapping = false;
+				trace("off");
+			}
 		}
 
 		if (FlxG.sound.music.volume < 0.8)
