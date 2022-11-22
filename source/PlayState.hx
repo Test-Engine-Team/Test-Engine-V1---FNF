@@ -188,7 +188,7 @@ class PlayState extends MusicBeatState
 
 			isHalloween = true;
 		}
-		else if (SONG.song.toLowerCase() == 'pico' || SONG.song.toLowerCase() == 'blammed' || SONG.song.toLowerCase() == 'philly-nice')
+		else if (SONG.song.toLowerCase() == 'pico' || SONG.song.toLowerCase() == 'blammed' || SONG.song.toLowerCase() == 'philly')
 		{
 			curStage = 'philly';
 
