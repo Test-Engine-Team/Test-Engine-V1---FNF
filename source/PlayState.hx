@@ -836,6 +836,8 @@ class PlayState extends MusicBeatState
 			}
 		}
 
+		//RecalculateRating();
+
 		super.create();
 	}
 
@@ -1775,6 +1777,7 @@ class PlayState extends MusicBeatState
 
 		var rating:FlxSprite = new FlxSprite();
 		var score:Int = 350;
+		var noteSplash:Bool = true;
 
 		var daRating:String = "sick";
 
@@ -1782,16 +1785,19 @@ class PlayState extends MusicBeatState
 		{
 			daRating = 'shit';
 			score = 50;
+			noteSplash = false;
 		}
 		else if (noteDiff > Conductor.safeZoneOffset * 0.75)
 		{
 			daRating = 'bad';
 			score = 100;
+			noteSplash = false;
 		}
 		else if (noteDiff > Conductor.safeZoneOffset * 0.2)
 		{
 			daRating = 'good';
 			score = 200;
+			noteSplash = false;
 		}
 
 		songScore += score;
@@ -1806,6 +1812,8 @@ class PlayState extends MusicBeatState
 
 		var pixelShitPart1:String = "";
 		var pixelShitPart2:String = '';
+
+		//RecalculateRating(false);
 
 		if (curStage.startsWith('school'))
 		{
@@ -2057,6 +2065,8 @@ private function keyShit():Void
 			// FlxG.log.add('played imss note');
 
 			boyfriend.stunned = true;
+
+			//RecalculateRating(true);
 
 			// get stunned for 5 seconds
 			new FlxTimer().start(5 / 60, function(tmr:FlxTimer)
