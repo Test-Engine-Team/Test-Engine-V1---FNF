@@ -39,6 +39,7 @@ import lime.utils.Assets;
 import openfl.display.BlendMode;
 import openfl.display.StageQuality;
 import openfl.filters.ShaderFilter;
+import flash.system.System;
 #if desktop
 import DiscordHandler;
 #end
@@ -147,6 +148,8 @@ class PlayState extends MusicBeatState
 
 	var inCutscene:Bool = false;
 
+	var prevFramerateStuff:Int;
+
 	override public function create()
 	{
 		camGame = new FlxCamera();
@@ -157,6 +160,8 @@ class PlayState extends MusicBeatState
 		FlxG.cameras.add(camHUD);
 
 		FlxCamera.defaultCameras = [camGame];
+
+		prevFramerateStuff = FlxG.updateFramerate;
 
 		if (storyDifficulty == 0)
 			diff = 'easy';
@@ -1339,6 +1344,16 @@ class PlayState extends MusicBeatState
 				iconP1.animation.play('bf-old');
 		}
 
+		if (SONG.song.toLowerCase() == 'test') {
+			FlxG.updateFramerate = 10;
+			FlxG.drawFramerate = 10;
+
+			if (FlxG.drawFramerate == 0) {
+				trace("lol");
+				//Sys.exit(0);
+			}
+		}
+
 		switch (curStage)
 		{
 			case 'philly':
@@ -1737,6 +1752,13 @@ class PlayState extends MusicBeatState
 			#if !switch
 			Highscore.saveScore(SONG.song, songScore, storyDifficulty);
 			#end
+		}
+
+		if (SONG.song.toLowerCase() == 'test') {
+			FlxG.updateFramerate = prevFramerateStuff;
+			FlxG.drawFramerate = prevFramerateStuff;
+
+			FlxG.save.data.unlockedTestSong = true;
 		}
 
 		if (isStoryMode)

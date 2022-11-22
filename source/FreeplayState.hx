@@ -87,9 +87,11 @@ class FreeplayState extends MusicBeatState
 				songs.push('Stress');
 			}
 		#if debug
-			{
-				songs.push('Test');
-			}
+		songs.push('Test');
+		#else
+		if (FlxG.save.data.unlockedTestSong == true) {
+			songs.push('Test');
+		}
 		#end
 
 		// LOAD MUSIC
