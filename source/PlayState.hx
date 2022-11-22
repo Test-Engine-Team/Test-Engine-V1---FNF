@@ -462,14 +462,15 @@ class PlayState extends MusicBeatState
 		else if (SONG.song.toLowerCase() == 'ugh' || SONG.song.toLowerCase() == 'guns' || SONG.song.toLowerCase() == 'stress'){
 			defaultCamZoom = 0.9;
 			curStage = 'tank';
-			var bg:FlxSprite = new FlxSprite(400, 400).loadGraphic('assets/images/tank/tankSky.png');
+
+			var sky:FlxSprite = new FlxSprite(400, 400).loadGraphic('assets/images/tank/tankSky.png');
 			sky.scrollFactor.set(0, 0);
 			sky.antialiasing = true;
 			sky.setGraphicSize(Std.int(sky.width * 1.5));
-			bg.active = false;
-			add(bg);
+			sky.active = false;
+			add(sky);
 
-			var mountain:FlxSprite = new FlxSprite(-420, -150).loadGraphic('assets/images/tankGround.png');
+			var mountain:FlxSprite = new FlxSprite(-420, -150).loadGraphic('assets/images/tankMountains.png');
 			mountain.updateHitbox();
 			mountain.antialiasing = true;
 			mountain.scrollFactor.set(0.9, 0.9);
