@@ -128,6 +128,9 @@ class PlayState extends MusicBeatState
 	var bfFloatHeight:Int = -720;
 	var floatDoneBf:Bool = false;
 
+	var tankmanPreFloatHeight:Float = 0;
+	var boyfriendPreFloatHeight:Float = 0;
+
 	var talking:Bool = true;
 	var songScore:Int = 0;
 	var songMisses:Int = 0;
@@ -1358,17 +1361,19 @@ class PlayState extends MusicBeatState
 				if (SONG.song.toLowerCase() == 'ugh')
 					dad.playAnim('Ugh', true);
 			case 895:
+				tankmanPreFloatHeight = dad.y;
 				if (SONG.song.toLowerCase() == 'guns' && ClientPrefs.tankmanFloat)
 					FlxTween.tween(dad, {y: -720}, 15);
 			case 1024:
+				boyfriendPreFloatHeight = boyfriend.y;
 				if (SONG.song.toLowerCase() == 'guns' && ClientPrefs.tankmanFloat)
 					FlxTween.tween(boyfriend, {y: bfFloatHeight}, 13);
 			case 1151:
 				if (SONG.song.toLowerCase() == 'guns' && ClientPrefs.tankmanFloat)
-					FlxTween.tween(dad, {y: 100}, 30);
+					FlxTween.tween(dad, {y: tankmanPreFloatHeight}, 20);
 			case 1280:
 				if (SONG.song.toLowerCase() == 'guns' && ClientPrefs.tankmanFloat)
-					FlxTween.tween(boyfriend, {y: 200}, 27);
+					FlxTween.tween(boyfriend, {y: boyfriendPreFloatHeight}, 17);
 		}
 
 		infoText.text = "Score: " + songScore + " || Misses: " + songMisses + " || Combo: " + combo + " || Notes Hit: " + notesHit;
