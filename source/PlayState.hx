@@ -1845,6 +1845,7 @@ class PlayState extends MusicBeatState
 		comboSpr.x = coolText.x;
 		comboSpr.acceleration.y = 600;
 		comboSpr.velocity.y -= 150;
+		comboSpr.visible = ClientPrefs.showComboText;
 
 		comboSpr.velocity.x += FlxG.random.int(1, 10);
 		add(rating);
@@ -2107,7 +2108,7 @@ private function keyShit():Void
 		var rightP = controls.RIGHT_P;
 		var downP = controls.DOWN_P;
 		var leftP = controls.LEFT_P;
-		if (MainMenuState.gtvalue == 0){
+		if (ClientPrefs.ghostTapping == false){
 
 		if (leftP)
 			noteMiss(0);
