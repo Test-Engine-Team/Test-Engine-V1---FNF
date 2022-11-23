@@ -148,7 +148,7 @@ class PlayState extends MusicBeatState
 
 	var inCutscene:Bool = false;
 
-	var prevFramerateStuff:Int;
+	//var prevFramerateStuff:Int;
 
 	override public function create()
 	{
@@ -161,7 +161,7 @@ class PlayState extends MusicBeatState
 
 		FlxCamera.defaultCameras = [camGame];
 
-		prevFramerateStuff = FlxG.updateFramerate;
+		//prevFramerateStuff = FlxG.updateFramerate;
 
 		if (storyDifficulty == 0)
 			diff = 'easy';
@@ -1348,10 +1348,12 @@ class PlayState extends MusicBeatState
 			FlxG.updateFramerate = 10;
 			FlxG.drawFramerate = 10;
 
+			/* unused stuff
 			if (FlxG.drawFramerate == 0) {
 				trace("lol");
 				//Sys.exit(0);
 			}
+			*/
 		}
 
 		switch (curStage)
@@ -1755,8 +1757,10 @@ class PlayState extends MusicBeatState
 		}
 
 		if (SONG.song.toLowerCase() == 'test') {
+			/*
 			FlxG.updateFramerate = prevFramerateStuff;
 			FlxG.drawFramerate = prevFramerateStuff;
+			*/
 
 			FlxG.save.data.unlockedTestSong = true;
 		}
