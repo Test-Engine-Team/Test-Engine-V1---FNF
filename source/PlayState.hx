@@ -117,6 +117,7 @@ class PlayState extends MusicBeatState
 	var bgGirls:BackgroundGirls;
 	var wiggleShit:WiggleEffect = new WiggleEffect();
 
+	var light:FlxSprite;
 	var tankBop1:FlxSprite;
 	var tankBop2:FlxSprite;
 	var tankBop3:FlxSprite;
@@ -581,6 +582,14 @@ class PlayState extends MusicBeatState
 			tankBop6.scrollFactor.set(1.5, 1.5);
 			tankBop6.antialiasing = true;
 			add(tankBop6);
+
+			light = new FlxSprite(-400, -400).loadGraphic('assets/images/tank/tankLight.png');
+			light.scrollFactor.set(0, 0);
+			light.antialiasing = true;
+			light.setGraphicSize(Std.int(sky.width * 1.5));
+			light.active = false;
+			light.alpha = 0;
+			add(light);
 		}
 		else
 		{
@@ -1390,34 +1399,38 @@ class PlayState extends MusicBeatState
 			case 895:
 				tankmanPreFloatHeight = dad.y;
 				if (SONG.song.toLowerCase() == 'guns' && ClientPrefs.tankmanFloat)
-					FlxTween.tween(dad, {y: -720}, 15);
+					FlxTween.tween(dad, {y: -720}, 10.38);
+					FlxTween.tween(light, {alpha: 0.50}, 10.38);
 			case 1024:
 				boyfriendPreFloatHeight = boyfriend.y;
 				if (SONG.song.toLowerCase() == 'guns' && ClientPrefs.tankmanFloat)
-					FlxTween.tween(boyfriend, {y: bfFloatHeight}, 13);
+					FlxTween.tween(boyfriend, {y: bfFloatHeight}, 10.78);
+					FlxTween.tween(light, {alpha: 1}, 10.78);
 			case 1151:
 				if (SONG.song.toLowerCase() == 'guns' && ClientPrefs.tankmanFloat)
-					FlxTween.tween(dad, {y: tankmanPreFloatHeight}, 20/*, {
+					FlxTween.tween(dad, {y: tankmanPreFloatHeight}, 10.37/*, {
 						onComplete: function(tmr:FlxTween) {
 							trace(curStep);
 						}
 					}*/);
+					FlxTween.tween(light, {alpha: 0.50}, 10.37);
 			case 1280:
 				if (SONG.song.toLowerCase() == 'guns' && ClientPrefs.tankmanFloat)
-					FlxTween.tween(boyfriend, {y: boyfriendPreFloatHeight}, 18/*, {
+					FlxTween.tween(boyfriend, {y: boyfriendPreFloatHeight}, 11.11/*, {
 						onComplete: function(tmr:FlxTween) {
 							trace(curStep);
 						}
 					}*/);
+					FlxTween.tween(light, {alpha: 0}, 11.11);
 		}
 
-		if (curStep > 895 && curStep < 1398) {
+		if (curStep > 895 && curStep < 1398 && SONG.song.toLowerCase() == 'guns' && ClientPrefs.tankmanFloat == true) {
 			dad.y += (Math.sin(elapsedtime) * 0.2);
 			if (!PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection) {
 				camFollow.y = dad.getMidpoint().y;
 			}
 		}
-		if (curStep > 1024 && curStep < 1439) {
+		if (curStep > 1024 && curStep < 1439 && SONG.song.toLowerCase() == 'guns' && ClientPrefs.tankmanFloat == true) {
 			boyfriend.y += (Math.sin(elapsedtime) * 0.2);
 			if (PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection) {
 				camFollow.y = boyfriend.getMidpoint().y;
