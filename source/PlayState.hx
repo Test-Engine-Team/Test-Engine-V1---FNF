@@ -1348,7 +1348,7 @@ class PlayState extends MusicBeatState
 			else
 			{
 				iconP1.animation.play('bf-old');
-				boyfriend.hpcolor = 0xFF31B0D12;
+				boyfriend.hpcolor = 0xFFE9FF48;
 			}
 		}
 
