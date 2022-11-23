@@ -1400,12 +1400,12 @@ class PlayState extends MusicBeatState
 				tankmanPreFloatHeight = dad.y;
 				if (SONG.song.toLowerCase() == 'guns' && ClientPrefs.tankmanFloat)
 					FlxTween.tween(dad, {y: -720}, 10.38);
-					FlxTween.tween(light, {alpha: 0.50}, 10.38);
+					FlxTween.tween(light, {alpha: 0.40}, 10.38);
 			case 1024:
 				boyfriendPreFloatHeight = boyfriend.y;
 				if (SONG.song.toLowerCase() == 'guns' && ClientPrefs.tankmanFloat)
 					FlxTween.tween(boyfriend, {y: bfFloatHeight}, 10.78);
-					FlxTween.tween(light, {alpha: 1}, 10.78);
+					FlxTween.tween(light, {alpha: 0.80}, 10.78);
 			case 1151:
 				if (SONG.song.toLowerCase() == 'guns' && ClientPrefs.tankmanFloat)
 					FlxTween.tween(dad, {y: tankmanPreFloatHeight}, 10.37/*, {
@@ -1413,7 +1413,7 @@ class PlayState extends MusicBeatState
 							trace(curStep);
 						}
 					}*/);
-					FlxTween.tween(light, {alpha: 0.50}, 10.37);
+					FlxTween.tween(light, {alpha: 0.40}, 10.37);
 			case 1280:
 				if (SONG.song.toLowerCase() == 'guns' && ClientPrefs.tankmanFloat)
 					FlxTween.tween(boyfriend, {y: boyfriendPreFloatHeight}, 11.11/*, {
