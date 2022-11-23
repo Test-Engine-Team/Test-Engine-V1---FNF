@@ -149,7 +149,8 @@ class PlayState extends MusicBeatState
 	var inCutscene:Bool = false;
 
 	//var prevFramerateStuff:Int;
-	var preBfHpColorr(default, null):FlxColor;
+	var preBfHpColor:FlxColor;
+
 
 	override public function create()
 	{
