@@ -149,6 +149,7 @@ class PlayState extends MusicBeatState
 	var inCutscene:Bool = false;
 
 	//var prevFramerateStuff:Int;
+	var preBfHpColorr(default, null):FlxColor;
 
 	override public function create()
 	{
@@ -1338,10 +1339,16 @@ class PlayState extends MusicBeatState
 
 		if (FlxG.keys.justPressed.NINE)
 		{
-			if (iconP1.animation.curAnim.name == 'bf-old')
+			preBfHpColor = boyfriend.hpcolor;
+			if (iconP1.animation.curAnim.name == 'bf-old') {
 				iconP1.animation.play(SONG.player1);
+				boyfriend.hpcolor = preBfHpColor;
+			}
 			else
+			{
 				iconP1.animation.play('bf-old');
+				boyfriend.hpcolor = 0xFF31B0D1
+			}
 		}
 
 		if (SONG.song.toLowerCase() == 'test') {
