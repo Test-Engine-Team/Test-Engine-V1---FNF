@@ -4,6 +4,33 @@ All notable changes will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.7.1] Test Engine Beta Release 1 - 2022-11-21
+### Added
+ - Week 7 added to the engine
+ - Added a funky little Tankman secret ;)
+ - Added a border for the score menu
+ - Added more to the score menu (Misses, combo, notes hit)
+ - Ghost tapping (For those who prefer to play casual)
+ - Debug keys (Needs further testing? idk - Megalo)
+ - Characters folder
+ - Folder for all of the songs individually (instead of everything being in one folder such as "Dadbattle-Vocals")
+### Changed
+ - Replaced the old charts with the new ones
+ - Made the health bar have colours based on the character
+### Fixed
+ - Fixed the crash for some songs (Not fully fixed)
+ - Input system fixed - (Now uses Week 7 input system (Common W))
+### To Be Added/Fixed Soon
+ - Tankman cutscenes (Low priority)
+ - Tankman heckle Game-Over lines (Coming next update!)
+ - Fix the crashes on Spookeez and Stress (High priority)
+ - Tankman's Ugh and Pretty Good animation offsets (Medium priority)
+ - Options Menu (Medium to high priority)
+ - Folder for the icons (Low priority)
+ - Mod Support (Very low priority as of right now)
+
+
+
 ## [0.2.7.1] - 2021-02-14
 ### Added
 - Easter eggs
