@@ -10,6 +10,9 @@ class ClientPrefs {
     public static var ghostTapping:Bool = true;
     public static var showComboText:Bool = true;
 
+	//easter eggs
+	public static var tristanPlayer:Bool = false;
+
     //funny
     public static var tankmanFloat:Bool = false;
     
@@ -48,6 +51,7 @@ class ClientPrefs {
     public static function saveSettings() {
         FlxG.save.data.ghostTapping = ghostTapping;
         FlxG.save.data.showComboText = showComboText;
+		FlxG.save.data.tristanPlayer = tristanPlayer;
         FlxG.save.data.tankmanFloat = tankmanFloat;
 
         FlxG.save.flush();
@@ -66,6 +70,9 @@ class ClientPrefs {
         if (FlxG.save.data.showComboText != null) {
             showComboText = FlxG.save.data.showComboText;
         }
+		if (FlxG.save.data.tristanPlayer != null) {
+			tristanPlayer = FlxG.save.data.tristanPlayable;
+		}
         if (FlxG.save.data.tankmanFloat != null) {
             tankmanFloat = FlxG.save.data.tankmanFloat;
         }

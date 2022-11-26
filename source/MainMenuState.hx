@@ -12,6 +12,7 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import lime.app.Application;
+import flixel.input.keyboard.FlxKey;
 
 using StringTools;
 
@@ -34,6 +35,12 @@ class MainMenuState extends MusicBeatState
 
 	var funnyToggle:Bool = false;
 	var funnyNumber:Int = 0;
+
+	var easterEggKeys:Array<String> = [
+		'TRISTAN', 'DDLC'
+	];
+	var curTristanFunny:Int = 0;
+	var curDDLCFunny:Int = 0;
 
 	override function create()
 	{
@@ -162,6 +169,46 @@ class MainMenuState extends MusicBeatState
 				else
 				{
 					ClientPrefs.tankmanFloat = false;
+				}
+			}
+			if (curTristanFunny == 0 || curTristanFunny == 4) {
+				if (FlxG.keys.justPressed.T) {
+					curTristanFunny++;
+				}
+			}
+			if (curTristanFunny == 1) {
+				if (FlxG.keys.justPressed.R) {
+					curTristanFunny++;
+				}
+			}
+			if (curTristanFunny == 2) {
+				if (FlxG.keys.justPressed.I) {
+					curTristanFunny++;
+				}
+			}
+			if (curTristanFunny == 3) {
+				if (FlxG.keys.justPressed.S) {
+					curTristanFunny++;
+				}
+			}
+			if (curTristanFunny == 5) {
+				if (FlxG.keys.justPressed.A) {
+					curTristanFunny++;
+				}
+			}
+			if (curTristanFunny == 6) {
+				if (FlxG.keys.justPressed.N) {
+					curTristanFunny = 0;
+					FlxG.sound.play('assets/sounds/confirmMenu' + TitleState.soundExt);
+					if (ClientPrefs.tristanPlayer == false) {
+						ClientPrefs.tristanPlayer = true;
+						trace("tristan mode enabled");
+					}
+					else
+					{
+						ClientPrefs.tristanPlayer = false;
+						trace("tristan mode disabled");
+					}
 				}
 			}
 

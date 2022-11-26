@@ -888,6 +888,7 @@ class PlayState extends MusicBeatState
 
 			if (SONG.song.toLowerCase() == 'thorns')
 			{
+				camHUD.visible = false;
 				add(red);
 			}
 		}
