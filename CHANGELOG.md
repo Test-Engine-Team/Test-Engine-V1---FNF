@@ -3,6 +3,18 @@ All notable changes will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## [0.2.7.5] Test Engine Beta Release 2 - 2022-11-26
+### Added
+ - Another little easter egg ;)
+ - The Test song in the freeplay menu (may be subject to removal)
+ - a not so secret secret in the Test song ;)
+### Changed
+ - Changed how steve's animation works in the Week 7 background so he actually appears(?)
+### Fixed
+ - Fixed a crash on spookeez where the character would give a null object reference due to the lack of an XML (god damn it guys :skull:)
+ - Fixed an icon issue so now the game doesn't crash due to lack of an icon
+ - Tankman's Ugh animation offsets 
+ - Fixed the spookeez crash
 
 ## [0.2.7.3] Test Engine Beta Release 1 - 2022-11-21
 ### Added
@@ -22,9 +34,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
  - Input system fixed - (Now uses Week 7 input system (Common W))
 ### To Be Added/Fixed Soon
  - Tankman cutscenes (Low priority)
- - Tankman heckle Game-Over lines (Coming next update!)
- - Fix the crashes on Spookeez and Stress (High priority)
- - Tankman's Ugh and Pretty Good animation offsets (Medium priority)
+ - Tankman heckle Game-Over lines (Coming next update I promise)
+ - Fix the crash on Stress (High priority - Coming soon(?))
  - Options Menu (Medium to high priority)
  - Folder for the icons (Low priority)
  - Mod Support (Very low priority as of right now)
