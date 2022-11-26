@@ -3,6 +3,14 @@ All notable changes will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## [0.2.7.8] Test Engine Beta Release 4 - 2022-11-26
+### Added
+ - Crash handler on the icons
+### Changed
+ - The input system
+### Fixed
+ - BF's icon being flipped for seemingly no reaon (there was a big reason!)
+
 ## [0.2.7.6] Test Engine Beta Release 3 - 2022-11-26
 ### Added
  - Nothing important enough to note
@@ -14,7 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.2.7.5] Test Engine Beta Release 2 - 2022-11-26
 ### Added
  - Another little easter egg ;)
- - The Test song in the freeplay menu (may be subject to removal)
+ - The Test song in the freeplay menu after unlocking a secret (may be subject to removal)
  - a not so secret secret in the Test song ;)
 ### Changed
  - Changed how steve's animation works in the Week 7 background so he actually appears(?)
