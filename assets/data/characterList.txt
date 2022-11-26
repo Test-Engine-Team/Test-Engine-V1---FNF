@@ -16,3 +16,6 @@ senpai
 senpai-angry
 spirit
 tankman
+gf-at-gunpoint
+bf-holding-gf
+tristan

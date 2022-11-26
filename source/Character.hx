@@ -606,7 +606,7 @@ class Character extends FlxSprite
 				hpcolor = 0xFFFFFFFF;
 			case 'tristan':
 				// easter egg character 1
-				tex = FlxAtlasFrames.fromSparrow('assets/images/characters/tristan.png', 'assets/images/characters/tristan.xml');
+				tex = FlxAtlasFrames.fromSparrow('assets/images/characters/TRISTAN.png', 'assets/images/characters/TRISTAM.xml');
 				frames = tex;
 				animation.addByPrefix('idle', 'BF idle dance', 24, false);
 				animation.addByPrefix('singUP', 'BF NOTE UP0', 24, false);
