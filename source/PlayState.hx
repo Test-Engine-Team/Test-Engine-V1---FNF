@@ -40,6 +40,7 @@ import openfl.display.BlendMode;
 import openfl.display.StageQuality;
 import openfl.filters.ShaderFilter;
 import flash.system.System;
+import flixel.tweens.FlxEase;
 #if desktop
 import DiscordHandler;
 #end
@@ -504,7 +505,7 @@ class PlayState extends MusicBeatState
 
 			steve = new FlxSprite(-420, -150);
 			steve.frames = FlxAtlasFrames.fromSparrow('assets/images/tank/tankRolling.png', 'assets/images/tank/tankRolling.xml');
-			steve.animation.addByPrefix('rollin', 'BG tank w lighting instance 1 ', 24, true);
+			steve.animation.addByPrefix('rollin', 'BG tank w lighting instance 1', 24, true);
 			steve.animation.play('rollin');
 			steve.setGraphicSize(Std.int(steve.width * 1.15));
 			steve.updateHitbox();
@@ -640,6 +641,9 @@ class PlayState extends MusicBeatState
 		gf.scrollFactor.set(0.95, 0.95);
 
 		dad = new Character(100, 100, SONG.player2);
+
+		if (dad == null)
+     		SONG.player2 = 'dad';
 
 		var camPos:FlxPoint = new FlxPoint(dad.getGraphicMidpoint().x, dad.getGraphicMidpoint().y);
 
@@ -1400,24 +1404,24 @@ class PlayState extends MusicBeatState
 			case 895:
 				tankmanPreFloatHeight = dad.y;
 				if (SONG.song.toLowerCase() == 'guns' && ClientPrefs.tankmanFloat)
-					FlxTween.tween(dad, {y: -720}, 10.38);
-					FlxTween.tween(light, {alpha: 0.40}, 10.38);
+					FlxTween.tween(dad, {y: -720}, 10.38, {ease: FlxEase.linear});
+					FlxTween.tween(light, {alpha: 0.40}, 10.38, {ease: FlxEase.linear});
 			case 1024:
 				boyfriendPreFloatHeight = boyfriend.y;
 				if (SONG.song.toLowerCase() == 'guns' && ClientPrefs.tankmanFloat)
-					FlxTween.tween(boyfriend, {y: bfFloatHeight}, 10.78);
-					FlxTween.tween(light, {alpha: 0.80}, 10.78);
+					FlxTween.tween(boyfriend, {y: bfFloatHeight}, 10.78, {ease: FlxEase.linear});
+					FlxTween.tween(light, {alpha: 0.80}, 10.78, {ease: FlxEase.linear});
 			case 1151:
 				if (SONG.song.toLowerCase() == 'guns' && ClientPrefs.tankmanFloat)
-					FlxTween.tween(dad, {y: tankmanPreFloatHeight}, 10.37/*, {
+					FlxTween.tween(dad, {y: tankmanPreFloatHeight}, 10.37, {ease: FlxEase.linear}/*, {
 						onComplete: function(tmr:FlxTween) {
 							trace(curStep);
 						}
 					}*/);
-					FlxTween.tween(light, {alpha: 0.40}, 10.37);
+					FlxTween.tween(light, {alpha: 0.40}, 10.37, {ease: FlxEase.linear});
 			case 1280:
 				if (SONG.song.toLowerCase() == 'guns' && ClientPrefs.tankmanFloat)
-					FlxTween.tween(boyfriend, {y: boyfriendPreFloatHeight}, 11.11/*, {
+					FlxTween.tween(boyfriend, {y: boyfriendPreFloatHeight}, 11.11,  {ease: FlxEase.linear}/*, {
 						onComplete: function(tmr:FlxTween) {
 							trace(curStep);
 						}
@@ -1481,8 +1485,8 @@ class PlayState extends MusicBeatState
 		if (healthBar.percent < 20)
 			iconP1.animation.curAnim.curFrame = 1;
 		else
-			iconP1.animation.curAnim.curFrame = 0;
-
+			if (iconP1.animation.curAnim != null) iconP1.animation.curAnim.curFrame = 0;
+		
 		if (healthBar.percent > 80)
 			iconP2.animation.curAnim.curFrame = 1;
 		else

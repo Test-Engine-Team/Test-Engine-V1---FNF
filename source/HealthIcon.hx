@@ -32,5 +32,9 @@ class HealthIcon extends FlxSprite
 		animation.add('tristan', [24, 25], 0, false, isPlayer);
 		animation.play(char);
 		scrollFactor.set();
+		if (char == '')
+		{
+			char == 'dad';
+		}
 	}
 }
