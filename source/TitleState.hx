@@ -1,7 +1,10 @@
 package;
 
+#if desktop
 import DiscordHandler;
-import openfl.display.Window;
+#end
+import shaders.BuildingShaders;
+import shaders.ColorSwap;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
@@ -15,14 +18,10 @@ import flixel.group.FlxGroup;
 import flixel.input.gamepad.FlxGamepad;
 import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
-import flixel.system.FlxSound;
-import flixel.system.ui.FlxSoundTray;
-import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
-import lime.app.Application;
 import openfl.Assets;
 
 using StringTools;
@@ -31,6 +30,9 @@ class TitleState extends MusicBeatState
 {
 	static var initialized:Bool = false;
 	static public var soundExt:String = ".mp3";
+
+	var swagShader:ColorSwap;
+	var alphaShader:BuildingShaders;
 
 	var blackScreen:FlxSprite;
 	var credGroup:FlxGroup;
@@ -48,6 +50,9 @@ class TitleState extends MusicBeatState
 		TitleState.soundExt = '.ogg';
 		FlxG.stage.frameRate = 120;
 		#end
+
+		swagShader = new ColorSwap();
+		alphaShader = new BuildingShaders();
 
 		PlayerSettings.init();
 
@@ -132,6 +137,7 @@ class TitleState extends MusicBeatState
 		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24);
 		logoBl.animation.play('bump');
 		logoBl.updateHitbox();
+		logoBl.shader = swagShader.shader;
 		// logoBl.screenCenter();
 		// logoBl.color = FlxColor.BLACK;
 
@@ -140,6 +146,7 @@ class TitleState extends MusicBeatState
 		gfDance.animation.addByIndices('danceLeft', 'gfDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
 		gfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
 		gfDance.antialiasing = true;
+		gfDance.shader = swagShader.shader;
 		add(gfDance);
 		add(logoBl);
 
@@ -150,6 +157,7 @@ class TitleState extends MusicBeatState
 		titleText.antialiasing = true;
 		titleText.animation.play('idle');
 		titleText.updateHitbox();
+		titleText.shader = swagShader.shader;
 		// titleText.screenCenter(X);
 		add(titleText);
 
@@ -261,6 +269,15 @@ class TitleState extends MusicBeatState
 		if (pressedEnter && !skippedIntro)
 		{
 			skipIntro();
+		}
+
+		if (controls.LEFT)
+		{
+			swagShader.update(elapsed * 0.1);
+		}
+		if (controls.RIGHT)
+		{
+			swagShader.update(-elapsed * 0.1);
 		}
 
 		super.update(elapsed);

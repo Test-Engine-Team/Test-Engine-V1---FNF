@@ -1,20 +1,21 @@
 package;
 
-import flash.text.TextField;
+import flixel.tweens.FlxTween;
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.addons.display.FlxGridOverlay;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
-import lime.utils.Assets;
+import openfl.Assets;
 
 using StringTools;
 
 class FreeplayState extends MusicBeatState
 {
 	var songs:Array<String> = [];
+	var iconArray:Array<HealthIcon> = [];
+	var icons:Array<String> = [];
 
 	var selector:FlxText;
 	var curSelected:Int = 0;
@@ -30,24 +31,30 @@ class FreeplayState extends MusicBeatState
 
 	override function create()
 	{
-		songs = CoolUtil.coolTextFile('assets/data/freeplaySonglist.txt');
-
-		/* 
-			if (FlxG.sound.music != null)
-			{
-				if (!FlxG.sound.music.playing)
-					FlxG.sound.playMusic('assets/music/freakyMenu' + TitleState.soundExt);
-			}
-		 */
-
 		var isDebug:Bool = false;
 
 		#if debug
 		isDebug = true;
 		#end
 
+		songs.push('Tutorial');
+		icons.push('gf');
+
+		if (StoryMenuState.weekUnlocked[1] || isDebug)
+		{
+			icons.push('dad');
+			icons.push('dad');
+			icons.push('dad');
+			songs.push('Bopeebo');
+			songs.push('Fresh');
+			songs.push('Dadbattle');
+		}
+
 		if (StoryMenuState.weekUnlocked[2] || isDebug)
 		{
+			icons.push('spooky');
+			icons.push('spooky');
+			icons.push('monster');
 			songs.push('Spookeez');
 			songs.push('South');
 			songs.push('Monster');
@@ -55,6 +62,9 @@ class FreeplayState extends MusicBeatState
 
 		if (StoryMenuState.weekUnlocked[3] || isDebug)
 		{
+			icons.push('pico');
+			icons.push('pico');
+			icons.push('pico');
 			songs.push('Pico');
 			songs.push('Philly');
 			songs.push('Blammed');
@@ -62,6 +72,9 @@ class FreeplayState extends MusicBeatState
 
 		if (StoryMenuState.weekUnlocked[4] || isDebug)
 		{
+			icons.push('mom');
+			icons.push('mom');
+			icons.push('mom');
 			songs.push('Satin-Panties');
 			songs.push('High');
 			songs.push('Milf');
@@ -69,6 +82,9 @@ class FreeplayState extends MusicBeatState
 
 		if (StoryMenuState.weekUnlocked[5] || isDebug)
 		{
+			icons.push('parents');
+			icons.push('parents');
+			icons.push('monster');
 			songs.push('Cocoa');
 			songs.push('Eggnog');
 			songs.push('Winter-Horrorland');
@@ -76,20 +92,28 @@ class FreeplayState extends MusicBeatState
 
 		if (StoryMenuState.weekUnlocked[6] || isDebug)
 		{
+			icons.push('senpai');
+			icons.push('senpai');
+			icons.push('spirit');
 			songs.push('Senpai');
 			songs.push('Roses');
 			songs.push('Thorns');
 		}
-		if (StoryMenuState.weekUnlocked[6] || isDebug)
+		if (StoryMenuState.weekUnlocked[7] || isDebug)
 			{
+				icons.push('tankman');
+				icons.push('tankman');
+				icons.push('tankman');
 				songs.push('Ugh');
 				songs.push('Guns');
 				songs.push('Stress');
 			}
 		#if debug
+		icons.push('bf-pixel');
 		songs.push('Test');
 		#else
 		if (FlxG.save.data.unlockedTestSong == true) {
+			icons.push('bf-pixel');
 			songs.push('Test');
 		}
 		#end
@@ -110,9 +134,11 @@ class FreeplayState extends MusicBeatState
 			songText.isMenuItem = true;
 			songText.targetY = i;
 			grpSongs.add(songText);
-			// songText.x += 40;
-			// DONT PUT X IN THE FIRST PARAMETER OF new ALPHABET() !!
-			// songText.screenCenter(X);
+
+			var icon:HealthIcon = new HealthIcon(icons[i]);
+			icon.sprTracker = songText;
+			iconArray.push(icon);
+			add(icon);
 		}
 
 		scoreText = new FlxText(FlxG.width * 0.7, 5, 0, "", 32);
@@ -192,9 +218,9 @@ class FreeplayState extends MusicBeatState
 			changeSelection(1);
 		}
 
-		if (controls.LEFT_P && songs[curSelected] != 'test')
+		if (controls.LEFT_P)
 			changeDiff(-1);
-		if (controls.RIGHT_P && songs[curSelected] != 'test')
+		if (controls.RIGHT_P)
 			changeDiff(1);
 
 		if (controls.BACK)
@@ -266,19 +292,24 @@ class FreeplayState extends MusicBeatState
 
 		var bullShit:Int = 0;
 
-		for (item in grpSongs.members)
-		{
-			item.targetY = bullShit - curSelected;
-			bullShit++;
-
-			item.alpha = 0.6;
-			// item.setGraphicSize(Std.int(item.width * 0.8));
-
-			if (item.targetY == 0)
+		for (i in 0...iconArray.length)
 			{
-				item.alpha = 1;
-				// item.setGraphicSize(Std.int(item.width));
+				iconArray[i].alpha = 0.6;
 			}
+	
+			iconArray[curSelected].alpha = 1;
+	
+			for (item in grpSongs.members)
+			{
+				item.targetY = bullShit - curSelected;
+				bullShit++;
+	
+				item.alpha = 0.6;
+	
+				if (item.targetY == 0)
+				{
+					item.alpha = 1;
+				}
 		}
 	}
 }

@@ -156,6 +156,9 @@ class PlayState extends MusicBeatState
 
 	override public function create()
 	{
+		#if debug
+		ClientPrefs.tankmanFloat = true;
+		#end
 		camGame = new FlxCamera();
 		camHUD = new FlxCamera();
 		camHUD.bgColor.alpha = 0;
@@ -1391,30 +1394,37 @@ class PlayState extends MusicBeatState
 					dad.playAnim('Ugh', true);
 			case 895:
 				tankmanPreFloatHeight = dad.y;
-				if (SONG.song.toLowerCase() == 'guns' && ClientPrefs.tankmanFloat)
+				if (SONG.song.toLowerCase() == 'guns' && ClientPrefs.tankmanFloat){
 					FlxTween.tween(dad, {y: -720}, 10.38, {ease: FlxEase.linear});
 					FlxTween.tween(light, {alpha: 0.40}, 10.38, {ease: FlxEase.linear});
+				}
 			case 1024:
 				boyfriendPreFloatHeight = boyfriend.y;
-				if (SONG.song.toLowerCase() == 'guns' && ClientPrefs.tankmanFloat)
+				if (SONG.song.toLowerCase() == 'guns' && ClientPrefs.tankmanFloat){
 					FlxTween.tween(boyfriend, {y: bfFloatHeight}, 10.78, {ease: FlxEase.linear});
 					FlxTween.tween(light, {alpha: 0.80}, 10.78, {ease: FlxEase.linear});
+				}
 			case 1151:
-				if (SONG.song.toLowerCase() == 'guns' && ClientPrefs.tankmanFloat)
+				if (SONG.song.toLowerCase() == 'guns' && ClientPrefs.tankmanFloat){
 					FlxTween.tween(dad, {y: tankmanPreFloatHeight}, 10.37, {ease: FlxEase.linear}/*, {
 						onComplete: function(tmr:FlxTween) {
 							trace(curStep);
 						}
 					}*/);
 					FlxTween.tween(light, {alpha: 0.40}, 10.37, {ease: FlxEase.linear});
+				}
 			case 1280:
-				if (SONG.song.toLowerCase() == 'guns' && ClientPrefs.tankmanFloat)
+				if (SONG.song.toLowerCase() == 'guns' && ClientPrefs.tankmanFloat){
 					FlxTween.tween(boyfriend, {y: boyfriendPreFloatHeight}, 11.11,  {ease: FlxEase.linear}/*, {
 						onComplete: function(tmr:FlxTween) {
 							trace(curStep);
 						}
 					}*/);
 					FlxTween.tween(light, {alpha: 0}, 11.11);
+				}
+			case 735:
+				if (SONG.song.toLowerCase() == 'stress')
+					dad.playAnim('PrettyGood', true);
 		}
 
 		if (curStep > 895 && curStep < 1398 && SONG.song.toLowerCase() == 'guns' && ClientPrefs.tankmanFloat == true) {
@@ -2149,14 +2159,6 @@ private function keyShit():Void
 				gf.playAnim('sad');
 			}
 			combo = 0;
-
-			/*
-			if (floatDoneBf == true && ClientPrefs.tankmanFloat == true && SONG.song.toLowerCase() == 'guns') {
-				var bfLowerHeight = bfFloatHeight - ((songMisses + 1) * 10);
-				FlxTween.tween(boyfriend, {y: bfLowerHeight}, 4);
-				trace("ow");
-			}
-			*/
 
 			songScore -= 10;
 
