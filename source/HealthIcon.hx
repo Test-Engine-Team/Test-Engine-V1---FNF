@@ -2,6 +2,7 @@ package;
 
 import openfl.Assets;
 import flixel.FlxSprite;
+import Files;
 
 using StringTools;
 
@@ -32,9 +33,9 @@ class HealthIcon extends FlxSprite
 		if (char != this.char)
 		{
 				if (Assets.exists('assets/images/icons/icon-$char.png'))
-				loadGraphic('assets/images/icons/icon-$char.png', true, 150, 150);
+				loadGraphic(Files.image('icons/icon-$char'), true, 150, 150);
 				else
-				loadGraphic('assets/images/icons/icon-face.png', true, 150, 150);
+				loadGraphic(Files.image('icons/icon-face'), true, 150, 150);
 				animation.add(char, [0, 1], 0, false, isPlayer);
 	}
 			animation.play(char);
