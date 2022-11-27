@@ -1366,18 +1366,6 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if (SONG.song.toLowerCase() == 'test') {
-			FlxG.updateFramerate = 10;
-			FlxG.drawFramerate = 10;
-
-			/* unused stuff
-			if (FlxG.drawFramerate == 0) {
-				trace("lol");
-				//Sys.exit(0);
-			}
-			*/
-		}
-
 		switch (curStage)
 		{
 			case 'philly':
@@ -1748,7 +1736,11 @@ class PlayState extends MusicBeatState
 							songMisses++;
 							songScore -= 10;
 							combo = 0;
-						}
+
+							if (SONG.song.toLowerCase() == 'test'){
+							FlxG.updateFramerate -= 10;
+							FlxG.drawFramerate -= 10}
+							}
 
 						daNote.active = false;
 						daNote.visible = false;
@@ -1772,6 +1764,10 @@ class PlayState extends MusicBeatState
 
 	public function endSong():Void
 	{
+		#if desktop
+		DiscordHandler.changePresence('In The Menus The Last Song They Played Was', SONG.song.toLowerCase());
+		#end
+
 		canPause = false;
 		FlxG.sound.music.volume = 0;
 		vocals.volume = 0;
@@ -1783,20 +1779,14 @@ class PlayState extends MusicBeatState
 		}
 
 		if (SONG.song.toLowerCase() == 'test') {
-			/*
-			FlxG.updateFramerate = prevFramerateStuff;
-			FlxG.drawFramerate = prevFramerateStuff;
-			*/
+			FlxG.updateFramerate = 150;
+			FlxG.drawFramerate = 150;
 
 			FlxG.save.data.unlockedTestSong = true;
 		}
 
 		if (isStoryMode)
 		{
-			#if desktop
-			DiscordHandler.changePresence('In The Menus The Last Song They Played Was', SONG.song.toLowerCase());
-			#end
-
 			campaignScore += songScore;
 
 			storyPlaylist.remove(storyPlaylist[0]);
