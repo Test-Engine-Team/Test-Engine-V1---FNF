@@ -1752,6 +1752,7 @@ class PlayState extends MusicBeatState
 								FlxG.drawFramerate -= 10;
 
 								if (FlxG.drawFramerate <= 10) {
+									trace("ERROR");
 									Sys.exit(0);
 								}
 							}
