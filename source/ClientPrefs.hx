@@ -15,6 +15,12 @@ class ClientPrefs {
 
     //funny
     public static var tankmanFloat:Bool = false;
+
+	//for modifiers later on lol
+	public static var modifiers:Map<String, Dynamic> = [
+		'speed' => 1.0,
+		'max misses' => 0
+	];
     
     //Every key has two binds, add your key bind down here and then add your control on options/ControlsSubState.hx and Controls.hx
 	public static var keyBinds:Map<String, Array<FlxKey>> = [
