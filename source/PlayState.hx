@@ -1355,13 +1355,13 @@ class PlayState extends MusicBeatState
 		if (FlxG.keys.justPressed.NINE)
 		{
 			preBfHpColor = boyfriend.hpcolor;
-			if (iconP1.animation.curAnim.name == 'bf-old') {
-				iconP1.animation.play(SONG.player1);
+			if (iconP1.char == 'bf-old') {
+				iconP1.changeIcon(SONG.player1);
 				boyfriend.hpcolor = preBfHpColor;
 			}
 			else
 			{
-				iconP1.animation.play('bf-old');
+				iconP1.changeIcon('bf-old');
 				boyfriend.hpcolor = 0xFFE9FF48;
 			}
 		}
@@ -1485,8 +1485,8 @@ class PlayState extends MusicBeatState
 		if (healthBar.percent < 20)
 			iconP1.animation.curAnim.curFrame = 1;
 		else
-			if (iconP1.animation.curAnim != null) iconP1.animation.curAnim.curFrame = 0;
-		
+			iconP1.animation.curAnim.curFrame = 0;
+
 		if (healthBar.percent > 80)
 			iconP2.animation.curAnim.curFrame = 1;
 		else
