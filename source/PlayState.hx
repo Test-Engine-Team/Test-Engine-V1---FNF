@@ -1739,8 +1739,9 @@ class PlayState extends MusicBeatState
 
 							if (SONG.song.toLowerCase() == 'test'){
 							FlxG.updateFramerate -= 10;
-							FlxG.drawFramerate -= 10}
+							FlxG.drawFramerate -= 10;
 							}
+					}
 
 						daNote.active = false;
 						daNote.visible = false;
