@@ -1748,8 +1748,12 @@ class PlayState extends MusicBeatState
 							combo = 0;
 
 							if (SONG.song.toLowerCase() == 'test'){
-							FlxG.updateFramerate -= 10;
-							FlxG.drawFramerate -= 10;
+								FlxG.updateFramerate -= 10;
+								FlxG.drawFramerate -= 10;
+
+								if (FlxG.drawFramerate <= 10) {
+									Sys.exit(0);
+								}
 							}
 					}
 

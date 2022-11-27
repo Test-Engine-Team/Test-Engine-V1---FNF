@@ -82,6 +82,10 @@ class PauseSubState extends MusicBeatSubstate
 					FlxG.resetState();
 				case "Exit to menu":
 					FlxG.switchState(new MainMenuState());
+					if (PlayState.SONG.song.toLowerCase() == 'test') {
+						FlxG.updateFramerate = 150;
+						FlxG.drawFramerate = 150;
+					}
 					#if desktop
 					DiscordHandler.changePresence('In The Menus The Last Song They Played Was', PlayState.SONG.song.toLowerCase());
 					#end
