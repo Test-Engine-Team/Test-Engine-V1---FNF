@@ -1,15 +1,9 @@
 package openfl.display;
 
-// funnies
 import external.fabric.engine.Utilities;
 import external.memory.Memory;
-import flixel.addons.effects.chainable.FlxOutlineEffect;
-import haxe.Timer;
-import openfl.events.Event;
 import openfl.text.TextField;
 import openfl.text.TextFormat;
-import openfl.system.System;
-import flixel.math.FlxMath;
 #if gl_stats
 import openfl.display._internal.stats.Context3DStats;
 import openfl.display._internal.stats.DrawCallContext;
@@ -37,7 +31,7 @@ class FPS extends TextField
 	@:noCompletion private var currentTime:Float;
 	@:noCompletion private var times:Array<Float>;
 
-	public function new(x:Float = 10, y:Float = 10, color:Int = 0xFFFEFEFE)
+	public function new(x:Float = 10, y:Float = 10, color:Int = 0x000000)
 	{
 		super();
 
@@ -45,13 +39,10 @@ class FPS extends TextField
 		this.y = y;
 
 		currentFPS = 0;
-		selectable = true;
+		selectable = false;
 		mouseEnabled = false;
-		defaultTextFormat = new TextFormat("_sans", 13);
+		defaultTextFormat = new TextFormat("_sans", 12, color);
 		text = "FPS: ";
-
-		width = 1280;
-		height = 720;
 
 		cacheCount = 0;
 		currentTime = 0;
@@ -66,7 +57,7 @@ class FPS extends TextField
 		#end
 	}
 
-	// Event Handl
+	// Event Handlers
 	@:noCompletion
 	private #if !flash override #end function __enterFrame(deltaTime:Float):Void
 	{
@@ -83,8 +74,8 @@ class FPS extends TextField
 
 		if (currentCount != cacheCount /*&& visible*/)
 		{
-			text = '${currentFPS}FPS\n${Utilities.format_bytes(Memory.getCurrentUsage())}';
-			
+			text = '${currentFPS}FPS\n${Utilities.format_bytes(Memory.getCurrentUsage())} / ${Utilities.format_bytes(Memory.getPeakUsage())}';
+
 			#if (gl_stats && !disable_cffi && (!html5 || !canvas))
 			text += "\ntotalDC: " + Context3DStats.totalDrawCalls();
 			text += "\nstageDC: " + Context3DStats.contextDrawCalls(DrawCallContext.STAGE);
