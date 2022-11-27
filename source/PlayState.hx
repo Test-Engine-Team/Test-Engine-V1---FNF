@@ -271,7 +271,7 @@ class PlayState extends MusicBeatState
 
 			// var cityLights:FlxSprite = new FlxSprite().loadGraphic(AssetPaths.win0.png);
 
-			var street:FlxSprite = new FlxSprite(-40, streetBehind.y).loadGraphic(Files.image('street'));
+			var street:FlxSprite = new FlxSprite(-40, streetBehind.y).loadGraphic(Files.image('philly/street'));
 			add(street);
 		}
 		else if (SONG.song.toLowerCase() == 'milf' || SONG.song.toLowerCase() == 'satin-panties' || SONG.song.toLowerCase() == 'high')
@@ -1082,7 +1082,7 @@ class PlayState extends MusicBeatState
 		lastReportedPlayheadPosition = 0;
 
 		if (!paused)
-			FlxG.sound.playMusic(Files.song('Inst'), 1, false);
+			FlxG.sound.playMusic(Files.song('${SONG.song.toLowerCase()}Inst'), 1, false);
 		FlxG.sound.music.onComplete = endSong;
 		vocals.play();
 	}
@@ -1099,7 +1099,7 @@ class PlayState extends MusicBeatState
 		curSong = songData.song;
 
 		if (SONG.needsVoices)
-			vocals = new FlxSound().loadEmbedded(Files.song('Voices'));
+			vocals = new FlxSound().loadEmbedded(Files.song('${SONG.song.toLowerCase()}Voices'));
 		else
 			vocals = new FlxSound();
 
