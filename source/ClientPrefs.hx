@@ -19,7 +19,10 @@ class ClientPrefs {
 	//for modifiers later on lol
 	public static var modifiers:Map<String, Dynamic> = [
 		'speed' => 1.0,
-		'max misses' => 0
+		'max misses' => 0,
+		'fc mode' => false,
+		'sfc mode' => false,
+		'gfc mode' => false,
 	];
     
     //Every key has two binds, add your key bind down here and then add your control on options/ControlsSubState.hx and Controls.hx
