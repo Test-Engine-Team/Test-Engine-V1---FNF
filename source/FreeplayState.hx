@@ -195,10 +195,15 @@ class FreeplayState extends MusicBeatState
 			changeSelection(1);
 		}
 
-		if (controls.LEFT_P)
-			changeDiff(-1);
-		if (controls.RIGHT_P)
-			changeDiff(1);
+		if (curSelected == 22) {
+			setDiff(1);
+		}
+		if (curSelected != 22) {
+			if (controls.LEFT_P)
+				changeDiff(-1);
+			if (controls.RIGHT_P)
+				changeDiff(1);
+		}
 
 		if (controls.BACK)
 		{
@@ -228,6 +233,26 @@ class FreeplayState extends MusicBeatState
 			curDifficulty = 2;
 		if (curDifficulty > 2)
 			curDifficulty = 0;
+
+		#if !switch
+		intendedScore = Highscore.getScore(songs[curSelected], curDifficulty);
+		#end
+
+		switch (curDifficulty)
+		{
+			case 0:
+				diffText.text = "EASY";
+			case 1:
+				diffText.text = 'NORMAL';
+			case 2:
+				diffText.text = "HARD";
+		}
+	}
+
+	//dumb shit
+	function setDiff(difficulty:Int = 1)
+	{
+		curDifficulty = difficulty;
 
 		#if !switch
 		intendedScore = Highscore.getScore(songs[curSelected], curDifficulty);
