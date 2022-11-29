@@ -44,7 +44,6 @@ import flixel.tweens.FlxEase;
 #if desktop
 import DiscordHandler;
 #end
-import Files;
 using StringTools;
 
 class PlayState extends MusicBeatState
@@ -137,12 +136,15 @@ class PlayState extends MusicBeatState
 	var tankmanPreFloatHeight:Float = 0;
 	var boyfriendPreFloatHeight:Float = 0;
 
+	var darkness:FlxSprite;
+
 	var talking:Bool = true;
 	var songScore:Int = 0;
 	var songMisses:Int = 0;
 	var infoText:FlxText;
 
 	public static var campaignScore:Int = 0;
+	public static var campaignMisses:Int = 0;
 
 	var defaultCamZoom:Float = 1.05;
 
@@ -1423,7 +1425,7 @@ class PlayState extends MusicBeatState
 			case 735:
 				if (SONG.song.toLowerCase() == 'stress')
 					dad.playAnim('PrettyGood', true);
-		}
+	}
 
 		if (curStep > 895 && curStep < 1398 && SONG.song.toLowerCase() == 'guns' && ClientPrefs.tankmanFloat == true) {
 			dad.y += (Math.sin(elapsedtime) * 0.2);
@@ -1802,6 +1804,7 @@ class PlayState extends MusicBeatState
 		if (isStoryMode)
 		{
 			campaignScore += songScore;
+			campaignMisses += songMisses;
 
 			storyPlaylist.remove(storyPlaylist[0]);
 
@@ -1819,7 +1822,7 @@ class PlayState extends MusicBeatState
 
 				if (SONG.validScore)
 				{
-					Highscore.saveWeekScore(storyWeek, campaignScore, storyDifficulty);
+					Highscore.saveWeekScore(storyWeek, campaignScore, storyDifficulty, campaignMisses);
 				}
 
 				FlxG.save.data.weekUnlocked = StoryMenuState.weekUnlocked;

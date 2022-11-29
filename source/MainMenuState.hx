@@ -49,7 +49,7 @@ class MainMenuState extends MusicBeatState
 
 		if (!FlxG.sound.music.playing)
 		{
-			FlxG.sound.playMusic('assets/music/freakyMenu' + TitleState.soundExt);
+			FlxG.sound.playMusic(Files.music('freakyMenu'));
 		}
 
 		persistentUpdate = persistentDraw = true;
