@@ -403,7 +403,7 @@ class PlayState extends MusicBeatState
 		{
 			curStage = 'school';
 
-			// defaultCamZoom = 0.9;
+			defaultCamZoom = 1;
 
 			var bgSky = new FlxSprite().loadGraphic('assets/images/weeb/weebSky.png');
 			bgSky.scrollFactor.set(0.1, 0.1);
@@ -470,13 +470,8 @@ class PlayState extends MusicBeatState
 		{
 			curStage = 'schoolEvil';
 
-			var waveEffectBG = new FlxWaveEffect(FlxWaveMode.ALL, 2, -1, 3, 2);
-			var waveEffectFG = new FlxWaveEffect(FlxWaveMode.ALL, 2, -1, 5, 2);
-
-			var posX = 400;
-			var posY = 200;
-
-			var bg:FlxSprite = new FlxSprite(posX, posY);
+			defaultCamZoom = 1;
+			var bg:FlxSprite = new FlxSprite(400, 200);
 			bg.frames = FlxAtlasFrames.fromSparrow('assets/images/weeb/animatedEvilSchool.png', 'assets/images/weeb/animatedEvilSchool.xml');
 			bg.animation.addByPrefix('idle', 'background 2', 24);
 			bg.animation.play('idle');
