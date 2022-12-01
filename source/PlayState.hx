@@ -646,10 +646,10 @@ class PlayState extends MusicBeatState
 		gf = new Character(400, 130, gfVersion);
 		gf.scrollFactor.set(0.95, 0.95);
 
-		dad = new Character(100, 100, SONG.player2);
+		if (SONG.player2 == null)
+			SONG.player2 = 'dad';
 
-		if (dad == null)
-     		SONG.player2 = 'dad';
+		dad = new Character(100, 100, SONG.player2);
 
 		var camPos:FlxPoint = new FlxPoint(dad.getGraphicMidpoint().x, dad.getGraphicMidpoint().y);
 
@@ -692,6 +692,9 @@ class PlayState extends MusicBeatState
 			case 'tankman':
 				dad.y += 180;
 		}
+
+		if (SONG.player1 == null)
+			SONG.player1 = 'bf';
 
 		boyfriend = new Boyfriend(770, 450, SONG.player1);
 
@@ -1751,10 +1754,12 @@ class PlayState extends MusicBeatState
 								FlxG.updateFramerate -= 10;
 								FlxG.drawFramerate -= 10;
 
+								#if sys
 								if (FlxG.drawFramerate <= 10) {
 									trace("ERROR");
 									Sys.exit(0);
 								}
+								#end
 							}
 					}
 

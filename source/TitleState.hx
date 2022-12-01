@@ -51,6 +51,16 @@ class TitleState extends MusicBeatState
 		FlxG.stage.frameRate = 120;
 		#end
 
+		#if sys
+		if (Assets.exists('assets/images/monkie.png'))
+			trace('good you have monkie');
+		else{
+			trace('Y O U W I L L R E G R E T T H A T');
+			CoolUtil.error('DID YOU DELETE MONKIE', '...');
+			Sys.exit(0);
+		}
+		#end
+
 		swagShader = new ColorSwap();
 		alphaShader = new BuildingShaders();
 
