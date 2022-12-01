@@ -1,10 +1,9 @@
 package;
 import flixel.FlxG;
 
-var file:String;
-var fileArray:Array<String> = [];
-
 class Files{
+    static var file:String;
+    
     public static function image(image:String){
         return file = 'assets/images/$image.png';
     }
