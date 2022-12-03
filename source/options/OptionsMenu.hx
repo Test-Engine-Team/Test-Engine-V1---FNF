@@ -1,4 +1,3 @@
-/*
 package;
 
 import Controls.Control;
@@ -12,6 +11,9 @@ import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import lime.utils.Assets;
+import states.menus.MainMenuState;
+import ui.Alphabet;
+import handlers.MusicBeatState;
 
 class OptionsMenu extends MusicBeatState
 {
@@ -20,11 +22,11 @@ class OptionsMenu extends MusicBeatState
 
 	private var grpControls:FlxTypedGroup<Alphabet>;
 
-    var optionShit:Array<String> = ['Controls', 'Gameplay']
+    var optionShit:Array<String> = ['Controls', 'Gameplay'];
 
 	override function create()
 	{
-		var menuBG:FlxSprite = new FlxSprite().loadGraphic('assets/images/menuDesat.png');
+		/*var menuBG:FlxSprite = new FlxSprite().loadGraphic('assets/images/menuDesat.png');
 		menuBG.color = 0xFFea71fd;
 		menuBG.setGraphicSize(Std.int(menuBG.width * 1.1));
 		menuBG.updateHitbox();
@@ -32,7 +34,6 @@ class OptionsMenu extends MusicBeatState
 		menuBG.antialiasing = true;
 		add(menuBG);
 
-		/*
 		grpControls = new FlxTypedGroup<Alphabet>();
 		add(grpControls);
 
@@ -46,8 +47,7 @@ class OptionsMenu extends MusicBeatState
 				grpControls.add(controlLabel);
 			}
 			// DONT PUT X IN THE FIRST PARAMETER OF new ALPHABET() !!
-		}
-		*/
+		}*/
 
 		super.create();
 	}
@@ -57,14 +57,14 @@ class OptionsMenu extends MusicBeatState
 		super.update(elapsed);
 		
 		if (controls.ACCEPT)
-		{
+		{/*
 			switch (curSelected)
             {
                 case 0:
                     FlxG.switchState(new ControlsState());
                 case 1:
                     FlxG.switchState(new GameplayOptionsState());
-            }
+            }*/
 		}
 
         if (controls.BACK)
@@ -76,7 +76,7 @@ class OptionsMenu extends MusicBeatState
 	}
 
 	function changeSelection(change:Int = 0)
-	{
+	{/*
 		FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt, 0.4);
 
 		curSelected += change;
@@ -103,7 +103,6 @@ class OptionsMenu extends MusicBeatState
 				item.alpha = 1;
 				// item.setGraphicSize(Std.int(item.width));
 			}
-		}
+		}*/
 	}
 }
-*/

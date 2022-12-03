@@ -123,7 +123,6 @@
 	<icon path="art/icon64.png" size='64'/>
 
 
-	<!-- <haxedef name="SKIP_TO_PLAYSTATE" if="debug" /> -->
 	<haxedef name="NG_LOGIN" if="newgrounds" />
 	
 </project>
