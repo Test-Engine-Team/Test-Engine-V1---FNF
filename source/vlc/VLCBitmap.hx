@@ -1,10 +1,8 @@
 package vlc;
-
-#if !(desktop || android)
-#error "The current target platform isn't supported by hxCodec. If you're targeting Windows/Mac/Linux/Android and getting this message, please contact us.";
-#end
+#if !js
 import cpp.NativeArray;
 import cpp.UInt8;
+#end
 import openfl.Lib;
 import openfl.display.Bitmap;
 import openfl.display.BitmapData;

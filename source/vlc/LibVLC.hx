@@ -1,6 +1,6 @@
 package vlc;
 
-#if !html5
+#if !js
 import cpp.Pointer;
 import cpp.UInt8;
 #end

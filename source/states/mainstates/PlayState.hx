@@ -43,6 +43,7 @@ import flixel.tweens.FlxEase;
 import states.menus.StoryMenuState;
 import states.menus.TitleState;
 import states.menus.FreeplayState;
+import states.menus.MainMenuState;
 import states.debug.AnimationDebug;
 import states.etc.substates.GitarooPause;
 import states.etc.substates.GameOverState;
