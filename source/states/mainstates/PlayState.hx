@@ -1819,6 +1819,17 @@ class PlayState extends MusicBeatState
 			FlxG.save.data.unlockedTestSong = true;
 		}
 
+		switch (SONG.song.toLowerCase()){
+			case 'test':
+				FlxG.updateFramerate = 150;
+				FlxG.drawFramerate = 150;
+	
+				FlxG.save.data.unlockedTestSong = true;
+
+			case 'stress':
+				playVidCut('kickstarterTrailer', false, true);
+		}
+
 		if (isStoryMode)
 		{
 			campaignScore += songScore;
@@ -2534,7 +2545,7 @@ private function keyShit():Void
 		steve.y = 1300 + 1100 * Math.sin(Math.PI / 180 * (1 * tankAngle + 180));
 	}
 
-	function playVidCut(name:String, atEndOfSong:Bool = false)
+	function playVidCut(name:String, atEndOfSong:Bool = false, endofweek:Bool = false)
 		{
 			inCutscene = true;
 			FlxG.sound.music.stop();
@@ -2552,6 +2563,9 @@ private function keyShit():Void
 						FlxG.switchState(new PlayState());
 					}
 				}
+
+				else if (endofweek)
+					FlxG.switchState(new MainMenuState());
 				else
 					startCountdown();
 			}
