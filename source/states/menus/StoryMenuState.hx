@@ -435,7 +435,7 @@ class StoryMenuState extends MusicBeatState
 				// grpWeekCharacters.members[0].updateHitbox();
 		}
 
-		var stringThing:Array<String> = weekData[curWeek] + '\n ';
+		var stringThing:Array<String> = weekData[curWeek];
 
 		for (i in stringThing)
 		{
