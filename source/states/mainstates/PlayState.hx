@@ -597,7 +597,7 @@ class PlayState extends MusicBeatState
 			tankBop6.antialiasing = true;
 			add(tankBop6);
 
-			light = new FlxSprite(-400, -400).loadGraphic('assets/images/tank/tankLight.png');
+			light = new FlxSprite(-400, -400).makeGraphic(9999, 9999, FlxColor.WHITE);
 			light.scrollFactor.set(0, 0);
 			light.antialiasing = true;
 			light.setGraphicSize(Std.int(sky.width * 1.5));
@@ -866,8 +866,10 @@ class PlayState extends MusicBeatState
 					});
 				case 'senpai', 'roses, thorns':
 					schoolIntro(doof);
-				case 'roses':
-					FlxG.sound.play(Files.sound('ANGRY'));
+					if (SONG.song.toLowerCase() == 'roses')
+						FlxG.sound.play(Files.sound('ANGRY'));
+				case 'ugh', 'guns', 'stress':
+					playVidCut(SONG.song.toLowerCase() + 'Cutscene');
 				default:
 					startCountdown();
 			}
@@ -2531,6 +2533,30 @@ private function keyShit():Void
 		steve.x = tankX + 1500 * Math.cos(Math.PI / 180 * (1 * tankAngle + 180));
 		steve.y = 1300 + 1100 * Math.sin(Math.PI / 180 * (1 * tankAngle + 180));
 	}
+
+	function playVidCut(name:String, atEndOfSong:Bool = false)
+		{
+			inCutscene = true;
+			FlxG.sound.music.stop();
+		
+			var video:VideoHandler = new VideoHandler();
+			video.finishCallback = function()
+			{
+				if (atEndOfSong)
+				{
+					if (storyPlaylist.length <= 0)
+						FlxG.switchState(new StoryMenuState());
+					else
+					{
+						SONG = Song.loadFromJson(storyPlaylist[0].toLowerCase());
+						FlxG.switchState(new PlayState());
+					}
+				}
+				else
+					startCountdown();
+			}
+			video.playVideo(Files.video(name));
+		}
 
 	var curLight:Int = 0;
 }

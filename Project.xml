@@ -43,7 +43,7 @@
 	<assets path="assets/images" />
 	<assets path="assets/data" />
 	<assets path='example_mods' rename='mods' embed='false'/>
-	<assets path='art/readme.txt' rename='do NOT readme.txt' />
+	<assets path="assets/videos" />
 	<!-- <template path='mods' /> -->
 	
 	<!-- <library name="noPreload" preload='false'/> -->
@@ -75,6 +75,7 @@
 	<haxelib name="flixel-ui" />
 	<haxelib name="faxe" if='switch'/>
 	<haxelib name="discord_rpc" if="desktop"/>
+	<haxelib name="hxCodec" if="desktop"/>
 
 	<!-- <haxelib name="markdown" /> -->
 	<!-- <haxelib name="HtmlParser" /> -->
@@ -118,10 +119,7 @@
 
 	<!--Place custom nodes like icons here (higher priority to override the HaxeFlixel icon)-->
 	
-	<icon path="art/icon16.png" size='16'/>
-	<icon path="art/icon32.png" size='32'/>
-	<icon path="art/icon64.png" size='64'/>
-
+	<icon path="icon.png"/>
 
 	<haxedef name="NG_LOGIN" if="newgrounds" />
 	

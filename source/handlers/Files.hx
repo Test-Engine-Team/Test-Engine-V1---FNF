@@ -19,4 +19,8 @@ class Files{
     public static function song(song:String){
         return file = 'assets/songs/$song${TitleState.soundExt}';
     }
+
+    public static function video(video:String, extention:String = 'mp4') {
+        return file = 'assets/videos/$video.$extention';
+    }
 }

@@ -35,16 +35,6 @@ class StoryMenuState extends MusicBeatState
 		['Senpai', 'Roses', 'Thorns'],
 		['Ugh', 'Guns', 'Stress']
 	];
-	var weekStrings:Array<Dynamic> = [
-		['Tutorial'],
-		['Bopeebo', 'Fresh', 'Dadbattle', ''],
-		['Spookeez', 'South', 'Monster', ''],
-		['Pico', 'Philly', 'Blammed', ''],
-		['Satin-Panties', 'High', 'Milf', ''],
-		['Cocoa', 'Eggnog', 'Winter-Horrorland', ''],
-		['Senpai', 'Roses', 'Thorns', ''],
-		['Ugh', 'Guns', 'Stress', '']
-	];
 
 	var curDifficulty:Int = 1;
 
@@ -58,7 +48,7 @@ class StoryMenuState extends MusicBeatState
 		['mom', 'bf', 'gf'],
 		['parents-christmas', 'bf', 'gf'],
 		['senpai', 'bf', 'gf'],
-		['dad', 'bf', 'gf']
+		['tankman', 'bf', 'gf']
 	];
 
 	var weekNames:Array<String> = [
@@ -177,9 +167,12 @@ class StoryMenuState extends MusicBeatState
 				case 'pico':
 					weekCharacterThing.flipX = true;
 				case 'parents-christmas':
-					weekCharacterThing.setGraphicSize(Std.int(weekCharacterThing.width * 0.9));
-					weekCharacterThing.scale.set(4, 4);
+					weekCharacterThing.setGraphicSize(Std.int(weekCharacterThing.width * 2));
 					weekCharacterThing.updateHitbox();
+				case 'tankman':
+					weekCharacterThing.setGraphicSize(Std.int(weekCharacterThing.width * 1.2));
+					weekCharacterThing.x -= 10;
+					weekCharacterThing.y += 120;
 			}
 
 			grpWeekCharacters.add(weekCharacterThing);
@@ -312,7 +305,7 @@ class StoryMenuState extends MusicBeatState
 			{
 				FlxG.sound.play(Files.sound('confirmMenu'));
 
-				grpWeekText.members[curWeek].week.animation.resume();
+				grpWeekText.members[curWeek].startFlashing();
 				grpWeekCharacters.members[1].animation.play('bfConfirm');
 				stopspamming = true;
 			}
@@ -442,7 +435,7 @@ class StoryMenuState extends MusicBeatState
 				// grpWeekCharacters.members[0].updateHitbox();
 		}
 
-		var stringThing:Array<String> = weekStrings[curWeek];
+		var stringThing:Array<String> = weekData[curWeek] + '\n ';
 
 		for (i in stringThing)
 		{
