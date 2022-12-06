@@ -652,12 +652,16 @@ class PlayState extends MusicBeatState
 		}
 
 		gf = new Character(400, 130, gfVersion);
+		gf.x = gf.XOffset;
+		gf.y = gf.YOffset;
 		gf.scrollFactor.set(0.95, 0.95);
 
 		if (SONG.player2 == null)
 			SONG.player2 = 'dad';
 
 		dad = new Character(100, 100, SONG.player2);
+		dad.x = dad.XOffset;
+		dad.y = dad.YOffset;
 
 		var camPos:FlxPoint = new FlxPoint(dad.getGraphicMidpoint().x, dad.getGraphicMidpoint().y);
 
@@ -672,39 +676,24 @@ class PlayState extends MusicBeatState
 					tweenCamIn();
 				}
 
-			case "spooky":
-				dad.y += 200;
-			case "monster":
-				dad.y += 100;
-			case 'monster-christmas':
-				dad.y += 130;
 			case 'dad':
 				camPos.x += 400;
 			case 'pico':
 				camPos.x += 600;
-				dad.y += 300;
-			case 'parents-christmas':
-				dad.x -= 500;
 			case 'senpai':
-				dad.x += 150;
-				dad.y += 360;
 				camPos.set(dad.getGraphicMidpoint().x + 300, dad.getGraphicMidpoint().y);
 			case 'senpai-angry':
-				dad.x += 150;
-				dad.y += 360;
 				camPos.set(dad.getGraphicMidpoint().x + 300, dad.getGraphicMidpoint().y);
 			case 'spirit':
-				dad.x -= 150;
-				dad.y += 100;
 				camPos.set(dad.getGraphicMidpoint().x + 300, dad.getGraphicMidpoint().y);
-			case 'tankman':
-				dad.y += 180;
 		}
 
 		if (SONG.player1 == null)
 			SONG.player1 = 'bf';
 
 		boyfriend = new Boyfriend(770, 450, SONG.player1);
+		boyfriend.x = boyfriend.XOffset;
+		boyfriend.y = boyfriend.YOffset;
 
 		// REPOSITIONING PER STAGE
 		switch (curStage)
