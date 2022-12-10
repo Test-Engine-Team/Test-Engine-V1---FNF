@@ -3,6 +3,14 @@ All notable changes will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## [0.2.7.9.1] Test Engine Beta Release 5 - 2022-12-10
+### Added
+ - Week 7 cutscenes
+ - Proper crash handler
+### Changed
+ - We're sticking to release note changes on the GitHub page from now lmao (Too lazy to keep updating this lol)
+ - Reworked the offsets in Character.hx and PlayState.hx
+
 ## [0.2.7.8] Test Engine Beta Release 4 - 2022-11-26
 ### Added
  - Crash handler on the icons
