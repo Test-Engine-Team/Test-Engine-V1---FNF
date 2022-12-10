@@ -1363,15 +1363,12 @@ class PlayState extends MusicBeatState
 
 		if (FlxG.keys.justPressed.NINE)
 		{
-			preBfHpColor = boyfriend.hpcolor;
 			if (iconP1.char == 'bf-old') {
 				iconP1.changeIcon(SONG.player1);
-				boyfriend.hpcolor = preBfHpColor;
 			}
 			else
 			{
 				iconP1.changeIcon('bf-old');
-				boyfriend.hpcolor = 0xFFE9FF48;
 			}
 		}
 
