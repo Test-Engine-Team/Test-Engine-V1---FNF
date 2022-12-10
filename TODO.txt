@@ -1,0 +1,6 @@
+
+some stuff we need to do lol
+
+[ ] - Fix HTML5 Build
+[ ] - Add Scripts
+[ ] - Add Mods

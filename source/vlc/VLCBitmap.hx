@@ -19,6 +19,7 @@ import vlc.LibVLC;
  *
  * This class lets you to use `libvlc` as a bitmap then you can displaylist along other items.
  */
+
 @:cppFileCode("#include <LibVLC.cpp>")
 class VLCBitmap extends Bitmap
 {
