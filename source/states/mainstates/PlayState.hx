@@ -2537,6 +2537,7 @@ private function keyShit():Void
 
 	function playVidCut(name:String, atEndOfSong:Bool = false, endofweek:Bool = false)
 		{
+			#if !html5
 			inCutscene = true;
 			FlxG.sound.music.stop();
 		
@@ -2560,6 +2561,7 @@ private function keyShit():Void
 					startCountdown();
 			}
 			video.playVideo(Files.video(name));
+			#end
 		}
 
 	var curLight:Int = 0;

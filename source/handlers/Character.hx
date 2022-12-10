@@ -23,7 +23,7 @@ class Character extends FlxSprite
     public var XOffset:Float = 0;
     public var YOffset:Float = 0; 
 	
-	public function new(x:Float, y:Float, ?character:String = "bf", ?isPlayer:Bool = false)
+	public function new(x:Float, y:Float, character:String = "bf", isPlayer:Bool = false)
 	{
 		animOffsets = new Map<String, Array<Dynamic>>();
 		super(x, y);
@@ -650,6 +650,9 @@ class Character extends FlxSprite
 				flipX = true;
 
 				hpcolor = 0xFF31B0D1;
+
+				XOffset = 770;
+				YOffset = 450;
 			case 'gf-at-gunpoint':
 				// GIRLFRIEND CODE
 				tex = FlxAtlasFrames.fromSparrow('assets/images/characters/gfTankmen.png', 'assets/images/characters/gfTankmen.xml');
@@ -659,12 +662,15 @@ class Character extends FlxSprite
 				animation.addByIndices('danceRight', 'GF Dancing at Gunpoint', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
 
 				addOffset('sad', -2, -2);
-				addOffset('danceLeft', 124, -9);
-				addOffset('danceRight', 124, -9);
+				addOffset('danceLeft', 0, -9);
+				addOffset('danceRight', 0, -9);
 
 				playAnim('danceRight');
 
 				hpcolor = 0xFFFFFFFF;
+
+				XOffset = 400;
+				YOffset = 130;
 			case 'tristan':
 				// easter egg character 1
 				tex = FlxAtlasFrames.fromSparrow('assets/images/characters/TRISTAN.png', 'assets/images/characters/TRISTAN.xml');
