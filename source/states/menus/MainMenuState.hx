@@ -26,6 +26,9 @@ class MainMenuState extends MusicBeatState
 	var menuItems:FlxTypedGroup<FlxSprite>;
 
 	var gtText:FlxText;
+	#if officialBuild
+	var gjText:FlxText;
+	#end
 
 	#if !switch
 	var optionShit:Array<String> = ['story mode', 'freeplay', 'donate'];
@@ -112,6 +115,13 @@ class MainMenuState extends MusicBeatState
 		gtText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(gtText);
 
+		#if officialBuild
+		gjText = new FlxText(5, FlxG.height - 36, 0, "Press TAB to open GameJolt login", 12);
+		gjText.scrollFactor.set();
+		gjText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		add(gjText);
+		#end
+
 		// NG.core.calls.event.logEvent('swag').send();
 
 		changeItem();
@@ -162,6 +172,14 @@ class MainMenuState extends MusicBeatState
 						trace("off");
 					}
 				}
+			
+			#if officialBuild
+			if (FlxG.keys.justPressed.TAB)
+			{
+				selectedSomethin = true;
+				FlxG.switchState(new handlers.GameJolt.GameJoltLogin());
+			}
+			#end
 
 			if (FlxG.keys.justPressed.T) {
 				FlxG.sound.play((Files.sound('confirmMenu')));

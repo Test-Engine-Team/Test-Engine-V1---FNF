@@ -30,6 +30,10 @@ import handlers.Highscore;
 import handlers.PlayerSettings;
 import handlers.Conductor;
 import handlers.MusicBeatState;
+#if officialBuild
+import handlers.GameJolt.GameJoltAPI;
+import handlers.GameJolt;
+#end
 
 using StringTools;
 
@@ -53,6 +57,13 @@ class TitleState extends MusicBeatState
 
 	override public function create():Void
 	{
+		#if officialBuild
+		GameJoltAPI.connect();
+		GameJoltAPI.authDaUser(FlxG.save.data.gjUser, FlxG.save.data.gjToken);
+		
+		trace('aw fuck!');
+		#end
+
 		#if (!web)
 		TitleState.soundExt = '.ogg';
 		FlxG.stage.frameRate = 120;
