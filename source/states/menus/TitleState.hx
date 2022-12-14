@@ -60,6 +60,8 @@ class TitleState extends MusicBeatState
 		#if GAMEJOLT_SUPPORT
 		GameJoltAPI.connect();
 		GameJoltAPI.authDaUser(FlxG.save.data.gjUser, FlxG.save.data.gjToken);
+		
+		trace('aw fuck!');
 		#end
 
 		#if (!web)
