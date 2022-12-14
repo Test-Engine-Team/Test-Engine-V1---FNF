@@ -51,8 +51,17 @@ class TitleState extends MusicBeatState
 
 	var wackyImage:FlxSprite;
 
+	#if GAMEJOLT_SUPPORT
+	import GameJolt.GameJoltAPI;
+	#end
+
 	override public function create():Void
 	{
+		#if GAMEJOLT_SUPPORT
+		GameJoltAPI.connect();
+		GameJoltAPI.authDaUser(FlxG.save.data.gjUser, FlxG.save.data.gjToken);
+		#end
+
 		#if (!web)
 		TitleState.soundExt = '.ogg';
 		FlxG.stage.frameRate = 120;
