@@ -65,6 +65,8 @@
 	<define name="VIDEO_CUTSCENES" if="desktop"/> <!-- DELETE THIS IF YOU DONT WANT VIDEO CUTSCENES!!-->
 	<define name="GAMEJOLT_SUPPORT" if="officialBuild"/>
 
+	<define name="officialBuild" /> <!-- used for gamejolt-->
+
 	<!-- _______________________________ Libraries ______________________________ -->
 
 	<haxelib name="flixel" />
@@ -79,6 +81,10 @@
 	<haxelib name="faxe" if='switch'/>
 	<haxelib name="discord_rpc" if="desktop"/>
 	<haxelib name="hxCodec" if="desktop"/>
+
+	<haxelib name="tentools" if="GAMEJOLT_SUPPORT"/>
+	<haxelib name="systools" if="GAMEJOLT_SUPPORT"/>
+	<ndll name="systools" haxelib="systools" />
 
 	<!-- <haxelib name="markdown" /> -->
 	<!-- <haxelib name="HtmlParser" /> -->
