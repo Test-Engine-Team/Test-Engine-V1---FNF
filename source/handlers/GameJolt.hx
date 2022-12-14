@@ -1,6 +1,6 @@
 package handlers;
 
-#if GAMEJOLT_SUPPORT
+#if officialBuild
 // GameJolt things
 import flixel.addons.ui.FlxUIState;
 import haxe.iterators.StringIterator;
@@ -262,13 +262,13 @@ class GameJoltInfo extends MusicBeatSubstate
     /**
      * Variable to change which state to go to by hitting ESCAPE or the CONTINUE buttons.
      */
-    public static var changeState:FlxUIState = new MainMenuState();
+    public static var changeState:FlxUIState = new states.menus.MainMenuState();
     /**
     * Inline variable to change the font for the GameJolt API elements.
-    * @param font You can change the font by doing **Paths.font([Name of your font file])** or by listing your file path.
+    * @param font You can change the font by doing **Files.font([Name of your font file])** or by listing your file path.
     * If *null*, will default to the normal font.
     */
-    public static var font:String = null; /* Example: Paths.font("vcr.ttf"); */
+    public static var font:String = null; /* Example: Files.font("vcr.ttf"); */
     /**
     * Inline variable to change the font for the notifications made by Firubii.
     * 
@@ -278,7 +278,7 @@ class GameJoltInfo extends MusicBeatSubstate
     /**
     * Image to show for notifications. Leave NULL for no image, it's all good :)
     * 
-    * Example: Paths.getLibraryPath("images/stepmania-icon.png")
+    * Example: Files.getLibraryPath("images/stepmania-icon.png")
     */
     public static var imagePath:String = null; 
 
@@ -313,7 +313,6 @@ class GameJoltLogin extends MusicBeatState
     // var trophy:FlxBar;
     // var trophyText:FlxText;
     // var missTrophyText:FlxText;
-    public static var charBop:FlxSprite;
     // var icon:FlxSprite;
     var baseX:Int = -190;
     public static var login:Bool = false;
@@ -327,7 +326,7 @@ class GameJoltLogin extends MusicBeatState
 
         if(!login)
         {
-            FlxG.sound.playMusic(Paths.music('freakyMenu'),0);
+            FlxG.sound.playMusic(Files.music('freakyMenu'),0);
             FlxG.sound.music.fadeIn(2, 0, 0.85);
         }
 
@@ -336,7 +335,7 @@ class GameJoltLogin extends MusicBeatState
 
         Conductor.changeBPM(102);
 
-        var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuDesat', 'preload'));
+        var bg:FlxSprite = new FlxSprite().loadGraphic(Files.image('menuDesat'));
 		bg.setGraphicSize(FlxG.width);
 		bg.antialiasing = true;
 		bg.updateHitbox();
@@ -344,15 +343,6 @@ class GameJoltLogin extends MusicBeatState
 		bg.scrollFactor.set();
 		bg.alpha = 0.25;
 		add(bg);
-
-        charBop = new FlxSprite(FlxG.width - 400, 250);
-		charBop.frames = Paths.getSparrowAtlas('characters/BOYFRIEND', 'shared');
-		charBop.animation.addByPrefix('idle', 'BF idle dance', 24, false);
-        charBop.animation.addByPrefix('loggedin', 'BF HEY', 24, false);
-        charBop.setGraphicSize(Std.int(charBop.width * 1.4));
-		charBop.antialiasing = true;
-        charBop.flipX = false;
-		add(charBop);
 
         loginTexts = new FlxTypedGroup<FlxText>(2);
         add(loginTexts);
@@ -422,7 +412,7 @@ class GameJoltLogin extends MusicBeatState
         cancelBox = new FlxButton(0,625, "Not Right Now", function()
         {
             FlxG.save.flush();
-            FlxG.sound.play(Paths.sound('confirmMenu'), 0.7, false, null, true, function(){
+            FlxG.sound.play(Files.sound('confirmMenu'), 0.7, false, null, true, function(){
                 FlxG.save.flush();
                 FlxG.switchState(GameJoltInfo.changeState);
             });
@@ -494,7 +484,7 @@ class GameJoltLogin extends MusicBeatState
 
         if (!FlxG.sound.music.playing)
         {
-            FlxG.sound.playMusic(Paths.music('freakyMenu'));
+            FlxG.sound.playMusic(Files.music('freakyMenu'));
         }
 
         if (FlxG.keys.justPressed.ESCAPE)
@@ -510,7 +500,6 @@ class GameJoltLogin extends MusicBeatState
     override function beatHit()
     {
         super.beatHit();
-       // charBop.animation.play((GameJoltAPI.getStatus() ? "loggedin" : "idle"));
     }
     function openLink(url:String)
     {
@@ -549,14 +538,14 @@ class GJToastManager extends Sprite
      * Create a toast!
      * 
      * Usage: **Main.gjToastManager.createToast(iconPath, title, description);**
-     * @param iconPath Path for the image **Paths.getLibraryPath("image/example.png")**
+     * @param iconPath Path for the image **Files.getLibraryPath("image/example.png")**
      * @param title Title for the toast
      * @param description Description for the toast
      * @param sound Want to have an alert sound? Set this to **true**! Defaults to **false**.
      */
     public function createToast(iconPath:String, title:String, description:String, ?sound:Bool = false, ?color:String = '#3848CC'):Void
     {
-        if (sound) FlxG.sound.play(Paths.sound('confirmMenu')); 
+        if (sound) FlxG.sound.play(Files.sound('confirmMenu')); 
         
         var toast = new Toast(iconPath, title, description, color);
         addChild(toast);
@@ -685,7 +674,7 @@ class Toast extends Sprite
         back.x = 0;
         back.y = 0;
 
-        var iconBmp = FlxG.bitmap.add(Paths.image(iconPath));
+        var iconBmp = FlxG.bitmap.add(Files.image(iconPath));
         iconBmp.persist = true;
         
         if(iconPath != null)

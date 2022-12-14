@@ -4,13 +4,15 @@ import flixel.FlxGame;
 import openfl.display.FPS;
 import openfl.display.Sprite;
 import states.menus.TitleState;
-#if GAMEJOLT_SUPPORT
-import GameJolt;
-public static var gjToastManager:GJToastManager;
+#if officialBuild
+import handlers.GameJolt;
 #end
 
 class Main extends Sprite
 {
+	#if officialBuild
+	public static var gjToastManager:GJToastManager;
+	#end
 	public function new()
 	{
 		super();
@@ -24,5 +26,8 @@ class Main extends Sprite
 		#if !mobile
 		addChild(new FPS(10, 3, 0xFFFFFF));
 		#end
+
+		//text.push('TEST ENGINE BETA - BUILD ${handlers.macros.BuildCounterMacro.getBuildNumber()}');
+		//addChild(new handlers.macros.BuildCounterMacro.getBuildNumber())
 	}
 }

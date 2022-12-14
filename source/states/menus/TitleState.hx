@@ -30,6 +30,10 @@ import handlers.Highscore;
 import handlers.PlayerSettings;
 import handlers.Conductor;
 import handlers.MusicBeatState;
+#if officialBuild
+import handlers.GameJolt.GameJoltAPI;
+import handlers.GameJolt;
+#end
 
 using StringTools;
 
@@ -51,13 +55,9 @@ class TitleState extends MusicBeatState
 
 	var wackyImage:FlxSprite;
 
-	#if GAMEJOLT_SUPPORT
-	import GameJolt.GameJoltAPI;
-	#end
-
 	override public function create():Void
 	{
-		#if GAMEJOLT_SUPPORT
+		#if officialBuild
 		GameJoltAPI.connect();
 		GameJoltAPI.authDaUser(FlxG.save.data.gjUser, FlxG.save.data.gjToken);
 		

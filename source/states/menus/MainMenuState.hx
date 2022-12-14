@@ -26,7 +26,7 @@ class MainMenuState extends MusicBeatState
 	var menuItems:FlxTypedGroup<FlxSprite>;
 
 	var gtText:FlxText;
-	#if GAMEJOLT_SUPPORT
+	#if officialBuild
 	var gjText:FlxText;
 	#end
 
@@ -115,7 +115,7 @@ class MainMenuState extends MusicBeatState
 		gtText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(gtText);
 
-		#if GAMEJOLT_SUPPORT
+		#if officialBuild
 		gjText = new FlxText(5, FlxG.height - 36, 0, "Press TAB to open GameJolt login", 12);
 		gjText.scrollFactor.set();
 		gjText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -173,12 +173,12 @@ class MainMenuState extends MusicBeatState
 					}
 				}
 			
-			#if GAMEJOLT_SUPPORT
+			#if officialBuild
 			if (FlxG.keys.justPressed.TAB)
-				{
-					selectedSomethin = true;
-					FlxG.switchState(new GameJoltLogin());
-				}
+			{
+				selectedSomethin = true;
+				FlxG.switchState(new handlers.GameJolt.GameJoltLogin());
+			}
 			#end
 
 			if (FlxG.keys.justPressed.T) {
