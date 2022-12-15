@@ -66,6 +66,7 @@ import handlers.DiscordHandler;
 #end
 #if officialBuild
 import handlers.GameJolt.GameJoltAPI; //put this in any state you want to add a trophy!
+import handlers.GameJolt;
 #end
 
 using StringTools;
@@ -812,6 +813,10 @@ class PlayState extends MusicBeatState
 
 		if (SONG.song.toLowerCase() == 'test') {
 			iconP2.antialiasing = true;
+			
+			#if officialBuild
+			GameJoltAPI.getTrophy(180326);
+			#end
 		}
 
 		strumLineNotes.cameras = [camHUD];
