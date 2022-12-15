@@ -64,6 +64,9 @@ import handlers.MusicBeatState;
 #if desktop
 import handlers.DiscordHandler;
 #end
+#if officialBuild
+import handlers.GameJolt.GameJoltAPI; //put this in any state you want to add a trophy!
+#end
 
 using StringTools;
 
