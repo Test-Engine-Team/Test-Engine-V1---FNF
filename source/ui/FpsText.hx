@@ -1,4 +1,4 @@
-package openfl.display;
+package ui;
 
 import external.fabric.engine.Utilities;
 import external.memory.Memory;
@@ -20,7 +20,7 @@ import openfl.Lib;
 @:fileXml('tags="haxe,release"')
 @:noDebug
 #end
-class FPS extends TextField
+class FpsText extends TextField
 {
 	/**
 		The current frame rate, expressed using frames-per-second
@@ -74,7 +74,11 @@ class FPS extends TextField
 
 		if (currentCount != cacheCount /*&& visible*/)
 		{
+			#if debug
+			text = '${currentFPS}FPS\n${Utilities.format_bytes(Memory.getCurrentUsage())} / ${Utilities.format_bytes(Memory.getPeakUsage())}\nBUILD: ${Main.buildNumber}';
+			#else
 			text = '${currentFPS}FPS\n${Utilities.format_bytes(Memory.getCurrentUsage())} / ${Utilities.format_bytes(Memory.getPeakUsage())}';
+			#end
 
 			#if (gl_stats && !disable_cffi && (!html5 || !canvas))
 			text += "\ntotalDC: " + Context3DStats.totalDrawCalls();
