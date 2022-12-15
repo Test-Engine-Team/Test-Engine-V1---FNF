@@ -1,4 +1,4 @@
 export/
 .vscode/
 vscode-project.hxml
-source/handlers/GJKeys
+source/handlers/GJKeys.hx

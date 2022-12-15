@@ -32,10 +32,10 @@ class HealthIcon extends FlxSprite
 
 		if (char != this.char)
 		{
-				if (Assets.exists('assets/images/icons/icon-$char.png'))
-				loadGraphic(Files.image('icons/icon-$char'), true, 150, 150);
+				if (!Assets.exists('assets/images/icons/icon-$char.png') || char == null)
+					loadGraphic(Files.image('icons/icon-face'), true, 150, 150);
 				else
-				loadGraphic(Files.image('icons/icon-face'), true, 150, 150);
+				loadGraphic(Files.image('icons/icon-$char'), true, 150, 150);
 				animation.add(char, [0, 1], 0, false, isPlayer);
 	}
 			animation.play(char);

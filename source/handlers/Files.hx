@@ -1,7 +1,5 @@
 package handlers;
-
 import states.menus.TitleState;
-import flixel.graphics.frames.FlxAtlasFrames;
 
 class Files{
     static var file:String;
@@ -25,10 +23,4 @@ class Files{
     public static function video(video:String, extention:String = 'mp4') {
         return file = 'assets/videos/$video.$extention';
     }
-
-    /*
-    public static function sparrowAtlas(key:String, ?library:String) {
-        return FlxAtlasFrames.fromSparrow(image(key), file('images/$key.xml', library));
-    }
-    */
 }

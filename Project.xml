@@ -81,10 +81,6 @@
 	<haxelib name="discord_rpc" if="desktop"/>
 	<haxelib name="hxCodec" if="desktop"/>
 
-	<haxelib name="tentools" if="officialBuild"/>
-	<haxelib name="systools" if="officialBuild"/>
-	<ndll name="systools" haxelib="systools" if="officialBuild"/>
-
 	<!-- <haxelib name="markdown" /> -->
 	<!-- <haxelib name="HtmlParser" /> -->
 

@@ -64,10 +64,6 @@ import handlers.MusicBeatState;
 #if desktop
 import handlers.DiscordHandler;
 #end
-#if officialBuild
-import handlers.GameJolt.GameJoltAPI; //put this in any state you want to add a trophy!
-import handlers.GameJolt;
-#end
 
 using StringTools;
 
@@ -813,10 +809,6 @@ class PlayState extends MusicBeatState
 
 		if (SONG.song.toLowerCase() == 'test') {
 			iconP2.antialiasing = true;
-			
-			#if officialBuild
-			GameJoltAPI.getTrophy(180326);
-			#end
 		}
 
 		strumLineNotes.cameras = [camHUD];
@@ -1803,8 +1795,15 @@ class PlayState extends MusicBeatState
 		if (SONG.validScore)
 		{
 			#if !switch
-			Highscore.saveScore(SONG.song, songScore, storyDifficulty, songMisses);
+			Highscore.saveScore(SONG.song, songScore, storyDifficulty);
 			#end
+		}
+
+		if (SONG.song.toLowerCase() == 'test') {
+			FlxG.updateFramerate = 150;
+			FlxG.drawFramerate = 150;
+
+			FlxG.save.data.unlockedTestSong = true;
 		}
 
 		switch (SONG.song.toLowerCase()){
@@ -1947,7 +1946,7 @@ class PlayState extends MusicBeatState
 			pixelShitPart2 = '-pixel';
 		}
 
-		rating.loadGraphic(Files.image(pixelShitPart1 + daRating + pixelShitPart2));
+		rating.loadGraphic('assets/images/' + pixelShitPart1 + daRating + pixelShitPart2 + ".png");
 		rating.screenCenter();
 		rating.x = coolText.x - 40;
 		rating.y -= 60;
@@ -1955,7 +1954,7 @@ class PlayState extends MusicBeatState
 		rating.velocity.y -= FlxG.random.int(140, 175);
 		rating.velocity.x -= FlxG.random.int(0, 10);
 
-		var comboSpr:FlxSprite = new FlxSprite().loadGraphic(Files.image(pixelShitPart1 + 'combo' + pixelShitPart2));
+		var comboSpr:FlxSprite = new FlxSprite().loadGraphic('assets/images/' + pixelShitPart1 + 'combo' + pixelShitPart2 + '.png');
 		comboSpr.screenCenter();
 		comboSpr.x = coolText.x;
 		comboSpr.acceleration.y = 600;
@@ -1990,7 +1989,7 @@ class PlayState extends MusicBeatState
 		var daLoop:Int = 0;
 		for (i in seperatedScore)
 		{
-			var numScore:FlxSprite = new FlxSprite().loadGraphic(Files.image(pixelShitPart1 + 'num' + Std.int(i) + pixelShitPart2));
+			var numScore:FlxSprite = new FlxSprite().loadGraphic('assets/images/' + pixelShitPart1 + 'num' + Std.int(i) + pixelShitPart2 + '.png');
 			numScore.screenCenter();
 			numScore.x = coolText.x + (43 * daLoop) - 90;
 			numScore.y += 80;
