@@ -1,6 +1,7 @@
 
 some stuff we need to do lol
 
-[ ] - Fix HTML5 Build
-[ ] - Add Scripts
-[ ] - Add Mods
+[HIGH PRIORATY] - Fix Linux
+[HIGH PRIORATY] - Add Mods
+[MIDDLE PRIORATY] - Add A Good Client Prefs Not Psych Dumba-
+[LOW PRIORATY] - Add Scripts
