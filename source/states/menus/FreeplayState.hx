@@ -276,6 +276,12 @@ class FreeplayState extends MusicBeatState
 		}
 	}
 
+	function addWeek(Song1:String, Song2:String, Song3:String, Icon1:String, Icon2:String, Icon3:String) {
+		songs.push(Song1);
+		songs.push(Song2);
+		songs.push(Song3);
+	}
+
 	function changeSelection(change:Int = 0)
 	{
 
