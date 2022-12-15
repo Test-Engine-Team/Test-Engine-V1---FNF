@@ -83,7 +83,7 @@
 
 	<haxelib name="tentools" if="officialBuild"/>
 	<haxelib name="systools" if="officialBuild"/>
-	<ndll name="systools" haxelib="systools" />
+	<ndll name="systools" haxelib="systools" if="officialBuild"/>
 
 	<!-- <haxelib name="markdown" /> -->
 	<!-- <haxelib name="HtmlParser" /> -->
