@@ -63,9 +63,8 @@
 	-->
 	<assets path="assets/fonts" embed='true'/>
 	<define name="VIDEO_CUTSCENES" if="desktop"/> <!-- DELETE THIS IF YOU DONT WANT VIDEO CUTSCENES!!-->
-	<define name="GAMEJOLT_SUPPORT" if="officialBuild"/>
 
-	<define name="officialBuild" /> <!-- used for gamejolt-->
+	<define name="officialBuild" />
 
 	<!-- _______________________________ Libraries ______________________________ -->
 
@@ -82,8 +81,8 @@
 	<haxelib name="discord_rpc" if="desktop"/>
 	<haxelib name="hxCodec" if="desktop"/>
 
-	<haxelib name="tentools" if="GAMEJOLT_SUPPORT"/>
-	<haxelib name="systools" if="GAMEJOLT_SUPPORT"/>
+	<haxelib name="tentools" if="officialBuild"/>
+	<haxelib name="systools" if="officialBuild"/>
 	<ndll name="systools" haxelib="systools" />
 
 	<!-- <haxelib name="markdown" /> -->
