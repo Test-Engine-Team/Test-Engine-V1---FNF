@@ -669,7 +669,7 @@ class Character extends FlxSprite
 
 				hpcolor = 0xFFFFFFFF;
 
-				XOffset = 400;
+				XOffset = 23.2;
 				YOffset = 130;
 			case 'tristan':
 				// easter egg character 1

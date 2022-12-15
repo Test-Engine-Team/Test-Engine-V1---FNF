@@ -1,5 +1,6 @@
 package states.etc.substates;
 
+import flixel.text.FlxText;
 import Controls.Control;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -27,6 +28,8 @@ class PauseSubState extends MusicBeatSubstate
 
 	var pauseMusic:FlxSound;
 
+	var levelinfotext:FlxText;
+
 	public function new(x:Float, y:Float)
 	{
 		super();
@@ -41,6 +44,11 @@ class PauseSubState extends MusicBeatSubstate
 		bg.alpha = 0.6;
 		bg.scrollFactor.set();
 		add(bg);
+
+		levelinfotext = new FlxText(1217, 13, 0, '${PlayState.SONG.song}\n${PlayState.diff}');
+		levelinfotext.setFormat("assets/fonts/vcr.ttf", 25, FlxColor.WHITE, null, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		levelinfotext.borderSize = 3;
+		add(levelinfotext);
 
 		grpMenuShit = new FlxTypedGroup<Alphabet>();
 		add(grpMenuShit);
@@ -89,13 +97,14 @@ class PauseSubState extends MusicBeatSubstate
 				case "Restart Song":
 					FlxG.resetState();
 				case "Exit to menu":
+					#if desktop
+					DiscordHandler.changePresence('In The Menus The Last Song They Played Was', PlayState.SONG.song.toLowerCase());
+					#end
+
 					FlxG.switchState(new MainMenuState());
 					if (PlayState.SONG.song.toLowerCase() == 'test') {
 						FlxG.updateFramerate = 150;
 						FlxG.drawFramerate = 150;
-						#if desktop
-						DiscordHandler.changePresence('In The Menus The Last Song They Played Was', PlayState.SONG.song.toLowerCase());
-						#end
 					}
 			}
 		}

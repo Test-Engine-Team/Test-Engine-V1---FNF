@@ -75,7 +75,7 @@ class PlayState extends MusicBeatState
 	public static var storyWeek:Int = 0;
 	public static var storyPlaylist:Array<String> = [];
 	public static var storyDifficulty:Int = 1;
-	public static var diff:String = null;
+	public static var diff:String;
 
 	var halloweenLevel:Bool = false;
 
@@ -1798,14 +1798,6 @@ class PlayState extends MusicBeatState
 			Highscore.saveScore(SONG.song, songScore, storyDifficulty);
 			#end
 		}
-
-		if (SONG.song.toLowerCase() == 'test') {
-			FlxG.updateFramerate = 150;
-			FlxG.drawFramerate = 150;
-
-			FlxG.save.data.unlockedTestSong = true;
-		}
-
 		switch (SONG.song.toLowerCase()){
 			case 'test':
 				FlxG.updateFramerate = 150;
