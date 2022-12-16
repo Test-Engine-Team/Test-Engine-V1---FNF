@@ -98,6 +98,6 @@ class Files{
     */
 
     public static function fileExists(path:String, name:String, extention:String) {
-        return Assets.exists('assets/$path/$name.$extention')
+        return Assets.exists('assets/$path/$name.$extention');
     }
 }

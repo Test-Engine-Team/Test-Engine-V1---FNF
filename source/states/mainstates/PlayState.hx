@@ -1916,7 +1916,7 @@ class PlayState extends MusicBeatState
 			noteSplash = false;
 		}
 
-		songScore += score;
+		songScore += score * (combo + 1);
 
 		/* if (combo > 60)
 				daRating = 'sick';
