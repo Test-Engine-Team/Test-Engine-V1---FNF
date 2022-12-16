@@ -1394,7 +1394,10 @@ class PlayState extends MusicBeatState
 			case 60, 444, 524, 540, 542, 828:
 				//until we code in alt notes
 				if (SONG.song.toLowerCase() == 'ugh')
-					dad.playAnim('Ugh', true);
+					event('play anim', 'tankman', 'Ugh');
+			case 735:
+				if (SONG.song.toLowerCase() == 'stress')
+					event('play anim', 'tankman', 'PrettyGood');
 			case 895:
 				tankmanPreFloatHeight = dad.y;
 				if (SONG.song.toLowerCase() == 'guns' && ClientPrefs.tankmanFloat){
@@ -1425,9 +1428,6 @@ class PlayState extends MusicBeatState
 					}*/);
 					FlxTween.tween(light, {alpha: 0}, 11.11);
 				}
-			case 735:
-				if (SONG.song.toLowerCase() == 'stress')
-					dad.playAnim('PrettyGood', true);
 	}
 
 		if (curStep > 895 && curStep < 1398 && SONG.song.toLowerCase() == 'guns' && ClientPrefs.tankmanFloat == true) {
@@ -2552,6 +2552,18 @@ private function keyShit():Void
 			video.playVideo(Files.video(name));
 			#end
 		}
+
+	public function event(name:String = 'play anim', value1:String = 'bf', value2:String = 'hey') {
+		switch (name){
+			case 'play anim':
+				if (value1 == 'bf' || value1 == 'boyfriend' || value1 == SONG.player1)
+					boyfriend.playAnim(value2, true);
+				else if(value1 == 'gf' || value1 == 'girlfriend')
+					gf.playAnim(value2, true);
+				else if(value1 == 'dad' || value1 == SONG.player2)
+					dad.playAnim(value2, true);
+		}
+	}
 
 	var curLight:Int = 0;
 }
