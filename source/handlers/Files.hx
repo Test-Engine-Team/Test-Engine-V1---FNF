@@ -1,5 +1,6 @@
 package handlers;
 import states.menus.TitleState;
+import flixel.graphics.frames.FlxAtlasFrames;
 
 class Files{
     static var file:String;
@@ -34,5 +35,9 @@ class Files{
             difficulty = "";
 
         return file = 'assets/data/$songName/$songName$difficulty';
+    }
+
+    public static function sparrowAtlas(image:String) {
+        return FlxAtlasFrames.fromSparrow('assets/images/$image.png', 'assets/images/$image.xml');
     }
 }
