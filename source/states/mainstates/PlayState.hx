@@ -1395,6 +1395,7 @@ class PlayState extends MusicBeatState
 				//until we code in alt notes
 				if (SONG.song.toLowerCase() == 'ugh')
 					event('play anim', 'tankman', 'Ugh');
+					event('change char', 'dad', null);
 			case 735:
 				if (SONG.song.toLowerCase() == 'stress')
 					event('play anim', 'tankman', 'PrettyGood');
@@ -2326,7 +2327,7 @@ private function keyShit():Void
 		if (trainSound.time >= 4700)
 		{
 			startedMoving = true;
-			gf.playAnim('hairBlow');
+			event('play anim', 'gf', 'hairBlow');
 		}
 
 		if (startedMoving)
@@ -2349,7 +2350,7 @@ private function keyShit():Void
 
 	function trainReset():Void
 	{
-		gf.playAnim('hairFall');
+		event('play anim', 'gf', 'hairFall');
 		phillyTrain.x = FlxG.width + 200;
 		trainMoving = false;
 		// trainSound.stop();
@@ -2367,8 +2368,8 @@ private function keyShit():Void
 		lightningStrikeBeat = curBeat;
 		lightningOffset = FlxG.random.int(8, 24);
 
-		boyfriend.playAnim('scared', true);
-		gf.playAnim('scared', true);
+		event('play anim', 'bf', 'scared');
+		event('play anim', 'gf', 'scared');
 	}
 
 	override function stepHit()
@@ -2380,11 +2381,6 @@ private function keyShit():Void
 			{
 				resyncVocals();
 			}
-		}
-
-		if (dad.curCharacter == 'spooky' && curStep % 4 == 2)
-		{
-			// dad.dance();
 		}
 	}
 
@@ -2550,6 +2546,8 @@ private function keyShit():Void
 					startCountdown();
 			}
 			video.playVideo(Files.video(name));
+			#else
+			startCountdown();
 			#end
 		}
 
@@ -2562,6 +2560,13 @@ private function keyShit():Void
 					gf.playAnim(value2, true);
 				else if(value1 == 'dad' || value1 == SONG.player2)
 					dad.playAnim(value2, true);
+			case 'image flash':
+				var image:FlxSprite = new FlxSprite(0, 0).loadGraphic(Files.image(value1));
+				image.camera = camHUD;
+				image.screenCenter();
+				image.alpha = 1;
+				add(image);
+				FlxTween.tween(image, {alpha: 0.0001}, 0.6);
 		}
 	}
 
