@@ -25,7 +25,7 @@ class Main extends Sprite
 		#end
 
 		#if sys
-		var path:String = './buildnum.txt';
+		var path:String = 'assets/data/buildnum.txt';
 		if (!FileSystem.exists(FileSystem.absolutePath(path))) {buildNumber = -1; return;}
 		buildNumber = Std.parseInt(File.getContent(FileSystem.absolutePath(path))) + 1;
 		File.saveContent(FileSystem.absolutePath(path), buildNumber + "");
