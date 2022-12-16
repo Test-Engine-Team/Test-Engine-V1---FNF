@@ -28,15 +28,12 @@ class Files{
         return file = 'assets/videos/$video.$extention';
     }
 
-    #if !html5
     public static function font(font:String, extention:String = 'ttf') {
+        #if html5
+        extention = 'woff';
+        #end
         return file = 'assets/fonts/$font.$extention';
     }
-    #else
-    public static function font(font:String) {
-        return file = 'assets/fonts/$font.woff';
-    }
-    #end
 
     public static function songJson(songName:String, difficulty:String = 'Normal') {
         //kinda temp
