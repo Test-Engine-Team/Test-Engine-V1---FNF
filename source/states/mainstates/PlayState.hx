@@ -193,12 +193,7 @@ class PlayState extends MusicBeatState
 
 		//prevFramerateStuff = FlxG.updateFramerate;
 
-		if (storyDifficulty == 0)
-			diff = 'easy';
-		if (storyDifficulty == 1)
-			diff = 'normal';
-		if (storyDifficulty == 2)
-			diff = 'hard';
+		diff = Highscore.diffArray[storyDifficulty].toUpperCase();
 
 		persistentUpdate = true;
 		persistentDraw = true;
@@ -1847,8 +1842,8 @@ class PlayState extends MusicBeatState
 				if (storyDifficulty == 2)
 					difficulty = '-hard';
 
-				trace('LOADING NEXT SONG');
-				trace(PlayState.storyPlaylist[0].toLowerCase() + difficulty);
+				var songPath = Highscore.formatSong(PlayState.storyPlaylist[0], storyDifficulty);
+				trace('LOADING NEXT SONG: $songPath');
 
 				if (SONG.song.toLowerCase() == 'eggnog')
 				{
@@ -1865,7 +1860,7 @@ class PlayState extends MusicBeatState
 				FlxTransitionableState.skipNextTransOut = true;
 				prevCamFollow = camFollow;
 
-				PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0].toLowerCase() + difficulty, PlayState.storyPlaylist[0]);
+				PlayState.SONG = Song.loadFromJson(songPath, PlayState.storyPlaylist[0]);
 				FlxG.sound.music.stop();
 
 				FlxG.switchState(new PlayState());
@@ -2391,10 +2386,13 @@ private function keyShit():Void
 	{
 		super.beatHit();
 
-		if (generatedMusic)
+		/*
+		commenting this out because it crashed when testing it on fourth wall.
+		why is it even sorting notes?
+		if (generatedMusic && notes != null && notes.length > 0)
 		{
 			notes.sort(FlxSort.byY, FlxSort.DESCENDING);
-		}
+		}*/
 
 		if (SONG.notes[Math.floor(curStep / 16)] != null)
 		{

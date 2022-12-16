@@ -53,7 +53,7 @@ class Highscore
 	{
 		var daSong:String = song;
 		var daDiff:String = diffArray[diff];
-		daSong += (daDiff != "Normal") ? "-" + daDiff.toLowerCase() : "";
+		daSong += (daDiff.toLowerCase() != "normal") ? "-" + daDiff.toLowerCase() : "";
 
 		return daSong;
 	}
