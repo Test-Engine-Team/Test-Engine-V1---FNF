@@ -8,6 +8,7 @@ as of right now, all it does is just set stuff in a data var.
 soon ill make it so the states utilize this class.
 */
 
+import flixel.util.FlxColor;
 import flixel.FlxG;
 import handlers.MusicBeatState;
 import openfl.Assets;
@@ -23,6 +24,7 @@ using StringTools;
 typedef ModDataYee = {
     var titleBar:String;
     var weekList:Array<ModWeekYee>;
+    var selectColor:FlxColor;
 }
 
 typedef ModWeekYee = {
@@ -38,7 +40,8 @@ class LoadingState extends MusicBeatState {
     public static var addedCrash:Bool = false;
     public static var modData:ModDataYee = {
         titleBar: "Friday Night Funkin' - Test Engine",
-        weekList: []
+        weekList: [],
+        selectColor: 0xFF00B386
     }; //It gets set in create so no need to fill this.
 
     override public function create() {
@@ -109,7 +112,8 @@ class LoadingState extends MusicBeatState {
                     icons: ["tankman", "tankman", "tankman"],
                     diffs: ["Easy", "Normal", "Hard"]
                 }
-            ]
+            ],
+            selectColor: 0xFF00B386
         };
 
         #if desktop
@@ -123,6 +127,7 @@ class LoadingState extends MusicBeatState {
 
         var currentMod:String = File.getContent("./mods/currentMod.txt").trim();
         if (currentMod != null && currentMod != "") modsToLoad.push(currentMod);
+
         Polymod.init({modRoot: "mods/", dirs: modsToLoad});
         if (Assets.exists("assets/modData.xml")) {
             var xml:Xml = Xml.parse(Assets.getText("assets/modData.xml")).firstElement();
@@ -150,12 +155,17 @@ class LoadingState extends MusicBeatState {
                     modData.weekList.push(modWeek);
                 }
             }
+
+            var color:String = xml.get("color");
+            if (color != null)
+                modData.selectColor = (color.startsWith("#") || color.startsWith("0x")) ? FlxColor.fromString(color) : FlxColor.fromString("#" + color);
         }
         if (!addedCrash) {
             openfl.Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, errorPopup);
             addedCrash = true;
         }
         #end
+        states.menus.TitleState.initialized = false;
         FlxG.switchState(new states.menus.TitleState());
     }
 
