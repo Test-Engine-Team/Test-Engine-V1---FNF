@@ -35,7 +35,7 @@ using StringTools;
 
 class TitleState extends MusicBeatState
 {
-	static var initialized:Bool = false;
+	static public var initialized:Bool = false;
 	static public var soundExt:String = ".mp3";
 
 	var swagShader:ColorSwap;
@@ -53,6 +53,8 @@ class TitleState extends MusicBeatState
 
 	override public function create():Void
 	{
+		persistentUpdate = false;
+
 		#if (!web)
 		TitleState.soundExt = '.ogg';
 		FlxG.stage.frameRate = 120;
