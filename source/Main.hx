@@ -17,7 +17,7 @@ class Main extends Sprite
 	{
 
 		super();
-		addChild(new FlxGame(0, 0, TitleState));
+		addChild(new FlxGame(0, 0, #if (desktop) states.menus.LoadingState #else TitleState #end));
 		
 		#if !mobile
 		addChild(new FpsText(10, 3, 0xFFFFFF));
