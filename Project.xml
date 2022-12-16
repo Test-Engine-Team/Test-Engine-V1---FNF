@@ -129,7 +129,7 @@
 
 	<!--Place custom nodes like icons here (higher priority to override the HaxeFlixel icon)-->
 	
-	<icon path="icon.png"/>
+	<icon path="icons/icon.png"/>
 
 	<haxedef name="NG_LOGIN" if="newgrounds" />
 	
