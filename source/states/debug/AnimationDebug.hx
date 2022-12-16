@@ -22,6 +22,7 @@ class AnimationDebug extends FlxState
 	var bf:Boyfriend;
 	var dad:Character;
 	var char:Character;
+	var charghost:Character;
 	var textAnim:FlxText;
 	var dumbTexts:FlxTypedGroup<FlxText>;
 	var animList:Array<String> = [];
@@ -62,6 +63,12 @@ class AnimationDebug extends FlxState
 		stageCurtains.active = false;
 		add(stageCurtains);
 
+		charghost = new Character(0, 0, daAnim);
+		charghost.screenCenter();
+		charghost.alpha = 0.5;
+		charghost.playAnim('idle');
+		add(charghost);
+
 		if (daAnim == 'bf')
 			isDad = false;
 
@@ -73,7 +80,6 @@ class AnimationDebug extends FlxState
 			add(dad);
 
 			char = dad;
-			dad.flipX = false;
 		}
 		else
 		{
@@ -83,7 +89,6 @@ class AnimationDebug extends FlxState
 			add(bf);
 
 			char = bf;
-			bf.flipX = false;
 		}
 
 		dumbTexts = new FlxTypedGroup<FlxText>();
@@ -111,9 +116,9 @@ class AnimationDebug extends FlxState
 
 		for (anim => offsets in char.animOffsets)
 		{
-			var text:FlxText = new FlxText(10, 20 + (18 * daLoop), 0, anim + ": " + offsets, 15);
+			var text:FlxText = new FlxText(10, 20 + (18 * daLoop), 0, anim + ": " + offsets);
 			text.scrollFactor.set();
-			text.color = FlxColor.WHITE;
+			text.setFormat("assets/fonts/vcr.ttf", 15, FlxColor.WHITE, null, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			dumbTexts.add(text);
 
 			if (pushList)
@@ -137,7 +142,7 @@ class AnimationDebug extends FlxState
 		textAnim.text = char.animation.curAnim.name;
 
 		if (FlxG.keys.justPressed.ESCAPE)
-			FlxG.switchState(new MainMenuState());
+			FlxG.switchState(new PlayState());
 
 		if (FlxG.keys.justPressed.E)
 			FlxG.camera.zoom += 0.25;
