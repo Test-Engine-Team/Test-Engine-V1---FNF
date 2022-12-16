@@ -27,4 +27,12 @@ class Files{
     public static function font(font:String, extention:String = 'ttf') {
         return file = 'assets/fonts/$font.$extention';
     }
+
+    public static function songJson(songName:String, difficulty:String = 'Normal') {
+        //kinda temp
+        if (difficulty == 'Normal') 
+            difficulty = "";
+
+        return file = 'assets/data/$songName/$songName$difficulty';
+    }
 }

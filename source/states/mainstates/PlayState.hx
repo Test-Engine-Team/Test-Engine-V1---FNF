@@ -815,6 +815,8 @@ class PlayState extends MusicBeatState
 		infoText.cameras = [camHUD];
 		doof.cameras = [camHUD];
 
+		//trace(Files.songJson(SONG.song, 'Normal'));
+
 		startingSong = true;
 
 		if (isStoryMode)
