@@ -78,4 +78,15 @@ class Files{
         var songFolder = songName.toLowerCase();
         return file = 'assets/songs/$songFolder/Voices.ogg';
     }
+
+    /*
+    public static function grabBuildNum() {
+        #if sys
+        var path:String = '../../../../buildnum.txt';
+        return file = Std.parseInt(File.getContent(sys.FileSystem.absolutePath(path))) + 1;
+        #else
+        return 'sys is not enabled!';
+        #end
+    }
+    */
 }
