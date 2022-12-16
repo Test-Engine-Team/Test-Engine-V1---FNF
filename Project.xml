@@ -81,7 +81,7 @@
 	<haxelib name="faxe" if='switch'/>
 	<haxelib name="discord_rpc" if="desktop"/>
 	<haxelib name="hxCodec" if="desktop"/>
-	<haxelib name="polymod" if="desktop"/>
+	<haxelib name="polymod" if="MODS"/>
 
 	<!-- <haxelib name="markdown" /> -->
 	<!-- <haxelib name="HtmlParser" /> -->
