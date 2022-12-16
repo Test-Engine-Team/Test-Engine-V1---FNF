@@ -12,6 +12,7 @@ import flixel.FlxG;
 import handlers.MusicBeatState;
 import openfl.Assets;
 #if desktop
+import openfl.events.UncaughtErrorEvent;
 import polymod.Polymod;
 #end
 
@@ -32,6 +33,7 @@ typedef ModWeekYee = {
 }
 
 class LoadingState extends MusicBeatState {
+    public static var addedCrash:Bool = false;
     public static var modData:ModDataYee = {
         titleBar: "Friday Night Funkin' - Test Engine",
         weekList: []
@@ -137,7 +139,37 @@ class LoadingState extends MusicBeatState {
                 }
             }
         }
+        if (!addedCrash) {
+            openfl.Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, errorPopup);
+            addedCrash = true;
+        }
         #end
         FlxG.switchState(new states.menus.TitleState());
     }
+
+    #if desktop
+    function errorPopup(error:UncaughtErrorEvent) {
+        var errorMessage:String = switch ([Std.isOfType(error.error, openfl.errors.Error), Std.isOfType(error.error, openfl.events.ErrorEvent), true].indexOf(true)) {
+			case 0: "Uncaught Error: " + cast(error.error, openfl.errors.Error).message;
+			case 1: "Uncaught Error: " + cast(error.error, openfl.events.ErrorEvent).text;
+			default: "Uncaught Error: " + error.error;
+		}
+        var message:String = "Looks like the game crashed.\n" + errorMessage + "\n\n";
+
+		for (stackItem in haxe.CallStack.exceptionStack(true)) {
+			switch (stackItem) {
+                case CFunction: message += "Called from C Function";
+                case Module(module): message += 'Called from $module (Module)';
+                case FilePos(parent, file, line, col): message += 'Called from $file on line $line';
+                case LocalFunction(func): message += 'Called from $func (Local Function)';
+                case Method(clas, method): message += 'Called from $clas - $method()';
+			}
+			message += "\n";
+		}
+        message += "\nTest Engine could always be better.\n\nPlease report this crash at\nhttps://github.com/504brandon/Test-Engine-V1---FNF";
+
+        lime.app.Application.current.window.alert(message, errorMessage);
+        Sys.exit(1);
+    }
+    #end
 }
