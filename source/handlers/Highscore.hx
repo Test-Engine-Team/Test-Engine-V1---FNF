@@ -10,6 +10,7 @@ class Highscore
 	public static var songScores:Map<String, Int> = new Map<String, Int>();
 	#end
 
+	public static var diffArray:Array<String> =["Easy", "Normal", "Hard"];
 
 	public static function saveScore(song:String, score:Int = 0, ?diff:Int = 0, misses:Int = 0):Void
 	{
@@ -51,11 +52,8 @@ class Highscore
 	public static function formatSong(song:String, diff:Int):String
 	{
 		var daSong:String = song;
-
-		if (diff == 0)
-			daSong += '-easy';
-		else if (diff == 2)
-			daSong += '-hard';
+		var daDiff:String = diffArray[diff];
+		daSong += (daDiff.toLowerCase() != "normal") ? "-" + daDiff.toLowerCase() : "";
 
 		return daSong;
 	}

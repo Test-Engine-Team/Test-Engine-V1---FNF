@@ -38,10 +38,10 @@ jobs:
           haxelib install flixel-tools
           haxelib install flixel-ui
           haxelib install flixel-addons
+          haxelib install polymod 1.5.2
           haxelib git linc_luajit https://github.com/AndreiRudenko/linc_luajit
           haxelib install hscript
           haxelib git hxCodec https://github.com/polybiusproxy/hxCodec
-          haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
           haxelib install hxcpp-debug-server
           haxelib list
       - name: Create Version Tag
@@ -115,6 +115,7 @@ jobs:
           haxelib install flixel-tools
           haxelib install flixel-ui
           haxelib install flixel-addons
+          haxelib install polymod 1.5.2
           haxelib git linc_luajit https://github.com/AndreiRudenko/linc_luajit
           haxelib install hscript
           haxelib git hxCodec https://github.com/polybiusproxy/hxCodec
@@ -155,6 +156,7 @@ jobs:
           haxelib install flixel-tools
           haxelib install flixel-ui
           haxelib install flixel-addons
+          haxelib install polymod 1.5.2
           haxelib git linc_luajit https://github.com/AndreiRudenko/linc_luajit
           haxelib install hscript
           haxelib git hxCodec https://github.com/polybiusproxy/hxCodec

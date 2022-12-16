@@ -7,6 +7,7 @@ import states.menus.TitleState;
 
 #if sys
 import sys.io.File;
+import sys.FileSystem;
 #end
 
 class Main extends Sprite
@@ -24,9 +25,10 @@ class Main extends Sprite
 		#end
 
 		#if sys
-		var path:String = '../../../../buildnum.txt';
-		buildNumber = Std.parseInt(File.getContent(sys.FileSystem.absolutePath(path))) + 1;
-		File.saveContent(sys.FileSystem.absolutePath(path), buildNumber + "");
+		var path:String = './buildnum.txt';
+		if (!FileSystem.exists(FileSystem.absolutePath(path))) {buildNumber = -1; return;}
+		buildNumber = Std.parseInt(File.getContent(FileSystem.absolutePath(path))) + 1;
+		File.saveContent(FileSystem.absolutePath(path), buildNumber + "");
 		#end
 	}
 }

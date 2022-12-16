@@ -14,13 +14,21 @@ import handlers.Highscore;
 import handlers.MenuItem;
 import handlers.MusicBeatState;
 
+import states.menus.LoadingState;
+
 using StringTools;
+
+typedef FreeplaySong = {
+	var name:String;
+    var path:String;
+    var icon:String;
+    var diffs:Array<String>;
+}
 
 class FreeplayState extends MusicBeatState
 {
-	var songs:Array<String> = [];
 	var iconArray:Array<HealthIcon> = [];
-	var icons:Array<String> = [];
+	var songList:Array<FreeplaySong> = [];
 
 	var selector:FlxText;
 	var curSelected:Int = 0;
@@ -37,91 +45,24 @@ class FreeplayState extends MusicBeatState
 
 	override function create()
 	{
-		var isDebug:Bool = false;
-
-		#if debug
-		isDebug = true;
-		#end
-
-		songs.push('Tutorial');
-		icons.push('gf');
-
-		if (StoryMenuState.weekUnlocked[1] || isDebug)
-		{
-			icons.push('dad');
-			icons.push('dad');
-			icons.push('dad');
-			songs.push('Bopeebo');
-			songs.push('Fresh');
-			songs.push('Dadbattle');
-		}
-
-		if (StoryMenuState.weekUnlocked[2] || isDebug)
-		{
-			icons.push('spooky');
-			icons.push('spooky');
-			icons.push('monster');
-			songs.push('Spookeez');
-			songs.push('South');
-			songs.push('Monster');
-		}
-
-		if (StoryMenuState.weekUnlocked[3] || isDebug)
-		{
-			icons.push('pico');
-			icons.push('pico');
-			icons.push('pico');
-			songs.push('Pico');
-			songs.push('Philly');
-			songs.push('Blammed');
-		}
-
-		if (StoryMenuState.weekUnlocked[4] || isDebug)
-		{
-			icons.push('mom');
-			icons.push('mom');
-			icons.push('mom');
-			songs.push('Satin-Panties');
-			songs.push('High');
-			songs.push('Milf');
-		}
-
-		if (StoryMenuState.weekUnlocked[5] || isDebug)
-		{
-			icons.push('parents');
-			icons.push('parents');
-			icons.push('monster');
-			songs.push('Cocoa');
-			songs.push('Eggnog');
-			songs.push('Winter-Horrorland');
-		}
-
-		if (StoryMenuState.weekUnlocked[6] || isDebug)
-		{
-			icons.push('senpai');
-			icons.push('senpai');
-			icons.push('spirit');
-			songs.push('Senpai');
-			songs.push('Roses');
-			songs.push('Thorns');
-		}
-		if (StoryMenuState.weekUnlocked[7] || isDebug)
-			{
-				icons.push('tankman');
-				icons.push('tankman');
-				icons.push('tankman');
-				songs.push('Ugh');
-				songs.push('Guns');
-				songs.push('Stress');
+		for (week in LoadingState.modData.weekList) {
+			for (i in 0...week.songs.length) {
+				songList.push({
+					name: week.songs[i],
+					path: week.paths[i],
+					icon: week.icons[i],
+					diffs: week.diffs
+				});
 			}
-		#if debug
-		icons.push('bf-pixel');
-		songs.push('Test');
-		#else
-		if (FlxG.save.data.unlockedTestSong == true) {
-			icons.push('bf-pixel');
-			songs.push('Test');
 		}
+
+		#if debug
+		songList.push({
+			name: "Test",
+			path: "test",
+			icon: "bf",
+			diffs: ["Normal"]
+		});
 		#end
 
 		// LOAD MUSIC
@@ -134,14 +75,15 @@ class FreeplayState extends MusicBeatState
 		grpSongs = new FlxTypedGroup<Alphabet>();
 		add(grpSongs);
 
-		for (i in 0...songs.length)
-		{
-			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, songs[i], true, false);
+		for (i in 0...songList.length) {
+			var song:FreeplaySong = songList[i];
+
+			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, song.name, true, false);
 			songText.isMenuItem = true;
 			songText.targetY = i;
 			grpSongs.add(songText);
 
-			var icon:HealthIcon = new HealthIcon(icons[i]);
+			var icon:HealthIcon = new HealthIcon(song.icon);
 			icon.sprTracker = songText;
 			iconArray.push(icon);
 			add(icon);
@@ -162,8 +104,30 @@ class FreeplayState extends MusicBeatState
 
 		add(scoreText);
 
-		changeSelection();
-		changeDiff();
+		FlxG.sound.playMusic(Files.song(songList[curSelected].path + "/Inst"), 0);
+	
+		var bullShit:Int = 0;
+
+		for (i in 0...iconArray.length)
+			{
+				iconArray[i].alpha = 0.6;
+			}
+	
+			iconArray[curSelected].alpha = 1;
+	
+			for (item in grpSongs.members)
+			{
+				item.targetY = bullShit - curSelected;
+				bullShit++;
+	
+				item.alpha = 0.6;
+	
+				if (item.targetY == 0)
+				{
+					item.alpha = 1;
+				}
+		}
+		setDiff(Math.floor(songList[curSelected].diffs.length / 2));
 
 		selector = new FlxText();
 
@@ -194,36 +158,24 @@ class FreeplayState extends MusicBeatState
 		var accepted = controls.ACCEPT;
 
 		if (upP)
-		{
 			changeSelection(-1);
-		}
-		if (downP)
-		{
+		else if (downP)
 			changeSelection(1);
-		}
 
-		if (curSelected == 22) {
-			setDiff(1);
-		}
-		if (curSelected != 22) {
-			if (controls.LEFT_P)
-				changeDiff(-1);
-			if (controls.RIGHT_P)
-				changeDiff(1);
-		}
+		if (controls.LEFT_P)
+			changeDiff(-1);
+		else if (controls.RIGHT_P)
+			changeDiff(1);
 
 		if (controls.BACK)
-		{
 			FlxG.switchState(new MainMenuState());
-		}
 
 		if (accepted)
 		{
-			var poop:String = Highscore.formatSong(songs[curSelected].toLowerCase(), curDifficulty);
+			Highscore.diffArray = songList[curSelected].diffs; //Sorry but I DONT wanna rewrite Highscore.
+			var poop:String = Highscore.formatSong(songList[curSelected].path, curDifficulty);
 
-			trace(poop);
-
-			PlayState.SONG = Song.loadFromJson(poop, songs[curSelected].toLowerCase());
+			PlayState.SONG = Song.loadFromJson(poop, songList[curSelected].path);
 			PlayState.isStoryMode = false;
 			PlayState.storyDifficulty = curDifficulty;
 			FlxG.switchState(new PlayState());
@@ -234,26 +186,20 @@ class FreeplayState extends MusicBeatState
 
 	function changeDiff(change:Int = 0)
 	{
+		var currentSong:FreeplaySong = songList[curSelected];
+
 		curDifficulty += change;
 
 		if (curDifficulty < 0)
-			curDifficulty = 2;
-		if (curDifficulty > 2)
+			curDifficulty = currentSong.diffs.length - 1;
+		else if (curDifficulty > currentSong.diffs.length - 1)
 			curDifficulty = 0;
 
 		#if !switch
-		intendedScore = Highscore.getScore(songs[curSelected], curDifficulty);
+		intendedScore = Highscore.getScore(currentSong.path, curDifficulty);
 		#end
 
-		switch (curDifficulty)
-		{
-			case 0:
-				diffText.text = "EASY";
-			case 1:
-				diffText.text = 'NORMAL';
-			case 2:
-				diffText.text = "HARD";
-		}
+		diffText.text = currentSong.diffs[curDifficulty].toUpperCase();
 	}
 
 	//dumb shit
@@ -262,42 +208,47 @@ class FreeplayState extends MusicBeatState
 		curDifficulty = difficulty;
 
 		#if !switch
-		intendedScore = Highscore.getScore(songs[curSelected], curDifficulty);
+		intendedScore = Highscore.getScore(songList[curSelected].path, curDifficulty);
 		#end
 
-		switch (curDifficulty)
-		{
-			case 0:
-				diffText.text = "EASY";
-			case 1:
-				diffText.text = 'NORMAL';
-			case 2:
-				diffText.text = "HARD";
+		diffText.text = songList[curSelected].diffs[curDifficulty].toUpperCase();
+	}
+
+	function checkDiffs(oldDiffs:Array<String>, curDiffs:Array<String>) {
+		for (i in 0...curDiffs.length) {
+			if (curDiffs[i].toLowerCase() != oldDiffs[i].toLowerCase())
+				return false;
 		}
+		return true;
 	}
 
 	function changeSelection(change:Int = 0)
 	{
+		if (change == 0) return;
 
 		// NGio.logEvent('Fresh');
 		FlxG.sound.play(Files.sound('scrollMenu'), 0.4);
 
+		var oldDiffs:Array<String> = songList[curSelected].diffs;
 		curSelected += change;
 
 		if (curSelected < 0)
-			curSelected = songs.length - 1;
-		if (curSelected >= songs.length)
+			curSelected = songList.length - 1;
+		if (curSelected >= songList.length)
 			curSelected = 0;
+
+		var currentSong:FreeplaySong = songList[curSelected];
+		if (!checkDiffs(oldDiffs, currentSong.diffs))
+			setDiff(Math.floor(currentSong.diffs.length / 2));
 
 		// selector.y = (70 * curSelected) + 30;
 
 		#if !switch
-		intendedScore = Highscore.getScore(songs[curSelected], curDifficulty);
+		intendedScore = Highscore.getScore(currentSong.path, curDifficulty);
 		// lerpScore = 0;
 		#end
 
-		FlxG.sound.playMusic(Files.song(songs[curSelected].toLowerCase() + "/Inst"), 0);
-		
+		FlxG.sound.playMusic(Files.song(songList[curSelected].path + "/Inst"), 0);
 
 		var bullShit:Int = 0;
 

@@ -193,12 +193,7 @@ class PlayState extends MusicBeatState
 
 		//prevFramerateStuff = FlxG.updateFramerate;
 
-		if (storyDifficulty == 0)
-			diff = 'easy';
-		if (storyDifficulty == 1)
-			diff = 'normal';
-		if (storyDifficulty == 2)
-			diff = 'hard';
+		diff = Highscore.diffArray[storyDifficulty].toUpperCase();
 
 		persistentUpdate = true;
 		persistentDraw = true;
@@ -242,7 +237,8 @@ class PlayState extends MusicBeatState
 			curStage = "spooky";
 			halloweenLevel = true;
 
-			var hallowTex = FlxAtlasFrames.fromSparrow('assets/images/halloween_bg.png', 'assets/images/halloween_bg.xml');
+			var hallowTex = Files.sparrowAtlas('halloween_bg');
+			//var hallowTex = FlxAtlasFrames.fromSparrow('assets/images/halloween_bg.png', 'assets/images/halloween_bg.xml');
 
 			halloweenBG = new FlxSprite(-200, -100);
 			halloweenBG.frames = hallowTex;
@@ -820,6 +816,8 @@ class PlayState extends MusicBeatState
 		infoText.cameras = [camHUD];
 		doof.cameras = [camHUD];
 
+		//trace(Files.songJson(SONG.song, 'Normal'));
+
 		startingSong = true;
 
 		if (isStoryMode)
@@ -1394,7 +1392,11 @@ class PlayState extends MusicBeatState
 			case 60, 444, 524, 540, 542, 828:
 				//until we code in alt notes
 				if (SONG.song.toLowerCase() == 'ugh')
-					dad.playAnim('Ugh', true);
+					event('play anim', 'tankman', 'Ugh');
+					event('change char', 'dad', null);
+			case 735:
+				if (SONG.song.toLowerCase() == 'stress')
+					event('play anim', 'tankman', 'PrettyGood');
 			case 895:
 				tankmanPreFloatHeight = dad.y;
 				if (SONG.song.toLowerCase() == 'guns' && ClientPrefs.tankmanFloat){
@@ -1425,9 +1427,6 @@ class PlayState extends MusicBeatState
 					}*/);
 					FlxTween.tween(light, {alpha: 0}, 11.11);
 				}
-			case 735:
-				if (SONG.song.toLowerCase() == 'stress')
-					dad.playAnim('PrettyGood', true);
 	}
 
 		if (curStep > 895 && curStep < 1398 && SONG.song.toLowerCase() == 'guns' && ClientPrefs.tankmanFloat == true) {
@@ -1846,8 +1845,8 @@ class PlayState extends MusicBeatState
 				if (storyDifficulty == 2)
 					difficulty = '-hard';
 
-				trace('LOADING NEXT SONG');
-				trace(PlayState.storyPlaylist[0].toLowerCase() + difficulty);
+				var songPath = Highscore.formatSong(PlayState.storyPlaylist[0], storyDifficulty);
+				trace('LOADING NEXT SONG: $songPath');
 
 				if (SONG.song.toLowerCase() == 'eggnog')
 				{
@@ -1864,7 +1863,7 @@ class PlayState extends MusicBeatState
 				FlxTransitionableState.skipNextTransOut = true;
 				prevCamFollow = camFollow;
 
-				PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0].toLowerCase() + difficulty, PlayState.storyPlaylist[0]);
+				PlayState.SONG = Song.loadFromJson(songPath, PlayState.storyPlaylist[0]);
 				FlxG.sound.music.stop();
 
 				FlxG.switchState(new PlayState());
@@ -2326,7 +2325,7 @@ private function keyShit():Void
 		if (trainSound.time >= 4700)
 		{
 			startedMoving = true;
-			gf.playAnim('hairBlow');
+			event('play anim', 'gf', 'hairBlow');
 		}
 
 		if (startedMoving)
@@ -2349,7 +2348,7 @@ private function keyShit():Void
 
 	function trainReset():Void
 	{
-		gf.playAnim('hairFall');
+		event('play anim', 'gf', 'hairFall');
 		phillyTrain.x = FlxG.width + 200;
 		trainMoving = false;
 		// trainSound.stop();
@@ -2367,8 +2366,8 @@ private function keyShit():Void
 		lightningStrikeBeat = curBeat;
 		lightningOffset = FlxG.random.int(8, 24);
 
-		boyfriend.playAnim('scared', true);
-		gf.playAnim('scared', true);
+		event('play anim', 'bf', 'scared');
+		event('play anim', 'gf', 'scared');
 	}
 
 	override function stepHit()
@@ -2381,11 +2380,6 @@ private function keyShit():Void
 				resyncVocals();
 			}
 		}
-
-		if (dad.curCharacter == 'spooky' && curStep % 4 == 2)
-		{
-			// dad.dance();
-		}
 	}
 
 	var lightningStrikeBeat:Int = 0;
@@ -2395,10 +2389,13 @@ private function keyShit():Void
 	{
 		super.beatHit();
 
-		if (generatedMusic)
+		/*
+		commenting this out because it crashed when testing it on fourth wall.
+		why is it even sorting notes?
+		if (generatedMusic && notes != null && notes.length > 0)
 		{
 			notes.sort(FlxSort.byY, FlxSort.DESCENDING);
-		}
+		}*/
 
 		if (SONG.notes[Math.floor(curStep / 16)] != null)
 		{
@@ -2550,8 +2547,29 @@ private function keyShit():Void
 					startCountdown();
 			}
 			video.playVideo(Files.video(name));
+			#else
+			startCountdown();
 			#end
 		}
+
+	public function event(name:String = 'play anim', value1:String = 'bf', value2:String = 'hey') {
+		switch (name){
+			case 'play anim':
+				if (value1 == 'bf' || value1 == 'boyfriend' || value1 == SONG.player1)
+					boyfriend.playAnim(value2, true);
+				else if(value1 == 'gf' || value1 == 'girlfriend')
+					gf.playAnim(value2, true);
+				else if(value1 == 'dad' || value1 == SONG.player2)
+					dad.playAnim(value2, true);
+			case 'image flash':
+				var image:FlxSprite = new FlxSprite(0, 0).loadGraphic(Files.image(value1));
+				image.camera = camHUD;
+				image.screenCenter();
+				image.alpha = 1;
+				add(image);
+				FlxTween.tween(image, {alpha: 0.0001}, 0.6);
+		}
+	}
 
 	var curLight:Int = 0;
 }
