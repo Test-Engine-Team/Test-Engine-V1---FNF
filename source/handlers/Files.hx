@@ -4,6 +4,9 @@ import lime.tools.AssetType;
 import states.menus.TitleState;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.FlxG;
+#if sys
+import sys.FileSystem;
+#end
 
 class Files{
     static var file:String;
@@ -92,4 +95,16 @@ class Files{
         #end
     }
     */
+
+    #if sys
+    public static function fileExists(path:String, name:String, extention:String) {
+        if (FileSystem.exists('$path/$name.$extention')) {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    #end
 }
