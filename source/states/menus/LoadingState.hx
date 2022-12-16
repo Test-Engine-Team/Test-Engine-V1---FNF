@@ -14,6 +14,8 @@ import openfl.Assets;
 #if desktop
 import openfl.events.UncaughtErrorEvent;
 import polymod.Polymod;
+import sys.FileSystem;
+import sys.io.File;
 #end
 
 using StringTools;
@@ -111,7 +113,17 @@ class LoadingState extends MusicBeatState {
         };
 
         #if desktop
-        Polymod.init({modRoot: "mods/", dirs: ["+BASE+"]});
+        var modsToLoad = ["+BASE+"];
+
+        if (!FileSystem.exists("./mods")) {
+            FileSystem.createDirectory("./mods");
+            File.saveContent("./mods/currentMod.txt", "");
+        } else if (!FileSystem.exists("./mods/currentMod.txt"))
+            File.saveContent("./mods/currentMod.txt", "");
+
+        var currentMod:String = File.getContent("./mods/currentMod.txt").trim();
+        if (currentMod != null && currentMod != "") modsToLoad.push(currentMod);
+        Polymod.init({modRoot: "mods/", dirs: modsToLoad});
         if (Assets.exists("assets/modData.xml")) {
             var xml:Xml = Xml.parse(Assets.getText("assets/modData.xml")).firstElement();
 
