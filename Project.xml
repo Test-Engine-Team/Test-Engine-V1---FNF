@@ -63,6 +63,7 @@
 	-->
 	<assets path="assets/fonts" embed='true'/>
 	<define name="VIDEO_CUTSCENES" if="desktop"/> <!-- DELETE THIS IF YOU DONT WANT VIDEO CUTSCENES!!-->
+	<define name="MODS" if="desktop"/>
 
 	<define name="officialBuild" />
 
@@ -78,7 +79,7 @@
 	<!--In case you want to use the ui package-->
 	<haxelib name="flixel-ui" />
 	<haxelib name="faxe" if='switch'/>
-	<haxelib name="discord_rpc" if="desktop"/>
+	<haxelib name="discord_rpc" if="windows"/>
 	<haxelib name="hxCodec" if="desktop"/>
 	<haxelib name="polymod" if="desktop"/>
 
@@ -128,7 +129,7 @@
 
 	<!--Place custom nodes like icons here (higher priority to override the HaxeFlixel icon)-->
 	
-	<icon path="icon.png"/>
+	<icon path="icons/icon.png"/>
 
 	<haxedef name="NG_LOGIN" if="newgrounds" />
 	

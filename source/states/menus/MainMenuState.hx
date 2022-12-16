@@ -25,8 +25,6 @@ class MainMenuState extends MusicBeatState
 
 	var menuItems:FlxTypedGroup<FlxSprite>;
 
-	var gtText:FlxText;
-
 	#if !switch
 	var optionShit:Array<String> = ['story mode', 'freeplay', 'donate', 'options'];
 	#else
@@ -102,15 +100,10 @@ class MainMenuState extends MusicBeatState
 
 		FlxG.camera.follow(camFollow, null, 0.06);
 
-		var versionShit:FlxText = new FlxText(5, FlxG.height - 36.2, 0, "v" + Application.current.meta.get('version'), 12);
+		var versionShit:FlxText = new FlxText(5, FlxG.height - 36.2, 0, "v" + Application.current.meta.get('version') + "\n[M] - Mod Menu", 12);
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
-
-		gtText = new FlxText(5, FlxG.height - 18, 0, "", 12);
-		gtText.scrollFactor.set();
-		gtText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		add(gtText);
 
 		// NG.core.calls.event.logEvent('swag').send();
 
@@ -123,14 +116,6 @@ class MainMenuState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
-		if (ClientPrefs.ghostTapping == true) {
-			gtText.text = "Ghost Tapping Is Currently on";
-		}
-		else
-		{
-			gtText.text = "Ghost Tapping Is Currently off";
-		}
-
 		if (FlxG.sound.music.volume < 0.8)
 		{
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
@@ -165,42 +150,24 @@ class MainMenuState extends MusicBeatState
 
 			if (FlxG.keys.justPressed.T) {
 				FlxG.sound.play((Files.sound('confirmMenu')));
-				if (ClientPrefs.tankmanFloat == false) {
+				if (!ClientPrefs.tankmanFloat) {
 					ClientPrefs.tankmanFloat = true;
 					trace("Secret Found!");
-				}
-				else
-				{
+				} else
 					ClientPrefs.tankmanFloat = false;
-				}
 			}
-			if (curTristanFunny == 0 || curTristanFunny == 4) {
-				if (FlxG.keys.justPressed.T) {
-					curTristanFunny++;
-				}
-			}
-			if (curTristanFunny == 1) {
-				if (FlxG.keys.justPressed.R) {
-					curTristanFunny++;
-				}
-			}
-			if (curTristanFunny == 2) {
-				if (FlxG.keys.justPressed.I) {
-					curTristanFunny++;
-				}
-			}
-			if (curTristanFunny == 3) {
-				if (FlxG.keys.justPressed.S) {
-					curTristanFunny++;
-				}
-			}
-			if (curTristanFunny == 5) {
-				if (FlxG.keys.justPressed.A) {
-					curTristanFunny++;
-				}
-			}
-			if (curTristanFunny == 6) {
-				if (FlxG.keys.justPressed.N) {
+			var boolArray:Array<Bool> = [
+				(FlxG.keys.justPressed.T), 
+				(FlxG.keys.justPressed.R), 
+				(FlxG.keys.justPressed.I),
+				(FlxG.keys.justPressed.S),
+				(FlxG.keys.justPressed.T),
+				(FlxG.keys.justPressed.A),
+				(FlxG.keys.justPressed.N)
+			];
+			if (boolArray[curTristanFunny]) {
+				curTristanFunny++;
+				if (curTristanFunny >= 7) {
 					curTristanFunny = 0;
 					FlxG.sound.play(Files.sound('confirmMenu'));
 					if (ClientPrefs.tristanPlayer == false) {
@@ -215,10 +182,16 @@ class MainMenuState extends MusicBeatState
 				}
 			}
 
-			if (controls.BACK)
-			{
-				FlxG.switchState(new TitleState());
+			#if desktop
+			if (FlxG.keys.justPressed.M) {
+				persistentUpdate = false;
+				openSubState(new states.etc.substates.ModSelectSubstate());
+				return;
 			}
+			#end
+
+			if (controls.BACK)
+				FlxG.switchState(new TitleState());
 
 			if (controls.ACCEPT)
 			{
