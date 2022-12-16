@@ -1,6 +1,5 @@
 package;
 
-import sys.FileSystem;
 import flixel.FlxGame;
 import ui.FpsText;
 import openfl.display.Sprite;
@@ -8,6 +7,7 @@ import states.menus.TitleState;
 
 #if sys
 import sys.io.File;
+import sys.FileSystem;
 #end
 
 class Main extends Sprite
