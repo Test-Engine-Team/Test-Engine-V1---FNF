@@ -79,6 +79,7 @@ class Files{
         return file = 'assets/songs/$songFolder/Voices.ogg';
     }
 
+    /*
     public static function grabBuildNum() {
         #if sys
         var path:String = '../../../../buildnum.txt';
@@ -87,4 +88,5 @@ class Files{
         return 'sys is not enabled!';
         #end
     }
+    */
 }
