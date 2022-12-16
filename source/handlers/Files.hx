@@ -23,4 +23,8 @@ class Files{
     public static function video(video:String, extention:String = 'mp4') {
         return file = 'assets/videos/$video.$extention';
     }
+
+    public static function font(font:String, extention:String = 'ttf') {
+        return file = 'assets/fonts/$font.$extention';
+    }
 }
