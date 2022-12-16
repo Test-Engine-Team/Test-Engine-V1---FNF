@@ -1,5 +1,6 @@
 package handlers;
 
+import openfl.Assets;
 import lime.tools.AssetType;
 import states.menus.TitleState;
 import flixel.graphics.frames.FlxAtlasFrames;
@@ -96,15 +97,7 @@ class Files{
     }
     */
 
-    #if sys
     public static function fileExists(path:String, name:String, extention:String) {
-        if (FileSystem.exists('$path/$name.$extention')) {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return Assets.exists('assets/$path/$name.$extention')
     }
-    #end
 }
