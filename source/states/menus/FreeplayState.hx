@@ -214,6 +214,14 @@ class FreeplayState extends MusicBeatState
 		diffText.text = songList[curSelected].diffs[curDifficulty].toUpperCase();
 	}
 
+	function checkDiffs(oldDiffs:Array<String>, curDiffs:Array<String>) {
+		for (i in 0...curDiffs.length) {
+			if (curDiffs[i].toLowerCase() != oldDiffs[i].toLowerCase())
+				return false;
+		}
+		return true;
+	}
+
 	function changeSelection(change:Int = 0)
 	{
 		if (change == 0) return;
@@ -230,7 +238,7 @@ class FreeplayState extends MusicBeatState
 			curSelected = 0;
 
 		var currentSong:FreeplaySong = songList[curSelected];
-		if (currentSong.diffs != oldDiffs)
+		if (!checkDiffs(oldDiffs, currentSong.diffs))
 			setDiff(Math.floor(currentSong.diffs.length / 2));
 
 		// selector.y = (70 * curSelected) + 30;
