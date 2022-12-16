@@ -237,7 +237,8 @@ class PlayState extends MusicBeatState
 			curStage = "spooky";
 			halloweenLevel = true;
 
-			var hallowTex = FlxAtlasFrames.fromSparrow('assets/images/halloween_bg.png', 'assets/images/halloween_bg.xml');
+			var hallowTex = Files.sparrowAtlas('halloween_bg');
+			//var hallowTex = FlxAtlasFrames.fromSparrow('assets/images/halloween_bg.png', 'assets/images/halloween_bg.xml');
 
 			halloweenBG = new FlxSprite(-200, -100);
 			halloweenBG.frames = hallowTex;

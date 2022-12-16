@@ -31,10 +31,16 @@ class Files{
 
     public static function songJson(songName:String, difficulty:String = 'Normal') {
         //kinda temp
-        if (difficulty == 'Normal') 
+        if (difficulty.toLowerCase() == 'normal') 
             difficulty = "";
 
-        return file = 'assets/data/$songName/$songName$difficulty';
+        var song:String = songName.toLowerCase();
+        var diff:String;
+        if (difficulty != "")
+            diff = '-' + difficulty.toLowerCase();
+        else
+            diff = "";
+        return file = 'assets/data/$song/$song$diff';
     }
 
     public static function sparrowAtlas(image:String) {
