@@ -8,6 +8,8 @@ import Controls;
 
 class ClientPrefs {
     public static var ghostTapping:Bool = true;
+	public static var hpdrain:Bool = false;
+	public static var spinnyspin:Bool = false;
     public static var showComboText:Bool = true;
 
 	//easter eggs
@@ -15,15 +17,6 @@ class ClientPrefs {
 
     //funny
     public static var tankmanFloat:Bool = false;
-
-	//for modifiers later on lol
-	public static var modifiers:Map<String, Dynamic> = [
-		'speed' => 1.0,
-		'max misses' => 0,
-		'fc mode' => false,
-		'sfc mode' => false,
-		'gfc mode' => false,
-	];
     
     //Every key has two binds, add your key bind down here and then add your control on options and Controls.hx
 	public static var keyBinds:Map<String, Array<FlxKey>> = [
@@ -57,7 +50,9 @@ class ClientPrefs {
 	}
 
     public static function saveSettings() {
-        FlxG.save.data.ghostTapping = ghostTapping;
+        FlxG.save.data.hpdrain = hpdrain;
+		FlxG.save.data.spinnyspin = spinnyspin;
+		FlxG.save.data.ghostTapping = ghostTapping;
         FlxG.save.data.showComboText = showComboText;
 		FlxG.save.data.tristanPlayer = tristanPlayer;
         FlxG.save.data.tankmanFloat = tankmanFloat;
@@ -72,6 +67,12 @@ class ClientPrefs {
     }
 
     public static function loadPrefs() {
+		if(FlxG.save.data.hpdrain != null) {
+			hpdrain = FlxG.save.data.hpdrain;
+		}
+		if(FlxG.save.data.spinnyspin != null) {
+			spinnyspin = FlxG.save.data.spinnyspin;
+		}
         if(FlxG.save.data.ghostTapping != null) {
 			ghostTapping = FlxG.save.data.ghostTapping;
 		}

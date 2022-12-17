@@ -1,4 +1,4 @@
-package states.menus;
+package states.menus.options;
 
 import handlers.Files;
 import flixel.FlxSprite;
@@ -11,7 +11,7 @@ class Options extends MusicBeatState {
     var maintextgroup:FlxTypedGroup<Alphabet>;
     var maintext:Alphabet;
     var curSelected:Int = 0;
-    var Items:Array<String> = ['Gameplay', 'ETC', ''];
+    var Items:Array<String> = ['Gameplay', 'Modifiers'];
 
     override function create() {
         trace('unfinnished lol');
@@ -24,7 +24,7 @@ class Options extends MusicBeatState {
 
     for (i in 0...Items.length)
         {
-        maintext = new Alphabet(10, 10, Items[i], true);
+        maintext = new Alphabet(10, (70 * i) + 41.2, Items[i], true);
         maintext.scale.set(0.8, 0.8);
         maintext.isMenuItem = true;
         maintextgroup.add(maintext);
@@ -42,6 +42,18 @@ class Options extends MusicBeatState {
 
         if (FlxG.keys.justPressed.UP)
             changeSelection(-1);
+
+        if (FlxG.keys.justPressed.ENTER){
+            var daSelected:String = Items[curSelected];
+
+			switch (daSelected)
+			{
+				case 'Gameplay':
+                    FlxG.switchState(new GameplayMenu());
+                case 'Modifiers':
+                    FlxG.switchState(new ModifiersMenu());
+			}
+        }
     }
 
     function changeSelection(change:Int = 0):Void

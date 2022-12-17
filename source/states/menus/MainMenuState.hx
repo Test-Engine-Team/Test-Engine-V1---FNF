@@ -16,6 +16,7 @@ import flixel.input.keyboard.FlxKey;
 import handlers.ClientPrefs;
 import handlers.Files;
 import handlers.MusicBeatState;
+import states.menus.options.Options;
 
 using StringTools;
 
@@ -136,19 +137,6 @@ class MainMenuState extends MusicBeatState
 				FlxG.sound.play((Files.sound('scrollMenu')));
 				changeItem(1);
 			}
-
-			if (FlxG.keys.justPressed.G)
-				{
-					if (ClientPrefs.ghostTapping == false) {
-						ClientPrefs.ghostTapping = true;
-						trace("on");
-					}
-					else
-					{
-						ClientPrefs.ghostTapping = false;
-						trace("off");
-					}
-				}
 
 			if (FlxG.keys.justPressed.T) {
 				FlxG.sound.play((Files.sound('confirmMenu')));
