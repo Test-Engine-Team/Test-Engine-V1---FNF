@@ -438,9 +438,7 @@ class PlayState extends MusicBeatState
 			add(fgTrees);
 
 			var bgTrees:FlxSprite = new FlxSprite(repositionShit - 380, -800);
-			//var treetex = Files.sparrowAtlas('weeb/weebTrees');
-			var treetex = FlxAtlasFrames.fromSpriteSheetPacker('assets/images/weeb/weebTrees.png', 'assets/images/weeb/weebTrees.txt');
-			bgTrees.frames = treetex;
+			bgTrees.frames = Files.packerAtlas('weeb/weebTrees');
 			bgTrees.animation.add('treeLoop', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18], 12);
 			bgTrees.animation.play('treeLoop');
 			bgTrees.scrollFactor.set(0.85, 0.85);
@@ -448,7 +446,6 @@ class PlayState extends MusicBeatState
 
 			var treeLeaves:FlxSprite = new FlxSprite(repositionShit, -40);
 			treeLeaves.frames = Files.sparrowAtlas('weeb/petals');
-			//treeLeaves.frames = FlxAtlasFrames.fromSparrow('assets/images/weeb/petals.png', 'assets/images/weeb/petals.xml');
 			treeLeaves.animation.addByPrefix('leaves', 'PETALS ALL', 24, true);
 			treeLeaves.animation.play('leaves');
 			treeLeaves.scrollFactor.set(0.85, 0.85);

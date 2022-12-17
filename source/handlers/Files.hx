@@ -57,6 +57,10 @@ class Files{
         return FlxAtlasFrames.fromSparrow('assets/images/$path.png', 'assets/images/$path.xml');
     }
 
+    public static function packerAtlas(path:String) {
+        return FlxAtlasFrames.fromSpriteSheetPacker('assets/images/$path.png', 'assets/images/$path.txt');
+    }
+
     //public static function packerAtlas
 
     /*

@@ -324,7 +324,6 @@ class LoadingState extends MusicBeatState {
     }
 
     function errorPopup(error:UncaughtErrorEvent) {
-        trace('fuck, you got an error!');
         var errorMessage:String = switch ([Std.isOfType(error.error, openfl.errors.Error), Std.isOfType(error.error, openfl.events.ErrorEvent), true].indexOf(true)) {
 			case 0: "Uncaught Error: " + cast(error.error, openfl.errors.Error).message;
 			case 1: "Uncaught Error: " + cast(error.error, openfl.events.ErrorEvent).text;
