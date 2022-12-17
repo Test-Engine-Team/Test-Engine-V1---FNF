@@ -874,8 +874,6 @@ class PlayState extends MusicBeatState
 					schoolIntro(doof);
 					if (SONG.song.toLowerCase() == 'roses')
 						FlxG.sound.play(Files.sound('ANGRY'));
-				case 'ugh', 'guns', 'stress':
-					playVidCut(SONG.song.toLowerCase() + 'Cutscene');
 				default:
 					startCountdown();
 			}
@@ -1411,7 +1409,10 @@ class PlayState extends MusicBeatState
 				//until we code in alt notes
 				if (SONG.song.toLowerCase() == 'ugh')
 					event('play anim', 'tankman', 'Ugh');
-					event('change char', 'dad', null);
+				if (MainMenuState.ugheasteregg && SONG.song.toLowerCase() == 'ugh'){
+					event('image flash', 'vineboom', null);
+					FlxG.sound.play(Files.sound('vineboom'), 0.6);
+				}
 			case 735:
 				if (SONG.song.toLowerCase() == 'stress')
 					event('play anim', 'tankman', 'PrettyGood');
@@ -1803,7 +1804,7 @@ class PlayState extends MusicBeatState
 	public function endSong():Void
 	{
 		#if desktop
-		DiscordHandler.changePresence('In The Menus The Last Song They Played Was', SONG.song.toLowerCase());
+		DiscordHandler.changePresence('In The Menus The Last Song They Played Was', SONG.song.toLowerCase());//holy shit its discord
 		#end
 
 		canPause = false;
@@ -1821,9 +1822,6 @@ class PlayState extends MusicBeatState
 				FlxG.drawFramerate = 150;
 	
 				FlxG.save.data.unlockedTestSong = true;
-
-			case 'stress':
-				playVidCut('kickstarterTrailer', false, true);
 		}
 
 		if (isStoryMode)
@@ -2534,37 +2532,6 @@ private function keyShit():Void
 		steve.x = tankX + 1500 * Math.cos(Math.PI / 180 * (1 * tankAngle + 180));
 		steve.y = 1300 + 1100 * Math.sin(Math.PI / 180 * (1 * tankAngle + 180));
 	}
-
-	function playVidCut(name:String, atEndOfSong:Bool = false, endofweek:Bool = false)
-		{
-			#if !html5
-			inCutscene = true;
-			FlxG.sound.music.stop();
-		
-			var video:VideoHandler = new VideoHandler();
-			video.finishCallback = function()
-			{
-				if (atEndOfSong)
-				{
-					if (storyPlaylist.length <= 0)
-						FlxG.switchState(new StoryMenuState());
-					else
-					{
-						SONG = Song.loadFromJson(storyPlaylist[0].toLowerCase());
-						FlxG.switchState(new PlayState());
-					}
-				}
-
-				else if (endofweek)
-					FlxG.switchState(new MainMenuState());
-				else
-					startCountdown();
-			}
-			video.playVideo(Files.video(name));
-			#else
-			startCountdown();
-			#end
-		}
 
 	public function event(name:String = 'play anim', value1:String = 'bf', value2:String = 'hey') {
 		switch (name){

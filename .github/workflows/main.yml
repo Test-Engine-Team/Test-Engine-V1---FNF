@@ -41,7 +41,6 @@ jobs:
           haxelib install polymod 1.5.2
           haxelib git linc_luajit https://github.com/AndreiRudenko/linc_luajit
           haxelib install hscript
-          haxelib git hxCodec https://github.com/polybiusproxy/hxCodec
           haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
           haxelib install hxcpp-debug-server
           haxelib list
@@ -81,7 +80,6 @@ jobs:
           haxelib install flixel-ui
           haxelib install flixel-addons
           haxelib git openfl https://github.com/openfl/openfl
-          haxelib git hxCodec https://github.com/polybiusproxy/hxCodec
           haxelib list
       - name: Create Version Tag
         run: echo "${{github.run_id}}" > VERSION
@@ -119,7 +117,6 @@ jobs:
           haxelib install polymod 1.5.2
           haxelib git linc_luajit https://github.com/AndreiRudenko/linc_luajit
           haxelib install hscript
-          haxelib git hxCodec https://github.com/polybiusproxy/hxCodec
           haxelib git openfl https://github.com/openfl/openfl
           haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
           haxelib install hxcpp-debug-server
@@ -160,7 +157,6 @@ jobs:
           haxelib install polymod 1.5.2
           haxelib git linc_luajit https://github.com/AndreiRudenko/linc_luajit
           haxelib install hscript
-          haxelib git hxCodec https://github.com/polybiusproxy/hxCodec
           haxelib git openfl https://github.com/openfl/openfl
           haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
           haxelib install hxcpp-debug-server

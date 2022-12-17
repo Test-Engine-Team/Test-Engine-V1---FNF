@@ -21,6 +21,8 @@ using StringTools;
 
 class MainMenuState extends MusicBeatState
 {
+	public static var ugheasteregg:Bool = false;
+
 	var curSelected:Int = 0;
 
 	var menuItems:FlxTypedGroup<FlxSprite>;
@@ -189,6 +191,9 @@ class MainMenuState extends MusicBeatState
 				return;
 			}
 			#end
+
+			if (FlxG.keys.justPressed.U)
+				ugheasteregg = true;
 
 			if (controls.BACK)
 				FlxG.switchState(new TitleState());
