@@ -1,34 +1,41 @@
 package handlers;
 
+import flixel.graphics.frames.FlxFramesCollection;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
 
 class MenuCharacter extends FlxSprite
 {
-	public var character:String;
+	public var ogX:Float;
+	var dadOffset:Int = 0;
+	var multX:Int = 1;
 
-	public function new(x:Float, character:String = 'bf')
+	public function new(x:Float, charNum:Int, charData:states.menus.LoadingState.MenuCharData)
 	{
-		super(x);
+		super();
+		this.ogX = x;
+		this.dadOffset = (charNum == 0) ? -100 : 0;
+		if (charNum == 2) {
+			this.multX = -1;
+			this.flipX = !this.flipX;
+		}
+		antialiasing = true;
+		loadCharacter(charData);
+	}
 
-		this.character = character;
+	public function loadCharacter(charData:states.menus.LoadingState.MenuCharData) {
+		x = ogX + dadOffset + charData.xOffset * multX;
+		y = 70 + dadOffset + charData.yOffset;
 
-		var tex = FlxAtlasFrames.fromSparrow('assets/images/campaign_menu_UI_characters.png', 'assets/images/campaign_menu_UI_characters.xml');
-		frames = tex;
+		frames = Files.sparrowAtlas("menus/storymenu/" + charData.spritePath);
 
-		animation.addByPrefix('bf', "BF idle dance white", 24);
-		animation.addByPrefix('bfConfirm', 'BF HEY!!', 24, false);
-		animation.addByPrefix('gf', "GF Dancing Beat WHITE", 24);
-		animation.addByPrefix('dad', "Dad idle dance BLACK LINE", 24);
-		animation.addByPrefix('spooky', "spooky dance idle BLACK LINES", 24);
-		animation.addByPrefix('pico', "Pico Idle Dance", 24, true, true);
-		animation.addByPrefix('mom', "Mom Idle BLACK LINES", 24);
-		animation.addByPrefix('parents-christmas', "Parent Christmas Idle", 24);
-		animation.addByPrefix('senpai', "SENPAI idle Black Lines", 24);
-		animation.addByPrefix('tankman', "Tankman Menu BLACK", 24, true, true);
-		// Parent Christmas Idle
+		animation.addByPrefix("idle", charData.idleAnim, 24, true, charData.flipX);
+		if (charData.confirmAnim != null)
+			animation.addByPrefix("confirm", charData.confirmAnim, 24, false, charData.flipX);
 
-		animation.play(character);
+		scale.set(charData.scale, charData.scale);
+
+		animation.play("idle");
 		updateHitbox();
 	}
 }

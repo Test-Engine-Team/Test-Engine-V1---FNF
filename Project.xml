@@ -63,7 +63,7 @@
 	-->
 	<assets path="assets/fonts" embed='true'/>
 	<define name="VIDEO_CUTSCENES" if="desktop"/> <!-- DELETE THIS IF YOU DONT WANT VIDEO CUTSCENES!!-->
-	<define name="MODS" if="desktop"/>
+	<define name="MODS_ENABLED" if="desktop"/>
 
 	<define name="officialBuild" />
 
@@ -81,7 +81,7 @@
 	<haxelib name="faxe" if='switch'/>
 	<haxelib name="discord_rpc" if="desktop"/>
 	<haxelib name="hxCodec" if="desktop"/>
-	<haxelib name="polymod" if="MODS"/>
+	<haxelib name="polymod" if="MODS_ENABLED"/>
 
 	<!-- <haxelib name="markdown" /> -->
 	<!-- <haxelib name="HtmlParser" /> -->
