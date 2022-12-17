@@ -302,7 +302,8 @@ class PlayState extends MusicBeatState
 			add(skyBG);
 
 			var bgLimo:FlxSprite = new FlxSprite(-200, 480);
-			bgLimo.frames = FlxAtlasFrames.fromSparrow('assets/images/limo/bgLimo.png', 'assets/images/limo/bgLimo.xml');
+			bgLimo.frames = Files.sparrowAtlas('limo/bgLimo');
+			//bgLimo.frames = FlxAtlasFrames.fromSparrow('assets/images/limo/bgLimo.png', 'assets/images/limo/bgLimo.xml');
 			bgLimo.animation.addByPrefix('drive', "background limo pink", 24);
 			bgLimo.animation.play('drive');
 			bgLimo.scrollFactor.set(0.4, 0.4);
@@ -321,7 +322,8 @@ class PlayState extends MusicBeatState
 			var overlayShit:FlxSprite = new FlxSprite(-500, -600).loadGraphic('assets/images/limo/limoOverlay.png');
 			overlayShit.alpha = 0.5;
 
-			var limoTex = FlxAtlasFrames.fromSparrow('assets/images/limo/limoDrive.png', 'assets/images/limo/limoDrive.xml');
+			var limoTex = Files.sparrowAtlas('limo/limoDrive');
+			//var limoTex = FlxAtlasFrames.fromSparrow('assets/images/limo/limoDrive.png', 'assets/images/limo/limoDrive.xml');
 
 			limo = new FlxSprite(-120, 550);
 			limo.frames = limoTex;
@@ -347,7 +349,8 @@ class PlayState extends MusicBeatState
 			add(bg);
 
 			upperBoppers = new FlxSprite(-240, -90);
-			upperBoppers.frames = FlxAtlasFrames.fromSparrow('assets/images/christmas/upperBop.png', 'assets/images/christmas/upperBop.xml');
+			upperBoppers.frames = Files.sparrowAtlas('christmas/upperBop');
+			//upperBoppers.frames = FlxAtlasFrames.fromSparrow('assets/images/christmas/upperBop.png', 'assets/images/christmas/upperBop.xml');
 			upperBoppers.animation.addByPrefix('bop', "Upper Crowd Bob", 24, false);
 			upperBoppers.antialiasing = true;
 			upperBoppers.scrollFactor.set(0.33, 0.33);
@@ -369,7 +372,8 @@ class PlayState extends MusicBeatState
 			add(tree);
 
 			bottomBoppers = new FlxSprite(-300, 140);
-			bottomBoppers.frames = FlxAtlasFrames.fromSparrow('assets/images/christmas/bottomBop.png', 'assets/images/christmas/bottomBop.xml');
+			bottomBoppers.frames = Files.sparrowAtlas('christmas/bottomBop');
+			//bottomBoppers.frames = FlxAtlasFrames.fromSparrow('assets/images/christmas/bottomBop.png', 'assets/images/christmas/bottomBop.xml');
 			bottomBoppers.animation.addByPrefix('bop', 'Bottom Level Boppers', 24, false);
 			bottomBoppers.antialiasing = true;
 			bottomBoppers.scrollFactor.set(0.9, 0.9);
@@ -383,7 +387,8 @@ class PlayState extends MusicBeatState
 			add(fgSnow);
 
 			santa = new FlxSprite(-840, 150);
-			santa.frames = FlxAtlasFrames.fromSparrow('assets/images/christmas/santa.png', 'assets/images/christmas/santa.xml');
+			santa.frames = Files.sparrowAtlas('christmas/santa');
+			//santa.frames = FlxAtlasFrames.fromSparrow('assets/images/christmas/santa.png', 'assets/images/christmas/santa.xml');
 			santa.animation.addByPrefix('idle', 'santa idle in fear', 24, false);
 			santa.antialiasing = true;
 			add(santa);
@@ -433,7 +438,8 @@ class PlayState extends MusicBeatState
 			add(fgTrees);
 
 			var bgTrees:FlxSprite = new FlxSprite(repositionShit - 380, -800);
-			var treetex = FlxAtlasFrames.fromSpriteSheetPacker('assets/images/weeb/weebTrees.png', 'assets/images/weeb/weebTrees.txt');
+			var treetex = Files.sparrowAtlas('weeb/weebTrees');
+			//var treetex = FlxAtlasFrames.fromSpriteSheetPacker('assets/images/weeb/weebTrees.png', 'assets/images/weeb/weebTrees.txt');
 			bgTrees.frames = treetex;
 			bgTrees.animation.add('treeLoop', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18], 12);
 			bgTrees.animation.play('treeLoop');
@@ -441,7 +447,8 @@ class PlayState extends MusicBeatState
 			add(bgTrees);
 
 			var treeLeaves:FlxSprite = new FlxSprite(repositionShit, -40);
-			treeLeaves.frames = FlxAtlasFrames.fromSparrow('assets/images/weeb/petals.png', 'assets/images/weeb/petals.xml');
+			treeLeaves.frames = Files.sparrowAtlas('weeb/petals');
+			//treeLeaves.frames = FlxAtlasFrames.fromSparrow('assets/images/weeb/petals.png', 'assets/images/weeb/petals.xml');
 			treeLeaves.animation.addByPrefix('leaves', 'PETALS ALL', 24, true);
 			treeLeaves.animation.play('leaves');
 			treeLeaves.scrollFactor.set(0.85, 0.85);
@@ -481,7 +488,8 @@ class PlayState extends MusicBeatState
 
 			defaultCamZoom = 1;
 			var bg:FlxSprite = new FlxSprite(400, 200);
-			bg.frames = FlxAtlasFrames.fromSparrow('assets/images/weeb/animatedEvilSchool.png', 'assets/images/weeb/animatedEvilSchool.xml');
+			bg.frames = Files.sparrowAtlas('weeb/animatedEvilSchool');
+			//bg.frames = FlxAtlasFrames.fromSparrow('assets/images/weeb/animatedEvilSchool.png', 'assets/images/weeb/animatedEvilSchool.xml');
 			bg.animation.addByPrefix('idle', 'background 2', 24);
 			bg.animation.play('idle');
 			bg.scrollFactor.set(0.8, 0.9);
@@ -514,7 +522,8 @@ class PlayState extends MusicBeatState
 			add(buildings);
 
 			steve = new FlxSprite(-420, -150);
-			steve.frames = FlxAtlasFrames.fromSparrow('assets/images/tank/tankRolling.png', 'assets/images/tank/tankRolling.xml');
+			steve.frames = Files.sparrowAtlas('tank/tankRolling');
+			//steve.frames = FlxAtlasFrames.fromSparrow('assets/images/tank/tankRolling.png', 'assets/images/tank/tankRolling.xml');
 			steve.animation.addByPrefix('rollin', 'BG tank w lighting instance 1', 24, true);
 			steve.animation.play('rollin');
 			steve.setGraphicSize(Std.int(steve.width * 1.15));
@@ -523,7 +532,8 @@ class PlayState extends MusicBeatState
 			add(steve);
 
 			var smokeLeft:FlxSprite = new FlxSprite(-200, -100);
-			smokeLeft.frames = FlxAtlasFrames.fromSparrow('assets/images/tank/smokeLeft.png', 'assets/images/tank/smokeLeft.xml');
+			smokeLeft.frames = Files.sparrowAtlas('tank/smokeLeft');
+			//smokeLeft.frames = FlxAtlasFrames.fromSparrow('assets/images/tank/smokeLeft.png', 'assets/images/tank/smokeLeft.xml');
 			smokeLeft.animation.addByPrefix('idle', 'SmokeBlurLeft ', 24, true);
 			smokeLeft.scrollFactor.set(0.4, 0.4);
 			smokeLeft.antialiasing = true;
@@ -531,7 +541,8 @@ class PlayState extends MusicBeatState
 			add(smokeLeft);
 
 			var smokeRight:FlxSprite = new FlxSprite(1100, -100);
-			smokeRight.frames = FlxAtlasFrames.fromSparrow('assets/images/tank/smokeRight.png', 'assets/images/tank/smokeRight.xml');
+			smokeRight.frames = Files.sparrowAtlas('tank/smokeRight');
+			//smokeRight.frames = FlxAtlasFrames.fromSparrow('assets/images/tank/smokeRight.png', 'assets/images/tank/smokeRight.xml');
 			smokeRight.animation.addByPrefix('idle', 'SmokeRight ', 24, true);
 			smokeRight.scrollFactor.set(0.4, 0.4);
 			smokeRight.antialiasing = true;
@@ -539,7 +550,8 @@ class PlayState extends MusicBeatState
 			add(smokeRight);
 
 			tower = new FlxSprite(100, 120);
-			tower.frames = FlxAtlasFrames.fromSparrow('assets/images/tank/tankWatchtower.png', 'assets/images/tank/tankWatchtower.xml');
+			tower.frames = Files.sparrowAtlas('tank/tankWatchtower');
+			//tower.frames = FlxAtlasFrames.fromSparrow('assets/images/tank/tankWatchtower.png', 'assets/images/tank/tankWatchtower.xml');
 			tower.animation.addByPrefix('idle', 'watchtower gradient color instance 1', 24, false);
 			tower.antialiasing = true;
 			add(tower);
@@ -553,42 +565,48 @@ class PlayState extends MusicBeatState
 			add(ground);
 
 			tankBop1 = new FlxSprite(-500, 650);
-			tankBop1.frames = FlxAtlasFrames.fromSparrow('assets/images/tank/tank0.png', 'assets/images/tank/tank0.xml');
+			tankBop1.frames = Files.sparrowAtlas('tank/tank0');
+			//tankBop1.frames = FlxAtlasFrames.fromSparrow('assets/images/tank/tank0.png', 'assets/images/tank/tank0.xml');
 			tankBop1.animation.addByPrefix('bop', 'fg tankhead far right', 24);
 			tankBop1.scrollFactor.set(1.7, 1.5);
 			tankBop1.antialiasing = true;
 			add(tankBop1);
 
 			tankBop2 = new FlxSprite(-300, 750);
-			tankBop2.frames = FlxAtlasFrames.fromSparrow('assets/images/tank/tank1.png', 'assets/images/tank/tank1.xml');
+			tankBop2.frames = Files.sparrowAtlas('tank/tank1');
+			//tankBop2.frames = FlxAtlasFrames.fromSparrow('assets/images/tank/tank1.png', 'assets/images/tank/tank1.xml');
 			tankBop2.animation.addByPrefix('bop', 'fg tankhead 5', 24);
 			tankBop2.scrollFactor.set(2.0, 0.2);
 			tankBop2.antialiasing = true;
 			add(tankBop2);
 
 			tankBop3 = new FlxSprite(450, 940);
-			tankBop3.frames = FlxAtlasFrames.fromSparrow('assets/images/tank/tank2.png', 'assets/images/tank/tank2.xml');
+			tankBop3.frames = Files.sparrowAtlas('tank/tank2');
+			//tankBop3.frames = FlxAtlasFrames.fromSparrow('assets/images/tank/tank2.png', 'assets/images/tank/tank2.xml');
 			tankBop3.animation.addByPrefix('bop', 'foreground man 3', 24);
 			tankBop3.scrollFactor.set(1.5, 1.5);
 			tankBop3.antialiasing = true;
 			add(tankBop3);
 
 			tankBop4 = new FlxSprite(1300, 1200);
-			tankBop4.frames = FlxAtlasFrames.fromSparrow('assets/images/tank/tank3.png', 'assets/images/tank/tank3.xml');
+			tankBop4.frames = Files.sparrowAtlas('tank/tank3');
+			//tankBop4.frames = FlxAtlasFrames.fromSparrow('assets/images/tank/tank3.png', 'assets/images/tank/tank3.xml');
 			tankBop4.animation.addByPrefix('bop', 'fg tankhead 4', 24);
 			tankBop4.scrollFactor.set(3.5, 2.5);
 			tankBop4.antialiasing = true;
 			add(tankBop4);
 
 			tankBop5 = new FlxSprite(1300, 900);
-			tankBop5.frames = FlxAtlasFrames.fromSparrow('assets/images/tank/tank4.png', 'assets/images/tank/tank4.xml');
+			tankBop5.frames = Files.sparrowAtlas('tank/tank4');
+			//tankBop5.frames = FlxAtlasFrames.fromSparrow('assets/images/tank/tank4.png', 'assets/images/tank/tank4.xml');
 			tankBop5.animation.addByPrefix('bop', 'fg tankman bobbin 3', 24);
 			tankBop5.scrollFactor.set(1.5, 1.5);
 			tankBop5.antialiasing = true;
 			add(tankBop5);
 
 			tankBop6 = new FlxSprite(1620, 700);
-			tankBop6.frames = FlxAtlasFrames.fromSparrow('assets/images/tank/tank5.png', 'assets/images/tank/tank5.xml');
+			tankBop6.frames = Files.sparrowAtlas('tank/tank5');
+			//tankBop6.frames = FlxAtlasFrames.fromSparrow('assets/images/tank/tank5.png', 'assets/images/tank/tank5.xml');
 			tankBop6.animation.addByPrefix('bop', 'fg tankhead far right', 24);
 			tankBop6.scrollFactor.set(1.5, 1.5);
 			tankBop6.antialiasing = true;

@@ -53,8 +53,8 @@ class Files{
         return file = 'assets/data/$song/$song$diff';
     }
 
-    public static function sparrowAtlas(image:String) {
-        return FlxAtlasFrames.fromSparrow('assets/images/$image.png', 'assets/images/$image.xml');
+    public static function sparrowAtlas(path:String) {
+        return FlxAtlasFrames.fromSparrow('assets/images/$path.png', 'assets/images/$path.xml');
     }
 
     //public static function packerAtlas
@@ -68,8 +68,8 @@ class Files{
     }
     dumb stuff idk how to do properly*/
 
-    public static function txt(path:String, fileName:String) {
-        return file = 'assets/$path/$fileName.txt';
+    public static function txt(path:String) {
+        return file = 'assets/$path.txt';
     }
 
     public static function randomSound(min:Int, max:Int, fileName:String) {
