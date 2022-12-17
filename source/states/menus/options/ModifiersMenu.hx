@@ -81,6 +81,11 @@ class ModifiersMenu extends MusicBeatState{
                         ClientPrefs.fairFight = true;
                         else
                         ClientPrefs.fairFight = false;
+                case 'Poison Plus':
+                    if (ClientPrefs.poisonPlus == false)
+                        ClientPrefs.poisonPlus = true;
+                        else
+                        ClientPrefs.poisonPlus = false;
 			}
         }
     }
