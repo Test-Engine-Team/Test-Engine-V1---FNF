@@ -53,12 +53,12 @@ class GameplayMenu extends MusicBeatState{
 
         var daSelected:String = Items[curSelected];
 
-        if (daSelected == 'Ghost Tapping' && ClientPrefs.ghostTapping == false)
+        if (daSelected == 'Ghost Tapping' && !ClientPrefs.ghostTapping)
             trueorfalsesmthidk.text = 'Ghost Tapping = false';
-        else if (daSelected == 'Ghost Tapping' && ClientPrefs.ghostTapping == true)
+        else if (daSelected == 'Ghost Tapping' && ClientPrefs.ghostTapping)
             trueorfalsesmthidk.text = 'Ghost Tapping = true';
         else if (daSelected == 'Down Scroll')
-            trueorfalsesmthidk.text = 'Down Scroll';
+            trueorfalsesmthidk.text = 'Down Scroll'
         else
             trueorfalsesmthidk.text == 'unknown option or null bool';
 
@@ -66,7 +66,7 @@ class GameplayMenu extends MusicBeatState{
 			switch (daSelected)
 			{
 				case 'Ghost Tapping':
-                if (ClientPrefs.ghostTapping == false)
+                if (!ClientPrefs.ghostTapping)
                     ClientPrefs.ghostTapping = true;
                     else
                     ClientPrefs.ghostTapping = false;
@@ -77,7 +77,7 @@ class GameplayMenu extends MusicBeatState{
     /*
     if (FlxG.keys.justPressed.G)
         {
-            if (ClientPrefs.ghostTapping == false) {
+            if (!ClientPrefs.ghostTapping) {
                 ClientPrefs.ghostTapping = true;
                 trace("on");
             }

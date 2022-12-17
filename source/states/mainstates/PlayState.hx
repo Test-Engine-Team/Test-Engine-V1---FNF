@@ -2265,7 +2265,7 @@ private function keyShit():Void
 		var rightP = controls.RIGHT_P;
 		var downP = controls.DOWN_P;
 		var leftP = controls.LEFT_P;
-		if (ClientPrefs.ghostTapping == false){
+		if (!ClientPrefs.ghostTapping){
 
 		if (leftP)
 			noteMiss(0);

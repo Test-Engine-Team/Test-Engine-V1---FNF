@@ -62,17 +62,17 @@ class ModifiersMenu extends MusicBeatState{
 
         var daSelected:String = Items[curSelected];
 
-        if (daSelected == 'Do A Barrel Roll' && ClientPrefs.spinnyspin == false)
+        if (daSelected == 'Do A Barrel Roll' && !ClientPrefs.spinnyspin)
             trueorfalsesmthidk.text = 'Do A Barrel Roll = false';
-        else if (daSelected == 'Do A Barrel Roll' && ClientPrefs.spinnyspin == true)
+        else if (daSelected == 'Do A Barrel Roll' && !ClientPrefs.spinnyspin)
             trueorfalsesmthidk.text = 'Do A Barrel Roll = true';
-        else if (daSelected == 'Fair Fight' && ClientPrefs.fairFight == false)
+        else if (daSelected == 'Fair Fight' && !ClientPrefs.fairFight)
             trueorfalsesmthidk.text = 'Fair Fight = false';
-        else if (daSelected == 'Fair Fight' && ClientPrefs.fairFight == true)
+        else if (daSelected == 'Fair Fight' && ClientPrefs.fairFight)
             trueorfalsesmthidk.text = 'Fair Fight = true';
-        else if (daSelected == 'Poison Plus' && ClientPrefs.poisonPlus == false)
+        else if (daSelected == 'Poison Plus' && !ClientPrefs.poisonPlus)
             trueorfalsesmthidk.text = 'Poison Plus = false';
-        else if (daSelected == 'Poison Plus' && ClientPrefs.poisonPlus == true)
+        else if (daSelected == 'Poison Plus' && ClientPrefs.poisonPlus)
             trueorfalsesmthidk.text = 'Poison Plus = true | Max Poison Hits = $curSubSelected';
         else
             trueorfalsesmthidk.text == 'unknown option or null bool';
@@ -81,17 +81,17 @@ class ModifiersMenu extends MusicBeatState{
 			switch (daSelected)
 			{
                 case 'Do A Barrel Roll':
-                    if (ClientPrefs.spinnyspin == false)
+                    if (!ClientPrefs.spinnyspin)
                         ClientPrefs.spinnyspin = true;
                         else
                         ClientPrefs.spinnyspin = false;
                 case 'Fair Fight':
-                    if (ClientPrefs.fairFight == false)
+                    if (!ClientPrefs.fairFight)
                         ClientPrefs.fairFight = true;
                         else
                         ClientPrefs.fairFight = false;
                 case 'Poison Plus':
-                    if (ClientPrefs.poisonPlus == false)
+                    if (!ClientPrefs.poisonPlus)
                         ClientPrefs.poisonPlus = true;
                         else
                         ClientPrefs.poisonPlus = false;
@@ -118,7 +118,7 @@ class ModifiersMenu extends MusicBeatState{
     /*
     if (FlxG.keys.justPressed.G)
         {
-            if (ClientPrefs.ghostTapping == false) {
+            if (!ClientPrefs.ghostTapping) {
                 ClientPrefs.ghostTapping = true;
                 trace("on");
             }
