@@ -176,7 +176,6 @@ class LoadingState extends MusicBeatState {
         });
     }
 
-    #if desktop
     function addModWeek(week:Xml) {
         var modWeek:ModWeekYee = {
             name: "UNKNOWN WEEK NAME",
@@ -240,6 +239,7 @@ class LoadingState extends MusicBeatState {
         return charData;
     }
 
+    #if desktop
     function errorPopup(error:UncaughtErrorEvent) {
         var errorMessage:String = switch ([Std.isOfType(error.error, openfl.errors.Error), Std.isOfType(error.error, openfl.events.ErrorEvent), true].indexOf(true)) {
 			case 0: "Uncaught Error: " + cast(error.error, openfl.errors.Error).message;
