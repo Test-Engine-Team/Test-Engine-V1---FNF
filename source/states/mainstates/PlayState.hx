@@ -1748,8 +1748,6 @@ class PlayState extends MusicBeatState
 					daNote.kill();
 					notes.remove(daNote, true);
 					daNote.destroy();
-					if (ClientPrefs.hpdrain)
-						health -= 0.01;
 				}
 
 				// WIP interpolation shit? Need to fix the pause issue
