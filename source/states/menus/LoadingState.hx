@@ -7,12 +7,11 @@ iss wip.
 as of right now, all it does is just set stuff in a data var.
 soon ill make it so the states utilize this class.
 */
-
-import openfl.display.Stage3D;
 import flixel.util.FlxColor;
 import flixel.FlxG;
 import handlers.MusicBeatState;
 import openfl.Assets;
+import states.menus.TitleState;
 #if MODS_ENABLED
 import openfl.events.UncaughtErrorEvent;
 import polymod.Polymod;
@@ -256,8 +255,8 @@ class LoadingState extends MusicBeatState {
             addedCrash = true;
         }
         #end
-        states.menus.TitleState.seenIntro = false;
-        FlxG.switchState(new states.menus.TitleState());
+        TitleState.seenIntro = false;
+        FlxG.switchState(new TitleState());
     }
 
     #if desktop

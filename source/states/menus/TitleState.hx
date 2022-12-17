@@ -35,9 +35,9 @@ using StringTools;
 
 class TitleState extends MusicBeatState
 {
-	static public var initialized:Bool = false;
-	static public var seenIntro:Bool = false;
-	static public var soundExt:String = ".mp3";
+	public static var initialized:Bool = false;
+	public static var seenIntro:Bool = false;
+	public static var soundExt:String = ".mp3";
 
 	var swagShader:ColorSwap;
 	var alphaShader:BuildingShaders;
@@ -86,25 +86,12 @@ class TitleState extends MusicBeatState
 
 		Highscore.load();
 
-		if (FlxG.save.data.weekUnlocked != null)
-		{
-			// FIX LATER!!!
-			// WEEK UNLOCK PROGRESSION!!
-			// StoryMenuState.weekUnlocked = FlxG.save.data.weekUnlocked;
-
-			if (StoryMenuState.weekUnlocked.length < 4)
-				StoryMenuState.weekUnlocked.insert(0, true);
-
-			// QUICK PATCH OOPS!
-			if (!StoryMenuState.weekUnlocked[0])
-				StoryMenuState.weekUnlocked[0] = true;
-		}
-
 		/*new FlxTimer().start(1, function(tmr:FlxTimer)
 		{
 			startIntro();
 		});*/
-		new FlxTimer().start(1, startIntro);
+		//new FlxTimer().start(1, startIntro);
+		startIntro();
 	}
 
 	var logoBl:FlxSprite;
@@ -112,7 +99,7 @@ class TitleState extends MusicBeatState
 	var danceLeft:Bool = false;
 	var titleText:FlxSprite;
 
-	function startIntro(tmr:FlxTimer) //tmr param is so i can add it to the timer complete func.
+	function startIntro(?tmr:FlxTimer) //tmr param is so i can add it to the timer complete func.
 	{
 		if (!initialized)
 		{
@@ -216,7 +203,6 @@ class TitleState extends MusicBeatState
 		if (seenIntro)
 			skipIntro();
 
-		seenIntro = true;
 		initialized = true;
 		// credGroup.add(credTextShit);
 	}
@@ -240,7 +226,7 @@ class TitleState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
-		if (FlxG.sound.music != null && seenIntro)
+		if (FlxG.sound.music != null)
 			Conductor.songPosition = FlxG.sound.music.time;
 		// FlxG.watch.addQuick('amp', FlxG.sound.music.amplitude);
 
@@ -335,18 +321,14 @@ class TitleState extends MusicBeatState
 	{
 		super.beatHit();
 
-		logoBl.animation.play('bump');
-		danceLeft = !danceLeft;
+		if (skippedIntro) {
+			logoBl.animation.play('bump');
+			danceLeft = !danceLeft;
+	
+			gfDance.animation.play(danceLeft ? "danceLeft" : "danceRight");
+		}
 
-		if (danceLeft)
-			gfDance.animation.play('danceRight');
-		else
-			gfDance.animation.play('danceLeft');
-
-		FlxG.log.add(curBeat);
-
-		switch (curBeat)
-		{
+		switch (curBeat) {
 			case 1:
 				createCoolText(['ninjamuffin99', 'phantomArcade', 'kawaisprite', 'evilsk8er']);
 			// credTextShit.visible = true;
@@ -391,7 +373,6 @@ class TitleState extends MusicBeatState
 			// credTextShit.text += '\nNight';
 			case 15:
 				addMoreText('Funkin'); // credTextShit.text += '\nFunkin';
-
 			case 16:
 				skipIntro();
 		}
@@ -408,6 +389,7 @@ class TitleState extends MusicBeatState
 			FlxG.camera.flash(FlxColor.WHITE, 4);
 			remove(credGroup);
 			skippedIntro = true;
+			seenIntro = true;
 		}
 	}
 }
