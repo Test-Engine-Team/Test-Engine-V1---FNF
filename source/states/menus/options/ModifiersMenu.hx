@@ -14,7 +14,7 @@ class ModifiersMenu extends MusicBeatState{
     var maintextgroup:FlxTypedGroup<Alphabet>;
     var maintext:Alphabet;
     var curSelected:Int = 0;
-    var Items:Array<String> = ['Do A Barrel Roll', 'Fair Fight'];
+    var Items:Array<String> = ['Do A Barrel Roll', 'Fair Fight', 'Poison Plus'];
     var trueorfalsesmthidk:FlxText;
 
     override function create() {
@@ -61,6 +61,10 @@ class ModifiersMenu extends MusicBeatState{
             trueorfalsesmthidk.text = 'Fair Fight = false';
         else if (daSelected == 'Fair Fight' && ClientPrefs.fairFight == true)
             trueorfalsesmthidk.text = 'Fair Fight = true';
+        else if (daSelected == 'Poison Plus' && ClientPrefs.poisonPlus == false)
+            trueorfalsesmthidk.text = 'Poison Plus = false';
+        else if (daSelected == 'Poison Plus' && ClientPrefs.poisonPlus == true)
+            trueorfalsesmthidk.text = 'Poison Plus = true';
         else
             trueorfalsesmthidk.text == 'unknown option or null bool';
 

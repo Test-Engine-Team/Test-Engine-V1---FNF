@@ -13,6 +13,7 @@ class ClientPrefs {
 	// Modifiers
 	public static var spinnyspin:Bool = false;
 	public static var fairFight:Bool = false;
+	public static var poisonPlus:Bool = false;
 
 	//easter eggs
 	public static var tristanPlayer:Bool = false;

@@ -107,6 +107,7 @@ class PlayState extends MusicBeatState
 	private var health:Float = 1;
 	private var combo:Int = 0;
 	private var notesHit:Int = 0;
+	private var poisonTimes:Int = 0;
 
 	private var healthBarBG:FlxSprite;
 	private var healthBar:FlxBar;
@@ -1770,6 +1771,22 @@ class PlayState extends MusicBeatState
 							songMisses++;
 							songScore -= 10;
 							combo = 0;
+
+							if(ClientPrefs.poisonPlus == true && poisonTimes < 3) {
+								trace('poison hit!');
+								poisonTimes += 1;
+								var poisonPlusTimer = new FlxTimer().start(0.5, function(tmr:FlxTimer)
+								{
+									health -= 0.04;
+								}, 0);
+								// stop timer after 3 seconds
+								new FlxTimer().start(3, function(tmr:FlxTimer)
+								{
+									trace('stop');
+									poisonPlusTimer.cancel();
+									poisonTimes -= 1;
+								});
+							}
 
 							if (SONG.song.toLowerCase() == 'test'){
 								FlxG.updateFramerate -= 10;
