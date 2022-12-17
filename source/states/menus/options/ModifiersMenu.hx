@@ -14,7 +14,7 @@ class ModifiersMenu extends MusicBeatState{
     var maintextgroup:FlxTypedGroup<Alphabet>;
     var maintext:Alphabet;
     var curSelected:Int = 0;
-    var Items:Array<String> = ['Hp Drain', 'Do A Barrel Roll', 'Fair Fight'];
+    var Items:Array<String> = ['Do A Barrel Roll', 'Fair Fight'];
     var trueorfalsesmthidk:FlxText;
 
     override function create() {
@@ -53,11 +53,7 @@ class ModifiersMenu extends MusicBeatState{
 
         var daSelected:String = Items[curSelected];
 
-        if (daSelected == 'Hp Drain' && ClientPrefs.hpdrain == false)
-            trueorfalsesmthidk.text = 'Hp Drain = false';
-        else if (daSelected == 'Hp Drain' && ClientPrefs.hpdrain == true)
-            trueorfalsesmthidk.text = 'Hp Drain = true';
-        else if (daSelected == 'Do A Barrel Roll' && ClientPrefs.spinnyspin == false)
+        if (daSelected == 'Do A Barrel Roll' && ClientPrefs.spinnyspin == false)
             trueorfalsesmthidk.text = 'Do A Barrel Roll = false';
         else if (daSelected == 'Do A Barrel Roll' && ClientPrefs.spinnyspin == true)
             trueorfalsesmthidk.text = 'Do A Barrel Roll = true';
@@ -71,11 +67,6 @@ class ModifiersMenu extends MusicBeatState{
         if (FlxG.keys.justPressed.ENTER){
 			switch (daSelected)
 			{
-				case 'Hp Drain':
-                if (ClientPrefs.hpdrain == false)
-                    ClientPrefs.hpdrain = true;
-                    else
-                    ClientPrefs.hpdrain = false;
                 case 'Do A Barrel Roll':
                     if (ClientPrefs.spinnyspin == false)
                         ClientPrefs.spinnyspin = true;

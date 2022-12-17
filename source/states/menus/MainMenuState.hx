@@ -85,7 +85,7 @@ class MainMenuState extends MusicBeatState
 		menuItems = new FlxTypedGroup<FlxSprite>();
 		add(menuItems);
 
-		var tex = FlxAtlasFrames.fromSparrow('assets/images/FNF_main_menu_assets.png', 'assets/images/FNF_main_menu_assets.xml');
+		var tex = Files.sparrowAtlas('FNF_main_menu_assets');
 
 		for (i in 0...optionShit.length)
 		{

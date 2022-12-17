@@ -11,7 +11,6 @@ class ClientPrefs {
 	public static var showComboText:Bool = true;
 
 	// Modifiers
-	public static var hpdrain:Bool = false;
 	public static var spinnyspin:Bool = false;
 	public static var fairFight:Bool = false;
 
@@ -53,7 +52,6 @@ class ClientPrefs {
 	}
 
     public static function saveSettings() {
-        FlxG.save.data.hpdrain = hpdrain;
 		FlxG.save.data.spinnyspin = spinnyspin;
 		FlxG.save.data.fairFight = fairFight;
 		FlxG.save.data.ghostTapping = ghostTapping;
@@ -71,9 +69,6 @@ class ClientPrefs {
     }
 
     public static function loadPrefs() {
-		if(FlxG.save.data.hpdrain != null) {
-			hpdrain = FlxG.save.data.hpdrain;
-		}
 		if(FlxG.save.data.spinnyspin != null) {
 			spinnyspin = FlxG.save.data.spinnyspin;
 		}
