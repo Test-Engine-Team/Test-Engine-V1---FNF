@@ -1772,7 +1772,7 @@ class PlayState extends MusicBeatState
 							songScore -= 10;
 							combo = 0;
 
-							if(ClientPrefs.poisonPlus == true && poisonTimes < 3) {
+							if(ClientPrefs.poisonPlus && poisonTimes < 3) {
 								trace('poison hit!');
 								poisonTimes += 1;
 								var poisonPlusTimer = new FlxTimer().start(0.5, function(tmr:FlxTimer)
