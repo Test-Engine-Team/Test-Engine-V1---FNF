@@ -15,7 +15,6 @@ class Options extends MusicBeatState {
 
     override function create() {
         trace('unfinnished lol');
-        changeSelection();
         var bg:FlxSprite = new FlxSprite().loadGraphic(Files.image('menuDesat'));
         bg.color = 0x302D2D;
 		add(bg);
@@ -30,6 +29,8 @@ class Options extends MusicBeatState {
         maintext.isMenuItem = true;
         maintextgroup.add(maintext);
         }
+
+        changeSelection();
 }
 
     override public function update(elapsed:Float){

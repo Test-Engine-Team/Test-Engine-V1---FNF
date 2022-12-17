@@ -80,6 +80,7 @@ class ModSelectSubstate extends MusicBeatSubstate {
                     listTxt.text += prefix + modList[i] + "\n";
                 }
             case 2:
+                FlxG.sound.music.stop();
                 File.saveContent("./mods/currentMod.txt", (curSelected == 0) ? "" : modList[curSelected]);
                 FlxG.switchState(new states.menus.LoadingState());
             case 3:

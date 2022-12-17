@@ -36,6 +36,7 @@ using StringTools;
 class TitleState extends MusicBeatState
 {
 	static public var initialized:Bool = false;
+	static public var seenIntro:Bool = false;
 	static public var soundExt:String = ".mp3";
 
 	var swagShader:ColorSwap;
@@ -99,10 +100,11 @@ class TitleState extends MusicBeatState
 				StoryMenuState.weekUnlocked[0] = true;
 		}
 
-		new FlxTimer().start(1, function(tmr:FlxTimer)
+		/*new FlxTimer().start(1, function(tmr:FlxTimer)
 		{
 			startIntro();
-		});
+		});*/
+		new FlxTimer().start(1, startIntro);
 	}
 
 	var logoBl:FlxSprite;
@@ -110,7 +112,7 @@ class TitleState extends MusicBeatState
 	var danceLeft:Bool = false;
 	var titleText:FlxSprite;
 
-	function startIntro()
+	function startIntro(tmr:FlxTimer) //tmr param is so i can add it to the timer complete func.
 	{
 		if (!initialized)
 		{
@@ -126,15 +128,18 @@ class TitleState extends MusicBeatState
 			transIn = FlxTransitionableState.defaultTransIn;
 			transOut = FlxTransitionableState.defaultTransOut;
 
-			FlxG.sound.playMusic(Files.music('freakyMenu'), 0);
-
-			FlxG.sound.music.fadeIn(4, 0, 0.7);
-
 			#if desktop
 			DiscordHandler.initialize();
 			#end
 		}
 
+		if (!seenIntro) {
+			FlxG.sound.playMusic(Files.music('freakyMenu'), 0);
+
+			FlxG.sound.music.fadeIn(4, 0, 0.7);
+		}
+
+		Conductor.songPosition = 0;
 		Conductor.changeBPM(102);
 		persistentUpdate = true;
 
@@ -208,11 +213,11 @@ class TitleState extends MusicBeatState
 
 		FlxG.mouse.visible = false;
 
-		if (initialized)
+		if (seenIntro)
 			skipIntro();
-		else
-			initialized = true;
 
+		seenIntro = true;
+		initialized = true;
 		// credGroup.add(credTextShit);
 	}
 
@@ -235,7 +240,7 @@ class TitleState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
-		if (FlxG.sound.music != null)
+		if (FlxG.sound.music != null && seenIntro)
 			Conductor.songPosition = FlxG.sound.music.time;
 		// FlxG.watch.addQuick('amp', FlxG.sound.music.amplitude);
 
