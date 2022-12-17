@@ -1801,7 +1801,7 @@ class PlayState extends MusicBeatState
 	public function endSong():Void
 	{
 		#if desktop
-		DiscordHandler.changePresence('In The Menus The Last Song They Played Was', SONG.song.toLowerCase());
+		DiscordHandler.changePresence('In The Menus The Last Song They Played Was', SONG.song.toLowerCase());//holy shit its discord
 		#end
 
 		canPause = false;
