@@ -1,12 +1,11 @@
 package states.menus;
 
 /*
-plz don't mess with this yet.
-iss wip.
-
-as of right now, all it does is just set stuff in a data var.
-soon ill make it so the states utilize this class.
+plz don't mess with this.
 */
+import handlers.Files;
+import flixel.text.FlxText;
+import flixel.FlxSprite;
 import flixel.util.FlxColor;
 import flixel.FlxG;
 import handlers.MusicBeatState;
@@ -55,6 +54,12 @@ class LoadingState extends MusicBeatState {
         selectColor: 0xFF00B386
     }; //It gets set in create so no need to fill this.
 
+    private static var defaultModData:ModDataYee = {
+        titleBar: "Friday Night Funkin' - Test Engine",
+        weekList: [],
+        selectColor: 0xFF00B386
+    };
+
     private final defaultBF:MenuCharData = {
         spritePath: "campaign_menu_UI_characters",
         idleAnim: "BF idle",
@@ -76,148 +81,44 @@ class LoadingState extends MusicBeatState {
     };
 
     override public function create() {
-        modData = {
-            titleBar: "Friday Night Funkin' - Test Engine",
-            weekList: [
-                {
-                    name: "Tutorial",
-                    spriteImage: "tutorial",
-                    songs: ["Tutorial"],
-                    paths: ["tutorial"],
-                    icons: ["gf"],
-                    diffs: ["Easy", "Normal", "Hard"],
-                    chars: [{
-                        spritePath: "campaign_menu_UI_characters",
-                        idleAnim: "Dad",
-                        confirmAnim: null,
-                        scale: 0.5,
-                        xOffset: 20,
-                        yOffset: 100,
-                        flipX: false
-                    }, defaultGF, defaultBF]
-                },
-                {
-                    name: "DADDY DEAREST",
-                    spriteImage: "week1",
-                    songs: ["Bopeebo", "Fresh", "Dadbattle"],
-                    paths: ["bopeebo", "fresh", "dadbattle"],
-                    icons: ["dad", "dad", "dad"],
-                    diffs: ["Easy", "Normal", "Hard"],
-                    chars: [{
-                        spritePath: "campaign_menu_UI_characters",
-                        idleAnim: "Dad",
-                        confirmAnim: null,
-                        scale: 0.5,
-                        xOffset: 20,
-                        yOffset: 100,
-                        flipX: false
-                    }, defaultGF, defaultBF]
-                },
-                {
-                    name: "Spooky Month",
-                    spriteImage: "week2",
-                    songs: ["Spookeez", "South", "Monster"],
-                    paths: ["spookeez", "south", "monster"],
-                    icons: ["spooky", "spooky", "monster"],
-                    diffs: ["Easy", "Normal", "Hard"],
-                    chars: [{
-                        spritePath: "campaign_menu_UI_characters",
-                        idleAnim: "spooky",
-                        confirmAnim: null,
-                        scale: 0.6,
-                        xOffset: 0,
-                        yOffset: 130,
-                        flipX: false
-                    }, defaultGF, defaultBF]
-                },
-                {
-                    name: "PICO",
-                    spriteImage: "week3",
-                    songs: ["Pico", "Philly", "Blammed"],
-                    paths: ["pico", "philly", "blammed"],
-                    icons: ["pico", "pico", "pico"],
-                    diffs: ["Easy", "Normal", "Hard"],
-                    chars: [{
-                        spritePath: "campaign_menu_UI_characters",
-                        idleAnim: "Pico",
-                        confirmAnim: null,
-                        scale: 0.7,
-                        xOffset: 0,
-                        yOffset: 130,
-                        flipX: true
-                    }, defaultGF, defaultBF]
-                },
-                {
-                    name: "MOMMY MUST MURDER",
-                    spriteImage: "week4",
-                    songs: ["Satin-Panties", "High", "MILF"],
-                    paths: ["satin-panties", "high", "milf"],
-                    icons: ["mom", "mom", "mom"],
-                    diffs: ["Easy", "Normal", "Hard"],
-                    chars: [{
-                        spritePath: "campaign_menu_UI_characters",
-                        idleAnim: "Mom",
-                        confirmAnim: null,
-                        scale: 0.5,
-                        xOffset: 70,
-                        yOffset: 100,
-                        flipX: false
-                    }, defaultGF, defaultBF]
-                },
-                {
-                    name: "RED SNOW",
-                    spriteImage: "week5",
-                    songs: ["Cocoa", "Eggnog", "Winter-Horrorland"],
-                    paths: ["cocoa", "eggnog", "winter-horrorland"],
-                    icons: ["parents-christmas", "parents-christmas", "monster"],
-                    diffs: ["Easy", "Normal", "Hard"],
-                    chars: [{
-                        spritePath: "campaign_menu_UI_characters",
-                        idleAnim: "Parent",
-                        confirmAnim: null,
-                        scale: 0.5,
-                        xOffset: -100,
-                        yOffset: 100,
-                        flipX: false
-                    }, defaultGF, defaultBF]
-                },
-                {
-                    name: "HATING SIMULATOR FT. MOAWLING",
-                    spriteImage: "week6",
-                    songs: ["Senpai", "Roses", "Thorns"],
-                    paths: ["senpai", "roses", "thorns"],
-                    icons: ["senpai", "senpai", "spirit"],
-                    diffs: ["Easy", "Normal", "Hard"],
-                    chars: [{
-                        spritePath: "campaign_menu_UI_characters",
-                        idleAnim: "SENPAI idle",
-                        confirmAnim: null,
-                        scale: 1,
-                        xOffset: 0,
-                        yOffset: 150,
-                        flipX: false
-                    }, defaultGF, defaultBF]
-                },
-                {
-                    name: "TANKMAN",
-                    spriteImage: "week7",
-                    songs: ["Ugh", "Guns", "Stress"],
-                    paths: ["ugh", "guns", "stress"],
-                    icons: ["tankman", "tankman", "tankman"],
-                    diffs: ["Easy", "Normal", "Hard"],
-                    chars: [{
-                        spritePath: "campaign_menu_UI_characters",
-                        idleAnim: "Tankman",
-                        confirmAnim: null,
-                        scale: 1,
-                        xOffset: 50,
-                        yOffset: 150,
-                        flipX: false
-                    }, defaultGF, defaultBF]
+        super.create();
+
+        var menuBG:FlxSprite = new FlxSprite(0, 0, openfl.Assets.getBitmapData(Files.image("menus/loadingScreen")));
+        add(menuBG);
+
+        var modLoadingTxt:FlxText = new FlxText(1270, 715, 0, "Parsing Base Mod Data", 30);
+        modLoadingTxt.setFormat("VCR OSD Mono", 30, 0xFF120024, "right", FlxTextBorderStyle.OUTLINE, 0xFF5900FF);
+        modLoadingTxt.borderSize = 2;
+        modLoadingTxt.x -= modLoadingTxt.width;
+        modLoadingTxt.y -= modLoadingTxt.height;
+        add(modLoadingTxt);
+
+        if (!addedCrash) { //Parse default mod data.
+            var daModData:ModDataYee = {
+                titleBar: "Friday Night Funkin' - Test Engine",
+                weekList: [],
+                selectColor: 0xFF00B386
+            };
+
+            var defaultXml:Xml = Xml.parse(Assets.getText("assets/embedData/defaultModData.xml")).firstElement();
+
+            if (defaultXml.get("titleBarName") != null) daModData.titleBar = defaultXml.get("titleBarName");
+            var xmlWeeks = defaultXml.elementsNamed("week");
+            if (xmlWeeks != null && xmlWeeks.hasNext()) {
+                daModData.weekList = [];
+                for (week in xmlWeeks) {
+                    daModData.weekList.push(addModWeek(week));
                 }
-            ],
-            selectColor: 0xFF00B386
-        };
+            }
+
+            var color:String = defaultXml.get("color");
+            if (color != null)
+                daModData.selectColor = (color.startsWith("#") || color.startsWith("0x")) ? FlxColor.fromString(color) : FlxColor.fromString("#" + color);
+
+            defaultModData = daModData;
+        }
+
+        modData = Reflect.copy(defaultModData);
 
         #if MODS_ENABLED
         var modsToLoad = ["+BASE+"];
@@ -233,6 +134,10 @@ class LoadingState extends MusicBeatState {
 
         Polymod.init({modRoot: "mods/", dirs: modsToLoad});
         if (Assets.exists("assets/modData.xml")) {
+            modLoadingTxt.text = 'Parsing Mod Data For "' + currentMod + '"';
+            modLoadingTxt.x = 1270 - modLoadingTxt.width;
+            modLoadingTxt.y = 715 - modLoadingTxt.height;
+
             var xml:Xml = Xml.parse(Assets.getText("assets/modData.xml")).firstElement();
 
             if (xml.get("titleBarName") != null) modData.titleBar = xml.get("titleBarName");
@@ -255,8 +160,20 @@ class LoadingState extends MusicBeatState {
             addedCrash = true;
         }
         #end
-        TitleState.seenIntro = false;
-        FlxG.switchState(new TitleState());
+
+        
+		#if (!web)
+		TitleState.soundExt = '.ogg';
+		FlxG.stage.frameRate = 120;
+		#end
+        modLoadingTxt.text = 'Finished parsing. Have fun!';
+        modLoadingTxt.x = 1270 - modLoadingTxt.width;
+        modLoadingTxt.y = 715 - modLoadingTxt.height;
+
+        new flixel.util.FlxTimer().start(0.5, function(tmr:flixel.util.FlxTimer) {
+            TitleState.seenIntro = false;
+            FlxG.switchState(new TitleState());
+        });
     }
 
     #if desktop
