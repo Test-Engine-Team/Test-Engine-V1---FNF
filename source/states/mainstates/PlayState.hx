@@ -1409,7 +1409,7 @@ class PlayState extends MusicBeatState
 				//until we code in alt notes
 				if (SONG.song.toLowerCase() == 'ugh')
 					event('play anim', 'tankman', 'Ugh');
-				if (MainMenuState.ugheasteregg){
+				if (MainMenuState.ugheasteregg && SONG.song.toLowerCase() == 'ugh'){
 					event('image flash', 'vineboom', null);
 					FlxG.sound.play(Files.sound('vineboom'), 0.6);
 				}
