@@ -112,6 +112,8 @@ class PlayState extends MusicBeatState
 	private var healthBarBG:FlxSprite;
 	private var healthBar:FlxBar;
 
+	private var poisonCounter:FlxSprite;
+
 	private var generatedMusic:Bool = false;
 	private var startingSong:Bool = false;
 
@@ -821,6 +823,10 @@ class PlayState extends MusicBeatState
 
 		if (SONG.song.toLowerCase() == 'test') {
 			iconP2.antialiasing = true;
+		}
+
+		if (ClientPrefs.poisonPlus) {
+			//put poison counter
 		}
 
 		strumLineNotes.cameras = [camHUD];
