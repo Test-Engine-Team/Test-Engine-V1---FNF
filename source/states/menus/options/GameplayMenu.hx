@@ -57,6 +57,8 @@ class GameplayMenu extends MusicBeatState{
             trueorfalsesmthidk.text = 'Ghost Tapping = false';
         else if (daSelected == 'Ghost Tapping' && ClientPrefs.ghostTapping == true)
             trueorfalsesmthidk.text = 'Ghost Tapping = true';
+        else if (daSelected == 'Down Scroll')
+            trueorfalsesmthidk.text = 'Down Scroll';
         else
             trueorfalsesmthidk.text == 'unknown option or null bool';
 

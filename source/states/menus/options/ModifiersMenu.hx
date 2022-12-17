@@ -14,7 +14,7 @@ class ModifiersMenu extends MusicBeatState{
     var maintextgroup:FlxTypedGroup<Alphabet>;
     var maintext:Alphabet;
     var curSelected:Int = 0;
-    var Items:Array<String> = ['Hp Drain', 'Do A Barrel Roll'];
+    var Items:Array<String> = ['Hp Drain', 'Do A Barrel Roll', 'Fair Fight'];
     var trueorfalsesmthidk:FlxText;
 
     override function create() {
@@ -61,6 +61,10 @@ class ModifiersMenu extends MusicBeatState{
             trueorfalsesmthidk.text = 'Do A Barrel Roll = false';
         else if (daSelected == 'Do A Barrel Roll' && ClientPrefs.spinnyspin == true)
             trueorfalsesmthidk.text = 'Do A Barrel Roll = true';
+        else if (daSelected == 'Fair Fight' && ClientPrefs.fairFight == false)
+            trueorfalsesmthidk.text = 'Fair Fight = false';
+        else if (daSelected == 'Fair Fight' && ClientPrefs.fairFight == true)
+            trueorfalsesmthidk.text = 'Fair Fight = true';
         else
             trueorfalsesmthidk.text == 'unknown option or null bool';
 
@@ -77,6 +81,11 @@ class ModifiersMenu extends MusicBeatState{
                         ClientPrefs.spinnyspin = true;
                         else
                         ClientPrefs.spinnyspin = false;
+                case 'Fair Fight':
+                    if (ClientPrefs.fairFight == false)
+                        ClientPrefs.fairFight = true;
+                        else
+                        ClientPrefs.fairFight = false;
 			}
         }
     }

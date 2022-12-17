@@ -1728,6 +1728,9 @@ class PlayState extends MusicBeatState
 							altAnim = '-alt';
 					}
 
+					if (ClientPrefs.fairFight)
+						health -= 0.01;
+
 					switch (Math.abs(daNote.noteData))
 					{
 						case 0:

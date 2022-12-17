@@ -8,9 +8,12 @@ import Controls;
 
 class ClientPrefs {
     public static var ghostTapping:Bool = true;
+	public static var showComboText:Bool = true;
+
+	// Modifiers
 	public static var hpdrain:Bool = false;
 	public static var spinnyspin:Bool = false;
-    public static var showComboText:Bool = true;
+	public static var fairFight:Bool = false;
 
 	//easter eggs
 	public static var tristanPlayer:Bool = false;
@@ -52,6 +55,7 @@ class ClientPrefs {
     public static function saveSettings() {
         FlxG.save.data.hpdrain = hpdrain;
 		FlxG.save.data.spinnyspin = spinnyspin;
+		FlxG.save.data.fairFight = fairFight;
 		FlxG.save.data.ghostTapping = ghostTapping;
         FlxG.save.data.showComboText = showComboText;
 		FlxG.save.data.tristanPlayer = tristanPlayer;
@@ -72,6 +76,9 @@ class ClientPrefs {
 		}
 		if(FlxG.save.data.spinnyspin != null) {
 			spinnyspin = FlxG.save.data.spinnyspin;
+		}
+		if(FlxG.save.data.fairFight != null) {
+			fairFight = FlxG.save.data.fairFight;
 		}
         if(FlxG.save.data.ghostTapping != null) {
 			ghostTapping = FlxG.save.data.ghostTapping;
