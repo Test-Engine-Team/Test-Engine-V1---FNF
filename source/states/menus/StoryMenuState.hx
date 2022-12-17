@@ -112,8 +112,6 @@ class StoryMenuState extends MusicBeatState
 		sprDifficulty.x += sprDifficulty.frameWidth / 2;
 		sprDifficulty.y += sprDifficulty.frameHeight / 2;
 		normDiffY = sprDifficulty.y;
-		diffCheck(["/"], firstWeek.diffs);
-
 		difficultySelectors.add(sprDifficulty);
 
 		rightArrow = new FlxSprite(sprDifficulty.x + (sprDifficulty.frameWidth * 0.5) + 10, leftArrow.y);
@@ -122,6 +120,7 @@ class StoryMenuState extends MusicBeatState
 		rightArrow.animation.addByPrefix('press', "arrow push right", 24, false);
 		rightArrow.animation.play('idle');
 		difficultySelectors.add(rightArrow);
+		diffCheck(["/"], firstWeek.diffs);
 
 		add(yellowBG);
 		add(grpWeekCharacters);
@@ -211,7 +210,8 @@ class StoryMenuState extends MusicBeatState
 			stopspamming = true;
 		}
 
-		PlayState.storyPlaylist = weekList[curWeek].paths;
+		//Doin for loop cause if i just do `weekList[curWeek].paths` it removes the modData paths as the week continues.
+		PlayState.storyPlaylist = [for (path in weekList[curWeek].paths) path];
 		PlayState.isStoryMode = true;
 		selectedWeek = true;
 
