@@ -56,11 +56,6 @@ class TitleState extends MusicBeatState
 	{
 		persistentUpdate = false;
 
-		#if (!web)
-		TitleState.soundExt = '.ogg';
-		FlxG.stage.frameRate = 120;
-		#end
-
 		#if sys
 		if (Assets.exists('assets/images/monkie.png'))
 			trace('good you have monkie');
