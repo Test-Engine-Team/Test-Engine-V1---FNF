@@ -238,7 +238,7 @@ class FreeplayState extends MusicBeatState
 			curSelected = 0;
 
 		var currentSong:FreeplaySong = songList[curSelected];
-		if (!checkDiffs(oldDiffs, currentSong.diffs))
+		if (oldDiffs.length != currentSong.diffs.length || !checkDiffs(oldDiffs, currentSong.diffs))
 			setDiff(Math.floor(currentSong.diffs.length / 2));
 
 		// selector.y = (70 * curSelected) + 30;
