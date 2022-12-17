@@ -15,6 +15,9 @@ class ModifiersMenu extends MusicBeatState{
     var maintext:Alphabet;
     var curSelected:Int = 0;
     var Items:Array<String> = ['Do A Barrel Roll', 'Fair Fight', 'Poison Plus'];
+    var poisonPlusMinNum:Int = 0;
+    var poisonPlusMaxNum:Int = 20;
+    var curSubSelected:Int = 3;
     var trueorfalsesmthidk:FlxText;
 
     override function create() {
@@ -46,10 +49,16 @@ class ModifiersMenu extends MusicBeatState{
         FlxG.switchState(new Options());
 
         if (FlxG.keys.justPressed.DOWN)
+        {
             changeSelection(1);
+            curSubSelected = 3;
+        }
 
         if (FlxG.keys.justPressed.UP)
+        {
             changeSelection(-1);
+            curSubSelected = 3;
+        }
 
         var daSelected:String = Items[curSelected];
 
@@ -64,7 +73,7 @@ class ModifiersMenu extends MusicBeatState{
         else if (daSelected == 'Poison Plus' && ClientPrefs.poisonPlus == false)
             trueorfalsesmthidk.text = 'Poison Plus = false';
         else if (daSelected == 'Poison Plus' && ClientPrefs.poisonPlus == true)
-            trueorfalsesmthidk.text = 'Poison Plus = true';
+            trueorfalsesmthidk.text = 'Poison Plus = true | Max Poison Hits = $curSubSelected';
         else
             trueorfalsesmthidk.text == 'unknown option or null bool';
 
@@ -88,6 +97,22 @@ class ModifiersMenu extends MusicBeatState{
                         ClientPrefs.poisonPlus = false;
 			}
         }
+        else if (FlxG.keys.justPressed.LEFT){ //down
+            switch (daSelected)
+            {
+                case 'Poison Plus':
+                    if (ClientPrefs.poisonPlus == true) {
+                        changeSubSelection(-1);
+                    }
+            }}
+        else if (FlxG.keys.justPressed.RIGHT){ //up
+            switch(daSelected)
+            {
+                case 'Poison Plus':
+                    if (ClientPrefs.poisonPlus == true) {
+                        changeSubSelection(1);
+                    }
+            }}
     }
 
     /*
@@ -129,4 +154,23 @@ class ModifiersMenu extends MusicBeatState{
 			}
 		}
 	}
+    function changeSubSelection(change:Int = 0):Void
+    {
+        curSubSelected += change;
+
+        var daSelected:String = Items[curSelected];
+
+        switch (daSelected)
+        {
+            case 'Poison Plus':
+                if (curSubSelected < poisonPlusMinNum)
+                    curSubSelected = 0;
+                if (curSubSelected >= poisonPlusMaxNum) {
+                    curSubSelected = poisonPlusMaxNum;
+                }
+        }
+
+        if (daSelected == 'Poison Plus')
+            ClientPrefs.maxPoisonHits = curSubSelected;
+    }
 }

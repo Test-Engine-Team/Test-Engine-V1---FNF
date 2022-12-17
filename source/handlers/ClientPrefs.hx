@@ -14,6 +14,7 @@ class ClientPrefs {
 	public static var spinnyspin:Bool = false;
 	public static var fairFight:Bool = false;
 	public static var poisonPlus:Bool = false;
+	public static var maxPoisonHits:Int = 3;
 
 	//easter eggs
 	public static var tristanPlayer:Bool = false;
@@ -59,6 +60,7 @@ class ClientPrefs {
         FlxG.save.data.showComboText = showComboText;
 		FlxG.save.data.tristanPlayer = tristanPlayer;
         FlxG.save.data.tankmanFloat = tankmanFloat;
+		FlxG.save.data.maxPoisonHits = maxPoisonHits;
 
         FlxG.save.flush();
 
@@ -75,6 +77,9 @@ class ClientPrefs {
 		}
 		if(FlxG.save.data.fairFight != null) {
 			fairFight = FlxG.save.data.fairFight;
+		}
+		if(FlxG.save.data.maxPoisonHits != null) {
+			maxPoisonHits = FlxG.save.data.maxPoisonHits;
 		}
         if(FlxG.save.data.ghostTapping != null) {
 			ghostTapping = FlxG.save.data.ghostTapping;

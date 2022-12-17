@@ -1778,7 +1778,22 @@ class PlayState extends MusicBeatState
 							songScore -= 10;
 							combo = 0;
 
-							if(ClientPrefs.poisonPlus == true && poisonTimes < 3) {
+							if(ClientPrefs.poisonPlus == true && poisonTimes < ClientPrefs.maxPoisonHits && ClientPrefs.maxPoisonHits != 0) {
+								trace('poison hit!');
+								poisonTimes += 1;
+								var poisonPlusTimer = new FlxTimer().start(0.5, function(tmr:FlxTimer)
+								{
+									health -= 0.04;
+								}, 0);
+								// stop timer after 3 seconds
+								new FlxTimer().start(3, function(tmr:FlxTimer)
+								{
+									trace('stop');
+									poisonPlusTimer.cancel();
+									poisonTimes -= 1;
+								});
+							}
+							else if (ClientPrefs.poisonPlus == true && ClientPrefs.maxPoisonHits == 0) {
 								trace('poison hit!');
 								poisonTimes += 1;
 								var poisonPlusTimer = new FlxTimer().start(0.5, function(tmr:FlxTimer)
