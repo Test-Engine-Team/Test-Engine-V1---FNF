@@ -1,0 +1,43 @@
+<!DOCTYPE test-engine-modData>
+<mod titleBarName="Friday Night Funkin' - Test Engine">
+	<week name="Tutorial" image="tutorial" songs="Tutorial" songPaths="tutorial" icons="gf" diffs="Easy, Normal, Hard">
+		<char path="campaign_menu_UI_characters" idle="Dad" xOffset="20" yOffset="100" scale="0.5"/>
+		<char default="gf"/>
+		<char default="bf"/>
+	</week>
+	<week name="DADDY DEAREST" image="week1" songs="Bopeebo,Fresh,Dadbattle" songPaths="bopeebo,fresh,dadbattle" icons="dad,dad,dad" diffs="Easy, Normal, Hard">
+		<char path="campaign_menu_UI_characters" idle="Dad" xOffset="20" yOffset="100" scale="0.5"/>
+		<char default="gf"/>
+		<char default="bf"/>
+	</week>
+	<week name="Spooky Month" image="week2" songs="Spookeez, South, Monster" songPaths="spookeez,south,monster" icons="spooky,spooky,monster" diffs="Easy, Normal, Hard">
+		<char path="campaign_menu_UI_characters" idle="spooky" xOffset="0" yOffset="130" scale="0.6"/>
+		<char default="gf"/>
+		<char default="bf"/>
+	</week>
+	<week name="Pico" image="week3" songs="Pico,Philly,Blammed" songPaths="pico,philly,blammed" icons="pico,pico,pico" diffs="Easy, Normal, Hard">
+		<char path="campaign_menu_UI_characters" idle="Pico" xOffset="0" yOffset="130" scale="0.7" flipX="true"/>
+		<char default="gf"/>
+		<char default="bf"/>
+	</week>
+	<week name="MOMMY MUST MURDER" image="week4" songs="Satin Panties, High, MILF" songPaths="satin-panties,high,milf" icons="mom,mom,mom" diffs="Easy, Normal, Hard">
+		<char path="campaign_menu_UI_characters" idle="Mom" xOffset="70" yOffset="100" scale="0.5"/>
+		<char default="gf"/>
+		<char default="bf"/>
+	</week>
+	<week name="RED SNOW" image="week5" songs="Cocoa,Eggnog,Winter-Horrorland" songPaths="cocoa,eggnog,winter-horrorland" icons="parents-christmas,parents-christmas,monster" diffs="Easy, Normal, Hard">
+		<char path="campaign_menu_UI_characters" idle="Parent" xOffset="-100" yOffset="100" scale="0.5"/>
+		<char default="gf"/>
+		<char default="bf"/>
+	</week>
+	<week name="HATING SIMULATOR FT. MOAWLING" image="week6" songs="Senpai, Roses, Thorns" songPaths="senpai,roses,thorns" icons="senpai,senpai,spirit" diffs="Easy, Normal, Hard">
+		<char path="campaign_menu_UI_characters" idle="SENPAI idle" xOffset="0" yOffset="150" scale="1"/>
+		<char default="gf"/>
+		<char default="bf"/>
+	</week>
+	<week name="Tankman" image="week7" songs="Ugh,Guns,Stress" songPaths="ugh,guns,stress" icons="tankman,tankman,tankman" diffs="Easy, Normal, Hard">
+		<char path="campaign_menu_UI_characters" idle="Tankman" xOffset="50" yOffset="150" scale="1"/>
+		<char default="gf"/>
+		<char default="bf"/>
+	</week>
+</mod>
