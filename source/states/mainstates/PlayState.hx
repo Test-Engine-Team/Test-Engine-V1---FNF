@@ -1928,7 +1928,9 @@ class PlayState extends MusicBeatState
 			noteSplash = false;
 		}
 
-		songScore += score * (combo + 1);
+		var scoreIncrease:Float = score * ((combo + 1) * 0.05);
+		score += Math.floor(scoreIncrease);
+		songScore += score;
 
 		/* if (combo > 60)
 				daRating = 'sick';
