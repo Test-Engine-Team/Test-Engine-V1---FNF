@@ -82,18 +82,33 @@ class GameplayMenu extends MusicBeatState{
             }
         },
         {
-            name: "Show Combo Text",
+            name: "Show Combo Sprite",
             description: 'Shows the sprite saying "COMBO" when you hit a note.',
             type: BOOL,
             min: 0,
             max: 1,
             updateFunc: function(menuOption:MenuOption, elapsed:Float) {
                 if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
-                    ClientPrefs.showComboText = !ClientPrefs.showComboText;
+                    ClientPrefs.showComboSprite = !ClientPrefs.showComboSprite;
                 }
             },
             valueFunc: function() {
-                return (ClientPrefs.showComboText) ? "Enabled" : "Disabled";
+                return (ClientPrefs.showComboSprite) ? "Enabled" : "Disabled";
+            }
+        },
+        {
+            name: "Cutscenes on Freeplay",
+            description: "Plays cutscenes when you play a song on freeplay.",
+            type: BOOL,
+            min: 0,
+            max: 1,
+            updateFunc: function(menuOption:MenuOption, elapsed:Float) {
+                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
+                    ClientPrefs.freeplayCutscenes = !ClientPrefs.freeplayCutscenes;
+                }
+            },
+            valueFunc: function() {
+                return (ClientPrefs.freeplayCutscenes) ? "Enabled" : "Disabled";
             }
         },
     ];

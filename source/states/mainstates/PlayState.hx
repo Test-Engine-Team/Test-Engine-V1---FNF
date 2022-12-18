@@ -805,7 +805,7 @@ class PlayState extends MusicBeatState
 
 		startingSong = true;
 
-		if (isStoryMode)
+		if (isStoryMode || ClientPrefs.freeplayCutscenes)
 		{
 			switch (curSong.toLowerCase())
 			{
@@ -1990,7 +1990,7 @@ class PlayState extends MusicBeatState
 			if (combo >= 10 || combo == 0)
 				add(numScore);
 
-			if (combo > 9 && ClientPrefs.showComboText)
+			if (combo > 9 && ClientPrefs.showComboSprite)
 				add(comboSpr);
 
 			FlxTween.tween(numScore, {alpha: 0}, 0.2, {

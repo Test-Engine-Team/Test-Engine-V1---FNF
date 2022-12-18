@@ -9,9 +9,10 @@ import Controls;
 class ClientPrefs {
 	// Options
     public static var ghostTapping:Bool = true;
-	public static var showComboText:Bool = true;
+	public static var showComboSprite:Bool = true;
 	public static var framerate:Int = 60;
 	public static var downscroll:Bool = false;
+	public static var freeplayCutscenes:Bool = false;
 
 	// Modifiers
 	public static var spinnyspin:Bool = false;
@@ -60,7 +61,7 @@ class ClientPrefs {
 		FlxG.save.data.spinnyspin = spinnyspin;
 		FlxG.save.data.fairFight = fairFight;
 		FlxG.save.data.ghostTapping = ghostTapping;
-        FlxG.save.data.showComboText = showComboText;
+        FlxG.save.data.showComboSprite = showComboSprite;
 		FlxG.save.data.tristanPlayer = tristanPlayer;
         FlxG.save.data.tankmanFloat = tankmanFloat;
 		FlxG.save.data.maxPoisonHits = maxPoisonHits;
@@ -92,8 +93,8 @@ class ClientPrefs {
         if(FlxG.save.data.ghostTapping != null) {
 			ghostTapping = FlxG.save.data.ghostTapping;
 		}
-        if (FlxG.save.data.showComboText != null) {
-            showComboText = FlxG.save.data.showComboText;
+        if (FlxG.save.data.showComboSprite != null) {
+            showComboSprite = FlxG.save.data.showComboSprite;
         }
 		if (FlxG.save.data.tristanPlayer != null) {
 			tristanPlayer = FlxG.save.data.tristanPlayable;
