@@ -724,7 +724,7 @@ class PlayState extends MusicBeatState
 		Conductor.songPosition = -5000;
 
 		strumLine = new FlxSprite(0, 50).makeGraphic(FlxG.width, 10);
-		if(ClientPrefs.downscroll) strumLine.y = FlxG.height - 150;
+		//if(ClientPrefs.downscroll) strumLine.y = FlxG.height - 150;
 		strumLine.scrollFactor.set();
 
 		strumLineNotes = new FlxTypedGroup<FlxSprite>();
@@ -1141,6 +1141,7 @@ class PlayState extends MusicBeatState
 					oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
 
 					var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote) + Conductor.stepCrochet, daNoteData, oldNote, true);
+					sustainNote.flipY = ClientPrefs.downscroll;
 					sustainNote.scrollFactor.set();
 					unspawnNotes.push(sustainNote);
 
@@ -1264,7 +1265,9 @@ class PlayState extends MusicBeatState
 			{
 				babyArrow.y -= 10;
 				babyArrow.alpha = 0;
-				FlxTween.tween(babyArrow, {y: babyArrow.y + 10, alpha: 1}, 1, {ease: FlxEase.circOut, startDelay: 0.5 + (0.2 * i)});
+				var daY:Float = babyArrow.y + 10;
+				if (ClientPrefs.downscroll) daY = FlxG.height - daY - babyArrow.height;
+				FlxTween.tween(babyArrow, {y: daY, alpha: 1}, 1, {ease: FlxEase.circOut, startDelay: 0.5 + (0.2 * i)});
 			}
 
 			babyArrow.ID = i;
@@ -1275,10 +1278,11 @@ class PlayState extends MusicBeatState
 			}
 
 			babyArrow.animation.play('static');
-			babyArrow.x += 50;
+			babyArrow.x += FlxG.width / 16;
 			babyArrow.x += ((FlxG.width / 2) * player);
 
 			strumLineNotes.add(babyArrow);
+			if (ClientPrefs.downscroll) babyArrow.y = FlxG.height - babyArrow.y - babyArrow.height;
 		}
 	}
 
@@ -1765,6 +1769,8 @@ class PlayState extends MusicBeatState
 						daNote.destroy();
 					}
 				}
+
+				if (ClientPrefs.downscroll) daNote.y = FlxG.height - daNote.y - daNote.height;
 			});
 		}
 
