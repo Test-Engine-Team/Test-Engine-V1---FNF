@@ -1,0 +1,9 @@
+<!DOCTYPE test-engine-charList>
+<char name="krabs" spriteImage="krabs" iconImage="krabs" offsets="0,0" camOffsets="0,0" flipX="false" singDur="4" regCharType="bf" hpColor="255,0,70">
+    <animData name="idle" prefix="Dad idle" looped="false" fps="24" offsets="0,0"/>
+
+    <animData name="singLEFT" prefix="Dad Sing Note L" looped="false" fps="24" offsets="-9,10"/>
+    <animData name="singDOWN" prefix="Dad Sing Note D" looped="false" fps="24" offsets="0,-30"/>
+    <animData name="singUP" prefix="Dad Sing Note U" looped="false" fps="24" offsets="-6,50"/>
+    <animData name="singRIGHT" prefix="Dad Sing Note R" looped="false" fps="24" offsets="0,27"/>
+</char>

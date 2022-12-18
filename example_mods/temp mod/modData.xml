@@ -1,8 +1,0 @@
-<!DOCTYPE test-engine-modData>
-<mod titleBarName="Friday Night Funkin' - Test Engine Temp Mod">
-	<week name="temp mod" image="week1" songs="Bopeebo" songPaths="bopeebo" icons="dad" diffs="Alt">
-		<char path="campaign_menu_UI_characters" idle="Dad" xOffset="20" yOffset="100" scale="0.5"/>
-		<char default="gf"/>
-		<char default="bf"/>
-	</week>
-</mod>

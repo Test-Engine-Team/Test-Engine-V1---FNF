@@ -1,0 +1,8 @@
+<!DOCTYPE test-engine-modData>
+<mod titleBarName="Friday Night Funkin' - Test Engine Temp Mod" charXmlPaths="charData">
+	<week name="this is just an example dont take it too seriously" image="week1" songs="Krabs, MR BEASTTTTTTTTTTTTTT" songPaths="krabs,mr-beast" icons="dad,dad" diffs="Hard,Alt">
+		<char path="campaign_menu_UI_characters" idle="Dad" xOffset="20" yOffset="100" scale="0.5"/>
+		<char default="gf"/>
+		<char default="bf"/>
+	</week>
+</mod>
