@@ -49,6 +49,7 @@ typedef GameCharData = {
     var antialiasing:Bool;
     var singDur:Float;
     var regCharType:String;
+    var hpColor:Null<FlxColor>;
 }
 
 //It's worrying how close this is to psych.
@@ -189,10 +190,17 @@ class LoadingState extends MusicBeatState {
             }
 
             var color:String = xml.get("color");
-            if (color != null)
-                modData.selectColor = (color.startsWith("#") || color.startsWith("0x")) ? FlxColor.fromString(color) : FlxColor.fromString("#" + color);
+            if (color != null) {
+                if (color.contains(",")) {
+                    var rgbArray:Array<Int> = [];
+                    for (colorNum in color.split(','))
+                        rgbArray.push(Std.parseInt(colorNum.trim()));
+                    modData.selectColor = FlxColor.fromRGB(rgbArray[0], rgbArray[1], rgbArray[2]);
+                } else
+                    modData.selectColor = (color.startsWith("#") || color.startsWith("0x")) ? FlxColor.fromString(color) : FlxColor.fromString("#" + color);
+            }
 
-            var charPathList = (xml.get("charXmlPaths") != null) ? [for (path in xml.get("charXmlPaths").split(",")) path.trim()] : [];
+            var charPathList = (xml.get("charXmlPaths") != null) ? [for (path in xml.get("charXmlPaths").split("|")) path.trim()] : [];
             if (charPathList.length > 0) {
                 for (xmlPath in charPathList) {
                     var daCharList = parseCharList(Xml.parse(Assets.getText('assets/$xmlPath.xml')));
@@ -246,7 +254,8 @@ class LoadingState extends MusicBeatState {
                 flipX: true,
                 antialiasing: true,
                 singDur: 4,
-                regCharType: "bf"
+                regCharType: "bf",
+                hpColor: null
             };
             if (char.get("spriteImage") != null) modChar.spriteImage = char.get("spriteImage");
             if (char.get("iconImage") != null) modChar.iconImage = char.get("iconImage");
@@ -279,6 +288,18 @@ class LoadingState extends MusicBeatState {
                     modChar.anims.push(addCharAnim(anim));
                 }
             }
+
+            var color:String = char.get("hpColor");
+            if (color != null) {
+                if (color.contains(",")) {
+                    var rgbArray:Array<Int> = [];
+                    for (colorNum in color.split(','))
+                        rgbArray.push(Std.parseInt(colorNum.trim()));
+                    modChar.hpColor = FlxColor.fromRGB(rgbArray[0], rgbArray[1], rgbArray[2]);
+                } else
+                    modChar.hpColor = (color.startsWith("#") || color.startsWith("0x")) ? FlxColor.fromString(color) : FlxColor.fromString("#" + color);
+            }
+
             charList.set(charName, modChar);
         }
         return charList;
@@ -310,7 +331,7 @@ class LoadingState extends MusicBeatState {
         if (anim.get("indices") != null) indiceArray = anim.get("indices").split(",");
         if (indiceArray.length > 0) {
             for (i in 0...indiceArray.length)
-                charAnim.indices[i] = Std.parseInt(indiceArray[i].trim());
+                charAnim.indices.push(Std.parseInt(indiceArray[i].trim()));
         }
 
         return charAnim;

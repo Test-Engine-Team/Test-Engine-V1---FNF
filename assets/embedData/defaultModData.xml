@@ -25,7 +25,7 @@
 		<char default="gf"/>
 		<char default="bf"/>
 	</week>
-	<week name="RED SNOW" image="week5" songs="Cocoa,Eggnog,Winter-Horrorland" songPaths="cocoa,eggnog,winter-horrorland" icons="parents-christmas,parents-christmas,monster" diffs="Easy, Normal, Hard">
+	<week name="RED SNOW" image="week5" songs="Cocoa,Eggnog,Winter-Horrorland" songPaths="cocoa,eggnog,winter-horrorland" icons="parents,parents,monster" diffs="Easy, Normal, Hard">
 		<char path="campaign_menu_UI_characters" idle="Parent" xOffset="-100" yOffset="100" scale="0.5"/>
 		<char default="gf"/>
 		<char default="bf"/>

@@ -8,8 +8,8 @@
     <animData name="singRIGHT" prefix="Dad Sing Note R" looped="false" fps="24" offsets="0,27"/>
 </char>
 <char name="spooky" spriteImage="spooky_kids_assets" iconImage="spooky" offsets="0,200" camOffsets="0,0" flipX="false" singDur="4" regCharType="dad" hpColor="213,126,0">
-    <animData name="danceLeft" prefix="spooky dance" looped="false" fps="12" offsets="0,0" indices="0,2,6"/>
-    <animData name="danceRight" prefix="spooky dance" looped="false" fps="12" offsets="0,0" indices="8,10,12,14"/>
+    <animData name="danceLeft" prefix="spooky dance idle" looped="false" fps="12" offsets="0,0" indices="0,2,6"/>
+    <animData name="danceRight" prefix="spooky dance idle" looped="false" fps="12" offsets="0,0" indices="8,10,12,14"/>
 
     <animData name="singLEFT" prefix="note" looped="false" fps="24" offsets="130,-10"/>
     <animData name="singDOWN" prefix="spooky D" looped="false" fps="24" offsets="-50,-130"/>
@@ -34,10 +34,10 @@
     <animData name="singUP" prefix="pico Up note0" looped="false" fps="24" offsets="-29,27"/>
     <animData name="singRIGHT" prefix="Pico NOTE LEFT0" looped="false" fps="24" offsets="-68,-7"/>
 
-    <animData name="singLEFTmiss" prefix="Pico Note Right M" looped="false" fps="24" offsets="62,64"/>
-    <animData name="singDOWNmiss" prefix="Pico Down Note M" looped="false" fps="24" offsets="210,-28"/>
-    <animData name="singUPmiss" prefix="pico Up note m" looped="false" fps="24" offsets="-19,67"/>
-    <animData name="singRIGHTmiss" prefix="Pico NOTE LEFT m" looped="false" fps="24" offsets="-60,41"/>
+    <animData name="singLEFTmiss" prefix="Pico Note Right Miss" looped="false" fps="24" offsets="62,64"/>
+    <animData name="singDOWNmiss" prefix="Pico Down Note MISS" looped="false" fps="24" offsets="210,-28"/>
+    <animData name="singUPmiss" prefix="pico Up note miss" looped="false" fps="24" offsets="-19,67"/>
+    <animData name="singRIGHTmiss" prefix="Pico NOTE LEFT miss" looped="false" fps="24" offsets="-60,41"/>
 </char>
 <char name="mom" spriteImage="Mom_Assets" iconImage="mom" offsets="0,0" camOffsets="0,0" flipX="false" singDur="4" regCharType="dad" hpColor="216,85,142">
     <animData name="idle" prefix="Mom Idle" looped="false" fps="24" offsets="0,0"/>

@@ -669,16 +669,12 @@ class PlayState extends MusicBeatState
 		}
 
 		gf = new Character(400, 130, gfVersion);
-		gf.x = gf.XOffset;
-		gf.y = gf.YOffset;
 		gf.scrollFactor.set(0.95, 0.95);
 
 		if (SONG.player2 == null)
 			SONG.player2 = 'dad';
 
 		dad = new Character(100, 100, SONG.player2);
-		dad.x = dad.XOffset;
-		dad.y = dad.YOffset;
 
 		var camPos:FlxPoint = new FlxPoint(dad.getGraphicMidpoint().x, dad.getGraphicMidpoint().y);
 
@@ -708,9 +704,7 @@ class PlayState extends MusicBeatState
 		if (SONG.player1 == null)
 			SONG.player1 = 'bf';
 
-		boyfriend = new Boyfriend(770, 450, SONG.player1);
-		boyfriend.x = boyfriend.XOffset;
-		boyfriend.y = boyfriend.YOffset;
+		boyfriend = new Boyfriend(770, 100, SONG.player1);
 
 		// REPOSITIONING PER STAGE
 		switch (curStage)
@@ -816,11 +810,11 @@ class PlayState extends MusicBeatState
 		infoText.scrollFactor.set();
 		add(infoText);
 
-		iconP1 = new HealthIcon(SONG.player1, true);
+		iconP1 = new HealthIcon(boyfriend.charData.iconImage, true);
 		iconP1.y = healthBar.y - (iconP1.height / 2);
 		add(iconP1);
 
-		iconP2 = new HealthIcon(SONG.player2, false);
+		iconP2 = new HealthIcon(dad.charData.iconImage, false);
 		iconP2.y = healthBar.y - (iconP2.height / 2);
 		add(iconP2);
 
@@ -1005,7 +999,7 @@ class PlayState extends MusicBeatState
 		{
 			dad.dance();
 			gf.dance();
-			boyfriend.playAnim('idle');
+			boyfriend.dance();
 
 			var introAssets:Map<String, Array<String>> = new Map<String, Array<String>>();
 			introAssets.set('default', ['ready.png', "set.png", "go.png"]);
@@ -1561,27 +1555,10 @@ class PlayState extends MusicBeatState
 
 		if (generatedMusic && PlayState.SONG.notes[Std.int(curStep / 16)] != null)
 		{
-			if (curBeat % 4 == 0)
+			if (camFollow.x != dad.getMidpoint().x + 150 + dad.charData.offsets[2] && !PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection)
 			{
-				// trace(PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection);
-			}
-
-			if (camFollow.x != dad.getMidpoint().x + 150 && !PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection)
-			{
-				camFollow.setPosition(dad.getMidpoint().x + 150, dad.getMidpoint().y - 100);
-				// camFollow.setPosition(lucky.getMidpoint().x - 120, lucky.getMidpoint().y + 210);
-
-				switch (dad.curCharacter)
-				{
-					case 'mom':
-						camFollow.y = dad.getMidpoint().y;
-					case 'senpai':
-						camFollow.y = dad.getMidpoint().y - 430;
-						camFollow.x = dad.getMidpoint().x - 100;
-					case 'senpai-angry':
-						camFollow.y = dad.getMidpoint().y - 430;
-						camFollow.x = dad.getMidpoint().x - 100;
-				}
+				camFollow.x = dad.getMidpoint().x + 150 + dad.charData.offsets[2];
+				camFollow.y = dad.getMidpoint().y - 100 + dad.charData.offsets[3];
 
 				if (dad.curCharacter == 'mom')
 					vocals.volume = 1;
@@ -1592,22 +1569,20 @@ class PlayState extends MusicBeatState
 				}
 			}
 
-			if (PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection && camFollow.x != boyfriend.getMidpoint().x - 100)
+			if (PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection && camFollow.x != boyfriend.getMidpoint().x - 100 - boyfriend.charData.offsets[2])
 			{
-				camFollow.setPosition(boyfriend.getMidpoint().x - 100, boyfriend.getMidpoint().y - 100);
+				camFollow.x = boyfriend.getMidpoint().x - 100 - boyfriend.charData.offsets[2];
+				camFollow.y = boyfriend.getMidpoint().y - 100 + boyfriend.charData.offsets[3];
 
-				switch (curStage)
-				{
+				//no stage scripts yet so...
+				switch (curStage) {
 					case 'limo':
-						camFollow.x = boyfriend.getMidpoint().x - 300;
+						camFollow.x -= 200;
 					case 'mall':
-						camFollow.y = boyfriend.getMidpoint().y - 200;
-					case 'school':
-						camFollow.x = boyfriend.getMidpoint().x - 200;
-						camFollow.y = boyfriend.getMidpoint().y - 200;
-					case 'schoolEvil':
-						camFollow.x = boyfriend.getMidpoint().x - 200;
-						camFollow.y = boyfriend.getMidpoint().y - 200;
+						camFollow.y -= 100;
+					case 'school' | 'schoolEvil':
+						camFollow.x -= 100;
+						camFollow.y -= 100;
 				}
 
 				if (SONG.song.toLowerCase() == 'tutorial')
@@ -2194,7 +2169,7 @@ private function keyShit():Void
 		{
 			if (boyfriend.animation.curAnim.name.startsWith('sing') && !boyfriend.animation.curAnim.name.endsWith('miss'))
 			{
-				boyfriend.playAnim('idle');
+				boyfriend.dance();
 			}
 		}
 
@@ -2464,7 +2439,7 @@ private function keyShit():Void
 			// Conductor.changeBPM(SONG.bpm);
 
 			// Dad doesnt interupt his own notes
-			if (SONG.notes[Math.floor(curStep / 16)].mustHitSection)
+			//if (SONG.notes[Math.floor(curStep / 16)].mustHitSection)
 				dad.dance();
 		}
 		// FlxG.log.add('change bpm' + SONG.notes[Std.int(curStep / 16)].changeBPM);
@@ -2494,7 +2469,7 @@ private function keyShit():Void
 
 		if (!boyfriend.animation.curAnim.name.startsWith("sing"))
 		{
-			boyfriend.playAnim('idle');
+			boyfriend.dance();
 		}
 
 		if (curBeat % 8 == 7 && curSong == 'Bopeebo')
