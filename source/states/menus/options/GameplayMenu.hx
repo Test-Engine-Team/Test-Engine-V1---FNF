@@ -111,6 +111,26 @@ class GameplayMenu extends MusicBeatState{
                 return (ClientPrefs.freeplayCutscenes) ? "Enabled" : "Disabled";
             }
         },
+        {
+            name: "Safe Frames",
+            description: "What frames you can hit a note on.",
+            type: INT,
+            min: 2,
+            max: 20,
+            updateFunc: function(menuOption:MenuOption, elapsed:Float) {
+                if (FlxG.keys.justPressed.LEFT) {
+                    ClientPrefs.safeFrames -= 1;
+                    if (ClientPrefs.safeFrames < menuOption.min) ClientPrefs.safeFrames = Std.int(menuOption.min);
+                }
+                else if (FlxG.keys.justPressed.RIGHT) {
+                    ClientPrefs.safeFrames += 1;
+                    if (ClientPrefs.safeFrames > menuOption.max) ClientPrefs.safeFrames = Std.int(menuOption.max);
+                }
+            },
+            valueFunc: function() {
+                return Std.string(ClientPrefs.safeFrames);
+            }
+        }
     ];
     var valueTxt:FlxText;
     var descTxt:FlxText;

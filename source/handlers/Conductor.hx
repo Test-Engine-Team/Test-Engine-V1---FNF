@@ -32,6 +32,10 @@ class Conductor
 	{
 	}
 
+	function update() {
+		safeFrames = ClientPrefs.safeFrames;
+	}
+
 	public static function mapBPMChanges(song:SwagSong)
 	{
 		bpmChangeMap = [];

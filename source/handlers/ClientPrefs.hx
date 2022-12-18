@@ -13,6 +13,7 @@ class ClientPrefs {
 	public static var framerate:Int = 60;
 	public static var downscroll:Bool = false;
 	public static var freeplayCutscenes:Bool = false;
+	public static var safeFrames:Int = 10;
 
 	// Modifiers
 	public static var spinnyspin:Bool = false;
@@ -67,6 +68,7 @@ class ClientPrefs {
 		FlxG.save.data.maxPoisonHits = maxPoisonHits;
 		FlxG.save.data.framerate = framerate;
 		FlxG.save.data.downscroll = downscroll;
+		FlxG.save.data.freeplayCutscenes = freeplayCutscenes;
 
         FlxG.save.flush();
 
@@ -83,6 +85,9 @@ class ClientPrefs {
 		}
 		if(FlxG.save.data.fairFight != null) {
 			fairFight = FlxG.save.data.fairFight;
+		}
+		if(FlxG.save.data.freeplayCutscenes != null) {
+			freeplayCutscenes = FlxG.save.data.freeplayCutscenes;
 		}
 		if(FlxG.save.data.downscroll != null) {
 			downscroll = FlxG.save.data.downscroll;
