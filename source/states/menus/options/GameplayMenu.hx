@@ -9,124 +9,153 @@ import handlers.MusicBeatState;
 import flixel.FlxG;
 import ui.Alphabet;
 import handlers.ClientPrefs;
+import states.menus.options.Options;
 
 class GameplayMenu extends MusicBeatState{
     var maintextgroup:FlxTypedGroup<Alphabet>;
-    var maintext:Alphabet;
     var curSelected:Int = 0;
-    var curSubSelected:Int = 0;
-    var Items:Array<String> = ['Ghost Tapping', 'Down Scroll', 'FPS', 'Show Combo Txt'];
-    var trueorfalsesmthidk:FlxText;
-    var isTrue:Bool = false;
+    var options:Array<MenuOption> = [
+        {
+            name: "Ghost Tapping",
+            description: "Pressing a key when there are no notes to hit will not count as a miss.",
+            type: BOOL,
+            min: 0,
+            max: 1,
+            updateFunc: function(menuOption:MenuOption, elapsed:Float) {
+                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
+                    ClientPrefs.ghostTapping = !ClientPrefs.ghostTapping;
+                }
+            },
+            valueFunc: function() {
+                return (ClientPrefs.ghostTapping) ? "Enabled" : "Disabled";
+            }
+        },
+        {
+            name: "Downscroll",
+            description: "The notefield has been inverted to have the notes fall instead of rise.",
+            type: BOOL,
+            min: 0,
+            max: 1,
+            updateFunc: function(menuOption:MenuOption, elapsed:Float) {
+                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
+                    ClientPrefs.downscroll = !ClientPrefs.downscroll;
+                }
+            },
+            valueFunc: function() {
+                return (ClientPrefs.downscroll) ? "Enabled" : "Disabled";
+            }
+        },
+        {
+            name: "FPS Cap",
+            description: "Don't like being stuck on 60? You have the ability to increase it!",
+            type: INT,
+            min: 60,
+            max: 200,
+            updateFunc: function(menuOption:MenuOption, elapsed:Float) {
+                switch ([FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].indexOf(true)) {
+                    case 0:
+                        ClientPrefs.framerate -= 10;
+                        if (ClientPrefs.framerate < menuOption.min) ClientPrefs.framerate = Std.int(menuOption.min);
+
+                        if(ClientPrefs.framerate > FlxG.drawFramerate) {
+                            FlxG.updateFramerate = ClientPrefs.framerate;
+                            FlxG.drawFramerate = ClientPrefs.framerate;
+                        } else {
+                            FlxG.drawFramerate = ClientPrefs.framerate;
+                            FlxG.updateFramerate = ClientPrefs.framerate;
+                        }
+                    case 1:
+                        ClientPrefs.framerate += 10;
+                        if (ClientPrefs.framerate > menuOption.max) ClientPrefs.framerate = Std.int(menuOption.max);
+
+                        if(ClientPrefs.framerate > FlxG.drawFramerate) {
+                            FlxG.updateFramerate = ClientPrefs.framerate;
+                            FlxG.drawFramerate = ClientPrefs.framerate;
+                        } else {
+                            FlxG.drawFramerate = ClientPrefs.framerate;
+                            FlxG.updateFramerate = ClientPrefs.framerate;
+                        }
+                }
+            },
+            valueFunc: function() {
+                return Std.string(ClientPrefs.framerate);
+            }
+        },
+        {
+            name: "Show Combo Text",
+            description: 'Shows the sprite saying "COMBO" when you hit a note.',
+            type: BOOL,
+            min: 0,
+            max: 1,
+            updateFunc: function(menuOption:MenuOption, elapsed:Float) {
+                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
+                    ClientPrefs.showComboText = !ClientPrefs.showComboText;
+                }
+            },
+            valueFunc: function() {
+                return (ClientPrefs.showComboText) ? "Enabled" : "Disabled";
+            }
+        },
+    ];
+    var valueTxt:FlxText;
+    var descTxt:FlxText;
 
     override function create() {
         var bg:FlxSprite = new FlxSprite().loadGraphic(Files.image('menuDesat'));
         bg.color = 0x302D2D;
 		add(bg);
 
-        trueorfalsesmthidk = new FlxText(5, FlxG.height - 33.2, 0, "unknown option or null bool", 12);
-		trueorfalsesmthidk.scrollFactor.set();
-		trueorfalsesmthidk.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		add(trueorfalsesmthidk);
+        valueTxt = new FlxText(820, 360, 460, "< Enabled > ", 36);
+        valueTxt.y -= valueTxt.height / 2;
+		valueTxt.scrollFactor.set();
+		valueTxt.setFormat("VCR OSD Mono", 36, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		add(valueTxt);
+
+        descTxt = new FlxText(820, valueTxt.y + valueTxt.height + 20, 460, "69420 hehe haha now laugh", 16);
+		descTxt.scrollFactor.set();
+		descTxt.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		add(descTxt);
         
         maintextgroup = new FlxTypedGroup<Alphabet>();
 		add(maintextgroup);
 
-    for (i in 0...Items.length)
-        {
-        maintext = new Alphabet(10, (70 * i) + 41.2, Items[i], true);
-        maintext.scale.set(0.8, 0.8);
-        maintext.isMenuItem = true;
-        maintextgroup.add(maintext);
+        for (i in 0...options.length) {
+            var maintext:Alphabet = new Alphabet(10, (70 * i) + 41.2, options[i].name, true, false, 0.8);
+            maintext.isMenuItem = true;
+            maintext.targetY = i;
+            maintextgroup.add(maintext);
         }
 
         changeSelection();
-}
-
-    override public function update(elapsed:Float){
-        if (FlxG.keys.justPressed.ESCAPE)
-        FlxG.switchState(new Options());
-
-        if (FlxG.keys.justPressed.DOWN)
-            changeSelection(1);
-
-        if (FlxG.keys.justPressed.UP)
-            changeSelection(-1);
-
-        var daSelected:String = Items[curSelected];
-        if (daSelected != 'FPS') {
-            if (FlxG.keys.justPressed.LEFT) //down
-                changeSubSelection(-1);
-    
-            if (FlxG.keys.justPressed.RIGHT) //up
-                changeSubSelection(1);
-        }
-        else
-        {
-            if (FlxG.keys.justPressed.LEFT) //down
-                changeSubSelection(-10);
-    
-            if (FlxG.keys.justPressed.RIGHT) //up
-                changeSubSelection(10);
-        }
-
-        if (curSubSelected == 0 && daSelected == 'FPS')
-            curSubSelected = ClientPrefs.framerate;
-
-        if (daSelected == 'Ghost Tapping')
-            trueorfalsesmthidk.text = 'Ghost Tapping = $isTrue';
-        else if (daSelected == 'Down Scroll')
-            trueorfalsesmthidk.text = 'Down Scroll = $isTrue';
-        else if (daSelected == 'FPS')
-            trueorfalsesmthidk.text = 'FPS = $curSubSelected';
-        else
-            trueorfalsesmthidk.text == 'unknown option or null bool';
-
-        if (FlxG.keys.justPressed.ENTER){
-			switch (daSelected)
-			{
-				case 'Ghost Tapping':
-                    if (!ClientPrefs.ghostTapping)
-                        ClientPrefs.ghostTapping = true;
-                    else
-                        ClientPrefs.ghostTapping = false;
-                    isTrue = ClientPrefs.ghostTapping;
-                case 'Show Combo Txt':
-                    if (!ClientPrefs.showComboText)
-                        ClientPrefs.showComboText = true;
-                    else
-                        ClientPrefs.showComboText = false;
-                    isTrue = ClientPrefs.showComboText;
-                case 'Down Scroll':
-                    if (!ClientPrefs.downscroll)
-                        ClientPrefs.downscroll = true;
-                    else
-                        ClientPrefs.downscroll = false;
-                    isTrue = ClientPrefs.downscroll;
-			}
-        }
     }
 
-    /*
-    if (FlxG.keys.justPressed.G)
-        {
-            if (!ClientPrefs.ghostTapping) {
-                ClientPrefs.ghostTapping = true;
-                trace("on");
-            }
-            else
-            {
-                ClientPrefs.ghostTapping = false;
-                trace("off");
-            }*/
+    override public function update(elapsed:Float){
+        super.update(elapsed);
+
+        if (FlxG.keys.justPressed.ESCAPE)
+            FlxG.switchState(new Options());
+
+        if (controls.UP_P || controls.DOWN_P) {
+            changeSelection((controls.UP_P) ? -1 : 1);
+        }
+        options[curSelected].updateFunc(options[curSelected], elapsed);
+        valueTxt.text = "< " + options[curSelected].valueFunc() + " >";
+
+        #if debug
+        descTxt.text =  options[curSelected].description;
+        for (item in maintextgroup.members) {
+            descTxt.text += "Y: " + item.y + " | TargetY: " + item.targetY + '\n';
+        }
+        #end
+    }
 
     function changeSelection(change:Int = 0):Void
 	{
 		curSelected += change;
 
 		if (curSelected < 0)
-			curSelected = Items.length - 1;
-		if (curSelected >= Items.length)
+			curSelected = options.length - 1;
+		if (curSelected >= options.length)
 			curSelected = 0;
 
 		var bullShit:Int = 0;
@@ -136,44 +165,12 @@ class GameplayMenu extends MusicBeatState{
 			item.targetY = bullShit - curSelected;
 			bullShit++;
 
-			item.alpha = 0.6;
-			// item.setGraphicSize(Std.int(item.width * 0.8));
-
-			if (item.targetY == 0)
-			{
-				item.alpha = 1;
-				// item.setGraphicSize(Std.int(item.width));
-			}
+			item.alpha = (item.targetY == 0) ? 1 : 0.6;
 		}
+
+        descTxt.text = options[curSelected].description;
+
+        if (change != 0)
+            FlxG.sound.play(Files.sound('scrollMenu'), 0.4);
 	}
-
-    function changeSubSelection(change:Int) {
-        curSubSelected += change;
-
-        var daSelected:String = Items[curSelected];
-        switch (daSelected) {
-            case 'FPS':
-                if (curSubSelected < 60)
-                    curSubSelected = 60;
-                if (curSubSelected >= 200)
-                    curSubSelected = 200;
-                ClientPrefs.framerate = curSubSelected;
-                onChangeFPS();
-            default:
-                curSubSelected = 0;
-        }
-    }
-
-    function onChangeFPS() {
-        if(ClientPrefs.framerate > FlxG.drawFramerate)
-        {
-            FlxG.updateFramerate = ClientPrefs.framerate;
-            FlxG.drawFramerate = ClientPrefs.framerate;
-        }
-        else
-        {
-            FlxG.drawFramerate = ClientPrefs.framerate;
-            FlxG.updateFramerate = ClientPrefs.framerate;
-        }
-    }
 }

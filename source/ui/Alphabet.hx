@@ -40,14 +40,16 @@ class Alphabet extends FlxSpriteGroup
 	var splitWords:Array<String> = [];
 
 	var isBold:Bool = false;
+	var scaleValue:Float = 1;
 
-	public function new(x:Float, y:Float, text:String = "", ?bold:Bool = false, typed:Bool = false)
+	public function new(x:Float, y:Float, text:String = "", ?bold:Bool = false, typed:Bool = false, ?daScale:Float = 1)
 	{
 		super(x, y);
 
 		_finalText = text;
 		this.text = text;
 		isBold = bold;
+		scaleValue = daScale;
 
 		if (text != "")
 		{
@@ -60,6 +62,7 @@ class Alphabet extends FlxSpriteGroup
 				addText();
 			}
 		}
+		scale.set(daScale, daScale);
 	}
 
 	public function addText()
@@ -83,12 +86,12 @@ class Alphabet extends FlxSpriteGroup
 			{
 				if (lastSprite != null)
 				{
-					xPos = lastSprite.x + lastSprite.width;
+					xPos = lastSprite.x + lastSprite.width * scaleValue;
 				}
 
 				if (lastWasSpace)
 				{
-					xPos += 40;
+					xPos += 40 * scaleValue;
 					lastWasSpace = false;
 				}
 

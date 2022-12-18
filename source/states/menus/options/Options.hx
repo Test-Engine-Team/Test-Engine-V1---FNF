@@ -7,15 +7,34 @@ import handlers.MusicBeatState;
 import flixel.FlxG;
 import ui.Alphabet;
 
+//hehe i copy pasted this from my engine lol -Srt
+typedef MenuOption = {
+    var name:String;
+    var description:String;
+    var type:OptionType;
+    var min:Float;
+    var max:Float;
+
+    var updateFunc:MenuOption->Float->Void;
+    var valueFunc:Void->String;
+}
+
+enum OptionType {
+    BOOL;
+    INT;
+    FLOAT;
+    STRING;
+}
+
 class Options extends MusicBeatState {
     var maintextgroup:FlxTypedGroup<Alphabet>;
-    var maintext:Alphabet;
+    var bg:FlxSprite;
     var curSelected:Int = 0;
     var Items:Array<String> = ['Gameplay', 'Modifiers'];
+    var timeSinceSelect:Float = -10;
 
     override function create() {
-        trace('unfinnished lol');
-        var bg:FlxSprite = new FlxSprite().loadGraphic(Files.image('menuDesat'));
+        bg = new FlxSprite().loadGraphic(Files.image('menuDesat'));
         bg.color = 0x302D2D;
 		add(bg);
         
@@ -24,9 +43,9 @@ class Options extends MusicBeatState {
 
     for (i in 0...Items.length)
         {
-        maintext = new Alphabet(10, (70 * i) + 41.2, Items[i], true);
-        maintext.scale.set(0.8, 0.8);
+        var maintext:Alphabet = new Alphabet(10, (70 * i) + 41.2, Items[i], true, false);
         maintext.isMenuItem = true;
+        maintext.targetY = i;
         maintextgroup.add(maintext);
         }
 
@@ -34,25 +53,38 @@ class Options extends MusicBeatState {
 }
 
     override public function update(elapsed:Float){
-        if (FlxG.keys.justPressed.ESCAPE)
-        FlxG.switchState(new MainMenuState());
 
-        if (FlxG.keys.justPressed.DOWN)
-            changeSelection(1);
+        if (timeSinceSelect == -10) {
+            if (FlxG.keys.justPressed.ESCAPE)
+                FlxG.switchState(new MainMenuState());
+            if (FlxG.keys.justPressed.DOWN)
+                changeSelection(1);
+    
+            if (FlxG.keys.justPressed.UP)
+                changeSelection(-1);
+    
+            if (FlxG.keys.justPressed.ENTER){
+                timeSinceSelect = 0;
+                FlxG.sound.play(Files.sound('confirmMenu'), 1);
+            }
+        } else {
+            timeSinceSelect += elapsed;
+            bg.alpha = 1 - (Math.min(timeSinceSelect, 1));
+            if (timeSinceSelect > 1.1) {
+                switch (Items[curSelected])
+                {
+                    case 'Gameplay':
+                        FlxG.switchState(new GameplayMenu());
+                    case 'Modifiers':
+                        FlxG.switchState(new ModifiersMenu());
+                }
+            }
+        }
 
-        if (FlxG.keys.justPressed.UP)
-            changeSelection(-1);
-
-        if (FlxG.keys.justPressed.ENTER){
-            var daSelected:String = Items[curSelected];
-
-			switch (daSelected)
-			{
-				case 'Gameplay':
-                    FlxG.switchState(new GameplayMenu());
-                case 'Modifiers':
-                    FlxG.switchState(new ModifiersMenu());
-			}
+        super.update(elapsed);
+        for (item in maintextgroup.members) {
+            var daWidth = item.members[item.length - 1].x + (item.members[item.length - 1].width * item.scale.x) - item.x;
+            item.x = 640 - daWidth / 2 + (960 * flixel.tweens.FlxEase.circOut(1 - bg.alpha));
         }
     }
 
@@ -72,14 +104,10 @@ class Options extends MusicBeatState {
 			item.targetY = bullShit - curSelected;
 			bullShit++;
 
-			item.alpha = 0.6;
-			// item.setGraphicSize(Std.int(item.width * 0.8));
-
-			if (item.targetY == 0)
-			{
-				item.alpha = 1;
-				// item.setGraphicSize(Std.int(item.width));
-			}
+			item.alpha = (item.targetY == 0) ? 1 : 0.6;
 		}
+
+        if (change != 0)
+            FlxG.sound.play(Files.sound('scrollMenu'), 0.4);
 	}
 }
