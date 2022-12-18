@@ -47,7 +47,7 @@ class ModifiersMenu extends MusicBeatState {
         },
         {
             name: "Poison",
-            description: "Missed a Note? Get ready to lose health over time.",
+            description: "Missed a Note? Get ready to lose health over time.\n(Note that the number you set is the Max amont of times you can be poisoned\n0 being infinite)",
             type: INT,
             min: 0,
             max: 20,
