@@ -13,6 +13,7 @@ import handlers.Files;
 import handlers.Highscore;
 import handlers.MenuItem;
 import handlers.MusicBeatState;
+import lime.app.Application;
 
 import states.menus.LoadingState;
 
@@ -104,6 +105,11 @@ class FreeplayState extends MusicBeatState
 
 		add(scoreText);
 
+		var versionShit:FlxText = new FlxText(5, FlxG.height - 36.2, 0, "v" + Application.current.meta.get('version') + "\n[M] - Mod Menu", 12);
+		versionShit.scrollFactor.set();
+		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		add(versionShit);
+
 		FlxG.sound.playMusic(Files.song(songList[curSelected].path + "/Inst"), 0);
 	
 		var bullShit:Int = 0;
@@ -169,6 +175,14 @@ class FreeplayState extends MusicBeatState
 
 		if (controls.BACK)
 			FlxG.switchState(new MainMenuState());
+
+		#if desktop
+		if (FlxG.keys.justPressed.M) {
+			persistentUpdate = false;
+			openSubState(new states.etc.substates.ModSelectSubstate());
+			return;
+		}
+		#end
 
 		if (accepted)
 		{
