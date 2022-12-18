@@ -143,15 +143,13 @@ class GameplayMenu extends MusicBeatState{
             case 'FPS':
                 if (curSubSelected < 60)
                     curSubSelected = 60;
-                if (curSubSelected >= 230)
-                    curSubSelected = 230;
+                if (curSubSelected >= 200)
+                    curSubSelected = 200;
                 ClientPrefs.framerate = curSubSelected;
+                onChangeFPS();
             default:
                 curSubSelected = 0;
         }
-
-        if (daSelected == 'FPS')
-            onChangeFPS();
     }
 
     function onChangeFPS() {
