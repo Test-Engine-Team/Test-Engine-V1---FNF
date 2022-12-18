@@ -38,7 +38,6 @@ class TitleState extends MusicBeatState
 {
 	public static var initialized:Bool = false;
 	public static var seenIntro:Bool = false;
-	public static var soundExt:String = ".mp3";
 
 	var swagShader:ColorSwap;
 	var alphaShader:BuildingShaders;
@@ -274,7 +273,7 @@ class TitleState extends MusicBeatState
 					FlxG.switchState(new MainMenuState());
 				}
 			});
-			// FlxG.sound.play('assets/music/titleShoot' + TitleState.soundExt, 0.7);
+			// FlxG.sound.play(Files.music('titleShoot'), 0.7);
 		}
 
 		if (pressedEnter && !skippedIntro)

@@ -160,12 +160,7 @@ class LoadingState extends MusicBeatState {
             addedCrash = true;
         }
         #end
-
         
-		#if (!web)
-		TitleState.soundExt = '.ogg';
-		FlxG.stage.frameRate = 120;
-		#end
         modLoadingTxt.text = 'Finished parsing. Have fun!';
         modLoadingTxt.x = 1270 - modLoadingTxt.width;
         modLoadingTxt.y = 715 - modLoadingTxt.height;
