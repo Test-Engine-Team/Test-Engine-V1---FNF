@@ -12,24 +12,20 @@ import sys.FileSystem;
 class Files{
     static var file:String;
     
-    public static function image(image:String){
-        return file = 'assets/images/$image.png';
+    public static function image(image:String, folder:String = 'images'){
+        return file = 'assets/$folder/$image.png';
     }
 
-    public static function sound(sound:String){
-        return file = 'assets/sounds/$sound${TitleState.soundExt}';
+    public static function sound(sound:String, folder:String = 'sounds'){
+        return file = 'assets/$folder/$sound.ogg';
     }
 
-    public static function music(music:String){
-        return file = 'assets/music/$music${TitleState.soundExt}';
+    public static function music(music:String, folder:String = 'music'){
+        return file = 'assets/$folder/$music.ogg';
     }
 
-    public static function song(song:String){
-        return file = 'assets/songs/$song${TitleState.soundExt}';
-    }
-
-    public static function video(video:String, extention:String = 'mp4') {
-        return file = 'assets/videos/$video.$extention';
+    public static function song(song:String, folder:String = 'songs'){
+        return file = 'assets/$folder/$song.ogg';
     }
 
     public static function font(font:String, extention:String = 'ttf') {
@@ -53,12 +49,12 @@ class Files{
         return file = 'assets/data/$song/$song$diff';
     }
 
-    public static function sparrowAtlas(path:String) {
-        return FlxAtlasFrames.fromSparrow('assets/images/$path.png', 'assets/images/$path.xml');
+    public static function sparrowAtlas(path:String, folder:String = 'images') {
+        return FlxAtlasFrames.fromSparrow('assets/$folder/$path.png', 'assets/$folder/$path.xml');
     }
 
-    public static function packerAtlas(path:String) {
-        return FlxAtlasFrames.fromSpriteSheetPacker('assets/images/$path.png', 'assets/images/$path.txt');
+    public static function packerAtlas(path:String, folder:String = 'images') {
+        return FlxAtlasFrames.fromSpriteSheetPacker('assets/$folder/$path.png', 'assets/$folder/$path.txt');
     }
 
     //public static function packerAtlas

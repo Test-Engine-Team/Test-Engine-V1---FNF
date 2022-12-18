@@ -21,7 +21,9 @@ class Character extends FlxSprite
 
 	public var hpcolor:FlxColor;
     public var XOffset:Float = 0;
-    public var YOffset:Float = 0; 
+    public var YOffset:Float = 0;
+	
+	public var floats:Bool = false;
 	
 	public function new(x:Float, y:Float, character:String = "bf", isPlayer:Bool = false)
 	{

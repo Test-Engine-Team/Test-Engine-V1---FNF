@@ -160,7 +160,7 @@ class MainMenuState extends MusicBeatState
 				if (curTristanFunny >= 7) {
 					curTristanFunny = 0;
 					FlxG.sound.play(Files.sound('confirmMenu'));
-					if (ClientPrefs.tristanPlayer == false) {
+					if (!ClientPrefs.tristanPlayer) {
 						ClientPrefs.tristanPlayer = true;
 						trace("tristan mode enabled");
 					}

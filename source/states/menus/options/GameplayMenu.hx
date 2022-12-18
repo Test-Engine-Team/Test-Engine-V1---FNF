@@ -14,8 +14,10 @@ class GameplayMenu extends MusicBeatState{
     var maintextgroup:FlxTypedGroup<Alphabet>;
     var maintext:Alphabet;
     var curSelected:Int = 0;
-    var Items:Array<String> = ['Ghost Tapping', 'Down Scroll'];
+    var curSubSelected:Int = 0;
+    var Items:Array<String> = ['Ghost Tapping', 'Down Scroll', 'FPS', 'Show Combo Txt'];
     var trueorfalsesmthidk:FlxText;
+    var isTrue:Bool = false;
 
     override function create() {
         var bg:FlxSprite = new FlxSprite().loadGraphic(Files.image('menuDesat'));
@@ -52,13 +54,31 @@ class GameplayMenu extends MusicBeatState{
             changeSelection(-1);
 
         var daSelected:String = Items[curSelected];
+        if (daSelected != 'FPS') {
+            if (FlxG.keys.justPressed.LEFT) //down
+                changeSubSelection(-1);
+    
+            if (FlxG.keys.justPressed.RIGHT) //up
+                changeSubSelection(1);
+        }
+        else
+        {
+            if (FlxG.keys.justPressed.LEFT) //down
+                changeSubSelection(-10);
+    
+            if (FlxG.keys.justPressed.RIGHT) //up
+                changeSubSelection(10);
+        }
 
-        if (daSelected == 'Ghost Tapping' && ClientPrefs.ghostTapping == false)
-            trueorfalsesmthidk.text = 'Ghost Tapping = false';
-        else if (daSelected == 'Ghost Tapping' && ClientPrefs.ghostTapping == true)
-            trueorfalsesmthidk.text = 'Ghost Tapping = true';
+        if (curSubSelected == 0 && daSelected == 'FPS')
+            curSubSelected = ClientPrefs.framerate;
+
+        if (daSelected == 'Ghost Tapping')
+            trueorfalsesmthidk.text = 'Ghost Tapping = $isTrue';
         else if (daSelected == 'Down Scroll')
             trueorfalsesmthidk.text = 'Down Scroll';
+        else if (daSelected == 'FPS')
+            trueorfalsesmthidk.text = 'FPS = $curSubSelected';
         else
             trueorfalsesmthidk.text == 'unknown option or null bool';
 
@@ -66,10 +86,17 @@ class GameplayMenu extends MusicBeatState{
 			switch (daSelected)
 			{
 				case 'Ghost Tapping':
-                if (ClientPrefs.ghostTapping == false)
-                    ClientPrefs.ghostTapping = true;
+                    if (!ClientPrefs.ghostTapping)
+                        ClientPrefs.ghostTapping = true;
                     else
-                    ClientPrefs.ghostTapping = false;
+                        ClientPrefs.ghostTapping = false;
+                    isTrue = ClientPrefs.ghostTapping;
+                case 'Show Combo Txt':
+                    if (!ClientPrefs.showComboText)
+                        ClientPrefs.showComboText = true;
+                    else
+                        ClientPrefs.showComboText = false;
+                    isTrue = ClientPrefs.showComboText;
 			}
         }
     }
@@ -77,7 +104,7 @@ class GameplayMenu extends MusicBeatState{
     /*
     if (FlxG.keys.justPressed.G)
         {
-            if (ClientPrefs.ghostTapping == false) {
+            if (!ClientPrefs.ghostTapping) {
                 ClientPrefs.ghostTapping = true;
                 trace("on");
             }
@@ -113,4 +140,34 @@ class GameplayMenu extends MusicBeatState{
 			}
 		}
 	}
+
+    function changeSubSelection(change:Int) {
+        curSubSelected += change;
+
+        var daSelected:String = Items[curSelected];
+        switch (daSelected) {
+            case 'FPS':
+                if (curSubSelected < 60)
+                    curSubSelected = 60;
+                if (curSubSelected >= 200)
+                    curSubSelected = 200;
+                ClientPrefs.framerate = curSubSelected;
+                onChangeFPS();
+            default:
+                curSubSelected = 0;
+        }
+    }
+
+    function onChangeFPS() {
+        if(ClientPrefs.framerate > FlxG.drawFramerate)
+        {
+            FlxG.updateFramerate = ClientPrefs.framerate;
+            FlxG.drawFramerate = ClientPrefs.framerate;
+        }
+        else
+        {
+            FlxG.drawFramerate = ClientPrefs.framerate;
+            FlxG.updateFramerate = ClientPrefs.framerate;
+        }
+    }
 }

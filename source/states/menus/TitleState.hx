@@ -30,6 +30,7 @@ import handlers.Highscore;
 import handlers.PlayerSettings;
 import handlers.Conductor;
 import handlers.MusicBeatState;
+import handlers.ClientPrefs;
 
 using StringTools;
 
@@ -37,7 +38,6 @@ class TitleState extends MusicBeatState
 {
 	public static var initialized:Bool = false;
 	public static var seenIntro:Bool = false;
-	public static var soundExt:String = ".mp3";
 
 	var swagShader:ColorSwap;
 	var alphaShader:BuildingShaders;
@@ -65,6 +65,17 @@ class TitleState extends MusicBeatState
 			Sys.exit(0);
 		}
 		#end
+
+		if(ClientPrefs.framerate > FlxG.drawFramerate)
+		{
+			FlxG.updateFramerate = ClientPrefs.framerate;
+			FlxG.drawFramerate = ClientPrefs.framerate;
+		}
+		else
+		{
+			FlxG.drawFramerate = ClientPrefs.framerate;
+			FlxG.updateFramerate = ClientPrefs.framerate;
+		}
 
 		swagShader = new ColorSwap();
 		alphaShader = new BuildingShaders();
@@ -262,7 +273,7 @@ class TitleState extends MusicBeatState
 					FlxG.switchState(new MainMenuState());
 				}
 			});
-			// FlxG.sound.play('assets/music/titleShoot' + TitleState.soundExt, 0.7);
+			// FlxG.sound.play(Files.music('titleShoot'), 0.7);
 		}
 
 		if (pressedEnter && !skippedIntro)

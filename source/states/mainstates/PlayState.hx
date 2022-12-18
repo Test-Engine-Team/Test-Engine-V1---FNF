@@ -112,6 +112,9 @@ class PlayState extends MusicBeatState
 	private var healthBarBG:FlxSprite;
 	private var healthBar:FlxBar;
 
+	private var timeBarBG:FlxSprite;
+	private var timeBar:FlxBar;
+
 	private var poisonCounter:FlxSprite;
 
 	private var generatedMusic:Bool = false;
@@ -1777,8 +1780,22 @@ class PlayState extends MusicBeatState
 							songMisses++;
 							songScore -= 10;
 							combo = 0;
-
-							if(ClientPrefs.poisonPlus == true && poisonTimes < 3) {
+							if(ClientPrefs.poisonPlus == true && poisonTimes < ClientPrefs.maxPoisonHits && ClientPrefs.maxPoisonHits != 0) {
+								trace('poison hit!');
+								poisonTimes += 1;
+								var poisonPlusTimer = new FlxTimer().start(0.5, function(tmr:FlxTimer)
+								{
+									health -= 0.04;
+								}, 0);
+								// stop timer after 3 seconds
+								new FlxTimer().start(3, function(tmr:FlxTimer)
+								{
+									trace('stop');
+									poisonPlusTimer.cancel();
+									poisonTimes -= 1;
+								});
+							}
+							else if (ClientPrefs.poisonPlus == true && ClientPrefs.maxPoisonHits == 0) {
 								trace('poison hit!');
 								poisonTimes += 1;
 								var poisonPlusTimer = new FlxTimer().start(0.5, function(tmr:FlxTimer)
@@ -1859,7 +1876,7 @@ class PlayState extends MusicBeatState
 
 			if (storyPlaylist.length <= 0)
 			{
-				FlxG.sound.playMusic('assets/music/freakyMenu' + TitleState.soundExt);
+				FlxG.sound.playMusic(Files.music('freakyMenu'));
 
 				transIn = FlxTransitionableState.defaultTransIn;
 				transOut = FlxTransitionableState.defaultTransOut;
@@ -1990,7 +2007,6 @@ class PlayState extends MusicBeatState
 		comboSpr.x = coolText.x;
 		comboSpr.acceleration.y = 600;
 		comboSpr.velocity.y -= 150;
-		comboSpr.visible = ClientPrefs.showComboText;
 
 		comboSpr.velocity.x += FlxG.random.int(1, 10);
 		add(rating);
@@ -2043,7 +2059,7 @@ class PlayState extends MusicBeatState
 			if (combo >= 10 || combo == 0)
 				add(numScore);
 
-			if (combo > 9)
+			if (combo > 9 && ClientPrefs.showComboText)
 				add(comboSpr);
 
 			FlxTween.tween(numScore, {alpha: 0}, 0.2, {
@@ -2251,7 +2267,7 @@ private function keyShit():Void
 		var rightP = controls.RIGHT_P;
 		var downP = controls.DOWN_P;
 		var leftP = controls.LEFT_P;
-		if (ClientPrefs.ghostTapping == false){
+		if (!ClientPrefs.ghostTapping){
 
 		if (leftP)
 			noteMiss(0);
