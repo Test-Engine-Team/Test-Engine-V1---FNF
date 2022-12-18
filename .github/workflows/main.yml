@@ -206,3 +206,113 @@ jobs:
         with:
           name: flashBuild
           path: 'export/release/flash/bin' 
+    buildAndroid:
+      runs-on: windows-latest
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2.3.0
+
+      - uses: krdlab/setup-haxe@master
+        with:
+          haxe-version: 4.2.5
+      # Runs a set of commands using the runners shell
+      - name: Install Haxelib
+        run: |
+          haxelib setup C:/haxelib
+          haxelib install hxcpp > nul
+          haxelib install lime
+          haxelib install openfl
+          haxelib --never install flixel
+          haxelib run lime setup flixel
+          haxelib run lime setup
+          haxelib install flixel-tools
+          haxelib install flixel-ui
+          haxelib install flixel-addons
+          haxelib install tjson
+          haxelib install hxjsonast
+          haxelib install hxCodec
+          haxelib git linc_luajit https://github.com/nebulazorua/linc_luajit
+          haxelib install hscript
+          haxelib git hscript-ex https://github.com/ianharrigan/hscript-ex
+          haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
+          haxelib install hxcpp-debug-server
+          haxelib list
+        shell: cmd
+      - name: Create Version Tag
+        run: echo "${{github.run_id}}" > VERSION
+      - name: Compile
+        run: haxelib run lime build windows --app-version="4.0.0-${{ github.run_id}}"
+      - name: Publish Artifact
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: windowsBuild
+          path: export/release/windows/bin
+  buildAndroid:
+    name: buildAndroid
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.1
+
+      - name: Setup Android NDK
+        uses: nttld/setup-ndk@v1
+        id: setup-ndk
+        with:
+          ndk-version: r21e
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
+
+      - name: Setup Haxe
+        uses: krdlab/setup-haxe@v1.1.5
+        with:
+          haxe-version: 4.2.5
+
+      - name: Install Haxelib
+        run: |
+          haxelib setup ~/haxelib
+          haxelib install hxcpp > /dev/null
+          haxelib install lime
+          haxelib install openfl
+          haxelib --never install flixel
+          haxelib run lime setup flixel
+          haxelib install flixel-tools --quiet
+          haxelib install flixel-ui --quiet
+          haxelib install flixel-addons 2.10.0 --quiet
+          haxelib install hscript --quiet
+          haxelib install hxCodec --quiet
+          haxelib git faxe https://github.com/uhrobots/faxe --quiet
+          haxelib install polymod 1.5.2
+          haxelib git linc_luajit https://github.com/AndreiRudenko/linc_luajit
+          haxelib install hscript
+          haxelib git openfl https://github.com/openfl/openfl
+          haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
+          haxelib install actuate 
+          haxelib list
+      - name: Create Version Tag
+        run: echo "${{github.run_id}}" > VERSION
+
+      - name: Setup Lime
+        run: |
+          haxelib run lime setup -alias -y
+          haxelib run lime config ANDROID_SDK $ANDROID_HOME
+          haxelib run lime config ANDROID_NDK_ROOT $ANDROID_NDK_HOME
+          haxelib run lime config JAVA_HOME $JAVA_HOME
+          haxelib run lime config ANDROID_SETUP true
+        env:
+          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+
+      - name: Compile
+        run: haxelib run lime build android --app-version="4.0.0-${{ github.run_id}}"
+
+      - name: Publish Artifact
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: androidBuild
+          path: export/release/android/bin/app/build/outputs/apk/debug
