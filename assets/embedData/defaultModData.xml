@@ -1,5 +1,5 @@
 <!DOCTYPE test-engine-modData>
-<mod titleBarName="Friday Night Funkin' - Test Engine">
+<mod titleBarName="Friday Night Funkin' - Test Engine" charXmlPaths="embedData/allDefaultBF | embedData/allDefaultGF | embedData/defaultChars">
 	<week name="Tutorial" image="tutorial" songs="Tutorial" songPaths="tutorial" icons="gf" diffs="Easy, Normal, Hard">
 		<char path="campaign_menu_UI_characters" idle="Dad" xOffset="20" yOffset="100" scale="0.5"/>
 		<char default="gf"/>
