@@ -66,7 +66,7 @@ class AnimationDebug extends FlxState
 		charghost = new Character(0, 0, daAnim);
 		charghost.screenCenter();
 		charghost.alpha = 0.5;
-		charghost.playAnim('idle');
+		charghost.debugMode = true;
 		add(charghost);
 
 		if (daAnim == 'bf')

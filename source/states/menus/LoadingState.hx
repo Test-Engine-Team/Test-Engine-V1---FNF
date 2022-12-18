@@ -2,6 +2,7 @@ package states.menus;
 
 /*
 plz don't mess with this.
+imma mess with it anyway -504brandon 2022
 */
 import handlers.Files;
 import flixel.text.FlxText;
@@ -16,6 +17,7 @@ import openfl.events.UncaughtErrorEvent;
 import polymod.Polymod;
 import sys.FileSystem;
 import sys.io.File;
+import lime.app.Application;
 #end
 
 using StringTools;
@@ -110,6 +112,7 @@ class LoadingState extends MusicBeatState {
         flipX: false
     };
 
+
     override public function create() {
         super.create();
 
@@ -181,6 +184,7 @@ class LoadingState extends MusicBeatState {
             var xml:Xml = Xml.parse(Assets.getText("assets/modData.xml")).firstElement();
 
             if (xml.get("titleBarName") != null) modData.titleBar = xml.get("titleBarName");
+            Application.current.window.title = modData.titleBar;
             var xmlWeeks = xml.elementsNamed("week");
             if (xmlWeeks != null && xmlWeeks.hasNext()) {
                 modData.weekList = [];
