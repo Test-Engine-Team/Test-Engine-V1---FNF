@@ -15,7 +15,7 @@ class GameplayMenu extends MusicBeatState{
     var maintext:Alphabet;
     var curSelected:Int = 0;
     var curSubSelected:Int = 0;
-    var Items:Array<String> = ['Ghost Tapping', 'Down Scroll', 'FPS', 'Show Combo Text'];
+    var Items:Array<String> = ['Ghost Tapping', 'Down Scroll', 'FPS', 'Show Combo Txt'];
     var trueorfalsesmthidk:FlxText;
     var isTrue:Bool = false;
 
@@ -91,6 +91,12 @@ class GameplayMenu extends MusicBeatState{
                     else
                         ClientPrefs.ghostTapping = false;
                     isTrue = ClientPrefs.ghostTapping;
+                case 'Show Combo Txt':
+                    if (!ClientPrefs.showComboText)
+                        ClientPrefs.showComboText = true;
+                    else
+                        ClientPrefs.showComboText = false;
+                    isTrue = ClientPrefs.showComboText;
 			}
         }
     }
