@@ -184,6 +184,8 @@ class LoadingState extends MusicBeatState {
             var xml:Xml = Xml.parse(Assets.getText("assets/modData.xml")).firstElement();
 
             if (xml.get("titleBarName") != null) modData.titleBar = xml.get("titleBarName");
+            if (xml.get("titleBarName") == null)
+                xml.set("titleBarName", 'Friday Night Funkin - Test Engine');
             Application.current.window.title = modData.titleBar;
             var xmlWeeks = xml.elementsNamed("week");
             if (xmlWeeks != null && xmlWeeks.hasNext()) {
