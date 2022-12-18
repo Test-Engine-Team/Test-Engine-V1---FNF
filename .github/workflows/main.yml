@@ -206,12 +206,14 @@ jobs:
         with:
           name: flashBuild
           path: 'export/release/flash/bin' 
-    buildAndroid:
-      runs-on: windows-latest
+  buildFlash:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
 
+    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2.3.0
+uses: actions/checkout@v2.3.0
 
       - uses: krdlab/setup-haxe@master
         with:
@@ -288,11 +290,13 @@ jobs:
           haxelib install hscript --quiet
           haxelib install hxCodec --quiet
           haxelib git faxe https://github.com/uhrobots/faxe --quiet
+          haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc --quiet
+          haxelib git extension-webm https://github.com/luckydog7/extension-webm --quiet
+          haxelib git linc_luajit https://github.com/MasterEric/linc_luajit.git --quiet
+          haxelib git hxvm-luajit https://github.com/nebulazorua/hxvm-luajit.git --quiet
           haxelib install polymod 1.5.2
           haxelib git linc_luajit https://github.com/AndreiRudenko/linc_luajit
           haxelib install hscript
-          haxelib git openfl https://github.com/openfl/openfl
-          haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
           haxelib install actuate 
           haxelib list
       - name: Create Version Tag
