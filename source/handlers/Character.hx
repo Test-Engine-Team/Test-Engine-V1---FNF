@@ -13,6 +13,7 @@ using StringTools;
 class Character extends FlxSprite
 {
 	public var animOffsets:Map<String, Array<Float>>;
+	public var stunned:Bool = false;
 	public var debugMode:Bool = false;
 
 	public var charData:GameCharData;
@@ -23,8 +24,6 @@ class Character extends FlxSprite
 	public var holdTimer:Float = 0;
 
 	public var hpcolor:FlxColor;
-    public var XOffset:Float = 0;
-    public var YOffset:Float = 0;
 
 	//If you want to change the position of the characters, mess with these.
 	//The sprites x and y now get changed every frame.
@@ -83,6 +82,9 @@ class Character extends FlxSprite
 				daOffsets[1] = daOffsets[1] / charData.scale;
 			}
 
+			if (!animation.exists(anim.name))
+				trace(curCharacter + ": COULDN'T ADD ANIMATION: " + anim.name);
+
 			animOffsets.set(anim.name, daOffsets);
 		}
 		isSwagDanceLefterDanceRighter = (animation.exists("danceLeft") && animation.exists("danceRight"));
@@ -99,16 +101,24 @@ class Character extends FlxSprite
 		updateHitbox();
 
 		if (normallyBF != isPlayer) {
-			// var animArray
-			var oldRight = animation.getByName('singRIGHT').frames;
-			animation.getByName('singRIGHT').frames = animation.getByName('singLEFT').frames;
-			animation.getByName('singLEFT').frames = oldRight;
+			//if they have sing animations
+			if (animation.getByName('singRIGHT') != null) {
+				var oldRight = animation.getByName('singRIGHT').frames;
+				var oldROffsets = animOffsets["singRIGHT"];
+				animation.getByName('singRIGHT').frames = animation.getByName('singLEFT').frames;
+				animOffsets["singRIGHT"] = animOffsets["singLEFT"];
+				animation.getByName('singLEFT').frames = oldRight;
+				animOffsets["singLEFT"] = oldROffsets;
+			}
 	
 			// IF THEY HAVE MISS ANIMATIONS??
 			if (animation.getByName('singRIGHTmiss') != null) {
 				var oldMiss = animation.getByName('singRIGHTmiss').frames;
+				var oldMOffsets = animOffsets["singRIGHT"];
 				animation.getByName('singRIGHTmiss').frames = animation.getByName('singLEFTmiss').frames;
+				animOffsets["singRIGHTmiss"] = animOffsets["singLEFTmiss"];
 				animation.getByName('singLEFTmiss').frames = oldMiss;
+				animOffsets["singLEFTmiss"] = oldMOffsets;
 			}
 		}
 
@@ -122,26 +132,24 @@ class Character extends FlxSprite
 		x = regX + charData.offsets[0];
 		y = regY + charData.offsets[1];
 
-		if (!curCharacter.startsWith('bf'))
-		{
-			if (animation.curAnim.name.startsWith('sing'))
-			{
-				holdTimer += elapsed;
-			}
+		if (animation.curAnim == null) return;
 
-			if (holdTimer >= Conductor.stepCrochet * charData.singDur * 0.001)
-			{
+		if (animation.curAnim.name.startsWith('sing')) {
+			holdTimer += elapsed;
+			if (holdTimer >= Conductor.stepCrochet * charData.singDur * 0.001) {
 				dance();
 				holdTimer = 0;
 			}
 		}
 
-		switch (curCharacter)
-		{
-			case 'gf':
-				if (animation.curAnim.name == 'hairFall' && animation.curAnim.finished)
-					playAnim('danceRight');
+		//this was originally only for gf but i'd think everyone would like to play other animations when their hair finishes falling.
+		if (animation.curAnim.name == 'hairFall' && animation.curAnim.finished) {
+			playAnim(isSwagDanceLefterDanceRighter ? 'danceRight' : 'idle');
+			danced = false;
 		}
+
+		if (animation.curAnim.name == 'firstDeath' && animation.curAnim.finished)
+			playAnim('deathLoop');
 	}
 
 	private var danced:Bool = false;

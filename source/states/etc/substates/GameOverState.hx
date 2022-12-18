@@ -10,13 +10,13 @@ import states.mainstates.PlayState;
 import states.menus.StoryMenuState;
 import states.menus.FreeplayState;
 import handlers.Files;
-import handlers.Boyfriend;
+import handlers.Character;
 import handlers.Conductor;
 import handlers.MusicBeatSubstate;
 
 class GameOverState extends MusicBeatSubstate
 {
-	var bf:Boyfriend;
+	var bf:Character;
 	var camFollow:FlxObject;
 
 	var stageSuffix:String = "";
@@ -41,7 +41,7 @@ class GameOverState extends MusicBeatSubstate
 
 		Conductor.songPosition = 0;
 
-		bf = new Boyfriend(x, y, daBf);
+		bf = new Character(x, y, daBf, true);
 		add(bf);
 
 		camFollow = new FlxObject(bf.getGraphicMidpoint().x, bf.getGraphicMidpoint().y, 1, 1);
