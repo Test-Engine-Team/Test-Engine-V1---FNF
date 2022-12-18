@@ -23,6 +23,8 @@ using StringTools;
 typedef ModDataYee = {
     var titleBar:String;
     var weekList:Array<ModWeekYee>;
+    var charList:Array<GameCharData>;
+    var charNames:Array<String>;
     var selectColor:FlxColor;
 }
 
@@ -34,6 +36,29 @@ typedef MenuCharData = {
     var xOffset:Float;
     var yOffset:Float;
     var flipX:Bool;
+}
+
+typedef GameCharData = {
+    var spriteImage:String;
+    var iconImage:String;
+    var anims:Array<GameCharAnim>;
+    var offsets:Array<Float>;
+    var scale:Float;
+    var scaleAffectsOffset:Bool;
+    var flipX:Bool;
+    var antialiasing:Bool;
+    var singDur:Float;
+    var regCharType:String;
+}
+
+//It's worrying how close this is to psych.
+typedef GameCharAnim = {
+    var name:String;
+    var prefix:String;
+    var looped:Bool;
+    var fps:Int;
+    var offsets:Array<Float>;
+    var indices:Array<Int>;
 }
 
 typedef ModWeekYee = {
@@ -51,12 +76,16 @@ class LoadingState extends MusicBeatState {
     public static var modData:ModDataYee = {
         titleBar: "Friday Night Funkin' - Test Engine",
         weekList: [],
+        charList: [],
+        charNames: [],
         selectColor: 0xFF00B386
     }; //It gets set in create so no need to fill this.
 
     private static var defaultModData:ModDataYee = {
         titleBar: "Friday Night Funkin' - Test Engine",
         weekList: [],
+        charList: [],
+        charNames: [],
         selectColor: 0xFF00B386
     };
 
@@ -97,6 +126,8 @@ class LoadingState extends MusicBeatState {
             var daModData:ModDataYee = {
                 titleBar: "Friday Night Funkin' - Test Engine",
                 weekList: [],
+                charList: [],
+                charNames: [],
                 selectColor: 0xFF00B386
             };
 
@@ -114,6 +145,14 @@ class LoadingState extends MusicBeatState {
             var color:String = defaultXml.get("color");
             if (color != null)
                 daModData.selectColor = (color.startsWith("#") || color.startsWith("0x")) ? FlxColor.fromString(color) : FlxColor.fromString("#" + color);
+
+            for (xmlPath in ["embedData/allDefaultBF", "embedData/allDefaultGF", "embedData/defaultChars"]) {
+                var daCharList = parseCharList(Xml.parse(Assets.getText('assets/$xmlPath.xml')));
+                for (charName in daCharList.keys()) {
+                    daModData.charNames.push(charName);
+                    daModData.charList.push(daCharList[charName]);
+                }
+            }
 
             defaultModData = daModData;
         }
@@ -152,6 +191,21 @@ class LoadingState extends MusicBeatState {
             var color:String = xml.get("color");
             if (color != null)
                 modData.selectColor = (color.startsWith("#") || color.startsWith("0x")) ? FlxColor.fromString(color) : FlxColor.fromString("#" + color);
+
+            var charPathList = (xml.get("charXmlPaths") != null) ? [for (path in xml.get("charXmlPaths").split(",")) path.trim()] : [];
+            if (charPathList.length > 0) {
+                for (xmlPath in charPathList) {
+                    var daCharList = parseCharList(Xml.parse(Assets.getText('assets/$xmlPath.xml')));
+                    for (charName in daCharList.keys()) {
+                        if (modData.charNames.contains(charName)) {
+                            modData.charList[modData.charNames.indexOf(charName)] = daCharList[charName];
+                            continue;
+                        }
+                        modData.charNames.push(charName);
+                        modData.charList.push(daCharList[charName]);
+                    }
+                }
+            }
         }
         #end
         #if desktop
@@ -174,6 +228,97 @@ class LoadingState extends MusicBeatState {
             TitleState.seenIntro = false;
             FlxG.switchState(new TitleState());
         });
+    }
+
+    function parseCharList(xml:Xml) {
+        var charList:Map<String, GameCharData> = [];
+        for (char in xml.elementsNamed("char")) {
+            var charName = (char.get("name") != null) ? char.get("name") : "bf";
+            var modChar:GameCharData = {
+                spriteImage: "BOYFRIEND",
+                iconImage: "bf",
+                anims: [{
+                    name: "idle",
+                    prefix: "BF idle dance",
+                    looped: false,
+                    fps: 24,
+                    offsets: [-5, 0],
+                    indices: []
+                }],
+                offsets: [0, 350, 0, 0],
+                scale: 1,
+                scaleAffectsOffset: false,
+                flipX: true,
+                antialiasing: true,
+                singDur: 4,
+                regCharType: "bf"
+            };
+            if (char.get("spriteImage") != null) modChar.spriteImage = char.get("spriteImage");
+            if (char.get("iconImage") != null) modChar.iconImage = char.get("iconImage");
+            if (char.get("regCharType") != null) modChar.regCharType = char.get("regCharType");
+
+            var offsetArray:Array<String> = [];
+            if (char.get("offsets") != null) offsetArray = char.get("offsets").split(",");
+            if (offsetArray.length > 1) {
+                for (i in 0...2)
+                    modChar.offsets[i] = Std.parseFloat(offsetArray[i].trim());
+            }
+            offsetArray = [];
+            if (char.get("camOffsets") != null) offsetArray = char.get("camOffsets").split(",");
+            if (offsetArray.length > 1) {
+                for (i in 0...2)
+                    modChar.offsets[i + 2] = Std.parseFloat(offsetArray[i].trim());
+            }
+
+            if (char.get("scale") != null) modChar.scale = Std.parseFloat(char.get("scale"));
+            if (char.get("singDur") != null) modChar.singDur = Std.parseFloat(char.get("singDur"));
+
+            if (char.get("scaleAffectsOffset") != null) modChar.scaleAffectsOffset = (char.get("scaleAffectsOffset") == "true");
+            if (char.get("flipX") != null) modChar.flipX = (char.get("flipX") == "true");
+            if (char.get("antialiasing") != null) modChar.antialiasing = (char.get("antialiasing") == "true");
+
+            var xmlAnims = char.elementsNamed("animData");
+            if (xmlAnims != null && xmlAnims.hasNext()) {
+                modChar.anims = [];
+                for (anim in xmlAnims) {
+                    modChar.anims.push(addCharAnim(anim));
+                }
+            }
+            charList.set(charName, modChar);
+        }
+        return charList;
+    }
+
+    function addCharAnim(anim:Xml) {
+        var charAnim:GameCharAnim = {
+            name: "idle",
+            prefix: "BF idle dance",
+            looped: false,
+            fps: 24,
+            offsets: [-5, 0],
+            indices: []
+        };
+
+        if (anim.get("name") != null) charAnim.name = anim.get("name");
+        if (anim.get("prefix") != null) charAnim.prefix = anim.get("prefix");
+        if (anim.get("looped") != null) charAnim.looped = (anim.get("looped") == "true");
+        if (anim.get("fps") != null) charAnim.fps = Std.parseInt(anim.get("fps"));
+
+        var offsetArray:Array<String> = [];
+        if (anim.get("offsets") != null) offsetArray = anim.get("offsets").split(",");
+        if (offsetArray.length > 1) {
+            for (i in 0...offsetArray.length)
+                charAnim.offsets[i] = Std.parseFloat(offsetArray[i].trim());
+        }
+        
+        var indiceArray:Array<String> = [];
+        if (anim.get("indices") != null) indiceArray = anim.get("indices").split(",");
+        if (indiceArray.length > 0) {
+            for (i in 0...indiceArray.length)
+                charAnim.indices[i] = Std.parseInt(indiceArray[i].trim());
+        }
+
+        return charAnim;
     }
 
     function addModWeek(week:Xml) {
@@ -204,13 +349,13 @@ class LoadingState extends MusicBeatState {
         if (xmlChars != null && xmlChars.hasNext()) {
             modWeek.chars = [];
             for (char in xmlChars) {
-                modWeek.chars.push(addModChar(char));
+                modWeek.chars.push(addWeekChar(char));
             }
         }
         return modWeek;
     }
 
-    function addModChar(charXml:Xml) {
+    function addWeekChar(charXml:Xml) {
         var charData:MenuCharData = {
             spritePath: "campaign_menu_UI_characters",
             idleAnim: "Dad",
