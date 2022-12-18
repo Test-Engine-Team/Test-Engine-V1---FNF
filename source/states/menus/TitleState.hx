@@ -30,6 +30,7 @@ import handlers.Highscore;
 import handlers.PlayerSettings;
 import handlers.Conductor;
 import handlers.MusicBeatState;
+import handlers.ClientPrefs;
 
 using StringTools;
 
@@ -65,6 +66,17 @@ class TitleState extends MusicBeatState
 			Sys.exit(0);
 		}
 		#end
+
+		if(ClientPrefs.framerate > FlxG.drawFramerate)
+		{
+			FlxG.updateFramerate = ClientPrefs.framerate;
+			FlxG.drawFramerate = ClientPrefs.framerate;
+		}
+		else
+		{
+			FlxG.drawFramerate = ClientPrefs.framerate;
+			FlxG.updateFramerate = ClientPrefs.framerate;
+		}
 
 		swagShader = new ColorSwap();
 		alphaShader = new BuildingShaders();

@@ -15,8 +15,9 @@ class GameplayMenu extends MusicBeatState{
     var maintext:Alphabet;
     var curSelected:Int = 0;
     var curSubSelected:Int = 0;
-    var Items:Array<String> = ['Ghost Tapping', 'Down Scroll', 'FPS'];
+    var Items:Array<String> = ['Ghost Tapping', 'Down Scroll', 'FPS', 'Show Combo Text'];
     var trueorfalsesmthidk:FlxText;
+    var isTrue:Bool = false;
 
     override function create() {
         var bg:FlxSprite = new FlxSprite().loadGraphic(Files.image('menuDesat'));
@@ -72,10 +73,8 @@ class GameplayMenu extends MusicBeatState{
         if (curSubSelected == 0 && daSelected == 'FPS')
             curSubSelected = ClientPrefs.framerate;
 
-        if (daSelected == 'Ghost Tapping' && !ClientPrefs.ghostTapping)
-            trueorfalsesmthidk.text = 'Ghost Tapping = false';
-        else if (daSelected == 'Ghost Tapping' && ClientPrefs.ghostTapping)
-            trueorfalsesmthidk.text = 'Ghost Tapping = true';
+        if (daSelected == 'Ghost Tapping')
+            trueorfalsesmthidk.text = 'Ghost Tapping = $isTrue';
         else if (daSelected == 'Down Scroll')
             trueorfalsesmthidk.text = 'Down Scroll';
         else if (daSelected == 'FPS')
@@ -87,10 +86,11 @@ class GameplayMenu extends MusicBeatState{
 			switch (daSelected)
 			{
 				case 'Ghost Tapping':
-                if (!ClientPrefs.ghostTapping)
-                    ClientPrefs.ghostTapping = true;
+                    if (!ClientPrefs.ghostTapping)
+                        ClientPrefs.ghostTapping = true;
                     else
-                    ClientPrefs.ghostTapping = false;
+                        ClientPrefs.ghostTapping = false;
+                    isTrue = ClientPrefs.ghostTapping;
 			}
         }
     }
