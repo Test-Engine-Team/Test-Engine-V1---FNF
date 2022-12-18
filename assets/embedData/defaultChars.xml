@@ -27,7 +27,7 @@
     <animData name="singDOWN" prefix="monster down" looped="false" fps="24" offsets="-50,-80"/>
 </char>
 <char name="pico" spriteImage="Pico_FNF_assetss" iconImage="pico" offsets="0,300" camOffsets="0,0" flipX="true" singDur="4" regCharType="dad" hpColor="183,216,85">
-    <animData name="idle" prefix="Pico I" looped="false" fps="24" offsets="0,0"/>
+    <animData name="idle" prefix="Pico Idle Dance" looped="false" fps="24" offsets="0,0"/>
 
     <animData name="singLEFT" prefix="Pico Note Right0" looped="false" fps="24" offsets="65,9"/>
     <animData name="singDOWN" prefix="Pico Down Note0" looped="false" fps="24" offsets="200,-70"/>
@@ -68,6 +68,14 @@
     <animData name="singLEFT-alt" prefix="Parent Left Note Mom" looped="false" fps="24" offsets="-30,15"/>
     <animData name="singUP-alt" prefix="Parent Up Note Mom" looped="false" fps="24" offsets="-47,24"/>
 </char>
+<char name="monster-christmas" spriteImage="monsterChristmas" iconImage="monster" offsets="0,130" camOffsets="0,0" flipX="false" singDur="4" regCharType="dad" hpColor="243,255,110" scale="1">
+    <animData name="idle" prefix="monster idle" looped="false" fps="24" offsets="1,0"/>
+
+    <animData name="singUP" prefix="monster up note" looped="false" fps="24" offsets="-20,50"/>
+    <animData name="singLEFT" prefix="Monster left note" looped="false" fps="24" offsets="-30,0"/>
+    <animData name="singRIGHT" prefix="Monster Right note" looped="false" fps="24" offsets="-51,0"/>
+    <animData name="singDOWN" prefix="monster down" looped="false" fps="24" offsets="-40,-94"/>
+</char>
 <char name="senpai" spriteImage="senpai" iconImage="senpai" offsets="150,360" camOffsets="-240,-330" flipX="false" singDur="4" regCharType="dad" hpColor="255,170,111" scale="6" antialiasing="false">
     <animData name="idle" prefix="Senpai Idle" looped="false" fps="24" offsets="1,0"/>
 
@@ -92,18 +100,13 @@
     <animData name="singRIGHT" prefix="right_" looped="false" fps="24" offsets="-220,-280"/>
     <animData name="singUP" prefix="up_" looped="false" fps="24" offsets="-220,-240"/>
 </char>
-<char name="tankman" spriteImage="tankmanCaptain" iconImage="tankman" offsets="0,240" camOffsets="0,0" flipX="true" singDur="4" regCharType="dad" hpColor="225,225,225">
+<char name="tankman" spriteImage="tankmanCaptain" iconImage="tankman" offsets="0,240" camOffsets="0,0" flipX="true" singDur="4" regCharType="dad" hpColor="202020">
     <animData name="idle" prefix="Tankman Idle Dance" looped="false" fps="24" offsets="0,0"/>
 
-    <animData name="singUP" prefix="Tankman UP note 1" looped="false" fps="24" offsets="48,54"/>
-    <animData name="singDOWN" prefix="Tankman DOWN note 1" looped="false" fps="24" offsets="76,-101"/>
-    <animData name="singLEFT" prefix="Tankman Right Note 1" looped="false" fps="24" offsets="84,-14"/>
-    <animData name="singRIGHT" prefix="Tankman Note Left 1" looped="false" fps="24" offsets="-21,-31"/>
-
-    <animData name="singUPmiss" prefix="Tankman UP note MISS" looped="false" fps="24" offsets="48,54"/>
-    <animData name="singDOWNmiss" prefix="Tankman DOWN note MISS" looped="false" fps="24" offsets="76,-101"/>
-    <animData name="singLEFTmiss" prefix="Tankman Right Note MISS" looped="false" fps="24" offsets="84,-14"/>
-    <animData name="singRIGHTmiss" prefix="Tankman Note Left MISS" looped="false" fps="24" offsets="-21,-31"/>
+    <animData name="singUP" prefix="Tankman UP note instance 1" looped="false" fps="24" offsets="48,54"/>
+    <animData name="singDOWN" prefix="Tankman DOWN note instance 1" looped="false" fps="24" offsets="76,-101"/>
+    <animData name="singLEFT" prefix="Tankman Right Note instance 1" looped="false" fps="24" offsets="84,-14"/>
+    <animData name="singRIGHT" prefix="Tankman Note Left instance 1" looped="false" fps="24" offsets="-21,-31"/>
 
     <animData name="Ugh" prefix="TANKMAN UGH" looped="false" fps="24" offsets="-15,-8"/>
     <animData name="PrettyGood" prefix="PRETTY GOOD tankman" looped="false" fps="24" offsets="1,16"/>

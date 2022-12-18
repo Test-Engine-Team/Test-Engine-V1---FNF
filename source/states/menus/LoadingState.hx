@@ -184,9 +184,6 @@ class LoadingState extends MusicBeatState {
             var xml:Xml = Xml.parse(Assets.getText("assets/modData.xml")).firstElement();
 
             if (xml.get("titleBarName") != null) modData.titleBar = xml.get("titleBarName");
-            if (modData.titleBar == null)
-                modData.titleBar = 'Friday Night Funkin - Test Engine';
-            Application.current.window.title = modData.titleBar;
             var xmlWeeks = xml.elementsNamed("week");
             if (xmlWeeks != null && xmlWeeks.hasNext()) {
                 modData.weekList = [];
@@ -223,6 +220,7 @@ class LoadingState extends MusicBeatState {
         }
         #end
         #if desktop
+        Application.current.window.title = modData.titleBar;
         if (!addedCrash) {
             openfl.Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, errorPopup);
             addedCrash = true;

@@ -4,14 +4,11 @@ import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.FlxState;
-import flixel.addons.display.FlxGridOverlay;
-import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
-import states.menus.MainMenuState;
+import states.menus.LoadingState;
 import states.mainstates.PlayState;
 import handlers.Character;
-import handlers.Boyfriend;
 import handlers.Files;
 
 /**
@@ -19,12 +16,10 @@ import handlers.Files;
  */
 class AnimationDebug extends FlxState
 {
-	var bf:Boyfriend;
-	var dad:Character;
 	var char:Character;
 	var charghost:Character;
 	var textAnim:FlxText;
-	var dumbTexts:FlxTypedGroup<FlxText>;
+	var animListTxt:FlxText;
 	var animList:Array<String> = [];
 	var curAnim:Int = 0;
 	var isDad:Bool = true;
@@ -63,38 +58,31 @@ class AnimationDebug extends FlxState
 		stageCurtains.active = false;
 		add(stageCurtains);
 
-		charghost = new Character(0, 0, daAnim);
+		var dataIndex = LoadingState.modData.charNames.indexOf(daAnim);
+		if (dataIndex == -1) {
+			daAnim = "bf";
+			dataIndex = LoadingState.modData.charNames.indexOf(daAnim);
+		}
+		var charData = LoadingState.modData.charList[dataIndex];
+
+		charghost = new Character(400, 100, daAnim, (charData.regCharType == "bf"));
 		charghost.screenCenter();
 		charghost.alpha = 0.5;
 		charghost.debugMode = true;
 		add(charghost);
 
-		if (daAnim == 'bf')
-			isDad = false;
+		char = new Character(400, 100, daAnim, (charData.regCharType == "bf"));
+		char.screenCenter();
+		char.debugMode = true;
+		add(char);
 
-		if (isDad)
-		{
-			dad = new Character(0, 0, daAnim);
-			dad.screenCenter();
-			dad.debugMode = true;
-			add(dad);
-
-			char = dad;
-		}
-		else
-		{
-			bf = new Boyfriend(0, 0);
-			bf.screenCenter();
-			bf.debugMode = true;
-			add(bf);
-
-			char = bf;
-		}
-
-		dumbTexts = new FlxTypedGroup<FlxText>();
-		add(dumbTexts);
+		animListTxt = new FlxText(10, 20, 0,  "");
+		animListTxt.scrollFactor.set();
+		animListTxt.setFormat("assets/fonts/vcr.ttf", 20, FlxColor.WHITE, null, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		add(animListTxt);
 
 		textAnim = new FlxText(300, 16);
+		textAnim.setBorderStyle(FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		textAnim.size = 26;
 		textAnim.scrollFactor.set();
 		add(textAnim);
@@ -114,27 +102,17 @@ class AnimationDebug extends FlxState
 	{
 		var daLoop:Int = 0;
 
+		animListTxt.text = "";
 		for (anim => offsets in char.animOffsets)
 		{
-			var text:FlxText = new FlxText(10, 20 + (18 * daLoop), 0, anim + ": " + offsets);
-			text.scrollFactor.set();
-			text.setFormat("assets/fonts/vcr.ttf", 15, FlxColor.WHITE, null, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-			dumbTexts.add(text);
+			var prefix = (daLoop == curAnim) ? ">>> " : "";
+			animListTxt.text += prefix + anim + ": " + offsets + "\n";
 
 			if (pushList)
 				animList.push(anim);
 
 			daLoop++;
 		}
-	}
-
-	function updateTexts():Void
-	{
-		dumbTexts.forEach(function(text:FlxText)
-		{
-			text.kill();
-			dumbTexts.remove(text, true);
-		});
 	}
 
 	override function update(elapsed:Float)
@@ -190,7 +168,6 @@ class AnimationDebug extends FlxState
 		{
 			char.playAnim(animList[curAnim]);
 
-			updateTexts();
 			genBoyOffsets(false);
 		}
 
@@ -206,7 +183,6 @@ class AnimationDebug extends FlxState
 
 		if (upP || rightP || downP || leftP)
 		{
-			updateTexts();
 			if (upP)
 				char.animOffsets.get(animList[curAnim])[1] += 1 * multiplier;
 			if (downP)
@@ -216,7 +192,6 @@ class AnimationDebug extends FlxState
 			if (rightP)
 				char.animOffsets.get(animList[curAnim])[0] -= 1 * multiplier;
 
-			updateTexts();
 			genBoyOffsets(false);
 			char.playAnim(animList[curAnim]);
 		}

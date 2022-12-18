@@ -47,46 +47,31 @@
 
     <animData name="hey" prefix="BF HEY" looped="false" fps="24" offsets="-3,5"/>
 </char>
-<char name="bf-holding-gf" spriteImage="bfAndGf" iconImage="bf" offsets="0,350" camOffsets="0,0" flipX="true" singDur="4" regCharType="bf" hpColor="49,176,209">
-    <animData name="idle" prefix="BF idle d" looped="false" fps="24" offsets="-5,0"/>
+<char name="bf-holding-gf" spriteImage="bfAndGF" iconImage="bf" offsets="0,350" camOffsets="0,0" flipX="true" singDur="4" regCharType="bf" hpColor="49,176,209">
+    <animData name="idle" prefix="BF idle dance w gf" looped="false" fps="24" offsets="-5,0"/>
 
     <animData name="singLEFT" prefix="BF NOTE LEFT0" looped="false" fps="24" offsets="12,7"/>
     <animData name="singDOWN" prefix="BF NOTE DOWN0" looped="false" fps="24" offsets="-10,-10"/>
     <animData name="singUP" prefix="BF NOTE UP0" looped="false" fps="24" offsets="-29,10"/>
     <animData name="singRIGHT" prefix="BF NOTE RIGHT0" looped="false" fps="24" offsets="-41,23"/>
 
-    <animData name="singLEFTmiss" prefix="BF NOTE LEFT M" looped="false" fps="24" offsets="12,7"/>
-    <animData name="singDOWNmiss" prefix="BF NOTE DOWN M" looped="false" fps="24" offsets="-10,-10"/>
-    <animData name="singUPmiss" prefix="BF NOTE UP M" looped="false" fps="24" offsets="-29,10"/>
-    <animData name="singRIGHTmiss" prefix="BF NOTE RIGHT M" looped="false" fps="24" offsets="-41,33"/>
+    <animData name="singLEFTmiss" prefix="BF NOTE LEFT MISS" looped="false" fps="24" offsets="12,7"/>
+    <animData name="singDOWNmiss" prefix="BF NOTE DOWN MISS" looped="false" fps="24" offsets="-10,-10"/>
+    <animData name="singUPmiss" prefix="BF NOTE UP MISS" looped="false" fps="24" offsets="-29,10"/>
+    <animData name="singRIGHTmiss" prefix="BF NOTE RIGHT MISS" looped="false" fps="24" offsets="-41,33"/>
 
-    <animData name="bfCatch" prefix="bf catches gf" looped="false" fps="24" offsets="0,90"/>
-</char>
-<char name="bf-holding-gf" spriteImage="bfAndGf" iconImage="bf" offsets="0,350" camOffsets="0,0" flipX="true" singDur="4" regCharType="bf" hpColor="49,176,209">
-    <animData name="idle" prefix="BF idle d" looped="false" fps="24" offsets="-5,0"/>
-
-    <animData name="singLEFT" prefix="BF NOTE LEFT0" looped="false" fps="24" offsets="12,7"/>
-    <animData name="singDOWN" prefix="BF NOTE DOWN0" looped="false" fps="24" offsets="-10,-10"/>
-    <animData name="singUP" prefix="BF NOTE UP0" looped="false" fps="24" offsets="-29,10"/>
-    <animData name="singRIGHT" prefix="BF NOTE RIGHT0" looped="false" fps="24" offsets="-41,23"/>
-
-    <animData name="singLEFTmiss" prefix="BF NOTE LEFT M" looped="false" fps="24" offsets="12,7"/>
-    <animData name="singDOWNmiss" prefix="BF NOTE DOWN M" looped="false" fps="24" offsets="-10,-10"/>
-    <animData name="singUPmiss" prefix="BF NOTE UP M" looped="false" fps="24" offsets="-29,10"/>
-    <animData name="singRIGHTmiss" prefix="BF NOTE RIGHT M" looped="false" fps="24" offsets="-41,33"/>
-
-    <animData name="bfCatch" prefix="bf catches gf" looped="false" fps="24" offsets="0,90"/>
+    <animData name="bfCatch" prefix="BF catches GF" looped="false" fps="24" offsets="0,90"/>
 </char>
 <char name="bf-pixel" spriteImage="bfPixel" iconImage="bf-pixel" offsets="0,350" camOffsets="50,-60" scale="6" flipX="true" singDur="4" regCharType="bf" hpColor="123,214,246" antialiasing="false">
-    <animData name="idle" prefix="BF I" looped="false" fps="24" offsets="7,0"/>
+    <animData name="idle" prefix="BF IDLE instance 1" looped="false" fps="24" offsets="7,0"/>
 
-    <animData name="singLEFT" prefix="BF LEFT NOTE" looped="false" fps="24" offsets="0,0"/>
-    <animData name="singDOWN" prefix="BF DOWN NOTE" looped="false" fps="24" offsets="0,0"/>
-    <animData name="singUP" prefix="BF UP NOTE" looped="false" fps="24" offsets="0,0"/>
-    <animData name="singRIGHT" prefix="BF RIGHT NOTE" looped="false" fps="24" offsets="0,0"/>
+    <animData name="singLEFT" prefix="BF LEFT NOTE instance 1" looped="false" fps="24" offsets="0,0"/>
+    <animData name="singDOWN" prefix="BF DOWN NOTE instance 1" looped="false" fps="24" offsets="0,0"/>
+    <animData name="singUP" prefix="BF UP NOTE instance 1" looped="false" fps="24" offsets="0,0"/>
+    <animData name="singRIGHT" prefix="BF RIGHT NOTE instance 1" looped="false" fps="24" offsets="0,0"/>
 
-    <animData name="singLEFTmiss" prefix="BF LEFT M" looped="false" fps="24" offsets="0,0"/>
-    <animData name="singDOWNmiss" prefix="BF DOWN M" looped="false" fps="24" offsets="0,0"/>
-    <animData name="singUPmiss" prefix="BF UP M" looped="false" fps="24" offsets="0,0"/>
-    <animData name="singRIGHTmiss" prefix="BF RIGHT M" looped="false" fps="24" offsets="0,0"/>
+    <animData name="singLEFTmiss" prefix="BF LEFT MISS instance 1" looped="false" fps="24" offsets="0,0"/>
+    <animData name="singDOWNmiss" prefix="BF DOWN MISS instance 1" looped="false" fps="24" offsets="0,0"/>
+    <animData name="singUPmiss" prefix="BF UP MISS instance 1" looped="false" fps="24" offsets="0,0"/>
+    <animData name="singRIGHTmiss" prefix="BF RIGHT MISS instance 1" looped="false" fps="24" offsets="0,0"/>
 </char>
