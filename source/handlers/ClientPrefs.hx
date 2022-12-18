@@ -7,8 +7,10 @@ import flixel.graphics.FlxGraphic;
 import Controls;
 
 class ClientPrefs {
+	// Options
     public static var ghostTapping:Bool = true;
 	public static var showComboText:Bool = true;
+	public static var framerate:Int = 60;
 
 	// Modifiers
 	public static var spinnyspin:Bool = false;
@@ -61,6 +63,7 @@ class ClientPrefs {
 		FlxG.save.data.tristanPlayer = tristanPlayer;
         FlxG.save.data.tankmanFloat = tankmanFloat;
 		FlxG.save.data.maxPoisonHits = maxPoisonHits;
+		FlxG.save.data.framerate = framerate;
 
         FlxG.save.flush();
 
@@ -93,5 +96,16 @@ class ClientPrefs {
         if (FlxG.save.data.tankmanFloat != null) {
             tankmanFloat = FlxG.save.data.tankmanFloat;
         }
+
+		if(FlxG.save.data.framerate != null) {
+			framerate = FlxG.save.data.framerate;
+			if(framerate > FlxG.drawFramerate) {
+				FlxG.updateFramerate = framerate;
+				FlxG.drawFramerate = framerate;
+			} else {
+				FlxG.drawFramerate = framerate;
+				FlxG.updateFramerate = framerate;
+			}
+		}
     }
 }

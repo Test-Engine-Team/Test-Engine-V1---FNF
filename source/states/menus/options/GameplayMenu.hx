@@ -14,7 +14,8 @@ class GameplayMenu extends MusicBeatState{
     var maintextgroup:FlxTypedGroup<Alphabet>;
     var maintext:Alphabet;
     var curSelected:Int = 0;
-    var Items:Array<String> = ['Ghost Tapping', 'Down Scroll'];
+    var curSubSelected:Int = 0;
+    var Items:Array<String> = ['Ghost Tapping', 'Down Scroll', 'FPS'];
     var trueorfalsesmthidk:FlxText;
 
     override function create() {
@@ -52,13 +53,33 @@ class GameplayMenu extends MusicBeatState{
             changeSelection(-1);
 
         var daSelected:String = Items[curSelected];
+        if (daSelected != 'FPS') {
+            if (FlxG.keys.justPressed.LEFT) //down
+                changeSubSelection(-1);
+    
+            if (FlxG.keys.justPressed.RIGHT) //up
+                changeSubSelection(1);
+        }
+        else
+        {
+            if (FlxG.keys.justPressed.LEFT) //down
+                changeSubSelection(-10);
+    
+            if (FlxG.keys.justPressed.RIGHT) //up
+                changeSubSelection(10);
+        }
+
+        if (curSubSelected == 0 && daSelected == 'FPS')
+            curSubSelected = ClientPrefs.framerate;
 
         if (daSelected == 'Ghost Tapping' && !ClientPrefs.ghostTapping)
             trueorfalsesmthidk.text = 'Ghost Tapping = false';
         else if (daSelected == 'Ghost Tapping' && ClientPrefs.ghostTapping)
             trueorfalsesmthidk.text = 'Ghost Tapping = true';
         else if (daSelected == 'Down Scroll')
-            trueorfalsesmthidk.text = 'Down Scroll'
+            trueorfalsesmthidk.text = 'Down Scroll';
+        else if (daSelected == 'FPS')
+            trueorfalsesmthidk.text = 'FPS = $curSubSelected';
         else
             trueorfalsesmthidk.text == 'unknown option or null bool';
 
@@ -113,4 +134,36 @@ class GameplayMenu extends MusicBeatState{
 			}
 		}
 	}
+
+    function changeSubSelection(change:Int) {
+        curSubSelected += change;
+
+        var daSelected:String = Items[curSelected];
+        switch (daSelected) {
+            case 'FPS':
+                if (curSubSelected < 60)
+                    curSubSelected = 60;
+                if (curSubSelected >= 240)
+                    curSubSelected = 240;
+                ClientPrefs.framerate = curSubSelected;
+            default:
+                curSubSelected = 0;
+        }
+
+        if (daSelected == 'FPS')
+            onChangeFPS();
+    }
+
+    function onChangeFPS() {
+        if(ClientPrefs.framerate > FlxG.drawFramerate)
+        {
+            FlxG.updateFramerate = ClientPrefs.framerate;
+            FlxG.drawFramerate = ClientPrefs.framerate;
+        }
+        else
+        {
+            FlxG.drawFramerate = ClientPrefs.framerate;
+            FlxG.updateFramerate = ClientPrefs.framerate;
+        }
+    }
 }
