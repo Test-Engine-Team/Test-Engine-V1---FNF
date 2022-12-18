@@ -132,6 +132,8 @@ class ModifiersMenu extends MusicBeatState{
 	{
 		curSelected += change;
 
+        FlxG.sound.play(Files.sound('scrollMenu'), 0.4);
+
 		if (curSelected < 0)
 			curSelected = Items.length - 1;
 		if (curSelected >= Items.length)

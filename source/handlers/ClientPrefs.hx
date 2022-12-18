@@ -11,6 +11,7 @@ class ClientPrefs {
     public static var ghostTapping:Bool = true;
 	public static var showComboText:Bool = true;
 	public static var framerate:Int = 60;
+	public static var downscroll:Bool = false;
 
 	// Modifiers
 	public static var spinnyspin:Bool = false;
@@ -64,6 +65,7 @@ class ClientPrefs {
         FlxG.save.data.tankmanFloat = tankmanFloat;
 		FlxG.save.data.maxPoisonHits = maxPoisonHits;
 		FlxG.save.data.framerate = framerate;
+		FlxG.save.data.downscroll = downscroll;
 
         FlxG.save.flush();
 
@@ -80,6 +82,9 @@ class ClientPrefs {
 		}
 		if(FlxG.save.data.fairFight != null) {
 			fairFight = FlxG.save.data.fairFight;
+		}
+		if(FlxG.save.data.downscroll != null) {
+			downscroll = FlxG.save.data.downscroll;
 		}
 		if(FlxG.save.data.maxPoisonHits != null) {
 			maxPoisonHits = FlxG.save.data.maxPoisonHits;

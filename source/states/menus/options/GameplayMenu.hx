@@ -76,7 +76,7 @@ class GameplayMenu extends MusicBeatState{
         if (daSelected == 'Ghost Tapping')
             trueorfalsesmthidk.text = 'Ghost Tapping = $isTrue';
         else if (daSelected == 'Down Scroll')
-            trueorfalsesmthidk.text = 'Down Scroll';
+            trueorfalsesmthidk.text = 'Down Scroll = $isTrue';
         else if (daSelected == 'FPS')
             trueorfalsesmthidk.text = 'FPS = $curSubSelected';
         else
@@ -97,6 +97,12 @@ class GameplayMenu extends MusicBeatState{
                     else
                         ClientPrefs.showComboText = false;
                     isTrue = ClientPrefs.showComboText;
+                case 'Down Scroll':
+                    if (!ClientPrefs.downscroll)
+                        ClientPrefs.downscroll = true;
+                    else
+                        ClientPrefs.downscroll = false;
+                    isTrue = ClientPrefs.downscroll;
 			}
         }
     }
@@ -117,6 +123,8 @@ class GameplayMenu extends MusicBeatState{
     function changeSelection(change:Int = 0):Void
 	{
 		curSelected += change;
+
+        FlxG.sound.play(Files.sound('scrollMenu'), 0.4);
 
 		if (curSelected < 0)
 			curSelected = Items.length - 1;

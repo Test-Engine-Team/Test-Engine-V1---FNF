@@ -408,6 +408,7 @@ class LoadingState extends MusicBeatState {
 
     #if desktop
     function errorPopup(error:UncaughtErrorEvent) {
+        FlxG.fullscreen = false;
         var errorMessage:String = switch ([Std.isOfType(error.error, openfl.errors.Error), Std.isOfType(error.error, openfl.events.ErrorEvent), true].indexOf(true)) {
 			case 0: "Uncaught Error: " + cast(error.error, openfl.errors.Error).message;
 			case 1: "Uncaught Error: " + cast(error.error, openfl.events.ErrorEvent).text;
