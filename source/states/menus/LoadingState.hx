@@ -19,6 +19,9 @@ import sys.FileSystem;
 import sys.io.File;
 import lime.app.Application;
 #end
+#if SCRIPTS_ENABLED
+import scriptStuff.HiScript;
+#end
 
 using StringTools;
 
@@ -159,6 +162,21 @@ class LoadingState extends MusicBeatState {
             }
 
             defaultModData = daModData;
+
+            #if SCRIPTS_ENABLED
+            HiScript.parser = new hscript.Parser();
+            HiScript.parser.allowJSON = true;
+            HiScript.parser.allowMetadata = true;
+            HiScript.parser.allowTypes = true;
+            HiScript.parser.preprocesorValues = [
+                "buildVer" => lime.app.Application.current.meta.get('version'),
+                "desktop" => #if (desktop) true #else false #end,
+                "windows" => #if (windows) true #else false #end,
+                "mac" => #if (mac) true #else false #end,
+                "linux" => #if (linux) true #else false #end,
+                "debugBuild" => #if (debug) true #else false #end
+            ];
+            #end
         }
 
         modData = Reflect.copy(defaultModData);

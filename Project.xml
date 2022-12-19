@@ -65,6 +65,7 @@
 	<assets path="assets/embedData" embed='true'/>
 	<define name="VIDEO_CUTSCENES" if="desktop"/> <!-- DELETE THIS IF YOU DONT WANT VIDEO CUTSCENES!!-->
 	<define name="MODS_ENABLED" if="desktop"/>
+	<define name="SCRIPTS_ENABLED" if="desktop"/>
 
 	<define name="officialBuild" />
 
@@ -75,7 +76,8 @@
 
 	<!--In case you want to use the addons package-->
 	<haxelib name="flixel-addons" />
-	<haxelib name="hscript" />
+	<!--Yoshi Crafter Hscript better-->
+	<haxelib name="hscript-improved" if="SCRIPTS_ENABLED"/>
 
 	<!--In case you want to use the ui package-->
 	<haxelib name="flixel-ui" />

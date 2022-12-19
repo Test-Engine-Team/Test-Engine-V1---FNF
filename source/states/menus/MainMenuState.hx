@@ -172,10 +172,16 @@ class MainMenuState extends MusicBeatState
 				}
 			}
 
-			#if desktop
+			#if MODS_ENABLED
 			if (FlxG.keys.justPressed.M) {
 				persistentUpdate = false;
 				openSubState(new states.etc.substates.ModSelectSubstate());
+				return;
+			}
+			#end
+			#if SCRIPTS_ENABLED
+			if (FlxG.keys.justPressed.P) {
+				FlxG.switchState(new states.menus.HScriptTestState());
 				return;
 			}
 			#end
