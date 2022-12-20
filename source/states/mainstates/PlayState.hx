@@ -1009,10 +1009,13 @@ class PlayState extends MusicBeatState
 
 		if (generatedMusic && PlayState.SONG.notes[Std.int(curStep / 16)] != null)
 		{
-			if (camFollow.x != dad.getMidpoint().x + 150 + dad.charData.offsets[2] && !PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection)
+			var opOffsetX:Float = (dad.regX == gf.regX && dad.regY == gf.regY) ? stage.offsets.gfCamX : stage.offsets.dadCamX;
+			var opOffsetY:Float = (dad.regX == gf.regX && dad.regY == gf.regY) ? stage.offsets.gfCamY : stage.offsets.dadCamY;
+			
+			if (camFollow.x != dad.getMidpoint().x + 150 + dad.charData.offsets[2] + opOffsetX && !PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection)
 			{
-				camFollow.x = dad.getMidpoint().x + 150 + dad.charData.offsets[2];
-				camFollow.y = dad.getMidpoint().y - 100 + dad.charData.offsets[3];
+				camFollow.x = dad.getMidpoint().x + 150 + dad.charData.offsets[2] + opOffsetX;
+				camFollow.y = dad.getMidpoint().y - 100 + dad.charData.offsets[3] + opOffsetY;
 
 				if (dad.curCharacter == 'mom')
 					vocals.volume = 1;
@@ -1023,21 +1026,10 @@ class PlayState extends MusicBeatState
 				}
 			}
 
-			if (PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection && camFollow.x != boyfriend.getMidpoint().x - 100 - boyfriend.charData.offsets[2])
+			if (PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection && camFollow.x != boyfriend.getMidpoint().x - 100 - boyfriend.charData.offsets[2] + stage.offsets.bfCamX)
 			{
-				camFollow.x = boyfriend.getMidpoint().x - 100 - boyfriend.charData.offsets[2];
-				camFollow.y = boyfriend.getMidpoint().y - 100 + boyfriend.charData.offsets[3];
-
-				//no stage scripts yet so...
-				switch (curStage) {
-					case 'limo':
-						camFollow.x -= 200;
-					case 'mall':
-						camFollow.y -= 100;
-					case 'school' | 'schoolEvil':
-						camFollow.x -= 100;
-						camFollow.y -= 100;
-				}
+				camFollow.x = boyfriend.getMidpoint().x - 100 - boyfriend.charData.offsets[2] + stage.offsets.bfCamX;
+				camFollow.y = boyfriend.getMidpoint().y - 100 + boyfriend.charData.offsets[3] + stage.offsets.bfCamY;
 
 				if (SONG.song.toLowerCase() == 'tutorial')
 				{

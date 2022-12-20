@@ -18,4 +18,7 @@ function create() {
 
 	var evilTrail = new FlxTrail(psInstance.dad, null, 4, 24, 0.3, 0.069);
 	add(evilTrail);
+
+    camOffsets.bfCamX = -100;
+    camOffsets.bfCamY = -100;
 }
