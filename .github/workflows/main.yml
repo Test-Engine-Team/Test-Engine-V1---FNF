@@ -38,7 +38,7 @@ jobs:
           haxelib install flixel-tools
           haxelib install flixel-ui
           haxelib install flixel-addons
-          haxelib install polymod 1.5.2
+          haxelib git test-eg-polymod https://github.com/SrtHero278/test-eg-polymod
           haxelib git linc_luajit https://github.com/AndreiRudenko/linc_luajit
           haxelib git hscript-improved https://www.github.com/YoshiCrafter29/hscript-improved
           haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
@@ -114,7 +114,7 @@ jobs:
           haxelib install flixel-tools
           haxelib install flixel-ui
           haxelib install flixel-addons
-          haxelib install polymod 1.5.2
+          haxelib git test-eg-polymod https://github.com/SrtHero278/test-eg-polymod
           haxelib git linc_luajit https://github.com/AndreiRudenko/linc_luajit
           haxelib git hscript-improved https://www.github.com/YoshiCrafter29/hscript-improved
           haxelib git openfl https://github.com/openfl/openfl
@@ -154,7 +154,7 @@ jobs:
           haxelib install flixel-tools
           haxelib install flixel-ui
           haxelib install flixel-addons
-          haxelib install polymod 1.5.2
+          haxelib git test-eg-polymod https://github.com/SrtHero278/test-eg-polymod
           haxelib git linc_luajit https://github.com/AndreiRudenko/linc_luajit
           haxelib git hscript-improved https://www.github.com/YoshiCrafter29/hscript-improved
           haxelib git openfl https://github.com/openfl/openfl
@@ -250,7 +250,7 @@ jobs:
           haxelib git extension-webm https://github.com/luckydog7/extension-webm --quiet
           haxelib git linc_luajit https://github.com/MasterEric/linc_luajit.git --quiet
           haxelib git hxvm-luajit https://github.com/nebulazorua/hxvm-luajit.git --quiet
-          haxelib install polymod 1.5.2
+          haxelib git test-eg-polymod https://github.com/SrtHero278/test-eg-polymod
           haxelib git linc_luajit https://github.com/AndreiRudenko/linc_luajit
           haxelib git hscript-improved https://www.github.com/YoshiCrafter29/hscript-improved
           haxelib install actuate 

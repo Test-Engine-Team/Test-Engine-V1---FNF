@@ -1,8 +1,10 @@
 package scriptStuff;
 
+#if SCRIPTS_ENABLED
 import hscript.Expr.Error;
 import openfl.Assets;
 import hscript.*;
+#end
 
 using StringTools;
 
@@ -10,20 +12,28 @@ using StringTools;
 //The reason it looks so similar to Yoshman's HScript class is because I used it as an example for hscript.
 //BUT YOSHMAN I SWEAR ON MY LIFE I DID NOT COPY PASTE YOUR HSCRIPT CLASS I SWEAR
 class HiScript {
+    #if SCRIPTS_ENABLED
     public static var parser:Parser;
     public static var staticVars:Map<String, Dynamic> = new Map();
     public var interp:Interp;
     public var expr:Expr;
+    var initialLine:Int = 0;
+    #end
     public var isBlank:Bool;
     var blankVars:Map<String, Null<Dynamic>>;
 
+    #if SCRIPTS_ENABLED
     var defaultVars:Map<String, Dynamic> = [
+        "Math" => Math,
+        "Std" => Std,
+
         "FlxG" => flixel.FlxG,
         "FlxSprite" => flixel.FlxSprite,
 
         "Paths" => handlers.Files,
         "Files" => handlers.Files,
         "Conductor" => handlers.Conductor,
+        "PlayState" => states.mainstates.PlayState,
 
         "Assets" => Assets
     ];
@@ -37,14 +47,14 @@ class HiScript {
             interp.staticVariables = staticVars;
             interp.allowStaticVariables = true;
             interp.allowPublicVariables = true;
+            interp.errorHandler = traceError;
             try {
                 var exts:Array<String> = ["hx", "hscript", "hxs"];
                 var path = scriptPath + "." + exts[boolArray.indexOf(true)];
+                parser.line = 1; //Reset the parser position.
                 expr = parser.parseString(Assets.getText(path));
             } catch (e) {
-                /*codename uses two error catches so i might be learning that.
-                for parse errors i wanna make it a pop up.
-                lime.app.Application.current.window.alert('Looks like the game couldn\'t parse your hscript file.\n$scriptPath\n$errorMessage', 'Failed to Parse $scriptPath');*/
+                lime.app.Application.current.window.alert('Looks like the game couldn\'t parse your hscript file.\n$scriptPath\n${e.toString()}\n\nThe game will replace this\nscript with a blank script.', 'Failed to Parse $scriptPath');
                 isBlank = true;
             }
         }
@@ -54,6 +64,10 @@ class HiScript {
             for (va in defaultVars.keys())
                 setValue(va, defaultVars[va]);
         }
+    }
+
+    function traceError(e:Error) {
+        trace(e);
     }
 
     public function callFunction(name:String, ?params:Array<Dynamic>) {
@@ -68,4 +82,25 @@ class HiScript {
 
     public function setValue(name:String, value:Dynamic)
         if (isBlank) blankVars.set(name, value) else interp.variables.set(name, value);
+    #else
+    public var interp:Null<Dynamic> = null;
+    public var expr:Null<Dynamic> = null;
+    public function new(scriptPath:String) {
+        blankVars = new Map();
+        isBlank = true;
+    }
+
+    public function callFunction(name:String, ?params:Array<Dynamic>) {
+        var functionVar = blankVars.get(name);
+        var hasParams = (params != null && params.length > 0);
+        if (functionVar == null || !Reflect.isFunction(functionVar)) return null;
+        return hasParams ? Reflect.callMethod(null, functionVar, params) : functionVar();
+    }
+
+    public function getValue(name:String)
+        return blankVars.get(name);
+
+    public function setValue(name:String, value:Dynamic)
+        blankVars.set(name, value);
+    #end
 }

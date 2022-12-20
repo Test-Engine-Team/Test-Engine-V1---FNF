@@ -5,7 +5,7 @@
     <animData name="singLEFT" prefix="BF NOTE LEFT0" looped="false" fps="24" offsets="5,-6"/>
     <animData name="singDOWN" prefix="BF NOTE DOWN0" looped="false" fps="24" offsets="-20,-51"/>
     <animData name="singUP" prefix="BF NOTE UP0" looped="false" fps="24" offsets="-46,27"/>
-    <animData name="singRIGHT" prefix="BF NOTE RIGHT0" looped="false" fps="24" offsets="-15,-19"/>
+    <animData name="singRIGHT" prefix="BF NOTE RIGHT0" looped="false" fps="24" offsets="-45,-9"/>
 
     <animData name="singLEFTmiss" prefix="BF NOTE LEFT M" looped="false" fps="24" offsets="7,19"/>
     <animData name="singDOWNmiss" prefix="BF NOTE DOWN M" looped="false" fps="24" offsets="-15,-19"/>

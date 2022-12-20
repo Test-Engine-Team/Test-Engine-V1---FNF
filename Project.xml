@@ -40,19 +40,18 @@
 
 	<classpath name="source" />
 
-	<assets path="assets/images" />
-	<assets path="assets/data" />
 	<assets path='example_mods' rename='mods' embed='false'/>
-	<assets path="assets/videos" />
-	<assets path="assets/songs"/>
 	<!-- <template path='mods' /> -->
 	
 	<!-- <library name="noPreload" preload='false'/> -->
 	<!-- <library name="noPreload"/> -->
+	<assets path="assets/data" />
+	<assets path="assets/images" />
 	<assets path="assets/music"/>
-	<assets path="assets/music"/>
+	<assets path="assets/songs"/>
 	<assets path="assets/sounds"/>
-	<assets path="assets/sounds"/>
+	<assets path="assets/stages" />
+	<assets path="assets/videos" />
 
 	<assets path="CHANGELOG.md" rename='changelog.txt'/>
 
@@ -78,12 +77,13 @@
 	<haxelib name="flixel-addons" />
 	<!--Yoshi Crafter Hscript better-->
 	<haxelib name="hscript-improved" if="SCRIPTS_ENABLED"/>
+	<haxedef name="hscriptPos" if="SCRIPTS_ENABLED"/>
 
 	<!--In case you want to use the ui package-->
 	<haxelib name="flixel-ui" />
 	<haxelib name="faxe" if='switch'/>
 	<haxelib name="discord_rpc" if="desktop"/>
-	<haxelib name="polymod" if="MODS_ENABLED"/>
+	<haxelib name="test-eg-polymod" if="MODS_ENABLED"/>
 
 	<!-- <haxelib name="markdown" /> -->
 	<!-- <haxelib name="HtmlParser" /> -->
