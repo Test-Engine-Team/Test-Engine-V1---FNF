@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TextureAtlas imagePath="rapbattle.png">
+	<SubTexture name="squid idle0000" x="0" y="0" width="849" height="569" frameX="0" frameY="0" frameWidth="849" frameHeight="569" />
+	<SubTexture name="beast idle0000" x="849" y="0" width="1017" height="574" frameX="0" frameY="0" frameWidth="1017" frameHeight="574" />
+	<SubTexture name="beast down0000" x="1866" y="0" width="305" height="415" frameX="0" frameY="0" frameWidth="305" frameHeight="415" />
+	<SubTexture name="beast up0000" x="0" y="574" width="357" height="465" frameX="0" frameY="0" frameWidth="357" frameHeight="465" />
+	<SubTexture name="beast right0000" x="357" y="574" width="793" height="403" frameX="0" frameY="0" frameWidth="793" frameHeight="403" />
+	<SubTexture name="beast left0000" x="1150" y="574" width="429" height="449" frameX="0" frameY="0" frameWidth="429" frameHeight="449" />
+	<SubTexture name="squid down0000" x="0" y="1039" width="361" height="480" frameX="0" frameY="0" frameWidth="361" frameHeight="480" />
+	<SubTexture name="squid right0000" x="361" y="1039" width="244" height="500" frameX="0" frameY="0" frameWidth="244" frameHeight="500" />
+	<SubTexture name="squid left0000" x="605" y="1039" width="410" height="436" frameX="0" frameY="0" frameWidth="410" frameHeight="436" />
+	<SubTexture name="squid up0000" x="0" y="1539" width="461" height="484" frameX="0" frameY="0" frameWidth="461" frameHeight="484" />
+</TextureAtlas>

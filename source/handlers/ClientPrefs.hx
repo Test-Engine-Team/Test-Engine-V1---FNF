@@ -6,7 +6,13 @@ import flixel.input.keyboard.FlxKey;
 import flixel.graphics.FlxGraphic;
 import Controls;
 
+//Im not gonna rewrite the entirity of this,
+//BUT WHO THE FUCK COPY PASTED CLIENTPREFS FROM PSYCH? -Srt
+
 class ClientPrefs {
+	//For load and save.
+	static var settingNames:Array<String> = ["spinnyspin", "fairFight", "freeplayCutscenes", "downscroll", "safeFrames", "maxPoisonHits", "ghostTapping", "showComboSprite", "antialiasing"];
+
 	// Options
     public static var ghostTapping:Bool = true;
 	public static var showComboSprite:Bool = true;
@@ -14,6 +20,9 @@ class ClientPrefs {
 	public static var downscroll:Bool = false;
 	public static var freeplayCutscenes:Bool = false;
 	public static var safeFrames:Int = 10;
+
+	//Optimization
+	public static var antialiasing:Bool = true;
 
 	// Modifiers
 	public static var spinnyspin:Bool = false;
@@ -59,16 +68,9 @@ class ClientPrefs {
 	}
 
     public static function saveSettings() {
-		FlxG.save.data.spinnyspin = spinnyspin;
-		FlxG.save.data.fairFight = fairFight;
-		FlxG.save.data.ghostTapping = ghostTapping;
-        FlxG.save.data.showComboSprite = showComboSprite;
-		FlxG.save.data.tristanPlayer = tristanPlayer;
-        FlxG.save.data.tankmanFloat = tankmanFloat;
-		FlxG.save.data.maxPoisonHits = maxPoisonHits;
-		FlxG.save.data.framerate = framerate;
-		FlxG.save.data.downscroll = downscroll;
-		FlxG.save.data.freeplayCutscenes = freeplayCutscenes;
+		for (setting in settingNames) {
+			Reflect.setField(FlxG.save.data, setting, Reflect.getProperty(ClientPrefs, setting));
+		}
 
         FlxG.save.flush();
 
@@ -80,33 +82,11 @@ class ClientPrefs {
     }
 
     public static function loadPrefs() {
-		if(FlxG.save.data.spinnyspin != null) {
-			spinnyspin = FlxG.save.data.spinnyspin;
+		for (setting in settingNames) {
+			var savedData = Reflect.field(FlxG.save.data, setting);
+			if (savedData != null)
+				Reflect.setProperty(ClientPrefs, setting, savedData);
 		}
-		if(FlxG.save.data.fairFight != null) {
-			fairFight = FlxG.save.data.fairFight;
-		}
-		if(FlxG.save.data.freeplayCutscenes != null) {
-			freeplayCutscenes = FlxG.save.data.freeplayCutscenes;
-		}
-		if(FlxG.save.data.downscroll != null) {
-			downscroll = FlxG.save.data.downscroll;
-		}
-		if(FlxG.save.data.maxPoisonHits != null) {
-			maxPoisonHits = FlxG.save.data.maxPoisonHits;
-		}
-        if(FlxG.save.data.ghostTapping != null) {
-			ghostTapping = FlxG.save.data.ghostTapping;
-		}
-        if (FlxG.save.data.showComboSprite != null) {
-            showComboSprite = FlxG.save.data.showComboSprite;
-        }
-		if (FlxG.save.data.tristanPlayer != null) {
-			tristanPlayer = FlxG.save.data.tristanPlayable;
-		}
-        if (FlxG.save.data.tankmanFloat != null) {
-            tankmanFloat = FlxG.save.data.tankmanFloat;
-        }
 
 		if(FlxG.save.data.framerate != null) {
 			framerate = FlxG.save.data.framerate;

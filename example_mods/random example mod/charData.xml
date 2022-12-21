@@ -1,9 +1,17 @@
 <!DOCTYPE test-engine-charList>
-<char name="krabs" spriteImage="krabs" iconImage="krabs" offsets="0,0" camOffsets="0,0" flipX="false" singDur="4" regCharType="bf" hpColor="255,0,70">
-    <animData name="idle" prefix="Dad idle" looped="false" fps="24" offsets="0,0"/>
+<char name="beast" spriteImage="rapbattle" iconImage="face" offsets="0,0" camOffsets="0,0" flipX="false" singDur="4" regCharType="bf" hpColor="255,238,110">
+    <animData name="idle" prefix="beast idle" looped="false" fps="24" offsets="0,0"/>
 
-    <animData name="singLEFT" prefix="Dad Sing Note L" looped="false" fps="24" offsets="-9,10"/>
-    <animData name="singDOWN" prefix="Dad Sing Note D" looped="false" fps="24" offsets="0,-30"/>
-    <animData name="singUP" prefix="Dad Sing Note U" looped="false" fps="24" offsets="-6,50"/>
-    <animData name="singRIGHT" prefix="Dad Sing Note R" looped="false" fps="24" offsets="0,27"/>
+    <animData name="singLEFT" prefix="beast left" looped="false" fps="24" offsets="-260,-125"/>
+    <animData name="singDOWN" prefix="beast down" looped="false" fps="24" offsets="-330,-160"/>
+    <animData name="singUP" prefix="beast up" looped="false" fps="24" offsets="-310,-110"/>
+    <animData name="singRIGHT" prefix="beast right" looped="false" fps="24" offsets="-100,-170"/>
+</char>
+<char name="squid" spriteImage="rapbattle" iconImage="face" offsets="0,0" camOffsets="0,0" flipX="false" singDur="4" regCharType="dad" hpColor="#4179B0">
+    <animData name="idle" prefix="squid idle" looped="false" fps="24" offsets="0,0"/>
+
+    <animData name="singLEFT" prefix="squid left" looped="false" fps="24" offsets="-220,-134"/>
+    <animData name="singDOWN" prefix="squid down" looped="false" fps="24" offsets="-260,-90"/>
+    <animData name="singUP" prefix="squid up" looped="false" fps="24" offsets="-180,-90"/>
+    <animData name="singRIGHT" prefix="squid right" looped="false" fps="24" offsets="-300,-70"/>
 </char>

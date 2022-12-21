@@ -15,8 +15,25 @@ import flixel.FlxSprite;
 import states.mainstates.PlayState;
 import flixel.group.FlxGroup;
 
+typedef StageCamOffsets = {
+	var bfCamX:Float;
+	var bfCamY:Float;
+	var gfCamX:Float;
+	var gfCamY:Float;
+	var dadCamX:Float;
+	var dadCamY:Float;
+}
+
 class Stage extends FlxTypedGroup<FlxBasic> {
     var curStage:String;
+	public var offsets:StageCamOffsets = {
+		bfCamX: 0,
+		bfCamY: 0,
+		gfCamX: 0,
+		gfCamY: 0,
+		dadCamX: 0,
+		dadCamY: 0,
+	}
     #if SCRIPTS_ENABLED
     public var script:HiScript;
     #else
@@ -61,6 +78,7 @@ class Stage extends FlxTypedGroup<FlxBasic> {
         if (!script.isBlank && script.expr != null) {
             script.interp.scriptObject = psInstance;
             script.setValue("add", add);
+			script.setValue("camOffsets", offsets);
             script.interp.execute(script.expr);
         } else {
             script.setValue("create", function() {
@@ -487,11 +505,14 @@ class Stage extends FlxTypedGroup<FlxBasic> {
 				psInstance.boyfriend.regY -= 220;
 				psInstance.boyfriend.regX += 260;
 
+				offsets.bfCamX = -200;
+
 				resetFastCar();
 				add(fastCar);
 
 			case 'mall':
 				psInstance.boyfriend.regX += 200;
+				offsets.bfCamY = -100;
 
 			case 'mallEvil':
 				psInstance.boyfriend.regX += 320;
@@ -501,6 +522,9 @@ class Stage extends FlxTypedGroup<FlxBasic> {
 				psInstance.boyfriend.regY += 220;
 				psInstance.gf.regX += 180;
 				psInstance.gf.regY += 300;
+
+				offsets.bfCamX = -100;
+				offsets.bfCamY = -100;
 			case 'schoolEvil':
 				// trailArea.scrollFactor.set();
 
@@ -514,6 +538,9 @@ class Stage extends FlxTypedGroup<FlxBasic> {
 				psInstance.boyfriend.regY += 220;
 				psInstance.gf.regX += 180;
 				psInstance.gf.regY += 300;
+
+				offsets.bfCamX = -100;
+				offsets.bfCamY = -100;
 		}
 
 		add(psInstance.gf);

@@ -30,7 +30,7 @@ class Options extends MusicBeatState {
     var maintextgroup:FlxTypedGroup<Alphabet>;
     var bg:FlxSprite;
     var curSelected:Int = 0;
-    var Items:Array<String> = ['Gameplay', 'Modifiers'];
+    var Items:Array<String> = ['Gameplay', 'Modifiers', 'Optimization'];
     var timeSinceSelect:Float = -10;
 
     override function create() {
@@ -77,6 +77,8 @@ class Options extends MusicBeatState {
                         FlxG.switchState(new GameplayMenu());
                     case 'Modifiers':
                         FlxG.switchState(new ModifiersMenu());
+                    case 'Optimization':
+                        FlxG.switchState(new states.menus.options.OptimizationMenu());
                 }
             }
         }

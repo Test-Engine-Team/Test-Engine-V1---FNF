@@ -1,6 +1,7 @@
 package scriptStuff;
 
 #if SCRIPTS_ENABLED
+import Main;
 import hscript.Expr.Error;
 import openfl.Assets;
 import hscript.*;
@@ -21,6 +22,7 @@ class HiScript {
     #end
     public var isBlank:Bool;
     var blankVars:Map<String, Null<Dynamic>>;
+    var path:String;
 
     #if SCRIPTS_ENABLED
     var defaultVars:Map<String, Dynamic> = [
@@ -39,7 +41,8 @@ class HiScript {
     ];
 
     public function new(scriptPath:String) {
-        if (!scriptPath.startsWith("assets")) scriptPath = "assets/" + scriptPath;
+        path = scriptPath;
+        if (!scriptPath.startsWith("assets/")) scriptPath = "assets/" + scriptPath;
         var boolArray:Array<Bool> = [for (ext in ["hx", "hscript", "hxs"]) Assets.exists('$scriptPath.$ext')];
         isBlank = (!boolArray.contains(true));
         if (boolArray.contains(true)) {
@@ -53,6 +56,7 @@ class HiScript {
                 var path = scriptPath + "." + exts[boolArray.indexOf(true)];
                 parser.line = 1; //Reset the parser position.
                 expr = parser.parseString(Assets.getText(path));
+                interp.variables.set("trace", hscriptTrace);
             } catch (e) {
                 lime.app.Application.current.window.alert('Looks like the game couldn\'t parse your hscript file.\n$scriptPath\n${e.toString()}\n\nThe game will replace this\nscript with a blank script.', 'Failed to Parse $scriptPath');
                 isBlank = true;
@@ -66,8 +70,12 @@ class HiScript {
         }
     }
 
+    function hscriptTrace(v:Dynamic)
+        Main.log.hscriptTrace(path + ":" + interp.posInfos().lineNumber + ": " + Std.string(v));
+
     function traceError(e:Error) {
-        trace(e);
+        var errorString:String = e.toString();
+        Main.log.hscriptTrace(path + errorString.substr(7, errorString.length));
     }
 
     public function callFunction(name:String, ?params:Array<Dynamic>) {

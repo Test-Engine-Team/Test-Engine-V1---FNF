@@ -67,6 +67,9 @@ function create() {
 	boyfriend.regY += 220;
 	gf.regX += 180;
 	gf.regY += 300;
+
+	camOffsets.bfCamX = -100;
+	camOffsets.bfCamY = -100;
 }
 
 function beatHit()

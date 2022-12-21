@@ -59,6 +59,8 @@ function create() {
     add(santa);
 
 	boyfriend.regX += 200;
+
+    camOffsets.bfCamY = -100;
 }
 
 function beatHit() {

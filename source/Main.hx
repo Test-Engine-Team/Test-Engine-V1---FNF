@@ -2,6 +2,7 @@ package;
 
 import flixel.FlxGame;
 import ui.FpsText;
+import ui.LogHandler;
 import openfl.display.Sprite;
 import states.menus.TitleState;
 
@@ -13,15 +14,17 @@ import sys.FileSystem;
 class Main extends Sprite
 {
 	static public var buildNumber:Int;
+	static public var log:LogHandler;
 
 	public function new()
 	{
 
 		super();
-		addChild(new FlxGame(0, 0, #if (desktop) states.menus.LoadingState #else TitleState #end));
+		addChild(new FlxGame(0, 0, states.menus.LoadingState));
 		
 		#if !mobile
 		addChild(new FpsText(10, 3, 0xFFFFFF));
+		addChild(log = new LogHandler());
 		#end
 
 		#if sys
