@@ -1,5 +1,6 @@
 package states.menus.options;
 
+import handlers.ClientPrefs;
 import handlers.Files;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup.FlxTypedGroup;
@@ -55,17 +56,17 @@ class Options extends MusicBeatState {
     override public function update(elapsed:Float){
 
         if (timeSinceSelect == -10) {
-            if (FlxG.keys.justPressed.ESCAPE)
-                FlxG.switchState(new MainMenuState());
-            if (FlxG.keys.justPressed.DOWN)
-                changeSelection(1);
-    
-            if (FlxG.keys.justPressed.UP)
-                changeSelection(-1);
-    
-            if (FlxG.keys.justPressed.ENTER){
-                timeSinceSelect = 0;
-                FlxG.sound.play(Files.sound('confirmMenu'), 1);
+            switch ([controls.ACCEPT, controls.UP_P, controls.DOWN_P, controls.BACK].indexOf(true)) {
+                case 0:
+                    timeSinceSelect = 0;
+                    FlxG.sound.play(Files.sound('confirmMenu'), 1);
+                case 1:
+                    changeSelection(-1);
+                case 2:
+                    changeSelection(1);
+                case 3:
+                    ClientPrefs.saveSettings();
+                    FlxG.switchState(new MainMenuState());
             }
         } else {
             timeSinceSelect += elapsed;

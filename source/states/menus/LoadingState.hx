@@ -162,6 +162,7 @@ class LoadingState extends MusicBeatState {
             }
 
             defaultModData = daModData;
+            handlers.ClientPrefs.loadPrefs();
 
             #if SCRIPTS_ENABLED
             HiScript.parser = new hscript.Parser();
