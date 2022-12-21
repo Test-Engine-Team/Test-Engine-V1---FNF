@@ -1534,11 +1534,6 @@ private function keyShit():Void
 		var downP = controls.DOWN_P;
 		var leftP = controls.LEFT_P;
 
-		var upR = controls.UP_R;
-		var rightR = controls.RIGHT_R;
-		var downR = controls.DOWN_R;
-		var leftR = controls.LEFT_R;
-
 		var heldControlArray:Array<Bool> = [left, down, up, right];
 		var controlArray:Array<Bool> = [leftP, downP, upP, rightP];
 
