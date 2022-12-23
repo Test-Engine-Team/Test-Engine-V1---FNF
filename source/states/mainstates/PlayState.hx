@@ -128,7 +128,6 @@ class PlayState extends MusicBeatState
 
 	var inCutscene:Bool = false;
 
-	//var prevFramerateStuff:Int;
 	var preBfHpColor:FlxColor;
 
 
@@ -596,6 +595,7 @@ class PlayState extends MusicBeatState
 					});
 					FlxG.sound.play(Files.sound('introGo$altSuffix'), 0.6);
 				case 4:
+
 			}
 
 			swagCounter += 1;
