@@ -31,9 +31,6 @@ class HScriptTestState extends MusicBeatState {
     override public function update(elapsed:Float) {
         super.update(elapsed);
 
-        if (FlxG.keys.justPressed.BACKSPACE)
-            FlxG.switchState(new states.menus.MainMenuState());
-
         #if SCRIPTS_ENABLED script.callFunction("update", [elapsed]); #end
     }
 

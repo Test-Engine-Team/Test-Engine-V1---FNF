@@ -81,7 +81,6 @@ class PlayState extends MusicBeatState
 	private var playerStrums:FlxTypedGroup<FlxSprite>;
 
 	private var camZooming:Bool = false;
-	private var curSong:String = "";
 
 	private var gfSpeed:Int = 1;
 	private var health:Float = 1;
@@ -348,7 +347,7 @@ class PlayState extends MusicBeatState
 
 		if (isStoryMode || ClientPrefs.freeplayCutscenes)
 		{
-			switch (curSong.toLowerCase())
+			switch (SONG.song.toLowerCase())
 			{
 				case "winter-horrorland":
 					var blackScreen:FlxSprite = new FlxSprite(0, 0).makeGraphic(Std.int(FlxG.width * 2), Std.int(FlxG.height * 2), FlxColor.BLACK);
@@ -388,7 +387,7 @@ class PlayState extends MusicBeatState
 		}
 		else
 		{
-			switch (curSong.toLowerCase())
+			switch (SONG.song.toLowerCase())
 			{
 				default:
 					startCountdown();
@@ -594,6 +593,7 @@ class PlayState extends MusicBeatState
 					});
 					FlxG.sound.play(Files.sound('introGo$altSuffix'), 0.6);
 				case 4:
+
 			}
 
 			swagCounter += 1;
@@ -627,7 +627,7 @@ class PlayState extends MusicBeatState
 		var songData = SONG;
 		Conductor.changeBPM(songData.bpm);
 
-		curSong = songData.song;
+		SONG.song = songData.song;
 
 		if (SONG.needsVoices)
 			vocals = new FlxSound().loadEmbedded(Files.song('${SONG.song.toLowerCase()}/Voices'));
@@ -1046,7 +1046,7 @@ class PlayState extends MusicBeatState
 		FlxG.watch.addQuick("beatShit", curBeat);
 		FlxG.watch.addQuick("stepShit", curStep);
 
-		if (curSong == 'Fresh')
+		if (SONG.song == 'Fresh')
 		{
 			switch (curBeat)
 			{
@@ -1776,7 +1776,7 @@ private function keyShit():Void
 		}
 		// FlxG.log.add('change bpm' + SONG.notes[Std.int(curStep / 16)].changeBPM);
 		// HARDCODING FOR MILF ZOOMS!
-		if (curSong.toLowerCase() == 'milf' && curBeat >= 168 && curBeat < 200 && camZooming && FlxG.camera.zoom < 1.35)
+		if (SONG.song.toLowerCase() == 'milf' && curBeat >= 168 && curBeat < 200 && camZooming && FlxG.camera.zoom < 1.35)
 		{
 			FlxG.camera.zoom += 0.015;
 			camHUD.zoom += 0.03;
@@ -1804,7 +1804,7 @@ private function keyShit():Void
 			boyfriend.dance();
 		}
 
-		if (curBeat % 8 == 7 && curSong == 'Bopeebo')
+		if (curBeat % 8 == 7 && SONG.song == 'Bopeebo')
 		{
 			boyfriend.playAnim('hey', true);
 

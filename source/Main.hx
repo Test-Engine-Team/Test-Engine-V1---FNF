@@ -4,7 +4,6 @@ import flixel.FlxGame;
 import ui.FpsText;
 import ui.LogHandler;
 import openfl.display.Sprite;
-import states.menus.TitleState;
 
 #if sys
 import sys.io.File;
