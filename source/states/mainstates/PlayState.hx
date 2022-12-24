@@ -397,7 +397,7 @@ class PlayState extends MusicBeatState
 		//RecalculateRating();
 
 		super.create();
-		scripts_call("createPost");
+		#if SCRIPTS_ENABLED scripts_call("createPost"); #end
 	}
 
 	function schoolIntro(?dialogueBox:DialogueBox):Void
@@ -889,7 +889,7 @@ class PlayState extends MusicBeatState
 			iconP1.changeIcon((iconP1.char == "bf-old") ? boyfriend.charData.iconImage : "bf-old");
 
 		super.update(elapsed);
-		scripts_call("update", [elapsed], false);
+		#if SCRIPTS_ENABLED scripts_call("update", [elapsed], false); #end
 
 		if (ClientPrefs.spinnyspin)
 			FlxG.camera.angle += elapsed * 50;
@@ -1265,7 +1265,7 @@ class PlayState extends MusicBeatState
 		if (FlxG.keys.justPressed.TWO)
 			perfectMode = true;
 
-		scripts_call("updatePost", [elapsed], false);
+		#if SCRIPTS_ENABLED scripts_call("updatePost", [elapsed], false); #end
 	}
 
 	public function endSong():Void
@@ -1738,7 +1738,7 @@ private function keyShit():Void
 	{
 		super.stepHit();
 		stage.stepHit(curStep);
-		scripts_call("stepHit", [], false);
+		#if SCRIPTS_ENABLED scripts_call("stepHit", [], false); #end
 		if (SONG.needsVoices)
 		{
 			if (vocals.time > Conductor.songPosition + 20 || vocals.time < Conductor.songPosition - 20)
@@ -1815,7 +1815,7 @@ private function keyShit():Void
 		}
 
 		stage.beatHit(curBeat);
-		scripts_call("beatHit", [], false);
+		#if SCRIPTS_ENABLED scripts_call("beatHit", [], false); #end
 	}
 
 	public function event(name:String = 'play anim', value1:String = 'bf', value2:String = 'hey') {
