@@ -4,6 +4,7 @@ package states.menus;
 plz don't mess with this.
 imma mess with it anyway -504brandon 2022
 */
+import lime.graphics.Image;
 import handlers.Files;
 import flixel.text.FlxText;
 import flixel.FlxSprite;
@@ -239,7 +240,12 @@ class LoadingState extends MusicBeatState {
         }
         #end
         #if desktop
+        trace(currentMod);
         Application.current.window.title = modData.titleBar;
+        if (FileSystem.exists("./mods/" + currentMod + "/images/icon.png"))
+            Application.current.window.setIcon(Image.fromFile('mods/$currentMod/images/icon.png'));
+        else
+            Application.current.window.setIcon(Image.fromFile(Files.image('icon')));
         if (!addedCrash) {
             openfl.Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, errorPopup);
             addedCrash = true;

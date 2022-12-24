@@ -60,7 +60,6 @@ class ChartingState extends MusicBeatState
 	var bpmTxt:FlxText;
 
 	var strumLine:FlxSprite;
-	var curSong:String = 'Test';
 	var amountSteps:Int = 0;
 	var bullshitUI:FlxGroup;
 
@@ -677,7 +676,7 @@ class ChartingState extends MusicBeatState
 			+ Std.string(FlxMath.roundDecimal(FlxG.sound.music.length / 1000, 2))
 			+ "\nSection: "
 			+ curSection
-			+ "\nStep"
+			+ "\nStep: "
 			+ curStep;
 		super.update(elapsed);
 	}
