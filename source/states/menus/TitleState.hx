@@ -27,7 +27,6 @@ import ui.Alphabet;
 import handlers.Files;
 import handlers.CoolUtil;
 import handlers.Highscore;
-import handlers.PlayerSettings;
 import handlers.Conductor;
 import handlers.MusicBeatState;
 import handlers.ClientPrefs;
@@ -56,47 +55,13 @@ class TitleState extends MusicBeatState
 	{
 		persistentUpdate = false;
 
-		#if sys
-		if (Assets.exists('assets/images/monkie.png'))
-			trace('good you have monkie');
-		else{
-			trace('Y O U W I L L R E G R E T T H A T');
-			CoolUtil.error('DID YOU DELETE MONKIE', '...');
-			Sys.exit(0);
-		}
-		#end
-
-		if(ClientPrefs.framerate > FlxG.drawFramerate)
-		{
-			FlxG.updateFramerate = ClientPrefs.framerate;
-			FlxG.drawFramerate = ClientPrefs.framerate;
-		}
-		else
-		{
-			FlxG.drawFramerate = ClientPrefs.framerate;
-			FlxG.updateFramerate = ClientPrefs.framerate;
-		}
-
 		swagShader = new ColorSwap();
 		alphaShader = new BuildingShaders();
 
-		PlayerSettings.init();
-
 		curWacky = FlxG.random.getObject(getIntroTextShit());
-
-		// DEBUG BULLSHIT
 
 		super.create();
 
-		FlxG.save.bind('funkin', 'ninjamuffin99');
-
-		Highscore.load();
-
-		/*new FlxTimer().start(1, function(tmr:FlxTimer)
-		{
-			startIntro();
-		});*/
-		//new FlxTimer().start(1, startIntro);
 		startIntro();
 	}
 
@@ -105,7 +70,7 @@ class TitleState extends MusicBeatState
 	var danceLeft:Bool = false;
 	var titleText:FlxSprite;
 
-	function startIntro(?tmr:FlxTimer) //tmr param is so i can add it to the timer complete func.
+	function startIntro()
 	{
 		if (!initialized)
 		{

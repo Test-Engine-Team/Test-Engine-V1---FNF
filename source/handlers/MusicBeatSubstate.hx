@@ -2,16 +2,11 @@ package handlers;
 
 import flixel.FlxG;
 import flixel.FlxSubState;
-import handlers.PlayerSettings;
+import handlers.ClientPrefs;
 import handlers.Conductor;
 
 class MusicBeatSubstate extends FlxSubState
 {
-	public function new()
-	{
-		super();
-	}
-
 	private var lastBeat:Float = 0;
 	private var lastStep:Float = 0;
 
@@ -20,12 +15,7 @@ class MusicBeatSubstate extends FlxSubState
 	private var controls(get, never):Controls;
 
 	inline function get_controls():Controls
-		return PlayerSettings.player1.controls;
-
-	override function create()
-	{
-		super.create();
-	}
+		return ClientPrefs.controls;
 
 	override function update(elapsed:Float)
 	{

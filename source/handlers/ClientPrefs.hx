@@ -24,6 +24,14 @@ class ClientPrefs {
 	//Optimization
 	public static var antialiasing:Bool = true;
 
+	//Keybinds
+	public static var leftKeybinds:Array<FlxKey> = [FlxKey.A, FlxKey.LEFT];
+	public static var downKeybinds:Array<FlxKey> = [FlxKey.S, FlxKey.DOWN];
+	public static var upKeybinds:Array<FlxKey> = [FlxKey.W, FlxKey.UP];
+	public static var rightKeybinds:Array<FlxKey> = [FlxKey.D, FlxKey.RIGHT];
+	public static var resetKeybind:FlxKey = FlxKey.R;
+	public static final controls:Controls = new Controls("player0", Solo);
+
 	// Modifiers
 	public static var spinnyspin:Bool = false;
 	public static var fairFight:Bool = false;
@@ -35,58 +43,42 @@ class ClientPrefs {
 
     //funny
     public static var tankmanFloat:Bool = false;
-    
-    //Every key has two binds, add your key bind down here and then add your control on options and Controls.hx
-	public static var keyBinds:Map<String, Array<FlxKey>> = [
-		'note_left'		=> [W, LEFT],
-		'note_down'		=> [A, DOWN],
-		'note_up'		=> [S, UP],
-		'note_right'	=> [D, RIGHT],
-		
-		'ui_left'		=> [W, LEFT],
-		'ui_down'		=> [A, DOWN],
-		'ui_up'			=> [S, UP],
-		'ui_right'		=> [D, RIGHT],
-		
-		'accept'		=> [SPACE, ENTER],
-		'back'			=> [BACKSPACE, ESCAPE],
-		'pause'			=> [ENTER, ESCAPE],
-		'reset'			=> [R, NONE],
-		
-		'volume_mute'	=> [ZERO, NONE],
-		'volume_up'		=> [NUMPADPLUS, PLUS],
-		'volume_down'	=> [NUMPADMINUS, MINUS],
-		
-		'debug_1'		=> [SEVEN, NONE],
-		'debug_2'		=> [EIGHT, NONE]
-	];
-	public static var defaultKeys:Map<String, Array<FlxKey>> = null;
-
-	public static function loadDefaultKeys() {
-		defaultKeys = keyBinds.copy();
-		//trace(defaultKeys);
-	}
 
     public static function saveSettings() {
 		for (setting in settingNames) {
 			Reflect.setField(FlxG.save.data, setting, Reflect.getProperty(ClientPrefs, setting));
 		}
+		FlxG.save.data.framerate = framerate;
 
         FlxG.save.flush();
 
-        var save:FlxSave = new FlxSave();
-		save.bind('controls_v2', 'ninjamuffin99'); //Placing this in a separate save so that it can be manually deleted without removing your Score and stuff
-		save.data.customControls = keyBinds;
-		save.flush();
-		FlxG.log.add("Settings saved!");
+        var controlSave:FlxSave = new FlxSave();
+		controlSave.bind('controls', 'Test-Engine-Save'); //Placing this in a separate save so that it can be manually deleted without removing your Score and stuff
+		controlSave.data.leftBinds = leftKeybinds;
+		controlSave.data.downBinds = downKeybinds;
+		controlSave.data.upBinds = upKeybinds;
+		controlSave.data.rightBinds = rightKeybinds;
+		controlSave.data.resetBind = resetKeybind;
+		controlSave.flush();
+		controlSave.destroy();
     }
 
     public static function loadPrefs() {
+		FlxG.save.bind('funkin', 'Test-Engine-Save');
 		for (setting in settingNames) {
 			var savedData = Reflect.field(FlxG.save.data, setting);
 			if (savedData != null)
 				Reflect.setProperty(ClientPrefs, setting, savedData);
 		}
+
+		var controlSave:FlxSave = new FlxSave();
+		controlSave.bind('controls', 'Test-Engine-Save');
+		if (controlSave.data.leftBinds != null) leftKeybinds = controlSave.data.leftBinds;
+		if (controlSave.data.downBinds != null) downKeybinds = controlSave.data.downBinds;
+		if (controlSave.data.upBinds != null) upKeybinds = controlSave.data.upBinds;
+		if (controlSave.data.rightBinds != null) rightKeybinds = controlSave.data.rightBinds;
+		if (controlSave.data.resetBind != null) resetKeybind = controlSave.data.resetBind;
+		controlSave.destroy();
 
 		if(FlxG.save.data.framerate != null) {
 			framerate = FlxG.save.data.framerate;

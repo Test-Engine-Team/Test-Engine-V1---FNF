@@ -7,7 +7,7 @@ import flixel.addons.transition.FlxTransitionableState;
 import flixel.addons.ui.FlxUIState;
 import flixel.math.FlxRect;
 import flixel.util.FlxTimer;
-import handlers.PlayerSettings;
+import handlers.ClientPrefs;
 
 class MusicBeatState extends FlxUIState
 {
@@ -18,8 +18,8 @@ class MusicBeatState extends FlxUIState
 	private var curBeat:Int = 0;
 	private var controls(get, never):Controls;
 
-	inline function get_controls():Controls
-		return PlayerSettings.player1.controls;
+	function get_controls():Controls
+		return ClientPrefs.controls;
 
 	override function create()
 	{

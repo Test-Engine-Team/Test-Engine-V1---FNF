@@ -31,7 +31,7 @@ class Options extends MusicBeatState {
     var maintextgroup:FlxTypedGroup<Alphabet>;
     var bg:FlxSprite;
     var curSelected:Int = 0;
-    var Items:Array<String> = ['Gameplay', 'Modifiers', 'Optimization'];
+    var Items:Array<String> = ['Keybinds', 'Gameplay', 'Modifiers', 'Optimization'];
     var timeSinceSelect:Float = -10;
 
     override function create() {
@@ -72,8 +72,9 @@ class Options extends MusicBeatState {
             timeSinceSelect += elapsed;
             bg.alpha = 1 - (Math.min(timeSinceSelect, 1));
             if (timeSinceSelect > 1.1) {
-                switch (Items[curSelected])
-                {
+                switch (Items[curSelected]) {
+                    case 'Keybinds':
+                        FlxG.switchState(new states.menus.options.KeybindsMenu());
                     case 'Gameplay':
                         FlxG.switchState(new GameplayMenu());
                     case 'Modifiers':

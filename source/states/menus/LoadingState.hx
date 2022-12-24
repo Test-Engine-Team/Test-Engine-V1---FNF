@@ -162,7 +162,20 @@ class LoadingState extends MusicBeatState {
             }
 
             defaultModData = daModData;
+            //Load Data
             handlers.ClientPrefs.loadPrefs();
+            handlers.Highscore.load();
+
+            //I prob should delete this but...
+            #if sys
+            if (Assets.exists('assets/images/monkie.png'))
+                trace('good you have monkie');
+            else{
+                trace('Y O U W I L L R E G R E T T H A T');
+                handlers.CoolUtil.error('DID YOU DELETE MONKIE', '...');
+                Sys.exit(0);
+            }
+            #end
 
             #if SCRIPTS_ENABLED
             HiScript.parser = new hscript.Parser();
@@ -170,7 +183,7 @@ class LoadingState extends MusicBeatState {
             HiScript.parser.allowMetadata = true;
             HiScript.parser.allowTypes = true;
             HiScript.parser.preprocesorValues = [
-                "buildVer" => lime.app.Application.current.meta.get('version'),
+                "buildVer" => Application.current.meta.get('version'),
                 "desktop" => #if (desktop) true #else false #end,
                 "windows" => #if (windows) true #else false #end,
                 "mac" => #if (mac) true #else false #end,
@@ -240,12 +253,11 @@ class LoadingState extends MusicBeatState {
         #end
         #if desktop
         Application.current.window.title = modData.titleBar;
-        if (!addedCrash) {
+        if (!addedCrash)
             openfl.Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, errorPopup);
-            addedCrash = true;
-        }
         #end
-        
+        addedCrash = true;
+
         modLoadingTxt.text = 'Finished parsing. Have fun!';
         modLoadingTxt.x = 1270 - modLoadingTxt.width;
         modLoadingTxt.y = 715 - modLoadingTxt.height;
@@ -445,7 +457,7 @@ class LoadingState extends MusicBeatState {
 		}
         message += "\nTest Engine could always be better.\n\nPlease report this crash at\nhttps://github.com/504brandon/Test-Engine-V1---FNF";
 
-        lime.app.Application.current.window.alert(message, errorMessage);
+        Application.current.window.alert(message, errorMessage);
         Sys.exit(1);
     }
     #end

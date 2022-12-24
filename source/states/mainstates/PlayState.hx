@@ -1,5 +1,7 @@
 package states.mainstates;
 
+import Controls;
+import scriptStuff.HiScript;
 import handlers.Stage;
 import Section.SwagSection;
 import Song.SwagSong;
@@ -8,7 +10,6 @@ import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.FlxSubState;
-import flixel.addons.effects.FlxTrail;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxGroup.FlxTypedGroup;
@@ -39,8 +40,6 @@ import ui.Note;
 import ui.HealthIcon;
 import ui.DialogueBox;
 import handlers.Files;
-import handlers.BackgroundDancer;
-import handlers.BackgroundGirls;
 import handlers.MusicBeatState;
 #if desktop
 import handlers.DiscordHandler;
@@ -57,6 +56,7 @@ class PlayState extends MusicBeatState
 	public static var storyPlaylist:Array<String> = [];
 	public static var storyDifficulty:Int = 1;
 	public static var diff:String;
+	var scripts:Array<HiScript>;
 
 	private var vocals:FlxSound;
 
@@ -92,10 +92,8 @@ class PlayState extends MusicBeatState
 	private var healthBarBG:FlxSprite;
 	private var healthBar:FlxBar;
 
-	private var timeBarBG:FlxSprite;
-	private var timeBar:FlxBar;
-
-	private var poisonCounter:FlxSprite;
+	//private var timeBarBG:FlxSprite;
+	//private var timeBar:FlxBar;
 
 	private var generatedMusic:Bool = false;
 	private var startingSong:Bool = false;
@@ -106,12 +104,6 @@ class PlayState extends MusicBeatState
 	private var camGame:FlxCamera;
 
 	var dialogue:Array<String> = ['dad:blah blah blah', 'bf:coolswag'];
-
-	var bfFloatHeight:Int = -720;
-	var floatDoneBf:Bool = false;
-
-	var tankmanPreFloatHeight:Float = 0;
-	var boyfriendPreFloatHeight:Float = 0;
 
 	var talking:Bool = true;
 	var songScore:Int = 0;
@@ -128,12 +120,17 @@ class PlayState extends MusicBeatState
 
 	var inCutscene:Bool = false;
 
-	//var prevFramerateStuff:Int;
-	var preBfHpColor:FlxColor;
-
+	@:unreflective private var gameControls:Controls;
 
 	override public function create()
 	{
+		gameControls = new Controls("gameControls", None);
+		gameControls.bindKeys(Control.LEFT, ClientPrefs.leftKeybinds);
+		gameControls.bindKeys(Control.DOWN, ClientPrefs.downKeybinds);
+		gameControls.bindKeys(Control.UP, ClientPrefs.upKeybinds);
+		gameControls.bindKeys(Control.RIGHT, ClientPrefs.rightKeybinds);
+		gameControls.bindKeys(Control.RESET, [ClientPrefs.resetKeybind]);
+
 		#if debug
 		ClientPrefs.tankmanFloat = true;
 		#end
@@ -401,6 +398,7 @@ class PlayState extends MusicBeatState
 		//RecalculateRating();
 
 		super.create();
+		scripts_call("createPost");
 	}
 
 	function schoolIntro(?dialogueBox:DialogueBox):Void
@@ -891,6 +889,7 @@ class PlayState extends MusicBeatState
 			iconP1.changeIcon((iconP1.char == "bf-old") ? boyfriend.charData.iconImage : "bf-old");
 
 		super.update(elapsed);
+		scripts_call("update", [elapsed], false);
 
 		if (ClientPrefs.spinnyspin)
 			FlxG.camera.angle += elapsed * 50;
@@ -1068,7 +1067,7 @@ class PlayState extends MusicBeatState
 		// better streaming of shit
 
 		// RESET = Quick Game Over Screen
-		if (controls.RESET)
+		if (gameControls.RESET)
 		{
 			health = 0;
 			trace("RESET = True");
@@ -1265,6 +1264,8 @@ class PlayState extends MusicBeatState
 			endSong();
 		if (FlxG.keys.justPressed.TWO)
 			perfectMode = true;
+
+		scripts_call("updatePost", [elapsed], false);
 	}
 
 	public function endSong():Void
@@ -1516,15 +1517,15 @@ class PlayState extends MusicBeatState
 private function keyShit():Void
 	{
 		// HOLDING
-		var up = controls.UP;
-		var right = controls.RIGHT;
-		var down = controls.DOWN;
-		var left = controls.LEFT;
+		var up = gameControls.UP;
+		var right = gameControls.RIGHT;
+		var down = gameControls.DOWN;
+		var left = gameControls.LEFT;
 
-		var upP = controls.UP_P;
-		var rightP = controls.RIGHT_P;
-		var downP = controls.DOWN_P;
-		var leftP = controls.LEFT_P;
+		var upP = gameControls.UP_P;
+		var rightP = gameControls.RIGHT_P;
+		var downP = gameControls.DOWN_P;
+		var leftP = gameControls.LEFT_P;
 
 		var heldControlArray:Array<Bool> = [left, down, up, right];
 		var controlArray:Array<Bool> = [leftP, downP, upP, rightP];
@@ -1669,35 +1670,20 @@ private function keyShit():Void
 		}
 	}
 
-	function badNoteCheck()
-	{
-		// just double pasting this shit cuz fuk u
-		// REDO THIS SYSTEM!
-		var upP = controls.UP_P;
-		var rightP = controls.RIGHT_P;
-		var downP = controls.DOWN_P;
-		var leftP = controls.LEFT_P;
-		if (!ClientPrefs.ghostTapping){
-
-		if (leftP)
-			noteMiss(0);
-		if (downP)
-			noteMiss(1);
-		if (upP)
-			noteMiss(2);
-		if (rightP)
-			noteMiss(3);
+	function badNoteCheck() {
+		//i redid this system
+		if (ClientPrefs.ghostTapping) return;
+		var pressedIndex:Int = [gameControls.LEFT_P, gameControls.DOWN_P, gameControls.UP_P, gameControls.RIGHT_P].indexOf(true);
+		if (pressedIndex != -1)
+			noteMiss(pressedIndex);
 	}
-}
 
 	function noteCheck(keyP:Bool, note:Note):Void
 	{
 		if (keyP)
 			goodNoteHit(note);
 		else
-		{
 			badNoteCheck();
-		}
 	}
 
 	function goodNoteHit(note:Note):Void
@@ -1752,6 +1738,7 @@ private function keyShit():Void
 	{
 		super.stepHit();
 		stage.stepHit(curStep);
+		scripts_call("stepHit", [], false);
 		if (SONG.needsVoices)
 		{
 			if (vocals.time > Conductor.songPosition + 20 || vocals.time < Conductor.songPosition - 20)
@@ -1764,7 +1751,6 @@ private function keyShit():Void
 	override function beatHit()
 	{
 		super.beatHit();
-		stage.beatHit(curBeat);
 
 		/*
 		commenting this out because it crashed when testing it on fourth wall.
@@ -1827,6 +1813,9 @@ private function keyShit():Void
 				dad.playAnim('cheer', true);
 			}
 		}
+
+		stage.beatHit(curBeat);
+		scripts_call("beatHit", [], false);
 	}
 
 	public function event(name:String = 'play anim', value1:String = 'bf', value2:String = 'hey') {
@@ -1848,4 +1837,18 @@ private function keyShit():Void
 				FlxTween.tween(image, {alpha: 0.0001}, 0.6);
 		}
 	}
+
+	#if SCRIPTS_ENABLED
+	public function scripts_set(name:String, value:Dynamic) {
+		stage.script.setValue(name, value);
+	}
+
+	public function scripts_get(name:String) {
+		stage.script.getValue(name);
+	}
+
+	public function scripts_call(name:String, ?params:Array<Dynamic>, ?includeStage:Bool = true) {
+		if (includeStage) stage.script.callFunction(name, params);
+	}
+	#end
 }
