@@ -7,8 +7,6 @@ import flixel.system.FlxSound;
 import flixel.FlxG;
 import flixel.util.FlxTimer;
 import flixel.addons.effects.FlxTrail;
-import handlers.BackgroundGirls;
-import handlers.BackgroundDancer;
 #end
 import flixel.FlxBasic;
 import flixel.FlxSprite;
@@ -47,15 +45,16 @@ class Stage extends FlxTypedGroup<FlxBasic> {
 	var phillyTrain:FlxSprite;
 	var trainSound:FlxSound;
 
+	var danced:Bool = true;
 	var limo:FlxSprite;
-	var grpLimoDancers:FlxTypedGroup<BackgroundDancer>;
+	var grpLimoDancers:Array<FlxSprite> = [];
 	var fastCar:FlxSprite;
 
 	var upperBoppers:FlxSprite;
 	var bottomBoppers:FlxSprite;
 	var santa:FlxSprite;
 
-	var bgGirls:BackgroundGirls;
+	var bgGirls:FlxSprite;
 
 	var tankBop1:FlxSprite;
 	var tankBop2:FlxSprite;
@@ -189,14 +188,16 @@ class Stage extends FlxTypedGroup<FlxBasic> {
 				bgLimo.scrollFactor.set(0.4, 0.4);
 				add(bgLimo);
 
-				grpLimoDancers = new FlxTypedGroup<BackgroundDancer>();
-				add(grpLimoDancers);
-
 				for (i in 0...5)
 				{
-					var dancer:BackgroundDancer = new BackgroundDancer((370 * i) + 130, bgLimo.y - 400);
+					var dancer:FlxSprite = new FlxSprite((370 * i) + 130, bgLimo.y - 400);
+					dancer.frames = Files.sparrowAtlas('limo/limoDancer');
+					dancer.animation.addByIndices('danceLeft', 'bg dancer sketch PINK', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
+					dancer.animation.addByIndices('danceRight', 'bg dancer sketch PINK', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
+					dancer.animation.play("danceLeft");
 					dancer.scrollFactor.set(0.4, 0.4);
-					grpLimoDancers.add(dancer);
+					add(dancer);
+					grpLimoDancers.push(dancer);
 				}
 
 				var overlayShit:FlxSprite = new FlxSprite(-500, -600).loadGraphic('assets/images/limo/limoOverlay.png');
@@ -336,14 +337,13 @@ class Stage extends FlxTypedGroup<FlxBasic> {
 				bgTrees.updateHitbox();
 				treeLeaves.updateHitbox();
 	
-				bgGirls = new BackgroundGirls(-100, 190);
+				bgGirls = new FlxSprite(-100, 190);
+				bgGirls.frames = Files.sparrowAtlas('weeb/bgFreaks');
+				var danceAnim = (PlayState.SONG.song.toLowerCase() == 'roses') ? "BG fangirls dissuaded" : "BG girls group";
+				bgGirls.animation.addByIndices('danceLeft', danceAnim, CoolUtil.numberArray(14), "", 24, false);
+				bgGirls.animation.addByIndices('danceRight', danceAnim, CoolUtil.numberArray(30, 15), "", 24, false);
+				bgGirls.animation.play('danceLeft');
 				bgGirls.scrollFactor.set(0.9, 0.9);
-	
-				if (PlayState.SONG.song.toLowerCase() == 'roses')
-				{
-					bgGirls.getScared();
-				}
-	
 				bgGirls.setGraphicSize(Std.int(bgGirls.width * 6));
 				bgGirls.updateHitbox();
 				add(bgGirls);
@@ -588,7 +588,8 @@ class Stage extends FlxTypedGroup<FlxBasic> {
 		switch (curStage)
 		{
 			case 'school':
-				bgGirls.dance();
+				danced = !danced;
+				bgGirls.animation.play(danced ? "danceLeft" : "danceRight");
 
 			case 'mall':
 				upperBoppers.animation.play('bop', true);
@@ -596,10 +597,9 @@ class Stage extends FlxTypedGroup<FlxBasic> {
 				santa.animation.play('idle', true);
 
 			case 'limo':
-				grpLimoDancers.forEach(function(dancer:BackgroundDancer)
-				{
-					dancer.dance();
-				});
+				danced = !danced;
+				for (dancer in grpLimoDancers)
+					dancer.animation.play(danced ? "danceLeft" : "danceRight");
 
 				if (FlxG.random.bool(10) && fastCarCanDrive)
 					fastCarDrive();

@@ -372,8 +372,7 @@ class PlayState extends MusicBeatState
 		}
 
 		super.create();
-		scripts_call("createPost");
-		scripts_call("postCreate");
+		#if SCRIPTS_ENABLED scripts_call("createPost"); scripts_call("postCreate"); #end
 	}
 
 	function schoolIntro(?dialogueBox:DialogueBox):Void
@@ -474,7 +473,7 @@ class PlayState extends MusicBeatState
 		Conductor.songPosition = 0;
 		Conductor.songPosition -= Conductor.crochet * 5;
 
-		scripts_call("countdownStart");
+		#if SCRIPTS_ENABLED scripts_call("countdownStart"); #end
 
 		var swagCounter:Int = 0;
 
@@ -592,7 +591,8 @@ class PlayState extends MusicBeatState
 			FlxG.sound.playMusic(Files.song('${SONG.song.toLowerCase()}/Inst'), 1, false);
 		FlxG.sound.music.onComplete = endSong;
 		vocals.play();
-		scripts_call("songStart");
+
+		#if SCRIPTS_ENABLED scripts_call("songStart"); #end
 	}
 
 	var debugNum:Int = 0;
@@ -860,11 +860,11 @@ class PlayState extends MusicBeatState
 
 		if (FlxG.keys.justPressed.NINE){
 			iconP1.changeIcon((iconP1.char == "bf-old") ? boyfriend.charData.iconImage : "bf-old");
-			scripts_call("oldBfChange");
+			#if SCRIPTS_ENABLED scripts_call("oldBfChange"); #end
 		}
 
 		super.update(elapsed);
-		scripts_call("update", [elapsed], false);
+		#if SCRIPTS_ENABLED scripts_call("update", [elapsed], false); #end
 
 		if (ClientPrefs.spinnyspin)
 			FlxG.camera.angle += elapsed * 50;
@@ -911,7 +911,7 @@ class PlayState extends MusicBeatState
 		if (FlxG.keys.justPressed.SEVEN)
 		{
 			FlxG.switchState(new states.debug.ChartingState());
-			scripts_call("chartPress");
+			#if SCRIPTS_ENABLED scripts_call("chartPress"); #end
 			#if desktop
 			DiscordHandler.changePresence('Charting ', SONG.song.toLowerCase());
 			#end
@@ -1155,7 +1155,7 @@ class PlayState extends MusicBeatState
 					notes.remove(daNote, true);
 					daNote.destroy();
 
-					scripts_call("dadNoteHit");
+					#if SCRIPTS_ENABLED scripts_call("dadNoteHit"); #end
 				}
 
 				// WIP interpolation shit? Need to fix the pause issue
@@ -1178,7 +1178,7 @@ class PlayState extends MusicBeatState
 							songMisses++;
 							songScore -= 10;
 							combo = 0;
-							scripts_call("noteMiss");
+							#if SCRIPTS_ENABLED scripts_call("noteMiss"); #end
 							if(ClientPrefs.poisonPlus == true && poisonTimes < ClientPrefs.maxPoisonHits && ClientPrefs.maxPoisonHits != 0) {
 								trace('poison hit!');
 								poisonTimes += 1;
@@ -1243,7 +1243,7 @@ class PlayState extends MusicBeatState
 		if (FlxG.keys.justPressed.TWO)
 			perfectMode = true;
 
-		scripts_call("updatePost", [elapsed], false);
+		#if SCRIPTS_ENABLED scripts_call("updatePost", [elapsed], false); #end
 	}
 
 	public function endSong():Void
@@ -1252,7 +1252,7 @@ class PlayState extends MusicBeatState
 		DiscordHandler.changePresence('In The Menus The Last Song They Played Was', SONG.song.toLowerCase());//holy shit its discord
 		#end
 
-		scripts_call("songEnd");
+		#if SCRIPTS_ENABLED scripts_call("songEnd"); #end
 
 		canPause = false;
 		FlxG.sound.music.volume = 0;
@@ -1618,7 +1618,7 @@ private function keyShit():Void
 
 			boyfriend.stunned = true;
 
-			scripts_call("noteMiss");
+			#if SCRIPTS_ENABLED scripts_call("noteMiss"); #end
 
 			//RecalculateRating(true);
 
@@ -1697,7 +1697,7 @@ private function keyShit():Void
 			note.wasGoodHit = true;
 			vocals.volume = 1;
 
-			scripts_call("bfNoteHit");
+			#if SCRIPTS_ENABLED scripts_call("bfNoteHit"); #end
 
 			if (!note.isSustainNote)
 			{
@@ -1712,7 +1712,7 @@ private function keyShit():Void
 	{
 		super.stepHit();
 		stage.stepHit(curStep);
-		scripts_call("stepHit", [], false);
+		#if SCRIPTS_ENABLED scripts_call("stepHit", [], false); #end
 		if (SONG.needsVoices)
 		{
 			if (vocals.time > Conductor.songPosition + 20 || vocals.time < Conductor.songPosition - 20)
@@ -1789,7 +1789,7 @@ private function keyShit():Void
 		}
 
 		stage.beatHit(curBeat);
-		scripts_call("beatHit", [], false);
+		#if SCRIPTS_ENABLED scripts_call("beatHit", [], false); #end
 	}
 
 	public function event(name:String = 'play anim', value1:String = 'bf', value2:String = 'hey') {

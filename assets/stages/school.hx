@@ -1,6 +1,7 @@
-import handlers.BackgroundGirls;
+import handlers.CoolUtil;
 
-var bgGirls:BackgroundGirls;
+var danced:Bool = false;
+var bgGirls:FlxSprite;
 
 function create() {
 	defaultCamZoom = 1;
@@ -53,12 +54,13 @@ function create() {
 	bgTrees.updateHitbox();
 	treeLeaves.updateHitbox();
 
-	bgGirls = new BackgroundGirls(-100, 190);
+	bgGirls = new FlxSprite(-100, 190);
+	bgGirls.frames = Files.sparrowAtlas('weeb/bgFreaks');
+	var danceAnim = (PlayState.SONG.song.toLowerCase() == 'roses') ? "BG fangirls dissuaded" : "BG girls group";
+	bgGirls.animation.addByIndices('danceLeft', danceAnim, CoolUtil.numberArray(14), "", 24, false);
+	bgGirls.animation.addByIndices('danceRight', danceAnim, CoolUtil.numberArray(30, 15), "", 24, false);
+	bgGirls.animation.play('danceLeft');
 	bgGirls.scrollFactor.set(0.9, 0.9);
-
-	if (PlayState.SONG.song.toLowerCase() == 'roses')
-		bgGirls.getScared();
-
 	bgGirls.setGraphicSize(Std.int(bgGirls.width * 6));
 	bgGirls.updateHitbox();
 	add(bgGirls);
@@ -72,5 +74,7 @@ function create() {
 	camOffsets.bfCamY = -100;
 }
 
-function beatHit()
-    bgGirls.dance();
+function beatHit() {
+	danced = !danced;
+	bgGirls.animation.play(danced ? "danceLeft" : "danceRight");
+}

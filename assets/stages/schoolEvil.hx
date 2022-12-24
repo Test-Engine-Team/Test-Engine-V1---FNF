@@ -16,7 +16,7 @@ function create() {
 	gf.regX += 180;
 	gf.regY += 300;
 
-	var evilTrail = new FlxTrail(psInstance.dad, null, 4, 24, 0.3, 0.069);
+	var evilTrail = new FlxTrail(dad, null, 4, 24, 0.3, 0.069);
 	add(evilTrail);
 
     camOffsets.bfCamX = -100;
