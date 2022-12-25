@@ -227,6 +227,7 @@ class StoryMenuState extends MusicBeatState
 
 		Highscore.diffArray = weekList[curWeek].diffs;
 		var songPath:String = Highscore.formatSong(PlayState.storyPlaylist[0], curDifficulty);
+		PlayState.songPath = PlayState.storyPlaylist[0];
 		PlayState.SONG = Song.loadFromJson(songPath, PlayState.storyPlaylist[0]);
 		PlayState.storyWeek = weekList[curWeek].name;
 		PlayState.campaignScore = 0;

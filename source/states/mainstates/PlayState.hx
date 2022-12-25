@@ -1,5 +1,7 @@
 package states.mainstates;
 
+import haxe.io.Path;
+import openfl.Assets;
 import Controls;
 import scriptStuff.HiScript;
 import handlers.Stage;
@@ -51,12 +53,13 @@ class PlayState extends MusicBeatState
 {
 	public static var curStage:String = '';
 	public static var SONG:SwagSong;
+	public static var songPath:String;
 	public static var isStoryMode:Bool = false;
 	public static var storyWeek:String = "tutorial";
 	public static var storyPlaylist:Array<String> = [];
 	public static var storyDifficulty:Int = 1;
 	public static var diff:String;
-	var scripts:Array<HiScript>;
+	var scripts:Array<HiScript> = [];
 
 	private var vocals:FlxSound;
 
@@ -150,7 +153,20 @@ class PlayState extends MusicBeatState
 		persistentDraw = true;
 
 		if (SONG == null)
-			SONG = Song.loadFromJson('tutorial');
+			SONG = Song.loadFromJson(songPath = 'tutorial');
+
+		#if SCRIPTS_ENABLED
+		//Song Scripts
+		for (file in Files.readFolder('data/$songPath')) {
+			if (HiScript.allowedExtensions.contains(Path.extension(file)))
+				scripts.push(new HiScript('assets/data/$songPath/' + Path.withoutExtension(file)));
+		}
+		//Global Scripts
+		for (file in Files.readFolder('gameScripts')) {
+			if (HiScript.allowedExtensions.contains(Path.extension(file)))
+				scripts.push(new HiScript('assets/gameScripts/' + Path.withoutExtension(file)));
+		}
+		#end
 
 		Conductor.mapBPMChanges(SONG);
 		Conductor.changeBPM(SONG.bpm);
@@ -254,6 +270,14 @@ class PlayState extends MusicBeatState
 
 		stage = new Stage(stageName, this);
 		add(stage);
+		#if SCRIPTS_ENABLED
+		for (script in scripts) {
+			if (script.isBlank || script.expr == null) continue;
+			script.interp.scriptObject = this;
+			script.interp.execute(script.expr);
+		}
+		scripts_call("create", [], false);
+		#end
 
 		var doof:DialogueBox = new DialogueBox(false, dialogue);
 		// doof.x += 70;
@@ -612,8 +636,9 @@ class PlayState extends MusicBeatState
 		previousFrameTime = FlxG.game.ticks;
 		lastReportedPlayheadPosition = 0;
 
+		var instPath:String = (Assets.exists(Files.songInst(SONG.song))) ? Files.songInst(SONG.song) : Files.songInst(songPath);
 		if (!paused)
-			FlxG.sound.playMusic(Files.song('${SONG.song.toLowerCase()}/Inst'), 1, false);
+			FlxG.sound.playMusic(instPath, 1, false);
 		FlxG.sound.music.onComplete = endSong;
 		vocals.play();
 	}
@@ -629,8 +654,9 @@ class PlayState extends MusicBeatState
 
 		SONG.song = songData.song;
 
+		var vocalsPath:String = (Assets.exists(Files.songVoices(SONG.song))) ? Files.songVoices(SONG.song) : Files.songVoices(songPath);
 		if (SONG.needsVoices)
-			vocals = new FlxSound().loadEmbedded(Files.song('${SONG.song.toLowerCase()}/Voices'));
+			vocals = new FlxSound().loadEmbedded(vocalsPath);
 		else
 			vocals = new FlxSound();
 
@@ -653,6 +679,14 @@ class PlayState extends MusicBeatState
 
 			for (songNotes in section.sectionNotes)
 			{
+				#if SCRIPTS_ENABLED
+				var noteCreateParams = {
+					makeNote: true,
+					jsonData: songNotes
+				};
+				scripts_call("noteCreate", [noteCreateParams]);
+				if (!noteCreateParams.makeNote) continue;
+				#end
 				var daStrumTime:Float = songNotes[0];
 				var daNoteData:Int = Std.int(songNotes[1] % 4);
 
@@ -678,6 +712,8 @@ class PlayState extends MusicBeatState
 				susLength = susLength / Conductor.stepCrochet;
 				unspawnNotes.push(swagNote);
 
+				//For noteCreatePost.
+				var sustainNotes:Array<Note> = [];
 				for (susNote in 0...Math.floor(susLength))
 				{
 					oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
@@ -686,24 +722,21 @@ class PlayState extends MusicBeatState
 					sustainNote.flipY = ClientPrefs.downscroll;
 					sustainNote.scrollFactor.set();
 					unspawnNotes.push(sustainNote);
+					sustainNotes.push(sustainNote);
 
 					sustainNote.mustPress = gottaHitNote;
 
 					if (sustainNote.mustPress)
-					{
 						sustainNote.x += FlxG.width / 2; // general offset
-					}
 				}
 
 				swagNote.mustPress = gottaHitNote;
 
 				if (swagNote.mustPress)
-				{
 					swagNote.x += FlxG.width / 2; // general offset
-				}
-				else
-				{
-				}
+				#if SCRIPTS_ENABLED
+				scripts_call("noteCreatePost", [swagNote, sustainNotes]);
+				#end
 			}
 			daBeats += 1;
 		}
@@ -1316,8 +1349,8 @@ class PlayState extends MusicBeatState
 			}
 			else
 			{
-				var songPath = Highscore.formatSong(PlayState.storyPlaylist[0], storyDifficulty);
-				trace('LOADING NEXT SONG: $songPath');
+				var daSongPath = Highscore.formatSong(PlayState.storyPlaylist[0], storyDifficulty);
+				trace('LOADING NEXT SONG: $daSongPath');
 
 				if (SONG.song.toLowerCase() == 'eggnog')
 				{
@@ -1334,7 +1367,8 @@ class PlayState extends MusicBeatState
 				FlxTransitionableState.skipNextTransOut = true;
 				prevCamFollow = camFollow;
 
-				PlayState.SONG = Song.loadFromJson(songPath, PlayState.storyPlaylist[0]);
+				PlayState.songPath = PlayState.storyPlaylist[0];
+				PlayState.SONG = Song.loadFromJson(daSongPath, PlayState.storyPlaylist[0]);
 				FlxG.sound.music.stop();
 
 				FlxG.switchState(new PlayState());
@@ -1841,14 +1875,29 @@ private function keyShit():Void
 	#if SCRIPTS_ENABLED
 	public function scripts_set(name:String, value:Dynamic) {
 		stage.script.setValue(name, value);
+		for (script in scripts)
+			script.setValue(name, value);
 	}
 
 	public function scripts_get(name:String) {
-		stage.script.getValue(name);
+		var value:Dynamic = stage.script.getValue(name);
+		for (script in scripts) {
+			var disValue:Dynamic = script.getValue(name);
+			if (disValue != null)
+				value = disValue;
+		}
+		return value;
 	}
 
 	public function scripts_call(name:String, ?params:Array<Dynamic>, ?includeStage:Bool = true) {
-		if (includeStage) stage.script.callFunction(name, params);
+		var value:Dynamic = null;
+		if (includeStage) value = stage.script.callFunction(name, params);
+		for (script in scripts) {
+			var disValue = script.callFunction(name, params);
+			if (disValue != null)
+				value = disValue;
+		}
+		return value;
 	}
 	#end
 }
