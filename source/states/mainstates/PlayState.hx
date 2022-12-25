@@ -172,24 +172,6 @@ class PlayState extends MusicBeatState
 		Conductor.changeBPM(SONG.bpm);
 
 		switch (SONG.song.toLowerCase()) {
-			// some unused dialogues
-			case 'tutorial':
-				dialogue = ["Hey you're pretty cute.", 'Use the arrow keys to keep up \nwith me singing.'];
-			case 'bopeebo':
-				dialogue = [
-					'HEY!',
-					"You think you can just sing\nwith my daughter like that?",
-					"If you want to date her...",
-					"You're going to have to go \nthrough ME first!"
-				];
-			case 'fresh':
-				dialogue = ["Not too shabby boy.", ""];
-			case 'dadbattle':
-				dialogue = [
-					"gah you think you're hot stuff?",
-					"If you can beat me here...",
-					"Only then I will even CONSIDER letting you\ndate my daughter!"
-				];
 			case 'senpai':
 				dialogue = CoolUtil.coolTextFile('assets/data/senpai/senpaiDialogue.txt');
 			case 'roses':
@@ -231,9 +213,6 @@ class PlayState extends MusicBeatState
 
 		gf = new Character(400, 130, gfVersion);
 		gf.scrollFactor.set(0.95, 0.95);
-
-		if (SONG.player2 == null)
-			SONG.player2 = 'dad';
 
 		dad = new Character(100, 100, SONG.player2);
 
@@ -365,8 +344,6 @@ class PlayState extends MusicBeatState
 		infoText.cameras = [camHUD];
 		doof.cameras = [camHUD];
 
-		//trace(Files.songJson(SONG.song, 'Normal'));
-
 		startingSong = true;
 
 		if (isStoryMode || ClientPrefs.freeplayCutscenes)
@@ -418,10 +395,8 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		//RecalculateRating();
-
 		super.create();
-		#if SCRIPTS_ENABLED scripts_call("createPost"); #end
+		#if SCRIPTS_ENABLED scripts_call("createPost"); scripts_call("postCreate"); #end
 	}
 
 	function schoolIntro(?dialogueBox:DialogueBox):Void
@@ -514,8 +489,6 @@ class PlayState extends MusicBeatState
 
 	function startCountdown():Void
 	{
-		inCutscene = false;
-
 		generateStaticArrows(0);
 		generateStaticArrows(1);
 
@@ -523,6 +496,8 @@ class PlayState extends MusicBeatState
 		startedCountdown = true;
 		Conductor.songPosition = 0;
 		Conductor.songPosition -= Conductor.crochet * 5;
+
+		#if SCRIPTS_ENABLED scripts_call("countdownStart"); #end
 
 		var swagCounter:Int = 0;
 
@@ -641,6 +616,8 @@ class PlayState extends MusicBeatState
 			FlxG.sound.playMusic(instPath, 1, false);
 		FlxG.sound.music.onComplete = endSong;
 		vocals.play();
+
+		#if SCRIPTS_ENABLED scripts_call("songStart"); #end
 	}
 
 	var debugNum:Int = 0;
@@ -670,13 +647,9 @@ class PlayState extends MusicBeatState
 		// NEW SHIT
 		noteData = songData.notes;
 
-		var playerCounter:Int = 0;
-
 		var daBeats:Int = 0; // Not exactly representative of 'daBeats' lol, just how much it has looped
 		for (section in noteData)
 		{
-			var coolSection:Int = Std.int(section.lengthInSteps / 4);
-
 			for (songNotes in section.sectionNotes)
 			{
 				#if SCRIPTS_ENABLED
@@ -918,8 +891,10 @@ class PlayState extends MusicBeatState
 	{
 		elapsedtime += elapsed;
 
-		if (FlxG.keys.justPressed.NINE)
+		if (FlxG.keys.justPressed.NINE){
 			iconP1.changeIcon((iconP1.char == "bf-old") ? boyfriend.charData.iconImage : "bf-old");
+			#if SCRIPTS_ENABLED scripts_call("oldBfChange"); #end
+		}
 
 		super.update(elapsed);
 		#if SCRIPTS_ENABLED scripts_call("update", [elapsed], false); #end
@@ -969,6 +944,7 @@ class PlayState extends MusicBeatState
 		if (FlxG.keys.justPressed.SEVEN)
 		{
 			FlxG.switchState(new states.debug.ChartingState());
+			#if SCRIPTS_ENABLED scripts_call("chartPress"); #end
 			#if desktop
 			DiscordHandler.changePresence('Charting ', SONG.song.toLowerCase());
 			#end
@@ -1189,7 +1165,7 @@ class PlayState extends MusicBeatState
 					}
 
 					if (ClientPrefs.fairFight)
-						health -= 0.01;
+						health -= 0.00110;
 
 					switch (Math.abs(daNote.noteData))
 					{
@@ -1211,6 +1187,8 @@ class PlayState extends MusicBeatState
 					daNote.kill();
 					notes.remove(daNote, true);
 					daNote.destroy();
+
+					#if SCRIPTS_ENABLED scripts_call("dadNoteHit"); #end
 				}
 
 				// WIP interpolation shit? Need to fix the pause issue
@@ -1233,6 +1211,7 @@ class PlayState extends MusicBeatState
 							songMisses++;
 							songScore -= 10;
 							combo = 0;
+							#if SCRIPTS_ENABLED scripts_call("noteMiss"); #end
 							if(ClientPrefs.poisonPlus == true && poisonTimes < ClientPrefs.maxPoisonHits && ClientPrefs.maxPoisonHits != 0) {
 								trace('poison hit!');
 								poisonTimes += 1;
@@ -1279,7 +1258,6 @@ class PlayState extends MusicBeatState
 
 						daNote.active = false;
 						daNote.visible = false;
-
 						daNote.kill();
 						notes.remove(daNote, true);
 						daNote.destroy();
@@ -1306,6 +1284,8 @@ class PlayState extends MusicBeatState
 		#if desktop
 		DiscordHandler.changePresence('In The Menus The Last Song They Played Was', SONG.song.toLowerCase());//holy shit its discord
 		#end
+
+		#if SCRIPTS_ENABLED scripts_call("songEnd"); #end
 
 		canPause = false;
 		FlxG.sound.music.volume = 0;
@@ -1386,7 +1366,6 @@ class PlayState extends MusicBeatState
 	private function popUpScore(strumtime:Float):Void
 	{
 		var noteDiff:Float = Math.abs(strumtime - Conductor.songPosition);
-		// boyfriend.playAnim('hey');
 		vocals.volume = 1;
 
 		var placement:String = Std.string(combo);
@@ -1394,7 +1373,6 @@ class PlayState extends MusicBeatState
 		var coolText:FlxText = new FlxText(0, 0, 0, placement, 32);
 		coolText.screenCenter();
 		coolText.x = FlxG.width * 0.55;
-		//
 
 		var rating:FlxSprite = new FlxSprite();
 		var score:Int = 350;
@@ -1424,14 +1402,6 @@ class PlayState extends MusicBeatState
 		var scoreIncrease:Float = score * ((combo + 1) * 0.05);
 		score += Math.floor(scoreIncrease);
 		songScore += score;
-
-		/* if (combo > 60)
-				daRating = 'sick';
-			else if (combo > 12)
-				daRating = 'good'
-			else if (combo > 4)
-				daRating = 'bad';
-		 */
 
 		var pixelShitPart1:String = "";
 		var pixelShitPart2:String = '';
@@ -1682,6 +1652,8 @@ private function keyShit():Void
 
 			boyfriend.stunned = true;
 
+			#if SCRIPTS_ENABLED scripts_call("noteMiss"); #end
+
 			//RecalculateRating(true);
 
 			// get stunned for 5 seconds
@@ -1758,6 +1730,8 @@ private function keyShit():Void
 
 			note.wasGoodHit = true;
 			vocals.volume = 1;
+
+			#if SCRIPTS_ENABLED scripts_call("bfNoteHit"); #end
 
 			if (!note.isSustainNote)
 			{
