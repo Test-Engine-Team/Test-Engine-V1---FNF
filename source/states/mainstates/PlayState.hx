@@ -307,10 +307,6 @@ class PlayState extends MusicBeatState
 			iconP2.antialiasing = true;
 		}
 
-		if (ClientPrefs.poisonPlus) {
-			//put poison counter
-		}
-
 		strumLineNotes.cameras = [camHUD];
 		notes.cameras = [camHUD];
 		healthBar.cameras = [camHUD];
