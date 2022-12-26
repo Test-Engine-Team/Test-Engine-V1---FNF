@@ -14,6 +14,7 @@ using StringTools;
 //BUT YOSHMAN I SWEAR ON MY LIFE I DID NOT COPY PASTE YOUR HSCRIPT CLASS I SWEAR
 class HiScript {
     #if SCRIPTS_ENABLED
+    public static final allowedExtensions:Array<String> = ["hx", "hscript", "hxs"];
     public static var parser:Parser;
     public static var staticVars:Map<String, Dynamic> = new Map();
     public var interp:Interp;
@@ -43,7 +44,7 @@ class HiScript {
     public function new(scriptPath:String) {
         path = scriptPath;
         if (!scriptPath.startsWith("assets/")) scriptPath = "assets/" + scriptPath;
-        var boolArray:Array<Bool> = [for (ext in ["hx", "hscript", "hxs"]) Assets.exists('$scriptPath.$ext')];
+        var boolArray:Array<Bool> = [for (ext in allowedExtensions) Assets.exists('$scriptPath.$ext')];
         isBlank = (!boolArray.contains(true));
         if (boolArray.contains(true)) {
             interp = new Interp();
@@ -52,8 +53,7 @@ class HiScript {
             interp.allowPublicVariables = true;
             interp.errorHandler = traceError;
             try {
-                var exts:Array<String> = ["hx", "hscript", "hxs"];
-                var path = scriptPath + "." + exts[boolArray.indexOf(true)];
+                var path = scriptPath + "." + allowedExtensions[boolArray.indexOf(true)];
                 parser.line = 1; //Reset the parser position.
                 expr = parser.parseString(Assets.getText(path));
                 interp.variables.set("trace", hscriptTrace);

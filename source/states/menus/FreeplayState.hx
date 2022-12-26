@@ -189,6 +189,7 @@ class FreeplayState extends MusicBeatState
 			Highscore.diffArray = songList[curSelected].diffs; //Sorry but I DONT wanna rewrite Highscore.
 			var poop:String = Highscore.formatSong(songList[curSelected].path, curDifficulty);
 
+			PlayState.songPath = songList[curSelected].path;
 			PlayState.SONG = Song.loadFromJson(poop, songList[curSelected].path);
 			PlayState.isStoryMode = false;
 			PlayState.storyDifficulty = curDifficulty;
