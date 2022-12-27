@@ -1,5 +1,6 @@
 package ui;
 
+import handlers.Files;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.math.FlxMath;
@@ -12,33 +13,56 @@ using StringTools;
 class Note extends FlxSprite
 {
 	public var strumTime:Float = 0;
+	public var noteData:Int = 0;
+	public var sustainLength:Float = 0;
+	public var isSustainNote:Bool = false;
+	public var jsonData:Array<Dynamic>;
 
 	public var mustPress:Bool = false;
-	public var noteData:Int = 0;
 	public var canBeHit:Bool = false;
 	public var tooLate:Bool = false;
 	public var wasGoodHit:Bool = false;
 	public var prevNote:Note;
 
-	public var sustainLength:Float = 0;
-	public var isSustainNote:Bool = false;
-
 	public var noteScore:Float = 1;
 
 	public static var swagWidth:Float = 160 * 0.7;
-	public static var PURP_NOTE:Int = 0;
-	public static var GREEN_NOTE:Int = 2;
-	public static var BLUE_NOTE:Int = 1;
-	public static var RED_NOTE:Int = 3;
 
-	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false)
+	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false, ?params:scriptStuff.EventStructures.NoteCreateParams)
 	{
 		super();
+
+		if (params == null) {
+			//So I don't have to edit ChartingState.
+			params = {
+				makeNote: true,
+				jsonData: [strumTime, noteData, 0],
+				sectionData: {
+					sectionNotes: [],
+					lengthInSteps: 16,
+					typeOfSection: 0,
+					mustHitSection: true,
+					bpm: Conductor.bpm,
+					changeBPM: false,
+					altAnim: false
+				},
+				spritePath: "NOTE_assets",
+				holdSpritePath: null,
+				antialiasing: true,
+				scale: 0.7,
+				spriteType: "sparrow",
+				animFPS: 24,
+				noteAnims: ["purple", "blue", "green", "red"],
+				holdAnims: ["purple hold piece", "blue hold piece", "green hold piece", "red hold piece"],
+				tailAnims: ["pruple end hold", "blue hold end", "green hold end", "red hold end"]
+			}
+		}
 
 		if (prevNote == null)
 			prevNote = this;
 
 		this.prevNote = prevNote;
+		jsonData = params.jsonData;
 		isSustainNote = sustainNote;
 
 		x += flixel.FlxG.width / 16;
@@ -48,76 +72,31 @@ class Note extends FlxSprite
 
 		this.noteData = noteData;
 
-		var daStage:String = PlayState.curStage;
-
-		switch (daStage)
-		{
-			case 'school' | 'schoolEvil':
-				loadGraphic('assets/images/weeb/pixelUI/arrows-pixels.png', true, 17, 17);
-
-				animation.add('greenScroll', [6]);
-				animation.add('redScroll', [7]);
-				animation.add('blueScroll', [5]);
-				animation.add('purpleScroll', [4]);
-
-				if (isSustainNote)
-				{
-					loadGraphic('assets/images/weeb/pixelUI/arrowEnds.png', true, 7, 6);
-
-					animation.add('purpleholdend', [4]);
-					animation.add('greenholdend', [6]);
-					animation.add('redholdend', [7]);
-					animation.add('blueholdend', [5]);
-
-					animation.add('purplehold', [0]);
-					animation.add('greenhold', [2]);
-					animation.add('redhold', [3]);
-					animation.add('bluehold', [1]);
-				}
-
-				setGraphicSize(Std.int(width * PlayState.daPixelZoom));
-				updateHitbox();
-
+		switch (params.spriteType) {
+			case "packer":
+				frames = (isSustainNote && params.holdSpritePath != null) ? Files.packerAtlas(params.holdSpritePath) : Files.packerAtlas(params.spritePath);
+				animation.addByPrefix("note", params.noteAnims[noteData], params.animFPS);
+				animation.addByPrefix('hold', params.holdAnims[noteData], params.animFPS);
+				animation.addByPrefix("tail", params.tailAnims[noteData], params.animFPS);
+			case "grid":
+				var spritePath = (isSustainNote) ? params.holdSpritePath : params.spritePath;
+				var bitmapData:openfl.display.BitmapData = openfl.Assets.getBitmapData(Files.image(spritePath));
+				loadGraphic(bitmapData, true, Std.int(bitmapData.width / 4), (isSustainNote) ? Std.int(bitmapData.height / 2) : Std.int(bitmapData.height / 5));
+				animation.add("note", [noteData + 4], params.animFPS);
+				animation.add("hold", [noteData], params.animFPS);
+				animation.add("tail", [noteData + 4], params.animFPS);
 			default:
-				frames = FlxAtlasFrames.fromSparrow('assets/images/NOTE_assets.png', 'assets/images/NOTE_assets.xml');
-
-				animation.addByPrefix('greenScroll', 'green0');
-				animation.addByPrefix('redScroll', 'red0');
-				animation.addByPrefix('blueScroll', 'blue0');
-				animation.addByPrefix('purpleScroll', 'purple0');
-
-				animation.addByPrefix('purpleholdend', 'pruple end hold');
-				animation.addByPrefix('greenholdend', 'green hold end');
-				animation.addByPrefix('redholdend', 'red hold end');
-				animation.addByPrefix('blueholdend', 'blue hold end');
-
-				animation.addByPrefix('purplehold', 'purple hold piece');
-				animation.addByPrefix('greenhold', 'green hold piece');
-				animation.addByPrefix('redhold', 'red hold piece');
-				animation.addByPrefix('bluehold', 'blue hold piece');
-
-				setGraphicSize(Std.int(width * 0.7));
-				updateHitbox();
-				antialiasing = true;
+				frames = (isSustainNote && params.holdSpritePath != null) ? Files.sparrowAtlas(params.holdSpritePath) : Files.sparrowAtlas(params.spritePath);
+				animation.addByPrefix("note", params.noteAnims[noteData], params.animFPS);
+				animation.addByPrefix('hold', params.holdAnims[noteData], params.animFPS);
+				animation.addByPrefix("tail", params.tailAnims[noteData], params.animFPS);
 		}
 
-		switch (noteData)
-		{
-			case 0:
-				x += swagWidth * 0;
-				animation.play('purpleScroll');
-			case 1:
-				x += swagWidth * 1;
-				animation.play('blueScroll');
-			case 2:
-				x += swagWidth * 2;
-				animation.play('greenScroll');
-			case 3:
-				x += swagWidth * 3;
-				animation.play('redScroll');
-		}
-
-		// trace(prevNote);
+		antialiasing = params.antialiasing;
+		scale.set(params.scale, params.scale);
+		updateHitbox();
+		x += swagWidth * noteData;
+		animation.play("note");
 
 		if (isSustainNote && prevNote != null)
 		{
@@ -126,18 +105,7 @@ class Note extends FlxSprite
 
 			x += width / 2;
 
-			switch (noteData)
-			{
-				case 2:
-					animation.play('greenholdend');
-				case 3:
-					animation.play('redholdend');
-				case 1:
-					animation.play('blueholdend');
-				case 0:
-					animation.play('purpleholdend');
-			}
-
+			animation.play("tail");
 			updateHitbox();
 
 			x -= width / 2;
@@ -147,21 +115,9 @@ class Note extends FlxSprite
 
 			if (prevNote.isSustainNote)
 			{
-				switch (prevNote.noteData)
-				{
-					case 0:
-						prevNote.animation.play('purplehold');
-					case 1:
-						prevNote.animation.play('bluehold');
-					case 2:
-						prevNote.animation.play('greenhold');
-					case 3:
-						prevNote.animation.play('redhold');
-				}
-
+				prevNote.animation.play("hold");
 				prevNote.scale.y *= Conductor.stepCrochet / 100 * 1.5 * PlayState.SONG.speed;
 				prevNote.updateHitbox();
-				// prevNote.setGraphicSize();
 			}
 		}
 	}

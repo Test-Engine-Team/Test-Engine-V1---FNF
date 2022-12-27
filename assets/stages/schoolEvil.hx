@@ -1,6 +1,8 @@
 import flixel.addons.effects.FlxTrail;
 
 function create() {
+	addScript("data/pixelUI");
+
     defaultCamZoom = 1;
     var bg:FlxSprite = new FlxSprite(400, 200);
     bg.frames = Files.sparrowAtlas('weeb/animatedEvilSchool');

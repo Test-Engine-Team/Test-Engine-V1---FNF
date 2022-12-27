@@ -4,6 +4,8 @@ var danced:Bool = false;
 var bgGirls:FlxSprite;
 
 function create() {
+	addScript("data/pixelUI");
+
 	defaultCamZoom = 1;
 
 	var bgSky = new FlxSprite().loadGraphic('assets/images/weeb/weebSky.png');

@@ -23,7 +23,7 @@ typedef StageCamOffsets = {
 }
 
 class Stage extends FlxTypedGroup<FlxBasic> {
-    var curStage:String;
+    public var curStage:String;
 	public var offsets:StageCamOffsets = {
 		bfCamX: 0,
 		bfCamY: 0,
@@ -77,7 +77,12 @@ class Stage extends FlxTypedGroup<FlxBasic> {
         if (!script.isBlank && script.expr != null) {
             script.interp.scriptObject = psInstance;
             script.setValue("add", add);
+			script.setValue("insert", insert);
+			script.setValue("remove", remove);
 			script.setValue("camOffsets", offsets);
+			script.setValue("addScript", function(scriptPath:String) {
+				psInstance.scripts.push(new HiScript(scriptPath));
+			});
             script.interp.execute(script.expr);
         } else {
             script.setValue("create", function() {
