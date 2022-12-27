@@ -14,9 +14,14 @@ function noteCreate(params) {
 	params.scale = 6;
 }
 
+//Sustains were all the way at the left of the arrow for some reason.
 function noteCreatePost(note, sustainNotes) {
-	for (sus in sustainNotes)
+	//Sustain is offset by a pixel for 3 lanes.
+	var weirdSustain:Bool = (!note.mustPress && note.noteData == 1) || (note.mustPress && note.noteData % 3 == 0);
+	for (sus in sustainNotes) {
 		sus.x += sus.width / 1.5;
+		sus.x = sus.x - (sus.x % 6) + 6 * weirdSustain;
+	}
 }
 
 function strumCreate(params) {

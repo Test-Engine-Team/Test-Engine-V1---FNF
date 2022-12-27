@@ -52,7 +52,7 @@ class Note extends FlxSprite
 				scale: 0.7,
 				spriteType: "sparrow",
 				animFPS: 24,
-				noteAnims: ["purple", "blue", "green", "red"],
+				noteAnims: ["purple0", "blue0", "green0", "red0"],
 				holdAnims: ["purple hold piece", "blue hold piece", "green hold piece", "red hold piece"],
 				tailAnims: ["pruple end hold", "blue hold end", "green hold end", "red hold end"]
 			}
