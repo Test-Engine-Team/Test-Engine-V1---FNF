@@ -72,6 +72,7 @@ class PlayState extends MusicBeatState
 	public var dad:Character;
 	public var gf:Character;
 	public var boyfriend:Character;
+	public var animList:Array<String> = ["singLEFT", "singDOWN", "singUP", "singRIGHT"];
 	var stage:Stage;
 
 	public var elapsedtime:Float = 0;
@@ -665,6 +666,7 @@ class PlayState extends MusicBeatState
 					holdSpritePath: null,
 					antialiasing: true,
 					canMiss: true,
+					botCanHit: true,
 					scale: 0.7,
 					spriteType: "sparrow",
 					animFPS: 24,
@@ -1139,9 +1141,8 @@ class PlayState extends MusicBeatState
 					daNote.clipRect = swagRect;
 				}
 
-				if (!daNote.mustPress && daNote.wasGoodHit)
+				if (!daNote.mustPress && daNote.wasGoodHit && daNote.dadCanHit)
 				{
-					var animList:Array<String> = ["singLEFT", "singDOWN", "singUP", "singRIGHT"];
 					var animSuffix:String = (SONG.notes[Math.floor(curStep / 16)] != null && SONG.notes[Math.floor(curStep / 16)].altAnim) ? "-alt" : "";
 					var noteHitParams:NoteHitParams = {
 						note: daNote,
@@ -1671,7 +1672,6 @@ private function keyShit():Void
 	{
 		if (note.wasGoodHit) return;
 
-		var animList:Array<String> = ["singLEFT", "singDOWN", "singUP", "singRIGHT"];
 		var noteHitParams:NoteHitParams = {
 			note: note,
 			jsonData: note.jsonData,

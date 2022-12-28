@@ -13,6 +13,7 @@ typedef NoteCreateParams = {
     var spriteType:String;
     var antialiasing:Bool;
     var canMiss:Bool;
+    var botCanHit:Bool;
     var scale:Float;
     var animFPS:Int;
     var noteAnims:Array<String>;
