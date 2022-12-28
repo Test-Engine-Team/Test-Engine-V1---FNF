@@ -11,6 +11,10 @@ import openfl.display._internal.stats.DrawCallContext;
 #if flash
 import openfl.Lib;
 #end
+#if MODS_ENABLED
+import flixel.FlxG;
+import states.menus.LoadingState;
+#end
 
 /**
 	The FPS class provides an easy-to-use monitor to display
@@ -30,6 +34,10 @@ class FpsText extends TextField
 	@:noCompletion private var cacheCount:Int;
 	@:noCompletion private var currentTime:Float;
 	@:noCompletion private var times:Array<Float>;
+
+	#if MODS_ENABLED
+	var timeHeld:Float = 0;
+	#end
 
 	public function new(x:Float = 10, y:Float = 10, color:Int = 0x000000)
 	{
@@ -78,6 +86,17 @@ class FpsText extends TextField
 			text = '${currentFPS}FPS\n${Utilities.format_bytes(Memory.getCurrentUsage())} / ${Utilities.format_bytes(Memory.getPeakUsage())}\nBUILD: ${Main.buildNumber}';
 			#else
 			text = '${currentFPS}FPS\n${Utilities.format_bytes(Memory.getCurrentUsage())} / ${Utilities.format_bytes(Memory.getPeakUsage())}';
+			#end
+
+			#if MODS_ENABLED
+			if (LoadingState.addedCrash) {
+				text += "[F4] - Reparse Mod Data";
+				timeHeld = (FlxG.keys.justPressed.F4) ? timeHeld + FlxG.elapsed : 0;
+				if (timeHeld >= 2) {
+					LoadingState.targetState = Type.getClass(FlxG.state);
+					FlxG.switchState(new LoadingState());
+				}
+			}
 			#end
 
 			#if (gl_stats && !disable_cffi && (!html5 || !canvas))

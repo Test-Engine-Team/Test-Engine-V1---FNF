@@ -17,6 +17,10 @@ class Note extends FlxSprite
 	public var sustainLength:Float = 0;
 	public var isSustainNote:Bool = false;
 	public var jsonData:Array<Dynamic>;
+	/**
+     * Not actaully used by source. Just a helper var for hscript.
+     */
+	public var noteType:String;
 
 	public var mustPress:Bool = false;
 	public var canBeHit:Bool = false;
@@ -54,7 +58,8 @@ class Note extends FlxSprite
 				animFPS: 24,
 				noteAnims: ["purple0", "blue0", "green0", "red0"],
 				holdAnims: ["purple hold piece", "blue hold piece", "green hold piece", "red hold piece"],
-				tailAnims: ["pruple end hold", "blue hold end", "green hold end", "red hold end"]
+				tailAnims: ["pruple end hold", "blue hold end", "green hold end", "red hold end"],
+				noteType: "default"
 			}
 		}
 
@@ -64,6 +69,7 @@ class Note extends FlxSprite
 		this.prevNote = prevNote;
 		jsonData = params.jsonData;
 		isSustainNote = sustainNote;
+		noteType = params.noteType;
 
 		x += flixel.FlxG.width / 16;
 		// MAKE SURE ITS DEFINITELY OFF SCREEN?
