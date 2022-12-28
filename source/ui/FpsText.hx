@@ -37,6 +37,7 @@ class FpsText extends TextField
 
 	#if MODS_ENABLED
 	var timeHeld:Float = 0;
+	var holdingF4:Bool = false;
 	#end
 
 	public function new(x:Float = 10, y:Float = 10, color:Int = 0x000000)
@@ -49,6 +50,7 @@ class FpsText extends TextField
 		currentFPS = 0;
 		selectable = false;
 		mouseEnabled = false;
+		autoSize = LEFT;
 		defaultTextFormat = new TextFormat("_sans", 12, color);
 		text = "FPS: ";
 
@@ -83,20 +85,9 @@ class FpsText extends TextField
 		if (currentCount != cacheCount /*&& visible*/)
 		{
 			#if debug
-			text = '${currentFPS}FPS\n${Utilities.format_bytes(Memory.getCurrentUsage())} / ${Utilities.format_bytes(Memory.getPeakUsage())}\nBUILD: ${Main.buildNumber}';
+			text = '${currentFPS}FPS\n${Utilities.format_bytes(Memory.getCurrentUsage())} / ${Utilities.format_bytes(Memory.getPeakUsage())}\nBUILD: ${Main.buildNumber}\n';
 			#else
-			text = '${currentFPS}FPS\n${Utilities.format_bytes(Memory.getCurrentUsage())} / ${Utilities.format_bytes(Memory.getPeakUsage())}';
-			#end
-
-			#if MODS_ENABLED
-			if (LoadingState.addedCrash) {
-				text += "[F4] - Reparse Mod Data";
-				timeHeld = (FlxG.keys.justPressed.F4) ? timeHeld + FlxG.elapsed : 0;
-				if (timeHeld >= 2) {
-					LoadingState.targetState = Type.getClass(FlxG.state);
-					FlxG.switchState(new LoadingState());
-				}
-			}
+			text = '${currentFPS}FPS\n${Utilities.format_bytes(Memory.getCurrentUsage())} / ${Utilities.format_bytes(Memory.getPeakUsage())}\n';
 			#end
 
 			#if (gl_stats && !disable_cffi && (!html5 || !canvas))
@@ -105,6 +96,19 @@ class FpsText extends TextField
 			text += "\nstage3DDC: " + Context3DStats.contextDrawCalls(DrawCallContext.STAGE3D);
 			#end
 		}
+
+		#if MODS_ENABLED
+		if (LoadingState.addedCrash) {
+			text = text.substr(0, text.lastIndexOf("\n")) + "\n[F4] - Reparse Mod Data";
+			timeHeld = (FlxG.keys.pressed.F4 && !Std.isOfType(FlxG.state, LoadingState)) ? timeHeld + deltaTime / 1000 : 0;
+			if (timeHeld > 0)
+				text += ' (' + (2 - timeHeld) + ')';
+			if (timeHeld >= 2) {
+				LoadingState.targetState = Type.getClass(FlxG.state);
+				FlxG.switchState(new LoadingState());
+			}
+		}
+		#end
 
 		cacheCount = currentCount;
 	}
