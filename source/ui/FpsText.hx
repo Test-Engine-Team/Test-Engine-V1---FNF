@@ -37,7 +37,6 @@ class FpsText extends TextField
 
 	#if MODS_ENABLED
 	var timeHeld:Float = 0;
-	var holdingF4:Bool = false;
 	#end
 
 	public function new(x:Float = 10, y:Float = 10, color:Int = 0x000000)

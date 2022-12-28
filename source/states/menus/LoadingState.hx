@@ -251,7 +251,7 @@ class LoadingState extends MusicBeatState {
         #if desktop
         trace(currentMod);
         Application.current.window.title = modData.titleBar;
-        Application.current.window.setIcon(Image.fromBitmapData(Assets.getBitmapData(Files.image('icon'))));
+        Application.current.window.setIcon(lime.utils.Assets.getImage(Files.image('icon')));
         if (!addedCrash)
             openfl.Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, errorPopup);
         #end

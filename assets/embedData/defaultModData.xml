@@ -40,4 +40,20 @@
 		<char default="gf"/>
 		<char default="bf"/>
 	</week>
+
+	<dialogueFormat name="week6" y="45" textx="240" texty="500">
+		<boxSprite spritePath="weeb/pixelUI/dialogueBox-pixel" scale="5.4"/>
+		<anim name="open" prefix="Text Box Appear instance 1" fps="12"/>
+		<anim name="normal" prefix="Text Box Appear instance 1" fps="12" indices="4"/>
+		<anim name="loud" prefix="Text Box Appear instance 1" fps="12"  indices="4"/>
+		<textFormat font="pixel.otf" size="32" color="3F2021" border="false" borderColor="3F2021" shadow="true" shadowColor="D89494"/>
+	</dialogueFormat>
+
+	<dialogueFormat name="week6-angry" y="45" textx="240" texty="500">
+		<boxSprite spritePath="weeb/pixelUI/dialogueBox-senpaiMad" scale="5.4"/>
+		<anim name="open" prefix="SENPAI ANGRY IMPACT SPEECH instance 1" fps="12"/>
+		<anim name="normal" prefix="SENPAI ANGRY IMPACT SPEECH instance 1" fps="12" indices="7"/>
+		<anim name="loud" prefix="SENPAI ANGRY IMPACT SPEECH instance 1" fps="12"  indices="7"/>
+		<textFormat font="pixel.otf" size="32" color="3F2021" border="false" borderColor="3F2021" shadow="true" shadowColor="D89494"/>
+	</dialogueFormat>
 </mod>
