@@ -664,6 +664,7 @@ class PlayState extends MusicBeatState
 					spritePath: "NOTE_assets",
 					holdSpritePath: null,
 					antialiasing: true,
+					canMiss: true,
 					scale: 0.7,
 					spriteType: "sparrow",
 					animFPS: 24,
@@ -1186,7 +1187,7 @@ class PlayState extends MusicBeatState
 					}
 					else
 					{
-						if (daNote.tooLate || !daNote.wasGoodHit)
+						if (daNote.tooLate || !daNote.wasGoodHit && daNote.doesMiss)
 						{
 							health -= 0.0475;
 							vocals.volume = 0;

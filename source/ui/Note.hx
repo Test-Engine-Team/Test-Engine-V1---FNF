@@ -16,6 +16,7 @@ class Note extends FlxSprite
 	public var noteData:Int = 0;
 	public var sustainLength:Float = 0;
 	public var isSustainNote:Bool = false;
+	public var doesMiss:Bool = true;
 	public var jsonData:Array<Dynamic>;
 	/**
      * Not actaully used by source. Just a helper var for hscript.
@@ -53,6 +54,7 @@ class Note extends FlxSprite
 				spritePath: "NOTE_assets",
 				holdSpritePath: null,
 				antialiasing: true,
+				canMiss: true,
 				scale: 0.7,
 				spriteType: "sparrow",
 				animFPS: 24,
@@ -69,6 +71,8 @@ class Note extends FlxSprite
 		this.prevNote = prevNote;
 		jsonData = params.jsonData;
 		isSustainNote = sustainNote;
+		doesMiss = params.canMiss;
+
 		noteType = params.noteType;
 
 		x += flixel.FlxG.width / 16;
