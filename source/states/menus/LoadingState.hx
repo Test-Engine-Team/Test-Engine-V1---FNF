@@ -4,6 +4,7 @@ package states.menus;
 plz don't mess with this.
 imma mess with it anyway -504brandon 2022
 */
+import handlers.CoolUtil;
 import lime.graphics.Image;
 import handlers.Files;
 import flixel.text.FlxText;
@@ -87,6 +88,9 @@ class LoadingState extends MusicBeatState {
         charNames: [],
         selectColor: 0xFF00B386
     }; //It gets set in create so no need to fill this.
+    #if MODS_ENABLED
+    public static var targetState:Class<flixel.FlxState> = TitleState;
+    #end
 
     private static var defaultModData:ModDataYee = {
         titleBar: "Friday Night Funkin' - Test Engine",
@@ -225,15 +229,8 @@ class LoadingState extends MusicBeatState {
             }
 
             var color:String = xml.get("color");
-            if (color != null) {
-                if (color.contains(",")) {
-                    var rgbArray:Array<Int> = [];
-                    for (colorNum in color.split(','))
-                        rgbArray.push(Std.parseInt(colorNum.trim()));
-                    modData.selectColor = FlxColor.fromRGB(rgbArray[0], rgbArray[1], rgbArray[2]);
-                } else
-                    modData.selectColor = (color.startsWith("#") || color.startsWith("0x")) ? FlxColor.fromString(color) : FlxColor.fromString("#" + color);
-            }
+            if (color != null)
+                modData.selectColor = CoolUtil.stringColor(color);
 
             var charPathList = (xml.get("charXmlPaths") != null) ? [for (path in xml.get("charXmlPaths").split("|")) path.trim()] : [];
             if (charPathList.length > 0) {
@@ -254,10 +251,7 @@ class LoadingState extends MusicBeatState {
         #if desktop
         trace(currentMod);
         Application.current.window.title = modData.titleBar;
-        if (FileSystem.exists("./mods/" + currentMod + "/images/icon.png"))
-            Application.current.window.setIcon(Image.fromFile('mods/$currentMod/images/icon.png'));
-        else
-            Application.current.window.setIcon(Image.fromFile(Files.image('icon')));
+        Application.current.window.setIcon(Image.fromBitmapData(Assets.getBitmapData(Files.image('icon'))));
         if (!addedCrash)
             openfl.Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, errorPopup);
         #end
@@ -268,8 +262,18 @@ class LoadingState extends MusicBeatState {
         modLoadingTxt.y = 715 - modLoadingTxt.height;
 
         new flixel.util.FlxTimer().start(0.5, function(tmr:flixel.util.FlxTimer) {
+            #if MODS_ENABLED
+            if (targetState == TitleState) {
+                TitleState.seenIntro = false;
+                FlxG.switchState(new TitleState());
+            } else
+                FlxG.switchState(Type.createInstance(targetState, []));
+
+            targetState = TitleState;
+            #else
             TitleState.seenIntro = false;
             FlxG.switchState(new TitleState());
+            #end
         });
     }
 
@@ -330,15 +334,8 @@ class LoadingState extends MusicBeatState {
             }
 
             var color:String = char.get("hpColor");
-            if (color != null) {
-                if (color.contains(",")) {
-                    var rgbArray:Array<Int> = [];
-                    for (colorNum in color.split(','))
-                        rgbArray.push(Std.parseInt(colorNum.trim()));
-                    modChar.hpColor = FlxColor.fromRGB(rgbArray[0], rgbArray[1], rgbArray[2]);
-                } else
-                    modChar.hpColor = (color.startsWith("#") || color.startsWith("0x")) ? FlxColor.fromString(color) : FlxColor.fromString("#" + color);
-            }
+            if (color != null)
+                modChar.hpColor = CoolUtil.stringColor(color);
 
             charList.set(charName, modChar);
         }

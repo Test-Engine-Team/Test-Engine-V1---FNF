@@ -18,6 +18,10 @@ typedef NoteCreateParams = {
     var noteAnims:Array<String>;
     var holdAnims:Array<String>;
     var tailAnims:Array<String>;
+    /**
+     * Just a helper var for hscript.
+     */
+    var noteType:String;
 }
 
 typedef StrumCreateParams = {

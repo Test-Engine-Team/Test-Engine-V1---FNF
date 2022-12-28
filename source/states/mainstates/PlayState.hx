@@ -670,7 +670,8 @@ class PlayState extends MusicBeatState
 					animFPS: 24,
 					noteAnims: ["purple0", "blue0", "green0", "red0"],
 					holdAnims: ["purple hold piece", "blue hold piece", "green hold piece", "red hold piece"],
-					tailAnims: ["pruple end hold", "blue hold end", "green hold end", "red hold end"]
+					tailAnims: ["pruple end hold", "blue hold end", "green hold end", "red hold end"],
+					noteType: "default"
 				};
 				#if SCRIPTS_ENABLED
 				scripts_call("noteCreate", [noteCreateParams]);
