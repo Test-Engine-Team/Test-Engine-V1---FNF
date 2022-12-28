@@ -167,7 +167,6 @@ class LoadingState extends MusicBeatState {
             handlers.ClientPrefs.loadPrefs();
             handlers.Highscore.load();
 
-            //I prob should delete this but...
             #if sys
             if (Assets.exists('assets/images/monkie.png'))
                 trace('good you have monkie');

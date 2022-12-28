@@ -12,6 +12,7 @@ typedef NoteCreateParams = {
     var holdSpritePath:Null<String>;
     var spriteType:String;
     var antialiasing:Bool;
+    var canMiss:Bool;
     var scale:Float;
     var animFPS:Int;
     var noteAnims:Array<String>;

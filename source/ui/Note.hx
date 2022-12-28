@@ -16,6 +16,7 @@ class Note extends FlxSprite
 	public var noteData:Int = 0;
 	public var sustainLength:Float = 0;
 	public var isSustainNote:Bool = false;
+	public var doesMiss:Bool = true;
 	public var jsonData:Array<Dynamic>;
 
 	public var mustPress:Bool = false;
@@ -49,6 +50,7 @@ class Note extends FlxSprite
 				spritePath: "NOTE_assets",
 				holdSpritePath: null,
 				antialiasing: true,
+				canMiss: true,
 				scale: 0.7,
 				spriteType: "sparrow",
 				animFPS: 24,
@@ -64,6 +66,8 @@ class Note extends FlxSprite
 		this.prevNote = prevNote;
 		jsonData = params.jsonData;
 		isSustainNote = sustainNote;
+		doesMiss = params.canMiss;
+
 
 		x += flixel.FlxG.width / 16;
 		// MAKE SURE ITS DEFINITELY OFF SCREEN?
