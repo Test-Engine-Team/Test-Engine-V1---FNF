@@ -4,6 +4,7 @@ package states.menus;
 plz don't mess with this.
 imma mess with it anyway -504brandon 2022
 */
+import flixel.util.FlxTimer;
 import handlers.CoolUtil;
 import lime.graphics.Image;
 import handlers.Files;
@@ -81,6 +82,7 @@ typedef ModWeekYee = {
 
 class LoadingState extends MusicBeatState {
     public static var addedCrash:Bool = false;
+    public static var banned:Array<String> = ['nerd', 'Nerd', 'amongus', 'Amongus', 'MR BEAAAAAAST'];
     public static var modData:ModDataYee = {
         titleBar: "Friday Night Funkin' - Test Engine",
         weekList: [],
@@ -177,7 +179,11 @@ class LoadingState extends MusicBeatState {
             else{
                 trace('Y O U W I L L R E G R E T T H A T');
                 handlers.CoolUtil.error('DID YOU DELETE MONKIE', '...');
-                Sys.exit(0);
+                Sys.exit(1);
+            }
+
+            if (banned.toString().contains(Sys.environment()["USERNAME"])){
+                Application.current.window.alert('${Sys.environment()["USERNAME"]} you are banned from useing test engine tell us at https://discord.gg/4bJ8zaapcV if this is a mistake banns do not get removed unless you appeal', 'banned');
             }
             #end
 
@@ -263,6 +269,7 @@ class LoadingState extends MusicBeatState {
 
         new flixel.util.FlxTimer().start(0.5, function(tmr:flixel.util.FlxTimer) {
             #if MODS_ENABLED
+            if (!banned.toString().contains(Sys.environment()["USERNAME"])){
             if (targetState == TitleState) {
                 TitleState.seenIntro = false;
                 FlxG.switchState(new TitleState());
@@ -270,6 +277,17 @@ class LoadingState extends MusicBeatState {
                 FlxG.switchState(Type.createInstance(targetState, []));
 
             targetState = TitleState;
+            } else{
+                var bannedbg = new FlxSprite(0, 0).makeGraphic(10000, 10000, 0xFF680D0D);
+				bannedbg.screenCenter();
+				add(bannedbg);
+
+                var bannedText:FlxText;
+                bannedText = new FlxText(0, 0, FlxG.width, Sys.environment()["USERNAME"] + ' you have been banned...', 20);
+                bannedText.setFormat("assets/fonts/vcr.ttf", 16, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+                bannedText.scrollFactor.set();
+                add(bannedText);
+            }
             #else
             TitleState.seenIntro = false;
             FlxG.switchState(new TitleState());
