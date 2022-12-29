@@ -1,4 +1,4 @@
-ipackage handlers;
+package handlers;
 
 import openfl.Assets;
 import lime.tools.AssetType;
@@ -109,8 +109,4 @@ class Files{
         return files;
     }
     #end
-
-		public static function getStage(stageName:String) {
-				return file = "assets/stages/$stageName.hx";
-		}
 }
