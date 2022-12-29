@@ -66,6 +66,21 @@ class ModifiersMenu extends MusicBeatState {
             valueFunc: function() {
                 return (ClientPrefs.poisonPlus) ? Std.string(ClientPrefs.maxPoisonHits) : "Disabled";
             }
+        },
+        {
+            name: "FC Mode",
+            description: "Missed a Note? Fuck you your dead!",
+            type: BOOL,
+            min: 0,
+            max: 1,
+            updateFunc: function(menuOption:MenuOption, elapsed:Float) {
+                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
+                    ClientPrefs.fcMode = !ClientPrefs.fcMode;
+                }
+            },
+            valueFunc: function() {
+                return (ClientPrefs.fcMode) ? "Enabled" : "Disabled";
+            }
         }
     ];
     var Items:Array<String> = ['Do A Barrel Roll', 'Fair Fight', 'Poison Plus'];

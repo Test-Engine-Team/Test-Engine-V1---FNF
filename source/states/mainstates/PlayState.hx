@@ -888,6 +888,9 @@ class PlayState extends MusicBeatState
 		super.update(elapsed);
 		#if SCRIPTS_ENABLED scripts_call("update", [elapsed], false); #end
 
+		if (songMisses >= 1 && ClientPrefs.fcMode)
+			health -= 9999;
+
 		if (ClientPrefs.spinnyspin)
 			FlxG.camera.angle += elapsed * 50;
 
@@ -1621,7 +1624,11 @@ private function keyShit():Void
 	{
 		if (!boyfriend.stunned)
 		{
-			health -= 0.04;
+			if(ClientPrefs.fcMode)
+				health -= 9999;
+			else
+				health -= 0.04;
+
 			if (combo > 5)
 			{
 				gf.playAnim('sad');

@@ -37,6 +37,7 @@ class ClientPrefs {
 	public static var fairFight:Bool = false;
 	public static var poisonPlus:Bool = false;
 	public static var maxPoisonHits:Int = 3;
+	public static var fcMode:Bool = false;
 
 	//easter eggs
 	public static var tristanPlayer:Bool = false;
