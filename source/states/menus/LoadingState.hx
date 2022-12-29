@@ -82,7 +82,7 @@ typedef ModWeekYee = {
 
 class LoadingState extends MusicBeatState {
     public static var addedCrash:Bool = false;
-    public static var banned:Array<String> = ['nerd', 'Nerd', 'amongus', 'Amongus', 'MR BEAAAAAAST'];
+    public static var banned:Array<String> = ['nerd', 'Nerd', 'amongus', 'Amongus', 'MR BEAAAAAAST', "Whynotboi"];
     public static var modData:ModDataYee = {
         titleBar: "Friday Night Funkin' - Test Engine",
         weekList: [],
