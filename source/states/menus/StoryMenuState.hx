@@ -154,7 +154,7 @@ class StoryMenuState extends MusicBeatState
 		// scoreText.setFormat('VCR OSD Mono', 32);
 		lerpScore = Math.floor(FlxMath.lerp(lerpScore, intendedScore, 0.5));
 
-		scoreText.text = "WEEK SCORE:" + lerpScore;
+		scoreText.text = "WEEK SCORE:" + lerpScore + " Speed:" + PlayState.speed;
 
 		txtWeekTitle.text = weekList[curWeek].name.toUpperCase();
 		txtWeekTitle.x = FlxG.width - (txtWeekTitle.width + 10);
@@ -181,9 +181,21 @@ class StoryMenuState extends MusicBeatState
 				}
 				#end
 
-				if (controls.RIGHT_P)
+				if (FlxG.keys.pressed.SHIFT && controls.LEFT_P)
+					PlayState.speed -= 1;
+		
+				if (FlxG.keys.pressed.SHIFT && controls.RIGHT_P)
+					PlayState.speed += 1;
+		
+				if (PlayState.speed < -7)
+					PlayState.speed = 100;
+		
+				if (PlayState.speed > 100)
+					PlayState.speed = -7;
+
+				if (controls.RIGHT_P && !FlxG.keys.pressed.SHIFT)
 					changeDifficulty(1);
-				else if (controls.LEFT_P)
+				else if (controls.LEFT_P && !FlxG.keys.pressed.SHIFT)
 					changeDifficulty(-1);
 			}
 

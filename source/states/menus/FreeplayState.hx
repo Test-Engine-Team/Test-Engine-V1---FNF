@@ -40,7 +40,6 @@ class FreeplayState extends MusicBeatState
 	var lerpScore:Int = 0;
 	var lerpMisses:Int = 0;
 	var intendedScore:Int = 0;
-	public static var speed:Int = 1;
 
 	private var grpSongs:FlxTypedGroup<Alphabet>;
 	private var curPlaying:Bool = false;
@@ -148,7 +147,7 @@ class FreeplayState extends MusicBeatState
 	{
 		super.update(elapsed);
 
-		FlxG.sound.music.time += elapsed * speed * 100;
+		FlxG.sound.music.time += elapsed * PlayState.speed * 100;
 
 		if (FlxG.sound.music.volume < 0.7)
 		{
@@ -160,13 +159,19 @@ class FreeplayState extends MusicBeatState
 		if (Math.abs(lerpScore - intendedScore) <= 10)
 			lerpScore = intendedScore;
 
-		scoreText.text = "PERSONAL BEST:" + lerpScore + "\nSPEED:" + speed;
+		scoreText.text = "PERSONAL BEST:" + lerpScore + "\nSPEED:" + PlayState.speed;
 
 		if (FlxG.keys.pressed.SHIFT && controls.LEFT_P)
-			speed -= 1;
+			PlayState.speed -= 1;
 
 		if (FlxG.keys.pressed.SHIFT && controls.RIGHT_P)
-			speed += 1;
+			PlayState.speed += 1;
+
+		if (PlayState.speed < -7)
+			PlayState.speed = 100;
+
+		if (PlayState.speed > 100)
+			PlayState.speed = -7;
 
 		var upP = controls.UP_P;
 		var downP = controls.DOWN_P;

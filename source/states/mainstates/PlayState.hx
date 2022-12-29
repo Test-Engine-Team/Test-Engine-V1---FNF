@@ -64,6 +64,7 @@ class PlayState extends MusicBeatState
 	public static var storyWeek:String = "tutorial";
 	public static var storyPlaylist:Array<String> = [];
 	public static var storyDifficulty:Int = 1;
+	public static var speed:Int = 1;
 	public static var diff:String;
 	public var scripts:Array<HiScript> = [];
 
@@ -888,10 +889,10 @@ class PlayState extends MusicBeatState
 		super.update(elapsed);
 		#if SCRIPTS_ENABLED scripts_call("update", [elapsed], false); #end
 
-		if (FreeplayState.speed != 1){
-			Conductor.songPosition += elapsed * FreeplayState.speed * 100;
-			FlxG.sound.music.time += elapsed * FreeplayState.speed * 100;
-			vocals.time += elapsed * FreeplayState.speed * 100;
+		if (speed != 1){
+			Conductor.songPosition += elapsed * speed * 100;
+			FlxG.sound.music.time += elapsed * speed * 100;
+			vocals.time += elapsed * speed * 100;
 		}
 
 		if (songMisses >= 1 && ClientPrefs.fcMode)
