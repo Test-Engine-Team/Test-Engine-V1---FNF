@@ -109,4 +109,8 @@ class Files{
         return files;
     }
     #end
+
+		public static function getStage(stageName:String) {
+				return "./assets/stages/$stageName.json";
+		}
 }
