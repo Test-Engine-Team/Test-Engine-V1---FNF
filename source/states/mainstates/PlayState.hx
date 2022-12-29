@@ -888,6 +888,12 @@ class PlayState extends MusicBeatState
 		super.update(elapsed);
 		#if SCRIPTS_ENABLED scripts_call("update", [elapsed], false); #end
 
+		if (FreeplayState.speed != 1){
+			Conductor.songPosition += elapsed * FreeplayState.speed * 100;
+			FlxG.sound.music.time += elapsed * FreeplayState.speed * 100;
+			vocals.time += elapsed * FreeplayState.speed * 100;
+		}
+
 		if (songMisses >= 1 && ClientPrefs.fcMode)
 			health -= 9999;
 
