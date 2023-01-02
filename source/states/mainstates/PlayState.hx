@@ -1395,9 +1395,11 @@ class PlayState extends MusicBeatState
 			noteSplash = false;
 		}
 
-		var scoreIncrease:Float = score * ((combo + 1) * 0.05);
-		score += Math.floor(scoreIncrease);
-		songScore += score;
+		if (!ClientPrefs.botPlay) {
+			var scoreIncrease:Float = score * ((combo + 1) * 0.05);
+			score += Math.floor(scoreIncrease);
+			songScore += score;
+		}
 
 		var pixelShitPart1:String = "";
 		var pixelShitPart2:String = '';

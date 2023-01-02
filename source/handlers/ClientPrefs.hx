@@ -20,6 +20,7 @@ class ClientPrefs {
 	public static var downscroll:Bool = false;
 	public static var freeplayCutscenes:Bool = false;
 	public static var safeFrames:Int = 10;
+	public static var botPlay:Bool = false;
 
 	//Optimization
 	public static var antialiasing:Bool = true;

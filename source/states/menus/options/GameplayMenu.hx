@@ -14,6 +14,7 @@ import states.menus.options.Options;
 class GameplayMenu extends MusicBeatState{
     var maintextgroup:FlxTypedGroup<Alphabet>;
     var curSelected:Int = 0;
+    //var sure:Bool = false;
     var options:Array<MenuOption> = [
         {
             name: "Ghost Tapping",
@@ -129,6 +130,46 @@ class GameplayMenu extends MusicBeatState{
             },
             valueFunc: function() {
                 return Std.string(ClientPrefs.safeFrames);
+            }
+        },
+        {
+            name: "BotPlay",
+            description: "Make the game play for you! Score will not be saved!",
+            type: BOOL,
+            min: 0,
+            max: 1,
+            updateFunc: function(menuOption:MenuOption, elapsed:Float) {
+                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
+                    ClientPrefs.botPlay = !ClientPrefs.botPlay;
+                }
+            },
+            valueFunc: function() {
+                return (ClientPrefs.botPlay) ? "Enabled" : "Disabled";
+            }
+        },
+        {
+            name: "Reset Cache",
+            description: "Resets the Cache.",
+            type: BUTTON,
+            min: 0,
+            max: 0,
+            updateFunc: function(menuOption:MenuOption, elapsed:Float) {
+                if ([FlxG.keys.justPressed.ENTER].contains(true)) {
+                   // if (sure == true) {
+                        FlxG.save.erase();
+                        FlxG.switchState(new states.menus.LoadingState());
+                    //}
+                    //else
+                    //{
+                        //sure = true;
+                    //}
+                }
+            },
+            valueFunc: function() {
+                //if (!sure)
+                    return "Reset Progress?";
+                //else
+                    //return "Are You Sure?";
             }
         }
     ];

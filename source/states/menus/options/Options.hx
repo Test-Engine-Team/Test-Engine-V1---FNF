@@ -25,6 +25,7 @@ enum OptionType {
     INT;
     FLOAT;
     STRING;
+    BUTTON;
 }
 
 class Options extends MusicBeatState {
