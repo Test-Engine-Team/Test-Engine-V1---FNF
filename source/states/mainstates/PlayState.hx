@@ -162,8 +162,6 @@ class PlayState extends MusicBeatState
 		if (SONG == null)
 			SONG = Song.loadFromJson(songPath = 'tutorial');
 
-		add(imagegroup);
-
 		#if SCRIPTS_ENABLED
 		//Song Scripts
 		for (file in Files.readFolder('data/$songPath')) {
