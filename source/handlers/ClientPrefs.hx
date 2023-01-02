@@ -11,7 +11,7 @@ import Controls;
 
 class ClientPrefs {
 	//For load and save.
-	static var settingNames:Array<String> = ["spinnyspin", "fairFight", "poisonPlus", "maxPoisonHits", "freeplayCutscenes", "downscroll", "safeFrames", "ghostTapping", "showComboSprite", "antialiasing"];
+	static var settingNames:Array<String> = ["spinnyspin", "fairFight", "poisonPlus", "maxPoisonHits", "freeplayCutscenes", "downscroll", "safeFrames", "ghostTapping", "showComboSprite", "antialiasing", "uiAlpha"];
 
 	// Options
     public static var ghostTapping:Bool = true;
@@ -20,6 +20,7 @@ class ClientPrefs {
 	public static var downscroll:Bool = false;
 	public static var freeplayCutscenes:Bool = false;
 	public static var safeFrames:Int = 10;
+	public static var uiAlpha:Float = 1;
 	public static var botPlay:Bool = false;
 
 	//Optimization

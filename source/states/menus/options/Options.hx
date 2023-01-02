@@ -16,6 +16,7 @@ typedef MenuOption = {
     var min:Float;
     var max:Float;
 
+    //var conflicts:Array<String>;
     var updateFunc:MenuOption->Float->Void;
     var valueFunc:Void->String;
 }
@@ -23,6 +24,7 @@ typedef MenuOption = {
 enum OptionType {
     BOOL;
     INT;
+    PERCENT;
     FLOAT;
     STRING;
     BUTTON;

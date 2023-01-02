@@ -22,6 +22,7 @@ class GameplayMenu extends MusicBeatState{
             type: BOOL,
             min: 0,
             max: 1,
+            //conflicts: null,
             updateFunc: function(menuOption:MenuOption, elapsed:Float) {
                 if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
                     ClientPrefs.ghostTapping = !ClientPrefs.ghostTapping;
@@ -37,6 +38,7 @@ class GameplayMenu extends MusicBeatState{
             type: BOOL,
             min: 0,
             max: 1,
+            //conflicts: null,
             updateFunc: function(menuOption:MenuOption, elapsed:Float) {
                 if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
                     ClientPrefs.downscroll = !ClientPrefs.downscroll;
@@ -52,6 +54,7 @@ class GameplayMenu extends MusicBeatState{
             type: INT,
             min: 60,
             max: 200,
+            //conflicts: null,
             updateFunc: function(menuOption:MenuOption, elapsed:Float) {
                 switch ([FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].indexOf(true)) {
                     case 0:
@@ -88,6 +91,7 @@ class GameplayMenu extends MusicBeatState{
             type: BOOL,
             min: 0,
             max: 1,
+            //conflicts: null,
             updateFunc: function(menuOption:MenuOption, elapsed:Float) {
                 if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
                     ClientPrefs.showComboSprite = !ClientPrefs.showComboSprite;
@@ -103,6 +107,7 @@ class GameplayMenu extends MusicBeatState{
             type: BOOL,
             min: 0,
             max: 1,
+            //conflicts: null,
             updateFunc: function(menuOption:MenuOption, elapsed:Float) {
                 if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
                     ClientPrefs.freeplayCutscenes = !ClientPrefs.freeplayCutscenes;
@@ -118,6 +123,7 @@ class GameplayMenu extends MusicBeatState{
             type: INT,
             min: 2,
             max: 20,
+            //conflicts: null,
             updateFunc: function(menuOption:MenuOption, elapsed:Float) {
                 if (FlxG.keys.justPressed.LEFT) {
                     ClientPrefs.safeFrames -= 1;
@@ -138,6 +144,7 @@ class GameplayMenu extends MusicBeatState{
             type: BOOL,
             min: 0,
             max: 1,
+            //conflicts: null,
             updateFunc: function(menuOption:MenuOption, elapsed:Float) {
                 if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
                     ClientPrefs.botPlay = !ClientPrefs.botPlay;
@@ -148,11 +155,33 @@ class GameplayMenu extends MusicBeatState{
             }
         },
         {
+            name: "UI Alpha",
+            description: "How visible the UI is",
+            type: PERCENT,
+            min: 0,
+            max: 1,
+            //conflicts: null,
+            updateFunc: function(menuOption:MenuOption, elapsed:Float) {
+                if (FlxG.keys.justPressed.LEFT) {
+                    ClientPrefs.uiAlpha -= 0.1;
+                    if (ClientPrefs.uiAlpha < menuOption.min) ClientPrefs.uiAlpha = Std.int(menuOption.min);
+                }
+                else if (FlxG.keys.justPressed.RIGHT) {
+                    ClientPrefs.uiAlpha += 0.1;
+                    if (ClientPrefs.uiAlpha > menuOption.max) ClientPrefs.uiAlpha = Std.int(menuOption.max);
+                }
+            },
+            valueFunc: function() {
+                return Std.string(ClientPrefs.uiAlpha);
+            }
+        },
+        {
             name: "Reset Cache",
             description: "Resets the Cache.",
             type: BUTTON,
             min: 0,
             max: 0,
+            //conflicts: null,
             updateFunc: function(menuOption:MenuOption, elapsed:Float) {
                 if ([FlxG.keys.justPressed.ENTER].contains(true)) {
                    // if (sure == true) {
