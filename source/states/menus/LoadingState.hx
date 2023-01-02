@@ -269,7 +269,6 @@ class LoadingState extends MusicBeatState {
 
         new flixel.util.FlxTimer().start(0.5, function(tmr:flixel.util.FlxTimer) {
             #if MODS_ENABLED
-            if (!banned.toString().contains(Sys.environment()["USERNAME"])){
             if (targetState == TitleState) {
                 TitleState.seenIntro = false;
                 FlxG.switchState(new TitleState());
@@ -277,17 +276,6 @@ class LoadingState extends MusicBeatState {
                 FlxG.switchState(Type.createInstance(targetState, []));
 
             targetState = TitleState;
-            } else{
-                var bannedbg = new FlxSprite(0, 0).makeGraphic(10000, 10000, 0xFF680D0D);
-				bannedbg.screenCenter();
-				add(bannedbg);
-
-                var bannedText:FlxText;
-                bannedText = new FlxText(0, 0, FlxG.width, Sys.environment()["USERNAME"] + ' you have been banned...', 20);
-                bannedText.setFormat("assets/fonts/vcr.ttf", 16, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-                bannedText.scrollFactor.set();
-                add(bannedText);
-            }
             #else
             TitleState.seenIntro = false;
             FlxG.switchState(new TitleState());
