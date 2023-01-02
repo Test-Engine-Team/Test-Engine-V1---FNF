@@ -162,6 +162,8 @@ class PlayState extends MusicBeatState
 		if (SONG == null)
 			SONG = Song.loadFromJson(songPath = 'tutorial');
 
+		add(imagegroup);
+
 		#if SCRIPTS_ENABLED
 		//Song Scripts
 		for (file in Files.readFolder('data/$songPath')) {
@@ -1823,7 +1825,7 @@ private function keyShit():Void
 					true
 				].indexOf(true);
 				var chars = [dad, gf, boyfriend];
-				chars[boolIndex].playAnim(value2, true);
+				chars[boolIndex].playAnim(value2);
 			case 'image flash':
 				var image:FlxSprite = new FlxSprite(0, 0).loadGraphic(Files.image(value1));
 				image.camera = camHUD;
