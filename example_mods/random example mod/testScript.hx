@@ -1,5 +1,7 @@
 import states.menus.MainMenuState;
 
+// example script
+
 function create() {
 	var bg = new FlxSprite(0, 0, Files.image("menus/rapbattle"));
 	bg.scale.set(1.3, 1.3);
