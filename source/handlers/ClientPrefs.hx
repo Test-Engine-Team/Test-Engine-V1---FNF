@@ -1,5 +1,6 @@
 package handlers;
 
+import flixel.FlxSprite;
 import flixel.FlxG;
 import flixel.util.FlxSave;
 import flixel.input.keyboard.FlxKey;
@@ -52,6 +53,7 @@ class ClientPrefs {
 			Reflect.setField(FlxG.save.data, setting, Reflect.getProperty(ClientPrefs, setting));
 		}
 		FlxG.save.data.framerate = framerate;
+		FlxSprite.defaultAntialiasing = antialiasing;
 
         FlxG.save.flush();
 
@@ -93,5 +95,7 @@ class ClientPrefs {
 				FlxG.updateFramerate = framerate;
 			}
 		}
+
+		FlxSprite.defaultAntialiasing = antialiasing;
     }
 }

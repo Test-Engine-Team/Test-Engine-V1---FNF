@@ -7,6 +7,7 @@ haxelib run lime setup
 haxelib install flixel-tools
 haxelib install flixel-ui
 haxelib install flixel-addons
+haxelib git flixel-leather https://github.com/Leather128/flixel.git
 haxelib git test-eg-polymod https://github.com/SrtHero278/test-eg-polymod
 haxelib git linc_luajit https://github.com/AndreiRudenko/linc_luajit
 haxelib git hscript-improved https://www.github.com/YoshiCrafter29/hscript-improved
