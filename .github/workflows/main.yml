@@ -38,6 +38,7 @@ jobs:
           haxelib install flixel-tools
           haxelib install flixel-ui
           haxelib install flixel-addons
+          haxelib git flixel-leather https://github.com/Leather128/flixel.git
           haxelib git test-eg-polymod https://github.com/SrtHero278/test-eg-polymod
           haxelib git linc_luajit https://github.com/AndreiRudenko/linc_luajit
           haxelib git hscript-improved https://www.github.com/YoshiCrafter29/hscript-improved
@@ -79,6 +80,7 @@ jobs:
           haxelib install flixel-tools
           haxelib install flixel-ui
           haxelib install flixel-addons
+          haxelib git flixel-leather https://github.com/Leather128/flixel.git
           haxelib git openfl https://github.com/openfl/openfl
           haxelib list
       - name: Create Version Tag
@@ -114,6 +116,7 @@ jobs:
           haxelib install flixel-tools
           haxelib install flixel-ui
           haxelib install flixel-addons
+          haxelib git flixel-leather https://github.com/Leather128/flixel.git
           haxelib git test-eg-polymod https://github.com/SrtHero278/test-eg-polymod
           haxelib git linc_luajit https://github.com/AndreiRudenko/linc_luajit
           haxelib git hscript-improved https://www.github.com/YoshiCrafter29/hscript-improved
@@ -154,6 +157,7 @@ jobs:
           haxelib install flixel-tools
           haxelib install flixel-ui
           haxelib install flixel-addons
+          haxelib git flixel-leather https://github.com/Leather128/flixel.git
           haxelib git test-eg-polymod https://github.com/SrtHero278/test-eg-polymod
           haxelib git linc_luajit https://github.com/AndreiRudenko/linc_luajit
           haxelib git hscript-improved https://www.github.com/YoshiCrafter29/hscript-improved
@@ -195,6 +199,7 @@ jobs:
           haxelib install flixel-tools
           haxelib install flixel-ui
           haxelib install flixel-addons
+          haxelib git flixel-leather https://github.com/Leather128/flixel.git
           haxelib git openfl https://github.com/openfl/openfl
           haxelib list
       - name: Create Version Tag
@@ -245,6 +250,7 @@ jobs:
           haxelib install flixel-addons 2.10.0 --quiet
           haxelib install hscript --quiet
           haxelib install hxCodec --quiet
+          haxelib git flixel-leather https://github.com/Leather128/flixel.git
           haxelib git faxe https://github.com/uhrobots/faxe --quiet
           haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc --quiet
           haxelib git extension-webm https://github.com/luckydog7/extension-webm --quiet
