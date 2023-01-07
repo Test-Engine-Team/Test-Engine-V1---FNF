@@ -1,5 +1,3 @@
-import flixel.addons.effects.FlxTrail;
-
 function create() {
 	addScript("data/pixelUI");
 
@@ -10,6 +8,7 @@ function create() {
     bg.animation.addByPrefix('idle', 'background 2', 24);
     bg.animation.play('idle');
     bg.scrollFactor.set(0.8, 0.9);
+    bg.antialiasing = false;
     bg.scale.set(6, 6);
     add(bg);
 

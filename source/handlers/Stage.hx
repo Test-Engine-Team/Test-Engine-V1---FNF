@@ -1,5 +1,6 @@
 package handlers;
 
+import lime.system.BackgroundWorker;
 #if SCRIPTS_ENABLED
 import scriptStuff.HiScript;
 #else
@@ -24,6 +25,7 @@ typedef StageCamOffsets = {
 
 class Stage extends FlxTypedGroup<FlxBasic> {
     public var curStage:String;
+	public var isPixel:Bool = false;
 	public var offsets:StageCamOffsets = {
 		bfCamX: 0,
 		bfCamY: 0,
@@ -71,6 +73,8 @@ class Stage extends FlxTypedGroup<FlxBasic> {
     public function new(stageName:String, psInstance:PlayState) {
         super(0);
         curStage = stageName;
+		if (isPixel == true)
+			FlxSprite.defaultAntialiasing = false;
 
         #if SCRIPTS_ENABLED
         script = new HiScript('assets/stages/$stageName');
@@ -296,20 +300,24 @@ class Stage extends FlxTypedGroup<FlxBasic> {
 	
 				var bgSky = new FlxSprite().loadGraphic('assets/images/weeb/weebSky.png');
 				bgSky.scrollFactor.set(0.1, 0.1);
+				bgSky.antialiasing = false;
 				add(bgSky);
 	
 				var repositionShit = -200;
 	
 				var bgSchool:FlxSprite = new FlxSprite(repositionShit, 0).loadGraphic('assets/images/weeb/weebSchool.png');
 				bgSchool.scrollFactor.set(0.6, 0.90);
+				bgSchool.antialiasing = false;
 				add(bgSchool);
 	
 				var bgStreet:FlxSprite = new FlxSprite(repositionShit).loadGraphic('assets/images/weeb/weebStreet.png');
 				bgStreet.scrollFactor.set(0.95, 0.95);
+				bgStreet.antialiasing = false;
 				add(bgStreet);
 	
 				var fgTrees:FlxSprite = new FlxSprite(repositionShit + 170, 130).loadGraphic('assets/images/weeb/weebTreesBack.png');
 				fgTrees.scrollFactor.set(0.9, 0.9);
+				fgTrees.antialiasing = false;
 				add(fgTrees);
 	
 				var bgTrees:FlxSprite = new FlxSprite(repositionShit - 380, -800);
@@ -317,6 +325,7 @@ class Stage extends FlxTypedGroup<FlxBasic> {
 				bgTrees.animation.add('treeLoop', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18], 12);
 				bgTrees.animation.play('treeLoop');
 				bgTrees.scrollFactor.set(0.85, 0.85);
+				bgTrees.antialiasing = false;
 				add(bgTrees);
 	
 				var treeLeaves:FlxSprite = new FlxSprite(repositionShit, -40);
@@ -324,6 +333,7 @@ class Stage extends FlxTypedGroup<FlxBasic> {
 				treeLeaves.animation.addByPrefix('leaves', 'PETALS ALL', 24, true);
 				treeLeaves.animation.play('leaves');
 				treeLeaves.scrollFactor.set(0.85, 0.85);
+				treeLeaves.antialiasing = false;
 				add(treeLeaves);
 	
 				var widShit = Std.int(bgSky.width * 6);
@@ -351,9 +361,11 @@ class Stage extends FlxTypedGroup<FlxBasic> {
 				bgGirls.scrollFactor.set(0.9, 0.9);
 				bgGirls.setGraphicSize(Std.int(bgGirls.width * 6));
 				bgGirls.updateHitbox();
+				bgGirls.antialiasing = false;
 				add(bgGirls);
 			case 'schoolEvil':
 				psInstance.defaultCamZoom = 1;
+
 				var bg:FlxSprite = new FlxSprite(400, 200);
 				bg.frames = Files.sparrowAtlas('weeb/animatedEvilSchool');
 				//bg.frames = FlxAtlasFrames.fromSparrow('assets/images/weeb/animatedEvilSchool.png', 'assets/images/weeb/animatedEvilSchool.xml');
@@ -361,6 +373,7 @@ class Stage extends FlxTypedGroup<FlxBasic> {
 				bg.animation.play('idle');
 				bg.scrollFactor.set(0.8, 0.9);
 				bg.scale.set(6, 6);
+				bg.antialiasing = false;
 				add(bg);
 			case 'tank':
 				psInstance.defaultCamZoom = 0.9;

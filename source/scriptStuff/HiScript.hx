@@ -13,8 +13,9 @@ using StringTools;
 //The reason it looks so similar to Yoshman's HScript class is because I used it as an example for hscript.
 //BUT YOSHMAN I SWEAR ON MY LIFE I DID NOT COPY PASTE YOUR HSCRIPT CLASS I SWEAR
 class HiScript {
+
     #if SCRIPTS_ENABLED
-    public static final allowedExtensions:Array<String> = ["hx", "hscript", "hxs"];
+    public static final allowedExtensions:Array<String> = ["hx", "hscript", "hxs", "script"];
     public static var parser:Parser;
     public static var staticVars:Map<String, Dynamic> = new Map();
     public var interp:Interp;
@@ -37,6 +38,9 @@ class HiScript {
         "Files" => handlers.Files,
         "Conductor" => handlers.Conductor,
         "PlayState" => states.mainstates.PlayState,
+
+        "FlxBackdrop" => flixel.addons.display.FlxBackdrop,
+        "FlxTrail" => flixel.addons.effects.FlxTrail,
 
         "Assets" => Assets
     ];
