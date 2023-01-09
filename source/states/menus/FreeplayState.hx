@@ -165,7 +165,7 @@ class FreeplayState extends MusicBeatState
 			PlayState.speed -= 1;
 
 		if (FlxG.keys.pressed.SHIFT && controls.RIGHT_P)
-			PlayState.speed += 1;
+			PlayState.speed += 1; //should technically be in modifiers but ok...
 
 		if (PlayState.speed < -7)
 			PlayState.speed = 100;

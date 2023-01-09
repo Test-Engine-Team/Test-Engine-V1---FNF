@@ -4,6 +4,12 @@ import handlers.MusicBeatSubstate;
 
 class PauseSubState extends MusicBeatSubstate
 {
+    var music:FlxSound;
+
+    var sicks:FlxSprite;
+    var goods:FlxSprite;
+    var bads:FlxSprite;
+    var shits:FlxSprites;
     //basically a results screeh
     //this is unfinished!!!
 

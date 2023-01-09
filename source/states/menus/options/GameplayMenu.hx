@@ -140,7 +140,7 @@ class GameplayMenu extends MusicBeatState{
         },
         {
             name: "BotPlay",
-            description: "Make the game play for you! Score will not be saved!",
+            description: "Make the game play for you! Score will not be saved! (NOT IMPLEMENTED YET!)",
             type: BOOL,
             min: 0,
             max: 1,
@@ -173,6 +173,22 @@ class GameplayMenu extends MusicBeatState{
             },
             valueFunc: function() {
                 return Std.string(ClientPrefs.uiAlpha);
+            }
+        },
+        {
+            name: "Shit System",
+            description: "if you get a \"Shit\" rating it will count as a miss",
+            type: BOOL,
+            min: 0,
+            max: 1,
+            //conflicts: null,
+            updateFunc: function(menuOption:MenuOption, elapsed:Float) {
+                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
+                    ClientPrefs.shitSystem = !ClientPrefs.shitSystem;
+                }
+            },
+            valueFunc: function() {
+                return (ClientPrefs.shitSystem) ? "Enabled" : "Disabled";
             }
         },
         {

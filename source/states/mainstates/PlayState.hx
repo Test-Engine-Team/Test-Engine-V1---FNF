@@ -374,7 +374,7 @@ class PlayState extends MusicBeatState {
 							});
 						});
 					});
-				case 'senpai', 'roses, thorns':
+				case 'senpai', 'roses', 'thorns':
 					schoolIntro(doof);
 					if (SONG.song.toLowerCase() == 'roses')
 						FlxG.sound.play(Files.sound('ANGRY'));
@@ -465,6 +465,8 @@ class PlayState extends MusicBeatState {
 	function startCountdown():Void {
 		generateStaticArrows(0);
 		generateStaticArrows(1);
+
+		inCutscene = false;
 
 		talking = false;
 		startedCountdown = true;
@@ -1277,6 +1279,7 @@ class PlayState extends MusicBeatState {
 		var rating:FlxSprite = new FlxSprite();
 		var score:Int = 350;
 		var noteSplash:Bool = true;
+		var ratingMiss:Bool = false;
 
 		var daRating:String = "sick";
 
@@ -1284,6 +1287,7 @@ class PlayState extends MusicBeatState {
 			daRating = 'shit';
 			score = 50;
 			noteSplash = false;
+			ratingMiss = true;
 		} else if (noteDiff > Conductor.safeZoneOffset * 0.75) {
 			daRating = 'bad';
 			score = 100;
@@ -1298,6 +1302,17 @@ class PlayState extends MusicBeatState {
 			var scoreIncrease:Float = score * ((combo + 1) * 0.05);
 			score += Math.floor(scoreIncrease);
 			songScore += score;
+		}
+
+		if (ratingMiss && ClientPrefs.shitSystem) {
+			var pressedIndex:Int = [
+				gameControls.LEFT_P,
+				gameControls.DOWN_P,
+				gameControls.UP_P,
+				gameControls.RIGHT_P
+			].indexOf(true);
+			if (pressedIndex != -1)
+				noteMiss(pressedIndex);
 		}
 
 		var pixelShitPart1:String = "";

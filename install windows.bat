@@ -1,3 +1,4 @@
+@echo off 
 echo Installing haxelib...
 haxelib install lime
 haxelib install openfl

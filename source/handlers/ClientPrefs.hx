@@ -23,6 +23,7 @@ class ClientPrefs {
 	public static var safeFrames:Int = 10;
 	public static var uiAlpha:Float = 1;
 	public static var botPlay:Bool = false;
+	public static var shitSystem:Bool = true;
 
 	//Optimization
 	public static var antialiasing:Bool = true;
