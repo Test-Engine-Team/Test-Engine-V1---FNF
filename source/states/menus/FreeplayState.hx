@@ -204,7 +204,7 @@ class FreeplayState extends MusicBeatState
 			var poop:String = Highscore.formatSong(songList[curSelected].path, curDifficulty);
 
 			PlayState.songPath = songList[curSelected].path;
-			PlayState.SONG = Song.loadFromJson(poop, songList[curSelected].path);
+			PlayState.SONG = Song.loadFromJson(DiffText, songList[curSelected].path);
 			PlayState.isStoryMode = false;
 			PlayState.storyDifficulty = curDifficulty;
 			FlxG.switchState(new PlayState());

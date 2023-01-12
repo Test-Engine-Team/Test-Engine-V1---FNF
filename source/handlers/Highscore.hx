@@ -47,7 +47,7 @@ class Highscore
 	public static function formatSong(song:String, diff:Int):String {
 		var daSong:String = song;
 		var daDiff:String = diffArray[diff];
-		daSong += (daDiff.toLowerCase() != "normal") ? "-" + daDiff.toLowerCase() : "";
+		daSong += daDiff.toLowerCase();
 
 		return daSong;
 	}

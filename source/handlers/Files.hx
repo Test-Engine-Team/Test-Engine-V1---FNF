@@ -18,15 +18,15 @@ class Files{
     }
 
     inline public static function sound(sound:String, folder:String = 'sounds'){
-        return file = 'assets/$folder/$sound.ogg';
+        return file = 'assets/audio/$folder/$sound.ogg';
     }
 
     inline public static function music(music:String, folder:String = 'music'){
-        return file = 'assets/$folder/$music.ogg';
+        return file = 'assets/audio/$folder/$music.ogg';
     }
 
     inline public static function song(song:String, folder:String = 'songs'){
-        return file = 'assets/$folder/$song.ogg';
+        return file = 'assets/audio/$folder/$song.ogg';
     }
 
     inline public static function font(font:String, extention:String = 'ttf') {
@@ -47,7 +47,7 @@ class Files{
             diff = '-' + difficulty.toLowerCase();
         else
             diff = "";
-        return file = 'assets/data/$song/$song$diff';
+        return file = 'assets/data/charts/$song/$diff';
     }
 
     inline public static function sparrowAtlas(path:String, folder:String = 'images') {

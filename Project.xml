@@ -47,9 +47,7 @@
 	<!-- <library name="noPreload"/> -->
 	<assets path="assets/data" />
 	<assets path="assets/images" />
-	<assets path="assets/music"/>
-	<assets path="assets/songs"/>
-	<assets path="assets/sounds"/>
+	<assets path="assets/audio"/>
 	<assets path="assets/stages" />
 	<assets path="assets/videos" />
 
