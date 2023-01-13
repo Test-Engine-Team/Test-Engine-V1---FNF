@@ -1,0 +1,40 @@
+name: Help me!
+description: If you need help using the engine.
+labels: [help wanted]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: "Describe your problem here."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: modding
+    attributes:
+      label: "Are you modding a build from source or with Haxe?"
+      options:
+        - Haxe
+        - Source
+    validations:
+      required: true
+
+  - type: dropdown
+    id: btarget
+    attributes:
+      label: "What is your build version?"
+      options:
+        - "Windows"
+        - "Linux"
+        - "Mac"
+        - "HTML5/Browser"
+    validations:
+      required: true
+
+  - type: input
+    id: buildsummary
+    attributes:
+      label: "Did you edit anything in this build? describe your changes. (OPTIONAL)"
+      placeholder: "Yes, I edited PlayState.hx and tried to add a custom script."
+    validations:
+      required: false
