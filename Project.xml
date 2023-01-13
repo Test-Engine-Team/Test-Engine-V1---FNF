@@ -48,7 +48,6 @@
 	<assets path="assets/data" />
 	<assets path="assets/images" />
 	<assets path="assets/audio"/>
-	<assets path="assets/stages" />
 	<assets path="assets/videos" />
 
 	<assets path="CHANGELOG.md" rename='changelog.txt'/>
