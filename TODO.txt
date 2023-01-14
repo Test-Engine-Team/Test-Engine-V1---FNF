@@ -1,9 +1,5 @@
 
 some stuff we need to do lol
 
-[HIGH PRIORATY] - Fix Linux DONE
 [HIGH PRIORATY] - Add Mods
-[MIDDLE PRIORATY] - Add A Good Client Prefs Not Psych Dumba- LOL done
-[LOW PRIORATY] - Add Scripts
-
-no lol
+[LOW PRIORATY] - Add Scripts (FINISHED SOMEWHAT)

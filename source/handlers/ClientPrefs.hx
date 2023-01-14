@@ -1,5 +1,6 @@
 package handlers;
 
+import flixel.FlxSprite;
 import flixel.FlxG;
 import flixel.util.FlxSave;
 import flixel.input.keyboard.FlxKey;
@@ -11,7 +12,7 @@ import Controls;
 
 class ClientPrefs {
 	//For load and save.
-	static var settingNames:Array<String> = ["spinnyspin", "fairFight", "poisonPlus", "maxPoisonHits", "freeplayCutscenes", "downscroll", "safeFrames", "ghostTapping", "showComboSprite", "antialiasing"];
+	static var settingNames:Array<String> = ["spinnyspin", "fairFight", "poisonPlus", "maxPoisonHits", "freeplayCutscenes", "downscroll", "safeFrames", "ghostTapping", "showComboSprite", "antialiasing", "uiAlpha"];
 
 	// Options
     public static var ghostTapping:Bool = true;
@@ -20,6 +21,9 @@ class ClientPrefs {
 	public static var downscroll:Bool = false;
 	public static var freeplayCutscenes:Bool = false;
 	public static var safeFrames:Int = 10;
+	public static var uiAlpha:Float = 1;
+	public static var botPlay:Bool = false;
+	public static var shitSystem:Bool = true;
 
 	//Optimization
 	public static var antialiasing:Bool = true;
@@ -37,6 +41,7 @@ class ClientPrefs {
 	public static var fairFight:Bool = false;
 	public static var poisonPlus:Bool = false;
 	public static var maxPoisonHits:Int = 3;
+	public static var fcMode:Bool = false;
 
 	//easter eggs
 	public static var tristanPlayer:Bool = false;
@@ -49,6 +54,7 @@ class ClientPrefs {
 			Reflect.setField(FlxG.save.data, setting, Reflect.getProperty(ClientPrefs, setting));
 		}
 		FlxG.save.data.framerate = framerate;
+		FlxSprite.defaultAntialiasing = antialiasing;
 
         FlxG.save.flush();
 
@@ -90,5 +96,7 @@ class ClientPrefs {
 				FlxG.updateFramerate = framerate;
 			}
 		}
+
+		FlxSprite.defaultAntialiasing = antialiasing;
     }
 }

@@ -21,6 +21,7 @@ class OptimizationMenu extends MusicBeatState {
             type: BOOL,
             min: 0,
             max: 1,
+            //conflicts: null,
             updateFunc: function(menuOption:MenuOption, elapsed:Float) {
                 if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
                     ClientPrefs.antialiasing = !ClientPrefs.antialiasing;

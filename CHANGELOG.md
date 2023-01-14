@@ -3,6 +3,18 @@ All notable changes will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## [0.2.8.0.0] Test Engine Beta Release 6 - 2023-01-13
+### Added
+ - April Fools ban system (reads computer name)
+ - Compiler
+ - Mod Support (Open Beta)
+ - More Docs!
+### Changed
+ - Updated Stage System
+ - Guns easter egg update :)
+### Removed
+ - Test in Freeplay (NOT FOR DEBUG)
+
 ## [0.2.7.9.1] Test Engine Beta Release 5 - 2022-12-10
 ### Added
  - Week 7 cutscenes
@@ -64,7 +76,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
  - Folder for the icons (Low priority)
  - Mod Support (Very low priority as of right now)
 
-
+BELOW IS FNF STUFF
 
 ## [0.2.7.1] - 2021-02-14
 ### Added

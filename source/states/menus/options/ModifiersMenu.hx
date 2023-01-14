@@ -21,6 +21,7 @@ class ModifiersMenu extends MusicBeatState {
             type: BOOL,
             min: 0,
             max: 1,
+            //conflicts: null,
             updateFunc: function(menuOption:MenuOption, elapsed:Float) {
                 if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
                     ClientPrefs.spinnyspin = !ClientPrefs.spinnyspin;
@@ -36,6 +37,7 @@ class ModifiersMenu extends MusicBeatState {
             type: BOOL,
             min: 0,
             max: 1,
+            //conflicts: null,
             updateFunc: function(menuOption:MenuOption, elapsed:Float) {
                 if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
                     ClientPrefs.fairFight = !ClientPrefs.fairFight;
@@ -51,10 +53,12 @@ class ModifiersMenu extends MusicBeatState {
             type: INT,
             min: 0,
             max: 20,
+            //conflicts: ['FC Mode'],
             updateFunc: function(menuOption:MenuOption, elapsed:Float) {
                 switch ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].indexOf(true)) {
                     case 0:
                         ClientPrefs.poisonPlus = !ClientPrefs.poisonPlus;
+                        ClientPrefs.fcMode = false;
                     case 1:
                         if (ClientPrefs.poisonPlus) ClientPrefs.maxPoisonHits -= 1;
                         if (ClientPrefs.maxPoisonHits < menuOption.min) ClientPrefs.maxPoisonHits = Std.int(menuOption.min);
@@ -65,6 +69,23 @@ class ModifiersMenu extends MusicBeatState {
             },
             valueFunc: function() {
                 return (ClientPrefs.poisonPlus) ? Std.string(ClientPrefs.maxPoisonHits) : "Disabled";
+            }
+        },
+        {
+            name: "FC Mode",
+            description: "Missed a Note? Fuck you your dead!",
+            type: BOOL,
+            min: 0,
+            max: 1,
+            //conflicts: ['Poison'],
+            updateFunc: function(menuOption:MenuOption, elapsed:Float) {
+                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
+                    ClientPrefs.fcMode = !ClientPrefs.fcMode;
+                    ClientPrefs.poisonPlus = false;
+                }
+            },
+            valueFunc: function() {
+                return (ClientPrefs.fcMode) ? "Enabled" : "Disabled";
             }
         }
     ];

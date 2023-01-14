@@ -45,7 +45,7 @@ class PauseSubState extends MusicBeatSubstate
 		bg.scrollFactor.set();
 		add(bg);
 
-		levelinfotext = new FlxText(20, 15, 0, '${PlayState.SONG.song}\n${PlayState.diff}');
+		levelinfotext = new FlxText(20, 15, 0, '${PlayState.SONG.song}\nSpeed:${PlayState.speed}\n${PlayState.diff}');
 		levelinfotext.setFormat("assets/fonts/vcr.ttf", 25, FlxColor.WHITE, null, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		levelinfotext.borderSize = 3;
 		add(levelinfotext);

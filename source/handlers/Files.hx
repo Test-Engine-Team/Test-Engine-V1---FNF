@@ -95,11 +95,11 @@ class Files{
     public static function readFolder(folder:String) {
         var files:Array<String> = [];
         var directoriesToRead:Array<String> = [];
-        if (FileSystem.exists('./assets/$folder') && FileSystem.isDirectory('./assets/$folder'))
-            directoriesToRead.push('./assets/$folder');
+        if (FileSystem.exists(FileSystem.absolutePath('assets/$folder')) && FileSystem.isDirectory(FileSystem.absolutePath('assets/$folder')))
+            directoriesToRead.push(FileSystem.absolutePath('assets/$folder'));
         @:privateAccess for (modDir in Polymod.prevParams.dirs) {
-            if (FileSystem.exists('./$modDir/$folder') && FileSystem.isDirectory('./$modDir/$folder'))
-                directoriesToRead.push('./$modDir/$folder');
+            if (FileSystem.exists(FileSystem.absolutePath('$modDir/$folder')) && FileSystem.isDirectory(FileSystem.absolutePath('$modDir/$folder')))
+                directoriesToRead.push(FileSystem.absolutePath('$modDir/$folder'));
         }
         for (daDirectory in directoriesToRead) {
             for (file in FileSystem.readDirectory(daDirectory))

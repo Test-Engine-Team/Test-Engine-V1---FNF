@@ -148,6 +148,8 @@ class FreeplayState extends MusicBeatState
 	{
 		super.update(elapsed);
 
+		FlxG.sound.music.time += elapsed * PlayState.speed * 100;
+
 		if (FlxG.sound.music.volume < 0.7)
 		{
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
@@ -158,7 +160,19 @@ class FreeplayState extends MusicBeatState
 		if (Math.abs(lerpScore - intendedScore) <= 10)
 			lerpScore = intendedScore;
 
-		scoreText.text = "PERSONAL BEST:" + lerpScore;
+		scoreText.text = "PERSONAL BEST:" + lerpScore + "\nSPEED:" + PlayState.speed;
+
+		if (FlxG.keys.pressed.SHIFT && controls.LEFT_P)
+			PlayState.speed -= 1;
+
+		if (FlxG.keys.pressed.SHIFT && controls.RIGHT_P)
+			PlayState.speed += 1; //should technically be in modifiers but ok...
+
+		if (PlayState.speed < -7)
+			PlayState.speed = 100;
+
+		if (PlayState.speed > 100)
+			PlayState.speed = -7;
 
 		var upP = controls.UP_P;
 		var downP = controls.DOWN_P;
@@ -169,9 +183,9 @@ class FreeplayState extends MusicBeatState
 		else if (downP)
 			changeSelection(1);
 
-		if (controls.LEFT_P)
+		if (controls.LEFT_P && !FlxG.keys.pressed.SHIFT)
 			changeDiff(-1);
-		else if (controls.RIGHT_P)
+		else if (controls.RIGHT_P && !FlxG.keys.pressed.SHIFT)
 			changeDiff(1);
 
 		if (controls.BACK)

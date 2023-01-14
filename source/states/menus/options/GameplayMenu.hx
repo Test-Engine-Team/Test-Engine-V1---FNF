@@ -14,6 +14,7 @@ import states.menus.options.Options;
 class GameplayMenu extends MusicBeatState{
     var maintextgroup:FlxTypedGroup<Alphabet>;
     var curSelected:Int = 0;
+    //var sure:Bool = false;
     var options:Array<MenuOption> = [
         {
             name: "Ghost Tapping",
@@ -21,6 +22,7 @@ class GameplayMenu extends MusicBeatState{
             type: BOOL,
             min: 0,
             max: 1,
+            //conflicts: null,
             updateFunc: function(menuOption:MenuOption, elapsed:Float) {
                 if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
                     ClientPrefs.ghostTapping = !ClientPrefs.ghostTapping;
@@ -36,6 +38,7 @@ class GameplayMenu extends MusicBeatState{
             type: BOOL,
             min: 0,
             max: 1,
+            //conflicts: null,
             updateFunc: function(menuOption:MenuOption, elapsed:Float) {
                 if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
                     ClientPrefs.downscroll = !ClientPrefs.downscroll;
@@ -51,6 +54,7 @@ class GameplayMenu extends MusicBeatState{
             type: INT,
             min: 60,
             max: 200,
+            //conflicts: null,
             updateFunc: function(menuOption:MenuOption, elapsed:Float) {
                 switch ([FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].indexOf(true)) {
                     case 0:
@@ -87,6 +91,7 @@ class GameplayMenu extends MusicBeatState{
             type: BOOL,
             min: 0,
             max: 1,
+            //conflicts: null,
             updateFunc: function(menuOption:MenuOption, elapsed:Float) {
                 if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
                     ClientPrefs.showComboSprite = !ClientPrefs.showComboSprite;
@@ -102,6 +107,7 @@ class GameplayMenu extends MusicBeatState{
             type: BOOL,
             min: 0,
             max: 1,
+            //conflicts: null,
             updateFunc: function(menuOption:MenuOption, elapsed:Float) {
                 if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
                     ClientPrefs.freeplayCutscenes = !ClientPrefs.freeplayCutscenes;
@@ -117,6 +123,7 @@ class GameplayMenu extends MusicBeatState{
             type: INT,
             min: 2,
             max: 20,
+            //conflicts: null,
             updateFunc: function(menuOption:MenuOption, elapsed:Float) {
                 if (FlxG.keys.justPressed.LEFT) {
                     ClientPrefs.safeFrames -= 1;
@@ -129,6 +136,85 @@ class GameplayMenu extends MusicBeatState{
             },
             valueFunc: function() {
                 return Std.string(ClientPrefs.safeFrames);
+            }
+        },
+        {
+            name: "BotPlay",
+            description: "Make the game play for you! Score will not be saved! (NOT IMPLEMENTED YET!)",
+            type: BOOL,
+            min: 0,
+            max: 1,
+            //conflicts: null,
+            updateFunc: function(menuOption:MenuOption, elapsed:Float) {
+                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
+                    ClientPrefs.botPlay = !ClientPrefs.botPlay;
+                }
+            },
+            valueFunc: function() {
+                return (ClientPrefs.botPlay) ? "Enabled" : "Disabled";
+            }
+        },
+        {
+            name: "UI Alpha",
+            description: "How visible the UI is",
+            type: PERCENT,
+            min: 0,
+            max: 1,
+            //conflicts: null,
+            updateFunc: function(menuOption:MenuOption, elapsed:Float) {
+                if (FlxG.keys.justPressed.LEFT) {
+                    ClientPrefs.uiAlpha -= 0.1;
+                    if (ClientPrefs.uiAlpha < menuOption.min) ClientPrefs.uiAlpha = Std.int(menuOption.min);
+                }
+                else if (FlxG.keys.justPressed.RIGHT) {
+                    ClientPrefs.uiAlpha += 0.1;
+                    if (ClientPrefs.uiAlpha > menuOption.max) ClientPrefs.uiAlpha = Std.int(menuOption.max);
+                }
+            },
+            valueFunc: function() {
+                return Std.string(ClientPrefs.uiAlpha);
+            }
+        },
+        {
+            name: "Shit System",
+            description: "if you get a \"Shit\" rating it will count as a miss",
+            type: BOOL,
+            min: 0,
+            max: 1,
+            //conflicts: null,
+            updateFunc: function(menuOption:MenuOption, elapsed:Float) {
+                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
+                    ClientPrefs.shitSystem = !ClientPrefs.shitSystem;
+                }
+            },
+            valueFunc: function() {
+                return (ClientPrefs.shitSystem) ? "Enabled" : "Disabled";
+            }
+        },
+        {
+            name: "Reset Cache",
+            description: "Resets the Cache.",
+            type: BUTTON,
+            min: 0,
+            max: 0,
+            //conflicts: null,
+            updateFunc: function(menuOption:MenuOption, elapsed:Float) {
+                if ([FlxG.keys.justPressed.ENTER].contains(true)) {
+                   // if (sure == true) {
+                        FlxG.save.erase();
+                        FlxG.switchState(new states.menus.LoadingState());
+                    //}
+                    //else
+                    //{
+                        //sure = true;
+                    //}
+                }
+            },
+            valueFunc: function() {
+                //if (!sure)
+                    return "Reset Progress?";
+                //else
+                    //return "Are You Sure?";
             }
         }
     ];

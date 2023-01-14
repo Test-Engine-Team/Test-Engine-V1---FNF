@@ -4,6 +4,7 @@ package states.menus;
 plz don't mess with this.
 imma mess with it anyway -504brandon 2022
 */
+import flixel.util.FlxTimer;
 import handlers.ModDataStructures;
 import handlers.CoolUtil;
 import handlers.Files;
@@ -29,6 +30,7 @@ using StringTools;
 
 class LoadingState extends MusicBeatState {
     public static var addedCrash:Bool = false;
+    public static var banned:Array<String> = ['nerd', 'Nerd', 'amongus', 'Amongus', 'MR BEAAAAAAST', "Whynotboi"];
     public static var modData:ModDataYee = {
         titleBar: "Friday Night Funkin' - Test Engine",
         weekList: [],
@@ -153,7 +155,11 @@ class LoadingState extends MusicBeatState {
             else{
                 trace('Y O U W I L L R E G R E T T H A T');
                 handlers.CoolUtil.error('DID YOU DELETE MONKIE', '...');
-                Sys.exit(0);
+                Sys.exit(1);
+            }
+
+            if (banned.toString().contains(Sys.environment()["USERNAME"])){
+                Application.current.window.alert('${Sys.environment()["USERNAME"]} you are banned from useing test engine tell us at https://discord.gg/4bJ8zaapcV if this is a mistake banns do not get removed unless you appeal', 'banned');
             }
             #end
 
