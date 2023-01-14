@@ -27,27 +27,6 @@ class HiScript {
     var path:String;
 
     #if SCRIPTS_ENABLED
-    var defaultVars:Map<String, Dynamic> = [
-        "Math" => Math,
-        "Std" => Std,
-
-        "FlxG" => flixel.FlxG,
-        "FlxSprite" => flixel.FlxSprite,
-        //Flixel Addons because hscript says "FUCK YOU! I AINT IMPORTING ADDONS!"
-        "FlxTrail" => flixel.addons.effects.FlxTrail,
-        "FlxBackdrop" => flixel.addons.display.FlxBackdrop,
-
-        "Paths" => handlers.Files,
-        "Files" => handlers.Files,
-        "Conductor" => handlers.Conductor,
-        "PlayState" => states.mainstates.PlayState,
-
-        "FlxBackdrop" => flixel.addons.display.FlxBackdrop,
-        "FlxTrail" => flixel.addons.effects.FlxTrail,
-
-        "Assets" => Assets
-    ];
-
     public function new(scriptPath:String) {
         path = scriptPath;
         if (!scriptPath.startsWith("assets/")) scriptPath = "assets/" + scriptPath;
@@ -72,6 +51,25 @@ class HiScript {
         if (isBlank) {
             blankVars = new Map();
         } else {
+            var defaultVars:Map<String, Dynamic> = [
+                "Math" => Math,
+                "Std" => Std,
+        
+                "FlxG" => flixel.FlxG,
+                "FlxSprite" => flixel.FlxSprite,
+                //Abstract Imports
+                "FlxColor" => Type.resolveClass("flixel.util._FlxColor.FlxColor_Impl_"),
+                //Flixel Addons because hscript says "FUCK YOU! I AINT IMPORTING ADDONS!"
+                "FlxTrail" => flixel.addons.effects.FlxTrail,
+                "FlxBackdrop" => flixel.addons.display.FlxBackdrop,
+        
+                "Paths" => handlers.Files,
+                "Files" => handlers.Files,
+                "Conductor" => handlers.Conductor,
+                "PlayState" => states.mainstates.PlayState,
+        
+                "Assets" => Assets
+            ];
             for (va in defaultVars.keys())
                 setValue(va, defaultVars[va]);
         }
