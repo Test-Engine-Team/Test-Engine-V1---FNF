@@ -520,7 +520,7 @@ class PlayState extends MusicBeatState {
 		generateStaticArrows(0);
 		generateStaticArrows(1);
 
-		inCutscene = false;
+		//inCutscene = false;
 
 		talking = false;
 		startedCountdown = true;
@@ -895,7 +895,7 @@ class PlayState extends MusicBeatState {
 		if (!inTransition)
 			scripts_call("update", [elapsed], false); 
 		#end
-		
+
 		if (speed != 1) {
 			Conductor.songPosition += elapsed * speed * 100;
 			FlxG.sound.music.time += elapsed * speed * 100;
