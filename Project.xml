@@ -75,15 +75,15 @@
 
 	<!--In case you want to use the addons package-->
 	<haxelib name="flixel-addons" />
-	<!--Yoshi Crafter Hscript better-->
-	<haxelib name="hscript-improved" if="SCRIPTS_ENABLED"/>
-	<haxedef name="hscriptPos" if="SCRIPTS_ENABLED"/>
 
 	<!--In case you want to use the ui package-->
 	<haxelib name="flixel-ui" />
 	<haxelib name="faxe" if='switch'/>
 	<haxelib name="discord_rpc" if="desktop"/>
-	<haxelib name="test-eg-polymod" if="MODS_ENABLED"/>
+	<haxelib name="polymod" if="MODS_ENABLED"/>
+	<!--Yoshi Crafter Hscript better-->
+	<haxedef name="hscriptPos" if="SCRIPTS_ENABLED"/>
+	<haxelib name="hscript-improved" if="SCRIPTS_ENABLED"/>
 
 	<!-- <haxelib name="markdown" /> -->
 	<!-- <haxelib name="HtmlParser" /> -->
