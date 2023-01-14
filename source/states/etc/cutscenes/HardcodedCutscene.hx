@@ -33,6 +33,7 @@ class HardcodedCutscene extends handlers.MusicBeatSubstate {
 				senpaiEvil.screenCenter();
                 add(senpaiEvil);
                 senpaiEvil.alpha = 0;
+				senpaiEvil.antialiasing = false;
 
 				new FlxTimer().start(2.1, function(tmr:FlxTimer)
 				{
@@ -47,10 +48,15 @@ class HardcodedCutscene extends handlers.MusicBeatSubstate {
 							{
 								remove(senpaiEvil);
 								remove(red);
-								/*FlxG.camera.fade(FlxColor.WHITE, 0.01, true, function()
+								FlxG.camera.fade(0xFFFFFFFF, 0.01, true, function()
 								{
-									add(dialogueBox);
-								}, true);*/
+									var cutscene = new states.etc.cutscenes.DialogueCutscene('assets/data/thorns/thornsDialogue.txt');
+									cutscene.finishCutscene = function(twn:FlxTween) {
+										cutscene.close();
+										finishCutscene();
+									}
+									openSubState(cutscene);
+								}, true);
 							});
 							new FlxTimer().start(3.2, function(deadTime:FlxTimer)
 							{

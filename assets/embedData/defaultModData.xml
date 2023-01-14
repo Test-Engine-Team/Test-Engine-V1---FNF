@@ -55,6 +55,15 @@
 		<anim name="loud" prefix="SENPAI ANGRY IMPACT SPEECH instance 1" fps="12"  indices="7"/>
 		<textFormat fieldWidth="768" font="pixel.otf" size="32" color="3F2021" border="false" borderColor="3F2021" shadow="true" shadowColor="D89494"/>
 	</dialogueFormat>
+	<dialogueFormat name="week6-scary" y="45" textx="240" texty="500">
+		<boxSprite spritePath="weeb/pixelUI/dialogueBox-evil" scale="5.4" antialiasing="false"/>
+		<anim name="open" prefix="Spirit Textbox spawn instance 1" fps="12"/>
+		<anim name="normal" prefix="Spirit Textbox spawn instance 1" fps="12" indices="11"/>
+		<anim name="loud" prefix="Spirit Textbox spawn instance 1" fps="12"  indices="11"/>
+		<textFormat fieldWidth="768" font="pixel.otf" size="32" color="FFFFFF" border="false" borderColor="000000" shadow="false" shadowColor="000000"/>
+	</dialogueFormat>
+
 	<dialoguePortait name="senpai" image="weeb/senpaiPortrait" flipX="false" antialiasing="false" scale="5.4" xOffset="-30" yOffset="-73"/>
+	<dialoguePortait name="spirit" image="weeb/spiritFaceForward" flipX="false" antialiasing="false" scale="5.4" xOffset="-30" yOffset="-93"/>
 	<dialoguePortait name="bf-pixel" image="weeb/bfPortrait" flipX="true" antialiasing="false" scale="5.4" xOffset="-80" yOffset="-73"/>
 </mod>

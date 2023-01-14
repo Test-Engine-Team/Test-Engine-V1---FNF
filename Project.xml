@@ -73,7 +73,7 @@
 	<haxelib name="flixel-leather" />
 
 	<haxelib name="discord_rpc" if="desktop"/>
-	<haxelib name="polymod" if="MODS_ENABLED"/>
+	<haxelib name="test-eg-polymod" if="MODS_ENABLED"/>
 	<!--Yoshi Crafter Hscript better-->
 	<haxedef name="hscriptPos" if="SCRIPTS_ENABLED"/>
 	<haxelib name="hscript-improved" if="SCRIPTS_ENABLED"/>

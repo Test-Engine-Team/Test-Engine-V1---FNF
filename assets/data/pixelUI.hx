@@ -47,7 +47,7 @@ function updatePost() {
 		playerStrums.members[i].offset.set(regOffX - (regOffX % 6), regOffY - (regOffY % 6));
 
 	for (icon in [iconP1, iconP2]) {
-		icon.setGraphicSize(162 - (12 * (curBeat % 2)));
+		icon.setGraphicSize(162 - (12 * Math.abs(curBeat % 2)));
 		icon.updateHitbox();
 		icon.x -= icon.x % 6;
 		icon.offset.x -= icon.offset.x % 6;

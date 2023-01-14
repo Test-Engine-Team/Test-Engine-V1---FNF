@@ -22,13 +22,11 @@ class DialogueCutscene extends MusicBeatSubstate {
     var lastTalkVars:Array<String> = ["this isnt set yet", "this is just here to prevent NULL OBJE-"];
     var portait:FlxSprite;
     var commandArray:Array<String>;
-    var shadowShader:DropShadowShader;
     var script:HiScript;
 
     public function new(filePath:String) {
         super();
 
-        shadowShader = new DropShadowShader();
         cutsceneBG = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, 0xA8FFFFFF);
         cutsceneBG.alpha = 0;
         add(cutsceneBG);
@@ -77,8 +75,11 @@ class DialogueCutscene extends MusicBeatSubstate {
         text.fieldWidth = format.textWidth;
         var borderStyle = (format.borderEnabled) ? flixel.text.FlxText.FlxTextBorderStyle.OUTLINE : flixel.text.FlxText.FlxTextBorderStyle.NONE; 
         text.setFormat(Files.font(Path.withoutExtension(format.font), Path.extension(format.font)), format.textSize, format.textColor, "left", borderStyle, format.borderColor);
-        text.shader = shadowShader;
-        shadowShader.daShadowColor.value = [format.shadowColor.redFloat, format.shadowColor.greenFloat, format.shadowColor.blueFloat, format.shadowColor.alphaFloat];
+        if (format.dropShadow) {
+            var shadowShader:DropShadowShader = new DropShadowShader();
+            text.shader = shadowShader;
+            shadowShader.daShadowColor.value = [format.shadowColor.redFloat, format.shadowColor.greenFloat, format.shadowColor.blueFloat, format.shadowColor.alphaFloat];
+        }
 
         dialogueBox.animation.play('open');
         var ogCallback = dialogueBox.animation.finishCallback;
