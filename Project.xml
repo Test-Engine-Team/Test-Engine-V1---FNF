@@ -76,7 +76,7 @@
 	<!--Yoshi Crafter Hscript better-->
 	<haxedef name="hscriptPos" if="SCRIPTS_ENABLED"/>
 	<haxelib name="hscript-improved" if="SCRIPTS_ENABLED"/>
-	<!--This is a copy-pasted repo. Ment to remove polymod hscript since it doesn't work with yoshi hscript-->
+	<!--This is a copy-pasted repo ment to remove polymod hscript since it doesn't work with yoshi hscript-->
 	<haxelib name="test-eg-polymod" if="MODS_ENABLED"/>
 
 	<!-- ______________________________ Haxedefines _____________________________ -->
