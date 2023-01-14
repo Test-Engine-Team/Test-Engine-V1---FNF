@@ -1,0 +1,6 @@
+setTypeSound:pixelText:0.6
+playMusic:Lunchbox:1
+setFormat:week6
+talk:normal:left:senpai:Ah, a new fair maiden has come in search of true love!
+talk:normal:left:senpai:A serenade between gentlemen shall decide where her beautiful heart shall reside.
+talk:normal:right:bf-pixel:Beep bo bop

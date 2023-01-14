@@ -32,6 +32,9 @@ class HiScript {
 
         "FlxG" => flixel.FlxG,
         "FlxSprite" => flixel.FlxSprite,
+        //Flixel Addons because hscript says "FUCK YOU! I AINT IMPORTING ADDONS!"
+        "FlxTrail" => flixel.addons.effects.FlxTrail,
+        "FlxBackdrop" => flixel.addons.display.FlxBackdrop,
 
         "Paths" => handlers.Files,
         "Files" => handlers.Files,

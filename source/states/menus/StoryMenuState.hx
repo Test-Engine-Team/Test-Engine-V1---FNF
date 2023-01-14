@@ -19,6 +19,7 @@ import handlers.Highscore;
 import handlers.MenuItem;
 import handlers.MusicBeatState;
 import states.menus.LoadingState;
+import handlers.ModDataStructures;
 
 using StringTools;
 

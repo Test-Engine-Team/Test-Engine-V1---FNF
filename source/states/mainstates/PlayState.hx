@@ -1,5 +1,6 @@
 package states.mainstates;
 
+import states.etc.cutscenes.ScriptCutscene;
 import haxe.io.Path;
 import openfl.Assets;
 
@@ -36,14 +37,12 @@ import scriptStuff.HiScript;
 
 import ui.Note;
 import ui.HealthIcon;
-import ui.DialogueBox;
 
 import handlers.MusicBeatState;
 import handlers.ClientPrefs;
 import handlers.Highscore;
 import handlers.Conductor;
 import handlers.Character;
-import handlers.CoolUtil;
 import handlers.Files;
 import handlers.Stage;
 #if desktop
@@ -126,7 +125,7 @@ class PlayState extends MusicBeatState
 	// how big to stretch the pixel art assets
 	public static var daPixelZoom:Float = 6;
 
-	var inCutscene:Bool = false;
+	var inTransition:Bool = true;
 
 	@:unreflective private var gameControls:Controls;
 
@@ -164,7 +163,7 @@ class PlayState extends MusicBeatState
 		#if SCRIPTS_ENABLED
 		//Song Scripts
 		for (file in Files.readFolder('data/$songPath')) {
-			if (HiScript.allowedExtensions.contains(Path.extension(file)))
+			if (HiScript.allowedExtensions.contains(Path.extension(file)) && Path.withoutExtension(file) != "DIALOGUE_ADVANCED" && Path.withoutExtension(file) != "cutscene")
 				scripts.push(new HiScript('assets/data/$songPath/' + Path.withoutExtension(file)));
 		}
 		//Global Scripts
@@ -177,14 +176,14 @@ class PlayState extends MusicBeatState
 		Conductor.mapBPMChanges(SONG);
 		Conductor.changeBPM(SONG.bpm);
 
-		switch (SONG.song.toLowerCase()) {
+		/*switch (SONG.song.toLowerCase()) {
 			case 'senpai':
 				dialogue = CoolUtil.coolTextFile('assets/data/senpai/senpaiDialogue.txt');
 			case 'roses':
 				dialogue = CoolUtil.coolTextFile('assets/data/roses/rosesDialogue.txt');
 			case 'thorns':
 				dialogue = CoolUtil.coolTextFile('assets/data/thorns/thornsDialogue.txt');
-		}
+		}*/
 
 		var gfVersion:String = 'gf';
 
@@ -267,11 +266,11 @@ class PlayState extends MusicBeatState
 		scripts_call("create", [], false);
 		#end
 
-		var doof:DialogueBox = new DialogueBox(false, dialogue);
+		/*var doof:DialogueBox = new DialogueBox(false, dialogue);
 		// doof.x += 70;
 		// doof.y = FlxG.height * 0.5;
 		doof.scrollFactor.set();
-		doof.finishThing = startCountdown;
+		doof.finishThing = startCountdown;*/
 
 		Conductor.songPosition = -5000;
 
@@ -292,7 +291,9 @@ class PlayState extends MusicBeatState
 
 		camFollow = new FlxObject(0, 0, 1, 1);
 
-		camFollow.setPosition(camPos.x, camPos.y);
+		var dadMidPoint = dad.getMidpoint();
+		camFollow.x = dadMidPoint.x + 150 + dad.charData.offsets[2] + stage.offsets.dadCamX;
+		camFollow.y = dadMidPoint.y - 100 + dad.charData.offsets[3] + stage.offsets.dadCamY;
 
 		if (prevCamFollow != null)
 		{
@@ -347,11 +348,11 @@ class PlayState extends MusicBeatState
 		iconP1.cameras = [camHUD];
 		iconP2.cameras = [camHUD];
 		infoText.cameras = [camHUD];
-		doof.cameras = [camHUD];
+		//doof.cameras = [camHUD];
 
 		startingSong = true;
 
-		if (isStoryMode || ClientPrefs.freeplayCutscenes)
+		/*if (isStoryMode || ClientPrefs.freeplayCutscenes)
 		{
 			switch (SONG.song.toLowerCase())
 			{
@@ -398,13 +399,62 @@ class PlayState extends MusicBeatState
 				default:
 					startCountdown();
 			}
-		}
+		}*/
 
 		super.create();
 		#if SCRIPTS_ENABLED scripts_call("createPost"); scripts_call("postCreate"); #end
 	}
 
-	function schoolIntro(?dialogueBox:DialogueBox):Void
+	override function finishTransIn() {
+		var canCutscene:Bool = (isStoryMode || ClientPrefs.freeplayCutscenes);
+		inTransition = false;
+		var boolArray:Array<Bool> = [
+			(Files.fileExists('data/$songPath', 'cutscene', 'txt') && canCutscene), 
+			(Files.fileExists('data/$songPath', 'HARDCODED_CUTSCENE', 'txt') && canCutscene), 
+			(Files.fileExists('data/$songPath', 'cutscene', 'mp4') && canCutscene),
+		];
+		#if SCRIPTS_ENABLED
+		for (ext in HiScript.allowedExtensions)
+			boolArray.push((Files.fileExists('data/$songPath', 'cutscene', ext) && canCutscene));
+		#end
+		switch (boolArray.indexOf(true)) {
+			#if (SCRIPTS_ENABLED) case -1: #else default: #end
+				startCountdown();
+			case 0:
+				persistentUpdate = false;
+				persistentDraw = true;
+
+				var cutscene = new states.etc.cutscenes.DialogueCutscene('assets/data/$songPath/cutscene.txt');
+				cutscene.finishCutscene = function(twn:FlxTween) {
+					cutscene.close();
+					startCountdown();
+				}
+				openSubState(cutscene);
+			case 1:
+				persistentUpdate = false;
+				persistentDraw = true;
+
+				var cutscene = new states.etc.cutscenes.HardcodedCutscene('assets/data/$songPath/HARDCODED_CUTSCENE.txt');
+				cutscene.finishCutscene = function() {
+					cutscene.close();
+					startCountdown();
+				}
+				openSubState(cutscene);
+			case 2:
+				startCountdown(); // Not implemented yet because brandon removed hxCodec
+			#if SCRIPTS_ENABLED
+			default:
+				persistentUpdate = false;
+				persistentDraw = true;
+
+				var finishCallback = startCountdown;
+				var cutscene = new states.etc.cutscenes.ScriptCutscene('assets/data/$songPath/cutscene', finishCallback, this);
+				openSubState(cutscene);
+			#end
+		}
+	}
+
+	/*function schoolIntro(?dialogueBox:DialogueBox):Void
 	{
 		var black:FlxSprite = new FlxSprite(-100, -100).makeGraphic(FlxG.width * 2, FlxG.height * 2, FlxColor.BLACK);
 		black.scrollFactor.set();
@@ -444,7 +494,7 @@ class PlayState extends MusicBeatState
 			{
 				if (dialogueBox != null)
 				{
-					inCutscene = true;
+					//inCutscene = true;
 
 					if (SONG.song.toLowerCase() == 'thorns')
 					{
@@ -487,7 +537,7 @@ class PlayState extends MusicBeatState
 				remove(black);
 			}
 		});
-	}
+	}*/
 
 	var startTimer:FlxTimer;
 	var perfectMode:Bool = false;
@@ -886,7 +936,10 @@ class PlayState extends MusicBeatState
 		}
 
 		super.update(elapsed);
-		#if SCRIPTS_ENABLED scripts_call("update", [elapsed], false); #end
+		#if SCRIPTS_ENABLED
+		if (!inTransition)
+			scripts_call("update", [elapsed], false); 
+		#end
 
 		if (ClientPrefs.spinnyspin)
 			FlxG.camera.angle += elapsed * 50;
@@ -1008,11 +1061,13 @@ class PlayState extends MusicBeatState
 		{
 			var opOffsetX:Float = (dad.regX == gf.regX && dad.regY == gf.regY) ? stage.offsets.gfCamX : stage.offsets.dadCamX;
 			var opOffsetY:Float = (dad.regX == gf.regX && dad.regY == gf.regY) ? stage.offsets.gfCamY : stage.offsets.dadCamY;
-			
-			if (camFollow.x != dad.getMidpoint().x + 150 + dad.charData.offsets[2] + opOffsetX && !PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection)
+			var bfMidpoint = boyfriend.getMidpoint();
+			var dadMidpoint = dad.getMidpoint();
+
+			if (camFollow.x != dadMidpoint.x + 150 + dad.charData.offsets[2] + opOffsetX && !PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection)
 			{
-				camFollow.x = dad.getMidpoint().x + 150 + dad.charData.offsets[2] + opOffsetX;
-				camFollow.y = dad.getMidpoint().y - 100 + dad.charData.offsets[3] + opOffsetY;
+				camFollow.x = dadMidpoint.x + 150 + dad.charData.offsets[2] + opOffsetX;
+				camFollow.y = dadMidpoint.y - 100 + dad.charData.offsets[3] + opOffsetY;
 
 				if (dad.curCharacter == 'mom')
 					vocals.volume = 1;
@@ -1023,10 +1078,10 @@ class PlayState extends MusicBeatState
 				}
 			}
 
-			if (PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection && camFollow.x != boyfriend.getMidpoint().x - 100 - boyfriend.charData.offsets[2] + stage.offsets.bfCamX)
+			if (PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection && camFollow.x != bfMidpoint.x - 100 - boyfriend.charData.offsets[2] + stage.offsets.bfCamX)
 			{
-				camFollow.x = boyfriend.getMidpoint().x - 100 - boyfriend.charData.offsets[2] + stage.offsets.bfCamX;
-				camFollow.y = boyfriend.getMidpoint().y - 100 + boyfriend.charData.offsets[3] + stage.offsets.bfCamY;
+				camFollow.x = bfMidpoint.x - 100 - boyfriend.charData.offsets[2] + stage.offsets.bfCamX;
+				camFollow.y = bfMidpoint.y - 100 + boyfriend.charData.offsets[3] + stage.offsets.bfCamY;
 
 				if (SONG.song.toLowerCase() == 'tutorial')
 				{
@@ -1252,7 +1307,7 @@ class PlayState extends MusicBeatState
 			});
 		}
 
-		if (!inCutscene)
+		if (!inTransition)
 			keyShit();
 
 		if (FlxG.keys.justPressed.ONE)
@@ -1260,7 +1315,10 @@ class PlayState extends MusicBeatState
 		if (FlxG.keys.justPressed.TWO)
 			perfectMode = true;
 
-		#if SCRIPTS_ENABLED scripts_call("updatePost", [elapsed], false); #end
+		#if SCRIPTS_ENABLED
+		if (!inTransition)
+			scripts_call("updatePost", [elapsed], false);
+		#end
 	}
 
 	public function endSong():Void

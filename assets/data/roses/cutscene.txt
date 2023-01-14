@@ -1,0 +1,6 @@
+setTypeSound:pixelText:0.6
+playSound:ANGRY_TEXT_BOX:1
+setFormat:week6-angry
+talk:normal:none:Not bad for an ugly worm.
+talk:normal:none:But this time I'll rip your nuts off right after your girlfriend finishes gargling mine.
+talk:normal:right:bf-pixel:Bop beep be be skdoo bep

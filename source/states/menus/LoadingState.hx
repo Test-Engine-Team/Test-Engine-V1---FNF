@@ -4,8 +4,8 @@ package states.menus;
 plz don't mess with this.
 imma mess with it anyway -504brandon 2022
 */
+import handlers.ModDataStructures;
 import handlers.CoolUtil;
-import lime.graphics.Image;
 import handlers.Files;
 import flixel.text.FlxText;
 import flixel.FlxSprite;
@@ -27,58 +27,6 @@ import scriptStuff.HiScript;
 
 using StringTools;
 
-typedef ModDataYee = {
-    var titleBar:String;
-    var weekList:Array<ModWeekYee>;
-    var charList:Array<GameCharData>;
-    var charNames:Array<String>;
-    var selectColor:FlxColor;
-}
-
-typedef MenuCharData = {
-    var spritePath:String;
-    var idleAnim:String;
-    var confirmAnim:Null<String>;
-    var scale:Float;
-    var xOffset:Float;
-    var yOffset:Float;
-    var flipX:Bool;
-}
-
-typedef GameCharData = {
-    var spriteImage:String;
-    var iconImage:String;
-    var anims:Array<GameCharAnim>;
-    var offsets:Array<Float>;
-    var scale:Float;
-    var scaleAffectsOffset:Bool;
-    var flipX:Bool;
-    var antialiasing:Bool;
-    var singDur:Float;
-    var regCharType:String;
-    var hpColor:Null<FlxColor>;
-}
-
-//It's worrying how close this is to psych.
-typedef GameCharAnim = {
-    var name:String;
-    var prefix:String;
-    var looped:Bool;
-    var fps:Int;
-    var offsets:Array<Float>;
-    var indices:Array<Int>;
-}
-
-typedef ModWeekYee = {
-    var name:String;
-    var spriteImage:String;
-    var songs:Array<String>;
-    var paths:Array<String>;
-    var icons:Array<String>;
-    var diffs:Array<String>;
-    var chars:Array<MenuCharData>;
-}
-
 class LoadingState extends MusicBeatState {
     public static var addedCrash:Bool = false;
     public static var modData:ModDataYee = {
@@ -86,6 +34,10 @@ class LoadingState extends MusicBeatState {
         weekList: [],
         charList: [],
         charNames: [],
+        diaFormatList: [],
+        diaFormatNames: [],
+        diaPortaitList: [],
+        diaPortaitNames: [],
         selectColor: 0xFF00B386
     }; //It gets set in create so no need to fill this.
     #if MODS_ENABLED
@@ -97,6 +49,10 @@ class LoadingState extends MusicBeatState {
         weekList: [],
         charList: [],
         charNames: [],
+        diaFormatList: [],
+        diaFormatNames: [],
+        diaPortaitList: [],
+        diaPortaitNames: [],
         selectColor: 0xFF00B386
     };
 
@@ -140,6 +96,10 @@ class LoadingState extends MusicBeatState {
                 weekList: [],
                 charList: [],
                 charNames: [],
+                diaFormatList: [],
+                diaFormatNames: [],
+                diaPortaitList: [],
+                diaPortaitNames: [],
                 selectColor: 0xFF00B386
             };
 
@@ -163,6 +123,22 @@ class LoadingState extends MusicBeatState {
                 for (charName in daCharList.keys()) {
                     daModData.charNames.push(charName);
                     daModData.charList.push(daCharList[charName]);
+                }
+            }
+
+            var xmlDiaFormats = defaultXml.elementsNamed("dialogueFormat");
+            if (xmlDiaFormats != null && xmlDiaFormats.hasNext()) {
+                for (format in xmlDiaFormats) {
+                    daModData.diaFormatList.push(parseDiaFormat(format));
+                    daModData.diaFormatNames.push(format.get("name"));
+                }
+            }
+
+            var xmlDiaPortaits = defaultXml.elementsNamed("dialoguePortait");
+            if (xmlDiaPortaits != null && xmlDiaPortaits.hasNext()) {
+                for (portait in xmlDiaPortaits) {
+                    daModData.diaPortaitList.push(parseDiaPortait(portait));
+                    daModData.diaPortaitNames.push(portait.get("name"));
                 }
             }
 
@@ -246,6 +222,34 @@ class LoadingState extends MusicBeatState {
                     }
                 }
             }
+
+            var xmlDiaFormats = xml.elementsNamed("dialogueFormat");
+            if (xmlDiaFormats != null && xmlDiaFormats.hasNext()) {
+                for (format in xmlDiaFormats) {
+                    var daFormat = parseDiaFormat(format);
+                    var name = format.get("name");
+                    if (modData.diaFormatNames.contains(name)) {
+                        modData.diaFormatList[modData.diaFormatNames.indexOf(name)] = daFormat;
+                        continue;
+                    }
+                    modData.diaFormatList.push(daFormat);
+                    modData.diaFormatNames.push(name);
+                }
+            }
+
+            var xmlDiaPortaits = xml.elementsNamed("dialoguePortait");
+            if (xmlDiaPortaits != null && xmlDiaPortaits.hasNext()) {
+                for (portait in xmlDiaPortaits) {
+                    var daPortait = parseDiaPortait(portait);
+                    var name = portait.get("name");
+                    if (modData.diaPortaitNames.contains(name)) {
+                        modData.diaPortaitList[modData.diaPortaitNames.indexOf(name)] = daPortait;
+                        continue;
+                    }
+                    modData.diaPortaitList.push(daPortait);
+                    modData.diaPortaitNames.push(name);
+                }
+            }
         }
         #end
         #if desktop
@@ -275,6 +279,77 @@ class LoadingState extends MusicBeatState {
             FlxG.switchState(new TitleState());
             #end
         });
+    }
+
+    function parseDiaFormat(xmlFormat:Xml) {
+        var format:DialogueFormat = {
+            y: 45,
+            textX: 240,
+            textY: 500,
+            boxSpritePath: "speech_bubble_talking",
+            boxScale: 1,
+            boxAntialiasing: true,
+            anims: [],
+            font: "vcr.ttf",
+            textWidth: 768,
+            textSize: 32,
+            textColor: 0xFF000000,
+            borderEnabled: false,
+            borderColor: 0xFFFFFFFF,
+            dropShadow: true,
+            shadowColor: 0xFF808080
+        };
+
+        if (xmlFormat.get("y") != null) format.y = Std.parseFloat(xmlFormat.get("y"));
+        if (xmlFormat.get("textx") != null) format.textX = Std.parseFloat(xmlFormat.get("textx"));
+        if (xmlFormat.get("texty") != null) format.textY = Std.parseFloat(xmlFormat.get("texty"));
+     
+        var elements = xmlFormat.elements();
+        if (elements != null && elements.hasNext()) {
+            for (element in elements) {
+                switch (element.nodeName) {
+                    case "boxSprite":
+                        if (element.get("spritePath") != null) format.boxSpritePath = element.get("spritePath");
+                        if (element.get("scale") != null) format.boxScale = Std.parseFloat(element.get("scale"));
+                        if (element.get("antialiasing") != null) format.boxAntialiasing = element.get("antialiasing") == "true";
+                    case "anim":
+                        format.anims.push(addCharAnim(element));
+                    case "textFormat":
+                        if (element.get("font") != null) format.font = element.get("font");
+                        if (element.get("size") != null) format.textSize = Std.parseInt(element.get("size"));
+                        if (element.get("fieldWidth") != null) format.textWidth = Std.parseInt(element.get("fieldWidth"));
+                        if (element.get("color") != null) format.textColor = CoolUtil.stringColor(element.get("color"));
+
+                        if (element.get("border") != null) format.borderEnabled = element.get("border") == "true";
+                        if (element.get("borderColor") != null) format.borderColor = CoolUtil.stringColor(element.get("borderColor"));
+
+                        if (element.get("shadow") != null) format.dropShadow = element.get("shadow") == "true";
+                        if (element.get("shadowColor") != null) format.shadowColor = CoolUtil.stringColor(element.get("shadowColor"));
+                }
+            }
+        }
+
+        return format;
+    }
+
+    function parseDiaPortait(xmlPortait:Xml) {
+        var portait:DialoguePortait = {
+            imagePath: "weeb/bfPortait",
+            flipX: false,
+            antialiasing: true,
+            scale: 1,
+            xOffset: 0,
+            yOffset: 0
+        };
+
+        if (xmlPortait.get("image") != null) portait.imagePath = xmlPortait.get("image");
+        if (xmlPortait.get("flipX") != null) portait.flipX = xmlPortait.get("flipX") == "true";
+        if (xmlPortait.get("antialiasing") != null) portait.antialiasing = xmlPortait.get("antialiasing") == "true";
+        if (xmlPortait.get("scale") != null) portait.scale = Std.parseFloat(xmlPortait.get("scale"));
+        if (xmlPortait.get("xOffset") != null) portait.xOffset = Std.parseFloat(xmlPortait.get("xOffset"));
+        if (xmlPortait.get("yOffset") != null) portait.yOffset = Std.parseFloat(xmlPortait.get("yOffset"));
+
+        return portait;
     }
 
     function parseCharList(xml:Xml) {

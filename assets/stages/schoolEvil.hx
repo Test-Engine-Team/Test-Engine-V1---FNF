@@ -1,5 +1,3 @@
-import flixel.addons.effects.FlxTrail;
-
 function create() {
 	addScript("data/pixelUI");
 

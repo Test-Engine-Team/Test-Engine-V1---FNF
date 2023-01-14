@@ -6,6 +6,7 @@ import flixel.animation.FlxBaseAnimation;
 import flixel.graphics.frames.FlxAtlasFrames;
 import states.mainstates.PlayState;
 import states.menus.LoadingState;
+import handlers.ModDataStructures;
 import handlers.Conductor;
 
 using StringTools;
@@ -124,6 +125,9 @@ class Character extends FlxSprite
 
 		playAnim(isSwagDanceLefterDanceRighter ? "danceLeft" : "idle");
 		danced = true;
+
+		x = regX + charData.offsets[0];
+		y = regY + charData.offsets[1];
 	}
 
 	override function update(elapsed:Float)
@@ -134,7 +138,7 @@ class Character extends FlxSprite
 
 		if (animation.curAnim == null) return;
 
-		if (animation.curAnim.name.startsWith('sing')) {
+		if (animation.curAnim.name.startsWith('sing') && !debugMode) {
 			holdTimer += elapsed;
 			if (holdTimer >= Conductor.stepCrochet * charData.singDur * 0.001) {
 				dance();
@@ -143,7 +147,7 @@ class Character extends FlxSprite
 		}
 
 		//this was originally only for gf but i'd think everyone would like to play other animations when their hair finishes falling.
-		if (animation.curAnim.name == 'hairFall' && animation.curAnim.finished) {
+		if (animation.curAnim.name == 'hairFall' && animation.curAnim.finished && !debugMode) {
 			playAnim(isSwagDanceLefterDanceRighter ? 'danceRight' : 'idle');
 			danced = false;
 		}
@@ -159,12 +163,13 @@ class Character extends FlxSprite
 	 */
 	public function dance()
 	{
-		var leftDance = (isSwagDanceLefterDanceRighter) ? "danceLeft" : "idle";
+		var isCurrentlyDancing:Bool = animation.curAnim != null && ["idle", "danceLeft", "danceRight"].contains(animation.curAnim.name);
+		var leftDance:String = (isSwagDanceLefterDanceRighter) ? "danceLeft" : "idle";
 		danced = !danced;
 		var boolArray:Array<Bool> = [
 			debugMode,
 			(animation.curAnim != null && animation.curAnim.name.startsWith("hair")),
-			(holdTimer < Conductor.stepCrochet * charData.singDur * 0.001 && !(animation.curAnim != null && ["idle", "danceLeft", "danceRight"].contains(animation.curAnim.name)))
+			(holdTimer < Conductor.stepCrochet * charData.singDur * 0.001 && !isCurrentlyDancing)
 		];
 		if (boolArray.contains(true)) return;
 		playAnim(danced ? leftDance : "danceRight");
@@ -185,21 +190,21 @@ class Character extends FlxSprite
 		else
 			offset.set(0, 0);
 
-		if (curCharacter == 'gf')
+		if (charData.regCharType == 'gf')
 		{
-			if (AnimName == 'singLEFT')
-			{
-				danced = true;
-			}
-			else if (AnimName == 'singRIGHT')
-			{
-				danced = false;
-			}
-
-			if (AnimName == 'singUP' || AnimName == 'singDOWN')
-			{
-				danced = !danced;
-			}
+			var animIndex:Int = [
+				(AnimName == "singLEFT"),
+				(AnimName == "singRIGHT"),
+				(AnimName == "singUP" || AnimName == "singDOWN"),
+				true
+			].indexOf(true);
+			var setDance:Array<Bool> = [
+				true,
+				false,
+				!danced,
+				danced
+			];
+			danced = setDance[animIndex];
 		}
 	}
 

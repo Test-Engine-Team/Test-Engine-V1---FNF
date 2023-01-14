@@ -16,6 +16,7 @@ import handlers.MusicBeatState;
 import lime.app.Application;
 
 import states.menus.LoadingState;
+import handlers.ModDataStructures;
 
 using StringTools;
 

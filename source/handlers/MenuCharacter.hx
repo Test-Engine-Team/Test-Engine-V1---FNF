@@ -10,7 +10,7 @@ class MenuCharacter extends FlxSprite
 	var dadOffset:Int = 0;
 	var multX:Int = 1;
 
-	public function new(x:Float, charNum:Int, charData:states.menus.LoadingState.MenuCharData)
+	public function new(x:Float, charNum:Int, charData:handlers.ModDataStructures.MenuCharData)
 	{
 		super();
 		this.ogX = x;
@@ -23,7 +23,7 @@ class MenuCharacter extends FlxSprite
 		loadCharacter(charData);
 	}
 
-	public function loadCharacter(charData:states.menus.LoadingState.MenuCharData) {
+	public function loadCharacter(charData:handlers.ModDataStructures.MenuCharData) {
 		x = ogX + dadOffset + charData.xOffset * multX;
 		y = 70 + dadOffset + charData.yOffset;
 
