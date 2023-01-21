@@ -77,15 +77,62 @@ class ModifiersMenu extends MusicBeatState {
             type: BOOL,
             min: 0,
             max: 1,
-            //conflicts: ['Poison'],
+            //conflicts: ['Poison', 'Max Misses],
             updateFunc: function(menuOption:MenuOption, elapsed:Float) {
                 if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
                     ClientPrefs.fcMode = !ClientPrefs.fcMode;
                     ClientPrefs.poisonPlus = false;
+                    ClientPrefs.limitMisses = false;
+                    ClientPrefs.maxMisses = 2;
                 }
             },
             valueFunc: function() {
                 return (ClientPrefs.fcMode) ? "Enabled" : "Disabled";
+            }
+        },
+        {
+            name: "Max Misses",
+            description: "How many misses before you die!\n(for 1 miss use FC Mode)",
+            type: INT,
+            min: 2,
+            max: 10,
+            //conflicts: ['FC Mode'],
+            updateFunc: function(menuOption:MenuOption, elapsed:Float) {
+                switch ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].indexOf(true)) {
+                    case 0:
+                        ClientPrefs.limitMisses = !ClientPrefs.limitMisses;
+                        ClientPrefs.fcMode = false;
+                    case 1:
+                        if (ClientPrefs.limitMisses) ClientPrefs.maxMisses -= 1;
+                        if (ClientPrefs.maxMisses < menuOption.min) ClientPrefs.maxMisses = Std.int(menuOption.min);
+                    case 2:
+                        if (ClientPrefs.limitMisses) ClientPrefs.maxMisses += 1;
+                        if (ClientPrefs.maxMisses > menuOption.max) ClientPrefs.maxPoisonHits = Std.int(menuOption.max);
+                }
+            },
+            valueFunc: function() {
+                return (ClientPrefs.limitMisses) ? Std.string(ClientPrefs.maxPoisonHits) : "Disabled";
+            }
+        },
+        {
+            name: "Speed",
+            description: "Speed up or slow down a song",
+            type: INT,
+            min: -7,
+            max: 100,
+            //conflicts: null,
+            updateFunc: function(menuOption:MenuOption, elapsed:Float) {
+                if (FlxG.keys.justPressed.LEFT) {
+                    ClientPrefs.speed -= 1;
+                    if (ClientPrefs.speed < menuOption.min) ClientPrefs.speed = Std.int(menuOption.min);
+                }
+                else if (FlxG.keys.justPressed.RIGHT) {
+                    ClientPrefs.speed += 1;
+                    if (ClientPrefs.speed > menuOption.max) ClientPrefs.speed = Std.int(menuOption.max);
+                }
+            },
+            valueFunc: function() {
+                return Std.string(ClientPrefs.speed);
             }
         }
     ];

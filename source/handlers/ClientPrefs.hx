@@ -12,7 +12,7 @@ import Controls;
 
 class ClientPrefs {
 	//For load and save.
-	static var settingNames:Array<String> = ["spinnyspin", "fairFight", "poisonPlus", "maxPoisonHits", "freeplayCutscenes", "downscroll", "safeFrames", "ghostTapping", "showComboSprite", "antialiasing", "uiAlpha"];
+	static var settingNames:Array<String> = ["spinnyspin", "fairFight", "poisonPlus", "maxPoisonHits", "freeplayCutscenes", "downscroll", "safeFrames", "speed", "ghostTapping", "showComboSprite", "antialiasing", "uiAlpha"];
 
 	// Options
     public static var ghostTapping:Bool = true;
@@ -42,6 +42,9 @@ class ClientPrefs {
 	public static var poisonPlus:Bool = false;
 	public static var maxPoisonHits:Int = 3;
 	public static var fcMode:Bool = false;
+	public static var limitMisses:Bool = false;
+	public static var maxMisses:Int = 2;
+	public static var speed:Int = 1;
 
 	//easter eggs
 	public static var tristanPlayer:Bool = false;

@@ -21,6 +21,8 @@ import handlers.MusicBeatState;
 import states.menus.LoadingState;
 import handlers.ModDataStructures;
 
+import handlers.ClientPrefs;
+
 using StringTools;
 
 class StoryMenuState extends MusicBeatState
@@ -152,10 +154,11 @@ class StoryMenuState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
+		PlayState.speed = ClientPrefs.speed;
 		// scoreText.setFormat('VCR OSD Mono', 32);
 		lerpScore = Math.floor(FlxMath.lerp(lerpScore, intendedScore, 0.5));
 
-		scoreText.text = "WEEK SCORE:" + lerpScore + " Speed:" + PlayState.speed;
+		scoreText.text = "WEEK SCORE:" + lerpScore;
 
 		txtWeekTitle.text = weekList[curWeek].name.toUpperCase();
 		txtWeekTitle.x = FlxG.width - (txtWeekTitle.width + 10);
@@ -181,18 +184,6 @@ class StoryMenuState extends MusicBeatState
 					return;
 				}
 				#end
-
-				if (FlxG.keys.pressed.SHIFT && controls.LEFT_P)
-					PlayState.speed -= 1;
-		
-				if (FlxG.keys.pressed.SHIFT && controls.RIGHT_P)
-					PlayState.speed += 1;
-		
-				if (PlayState.speed < -7)
-					PlayState.speed = 100;
-		
-				if (PlayState.speed > 100)
-					PlayState.speed = -7;
 
 				if (controls.RIGHT_P && !FlxG.keys.pressed.SHIFT)
 					changeDifficulty(1);

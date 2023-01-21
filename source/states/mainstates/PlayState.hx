@@ -904,6 +904,8 @@ class PlayState extends MusicBeatState {
 
 		if (songMisses >= 1 && ClientPrefs.fcMode)
 			health -= 9999;
+		if (songMisses == ClientPrefs.maxMisses && ClientPrefs.limitMisses)
+			health -= 9999;
 
 		if (ClientPrefs.spinnyspin)
 			FlxG.camera.angle += elapsed * 50;
@@ -1270,10 +1272,10 @@ class PlayState extends MusicBeatState {
 		}
 		switch (SONG.song.toLowerCase()) {
 			case 'test':
-				FlxG.updateFramerate = 150;
-				FlxG.drawFramerate = 150;
+				FlxG.updateFramerate = ClientPrefs.framerate;
+				FlxG.drawFramerate = ClientPrefs.framerate;
 
-				FlxG.save.data.unlockedTestSong = true;
+				//FlxG.save.data.unlockedTestSong = true;
 		}
 
 		if (isStoryMode) {
