@@ -45,6 +45,7 @@ typedef NoteHitParams = {
     var charForAnim:Character;
     var animToPlay:String;
     var enableZoom:Bool;
+    var camMoveOnHit:Bool;
     var deleteNote:Bool;
     var strumGlow:Bool;
     var rateNote:Bool;

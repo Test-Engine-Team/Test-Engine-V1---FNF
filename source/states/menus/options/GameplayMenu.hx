@@ -192,6 +192,22 @@ class GameplayMenu extends MusicBeatState{
             }
         },
         {
+            name: "Cam Move on Note Hit",
+            description: "Camera moves up a little bit on hitting up for example (from Forever Engine)",
+            type: BOOL,
+            min: 0,
+            max: 1,
+            //conflicts: null,
+            updateFunc: function(menuOption:MenuOption, elapsed:Float) {
+                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
+                    ClientPrefs.camMoveOnHit = !ClientPrefs.camMoveOnHit;
+                }
+            },
+            valueFunc: function() {
+                return (ClientPrefs.camMoveOnHit) ? "Enabled" : "Disabled";
+            }
+        },
+        {
             name: "Reset Cache",
             description: "Resets the Cache.",
             type: BUTTON,

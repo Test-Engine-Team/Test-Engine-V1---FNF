@@ -1158,6 +1158,7 @@ class PlayState extends MusicBeatState {
 						deleteNote: true,
 						strumGlow: true,
 						rateNote: false,
+						camMoveOnHit: true
 					}
 					#if SCRIPTS_ENABLED scripts_call("dadNoteHit", [noteHitParams]); #end
 
@@ -1166,6 +1167,17 @@ class PlayState extends MusicBeatState {
 
 					if (ClientPrefs.fairFight)
 						health -= 0.00110;
+
+					//hopefully i make the cam offset customizable...
+					if (ClientPrefs.camMoveOnHit && noteHitParams.camMoveOnHit) {
+						switch (noteHitParams.animToPlay)
+						{
+							case "singLEFT":  camFollow.x = camFollow.x - 20;
+							case "singDOWN":  camFollow.y = camFollow.y + 20;
+							case "singUP":    camFollow.y = camFollow.y - 20;
+							case "singRIGHT": camFollow.x = camFollow.x + 20;
+						}
+					}	
 
 					noteHitParams.charForAnim.playAnim(noteHitParams.animToPlay, true);
 					noteHitParams.charForAnim.holdTimer = 0;
@@ -1663,6 +1675,7 @@ class PlayState extends MusicBeatState {
 			deleteNote: true,
 			strumGlow: true,
 			rateNote: true,
+			camMoveOnHit: true
 		}
 		#if SCRIPTS_ENABLED scripts_call("bfNoteHit", [noteHitParams]); #end
 
@@ -1673,6 +1686,17 @@ class PlayState extends MusicBeatState {
 			popUpScore(note.strumTime);
 			combo += 1;
 			notesHit++;
+		}
+
+		//hopefully i make the cam offset customizable...
+		if (ClientPrefs.camMoveOnHit && noteHitParams.camMoveOnHit) {
+			switch (noteHitParams.animToPlay)
+			{
+				case "singLEFT":  camFollow.x = camFollow.x - 20;
+case "singDOWN":  camFollow.y = camFollow.y + 20;
+				case "singUP":    camFollow.y = camFollow.y - 20;
+				case "singRIGHT": camFollow.x = camFollow.x + 20;
+			}
 		}
 
 		if (note.noteData >= 0)
