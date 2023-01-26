@@ -890,6 +890,9 @@ class PlayState extends MusicBeatState {
 			#if SCRIPTS_ENABLED scripts_call("oldBfChange"); #end
 		}
 
+		if (ClientPrefs.limitMisses)
+			health = 1;
+
 		super.update(elapsed);
 		#if SCRIPTS_ENABLED
 		if (!inTransition)
@@ -934,7 +937,13 @@ class PlayState extends MusicBeatState {
 			}
 		}
 
-		infoText.text = "Score: " + songScore + " || Misses: " + songMisses + " || Combo: " + combo + " || Notes Hit: " + notesHit;
+		if (ClientPrefs.limitMisses) {
+			infoText.text = "Score: " + songScore + " || Misses: " + songMisses + " / " + ClientPrefs.maxMisses + " || Combo: " + combo + " || Notes Hit: " + notesHit;
+		}
+		else 
+		{
+			infoText.text = "Score: " + songScore + " || Misses: " + songMisses + " || Combo: " + combo + " || Notes Hit: " + notesHit;
+		}
 
 		#if desktop
 		DiscordHandler.changePresence('Playing ' + SONG.song.toLowerCase() + '-' + diff, 'With ' + songScore + ' Score And ' + songMisses + ' Misses');

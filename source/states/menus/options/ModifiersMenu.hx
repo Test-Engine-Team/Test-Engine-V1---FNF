@@ -107,11 +107,11 @@ class ModifiersMenu extends MusicBeatState {
                         if (ClientPrefs.maxMisses < menuOption.min) ClientPrefs.maxMisses = Std.int(menuOption.min);
                     case 2:
                         if (ClientPrefs.limitMisses) ClientPrefs.maxMisses += 1;
-                        if (ClientPrefs.maxMisses > menuOption.max) ClientPrefs.maxPoisonHits = Std.int(menuOption.max);
+                        if (ClientPrefs.maxMisses > menuOption.max) ClientPrefs.maxMisses = Std.int(menuOption.max);
                 }
             },
             valueFunc: function() {
-                return (ClientPrefs.limitMisses) ? Std.string(ClientPrefs.maxPoisonHits) : "Disabled";
+                return (ClientPrefs.limitMisses) ? Std.string(ClientPrefs.maxMisses) : "Disabled";
             }
         },
         {
