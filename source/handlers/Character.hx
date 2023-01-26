@@ -30,6 +30,16 @@ class Character extends FlxSprite
 	//The sprites x and y now get changed every frame.
 	public var regX:Float = 770;
 	public var regY:Float = 100;
+
+	//Heres some offsets retaining to sing camera offsets change these lol
+	public var singLEFTX:Int = -20;
+	public var singLEFTY:Int = 0;
+	public var singUPX:Int = 0;
+	public var singUPY:Int = -20;
+	public var singDOWNX:Int = 0;
+	public var singDOWNY:Int = 20;
+	public var singRIGHTX:Int = 20;
+	public var singRIGHTY:Int = 0;
 	
 	public function new(x:Float, y:Float, character:String = "bf", isPlayer:Bool = false)
 	{

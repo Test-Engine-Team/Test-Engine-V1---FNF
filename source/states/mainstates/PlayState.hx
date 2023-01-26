@@ -1172,10 +1172,10 @@ class PlayState extends MusicBeatState {
 					if (ClientPrefs.camMoveOnHit && noteHitParams.camMoveOnHit) {
 						switch (noteHitParams.animToPlay)
 						{
-							case "singLEFT":  camFollow.x = camFollow.x - 20;
-							case "singDOWN":  camFollow.y = camFollow.y + 20;
-							case "singUP":    camFollow.y = camFollow.y - 20;
-							case "singRIGHT": camFollow.x = camFollow.x + 20;
+							case "singLEFT":  camFollow.x = camFollow.x - 50;
+							case "singDOWN":  camFollow.y = camFollow.y + 50;
+							case "singUP":    camFollow.y = camFollow.y - 50;
+							case "singRIGHT": camFollow.x = camFollow.x + 50;
 						}
 					}	
 
@@ -1692,10 +1692,10 @@ class PlayState extends MusicBeatState {
 		if (ClientPrefs.camMoveOnHit && noteHitParams.camMoveOnHit) {
 			switch (noteHitParams.animToPlay)
 			{
-				case "singLEFT":  camFollow.x = camFollow.x - 20;
-case "singDOWN":  camFollow.y = camFollow.y + 20;
-				case "singUP":    camFollow.y = camFollow.y - 20;
-				case "singRIGHT": camFollow.x = camFollow.x + 20;
+				case "singLEFT":  camFollow.x = camFollow.x - 50;
+				case "singDOWN":  camFollow.y = camFollow.y + 50;
+				case "singUP":    camFollow.y = camFollow.y - 50;
+				case "singRIGHT": camFollow.x = camFollow.x + 50;
 			}
 		}
 
