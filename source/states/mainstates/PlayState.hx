@@ -1169,13 +1169,13 @@ class PlayState extends MusicBeatState {
 						health -= 0.00110;
 
 					//hopefully i make the cam offset customizable...
-					if (ClientPrefs.camMoveOnHit && noteHitParams.camMoveOnHit) {
+					if (ClientPrefs.camMoveOnHit && noteHitParams.camMoveOnHit && !PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection) {
 						switch (noteHitParams.animToPlay)
 						{
-							case "singLEFT":  camFollow.x = camFollow.x - 50;
-							case "singDOWN":  camFollow.y = camFollow.y + 50;
-							case "singUP":    camFollow.y = camFollow.y - 50;
-							case "singRIGHT": camFollow.x = camFollow.x + 50;
+							case "singLEFT":  camFollow.x = camFollow.x - 20;
+							case "singDOWN":  camFollow.y = camFollow.y + 20;
+							case "singUP":    camFollow.y = camFollow.y - 20;
+							case "singRIGHT": camFollow.x = camFollow.x + 20;
 						}
 					}	
 
@@ -1689,13 +1689,13 @@ class PlayState extends MusicBeatState {
 		}
 
 		//hopefully i make the cam offset customizable...
-		if (ClientPrefs.camMoveOnHit && noteHitParams.camMoveOnHit) {
+		if (ClientPrefs.camMoveOnHit && noteHitParams.camMoveOnHit && PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection) {
 			switch (noteHitParams.animToPlay)
 			{
-				case "singLEFT":  camFollow.x = camFollow.x - 50;
-				case "singDOWN":  camFollow.y = camFollow.y + 50;
-				case "singUP":    camFollow.y = camFollow.y - 50;
-				case "singRIGHT": camFollow.x = camFollow.x + 50;
+				case "singLEFT":  camFollow.x = camFollow.x - 20;
+				case "singDOWN":  camFollow.y = camFollow.y + 20;
+				case "singUP":    camFollow.y = camFollow.y - 20;
+				case "singRIGHT": camFollow.x = camFollow.x + 20;
 			}
 		}
 

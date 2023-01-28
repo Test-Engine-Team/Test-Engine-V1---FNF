@@ -86,22 +86,6 @@ class GameplayMenu extends MusicBeatState{
             }
         },
         {
-            name: "Show Combo Sprite",
-            description: 'Shows the sprite saying "COMBO" when you hit a note.',
-            type: BOOL,
-            min: 0,
-            max: 1,
-            //conflicts: null,
-            updateFunc: function(menuOption:MenuOption, elapsed:Float) {
-                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
-                    ClientPrefs.showComboSprite = !ClientPrefs.showComboSprite;
-                }
-            },
-            valueFunc: function() {
-                return (ClientPrefs.showComboSprite) ? "Enabled" : "Disabled";
-            }
-        },
-        {
             name: "Cutscenes on Freeplay",
             description: "Plays cutscenes when you play a song on freeplay.",
             type: BOOL,
@@ -152,27 +136,6 @@ class GameplayMenu extends MusicBeatState{
             },
             valueFunc: function() {
                 return (ClientPrefs.botPlay) ? "Enabled" : "Disabled";
-            }
-        },
-        {
-            name: "UI Alpha",
-            description: "How visible the UI is",
-            type: PERCENT,
-            min: 0,
-            max: 1,
-            //conflicts: null,
-            updateFunc: function(menuOption:MenuOption, elapsed:Float) {
-                if (FlxG.keys.justPressed.LEFT) {
-                    ClientPrefs.uiAlpha -= 0.1;
-                    if (ClientPrefs.uiAlpha < menuOption.min) ClientPrefs.uiAlpha = Std.int(menuOption.min);
-                }
-                else if (FlxG.keys.justPressed.RIGHT) {
-                    ClientPrefs.uiAlpha += 0.1;
-                    if (ClientPrefs.uiAlpha > menuOption.max) ClientPrefs.uiAlpha = Std.int(menuOption.max);
-                }
-            },
-            valueFunc: function() {
-                return Std.string(ClientPrefs.uiAlpha);
             }
         },
         {

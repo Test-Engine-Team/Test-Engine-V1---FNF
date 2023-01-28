@@ -1,5 +1,6 @@
 package states.menus.options;
 
+import flixel.addons.effects.FlxClothSprite.FlxClothConstraint;
 import handlers.ClientPrefs;
 import handlers.Files;
 import flixel.FlxSprite;
@@ -34,7 +35,7 @@ class Options extends MusicBeatState {
     var maintextgroup:FlxTypedGroup<Alphabet>;
     var bg:FlxSprite;
     var curSelected:Int = 0;
-    var Items:Array<String> = ['Keybinds', 'Gameplay', 'Modifiers', 'Optimization'];
+    var Items:Array<String> = ['Keybinds', 'Gameplay', 'Modifiers', 'Graphics', 'Optimization'];
     var timeSinceSelect:Float = -10;
 
     override function create() {
@@ -77,13 +78,13 @@ class Options extends MusicBeatState {
             if (timeSinceSelect > 1.1) {
                 switch (Items[curSelected]) {
                     case 'Keybinds':
-                        FlxG.switchState(new states.menus.options.KeybindsMenu());
+                        FlxG.switchState(new KeybindsMenu());
                     case 'Gameplay':
                         FlxG.switchState(new GameplayMenu());
                     case 'Modifiers':
                         FlxG.switchState(new ModifiersMenu());
-                    case 'Optimization':
-                        FlxG.switchState(new states.menus.options.OptimizationMenu());
+                    case 'Graphics':
+                        FlxG.switchState(new GraphicsMenu());
                 }
             }
         }

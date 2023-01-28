@@ -11,10 +11,47 @@ import ui.Alphabet;
 import handlers.ClientPrefs;
 import states.menus.options.Options;
 
-class OptimizationMenu extends MusicBeatState {
+class GraphicsMenu extends MusicBeatState{
     var maintextgroup:FlxTypedGroup<Alphabet>;
     var curSelected:Int = 0;
     var options:Array<MenuOption> = [
+        {
+            name: "Show Combo Sprite",
+            description: 'Shows the sprite saying "COMBO" when you hit a note.',
+            type: BOOL,
+            min: 0,
+            max: 1,
+            //conflicts: null,
+            updateFunc: function(menuOption:MenuOption, elapsed:Float) {
+                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
+                    ClientPrefs.showComboSprite = !ClientPrefs.showComboSprite;
+                }
+            },
+            valueFunc: function() {
+                return (ClientPrefs.showComboSprite) ? "Enabled" : "Disabled";
+            }
+        },
+        {
+            name: "UI Alpha",
+            description: "How visible the UI is",
+            type: PERCENT,
+            min: 0,
+            max: 1,
+            //conflicts: null,
+            updateFunc: function(menuOption:MenuOption, elapsed:Float) {
+                if (FlxG.keys.justPressed.LEFT) {
+                    ClientPrefs.uiAlpha -= 0.1;
+                    if (ClientPrefs.uiAlpha < menuOption.min) ClientPrefs.uiAlpha = Std.int(menuOption.min);
+                }
+                else if (FlxG.keys.justPressed.RIGHT) {
+                    ClientPrefs.uiAlpha += 0.1;
+                    if (ClientPrefs.uiAlpha > menuOption.max) ClientPrefs.uiAlpha = Std.int(menuOption.max);
+                }
+            },
+            valueFunc: function() {
+                return Std.string(ClientPrefs.uiAlpha);
+            }
+        },
         {
             name: "Antialiasing",
             description: "Smoothens the pixels of sprites and text objects at the cost of some resources.",
