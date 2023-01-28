@@ -56,6 +56,9 @@ class ClientPrefs {
     //funny
     public static var tankmanFloat:Bool = false;
 
+	// modifiable stuff for modding
+	public static var fairFightHealthLossCount:Float = 0.00110;
+
     public static function saveSettings() {
 		for (setting in settingNames) {
 			Reflect.setField(FlxG.save.data, setting, Reflect.getProperty(ClientPrefs, setting));

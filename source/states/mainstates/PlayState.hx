@@ -1166,7 +1166,7 @@ class PlayState extends MusicBeatState {
 						camZooming = true;
 
 					if (ClientPrefs.fairFight)
-						health -= 0.00110;
+						health -= ClientPrefs.fairFightHealthLossCount;
 
 					//hopefully i make the cam offset customizable...
 					if (ClientPrefs.camMoveOnHit && noteHitParams.camMoveOnHit && !PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection) {
