@@ -1,3 +1,5 @@
+import handlers.ClientPrefs;
+
 function create() {
 	defaultCamZoom = 0.9;
 
@@ -15,12 +17,14 @@ function create() {
 	stageFront.active = false;
 	add(stageFront);
 	
-	var stageCurtains:FlxSprite = new FlxSprite(-500, -300).loadGraphic(Files.image('stagecurtains'));
-	stageCurtains.setGraphicSize(Std.int(stageCurtains.width * 0.9));
-	stageCurtains.updateHitbox();
-	stageCurtains.antialiasing = true;
-	stageCurtains.scrollFactor.set(1.3, 1.3);
-	stageCurtains.active = false;
+	if (ClientPrefs.quality != 'Low') {
+		var stageCurtains:FlxSprite = new FlxSprite(-500, -300).loadGraphic(Files.image('stagecurtains'));
+		stageCurtains.setGraphicSize(Std.int(stageCurtains.width * 0.9));
+		stageCurtains.updateHitbox();
+		stageCurtains.antialiasing = true;
+		stageCurtains.scrollFactor.set(1.3, 1.3);
+		stageCurtains.active = false;
+	}
 	
 	add(stageCurtains);
 }

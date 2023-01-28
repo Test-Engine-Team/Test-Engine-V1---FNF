@@ -1,3 +1,5 @@
+import handlers.ClientPrefs;
+
 var tankBop1:FlxSprite;
 var tankBop2:FlxSprite;
 var tankBop3:FlxSprite;
@@ -54,23 +56,25 @@ function create() {
 		
 	add(steve);
 
-	var smokeLeft:FlxSprite = new FlxSprite(-200, -100);
-	smokeLeft.frames = Files.sparrowAtlas('tank/smokeLeft');
-	// smokeLeft.frames = FlxAtlasFrames.fromSparrow('assets/images/tank/smokeLeft.png', 'assets/images/tank/smokeLeft.xml');
-	smokeLeft.animation.addByPrefix('idle', 'SmokeBlurLeft ', 24, true);
-	smokeLeft.scrollFactor.set(0.4, 0.4);
-	smokeLeft.antialiasing = true;
-	smokeLeft.animation.play('idle');
-	add(smokeLeft);
+	if (ClientPrefs.quality != 'Low') {
+		var smokeLeft:FlxSprite = new FlxSprite(-200, -100);
+		smokeLeft.frames = Files.sparrowAtlas('tank/smokeLeft');
+		// smokeLeft.frames = FlxAtlasFrames.fromSparrow('assets/images/tank/smokeLeft.png', 'assets/images/tank/smokeLeft.xml');
+		smokeLeft.animation.addByPrefix('idle', 'SmokeBlurLeft ', 24, true);
+		smokeLeft.scrollFactor.set(0.4, 0.4);
+		smokeLeft.antialiasing = true;
+		smokeLeft.animation.play('idle');
+		add(smokeLeft);
 
-	var smokeRight:FlxSprite = new FlxSprite(1100, -100);
-	smokeRight.frames = Files.sparrowAtlas('tank/smokeRight');
-	// smokeRight.frames = FlxAtlasFrames.fromSparrow('assets/images/tank/smokeRight.png', 'assets/images/tank/smokeRight.xml');
-	smokeRight.animation.addByPrefix('idle', 'SmokeRight ', 24, true);
-	smokeRight.scrollFactor.set(0.4, 0.4);
-	smokeRight.antialiasing = true;
-	smokeRight.animation.play('idle');
-	add(smokeRight);
+		var smokeRight:FlxSprite = new FlxSprite(1100, -100);
+		smokeRight.frames = Files.sparrowAtlas('tank/smokeRight');
+		// smokeRight.frames = FlxAtlasFrames.fromSparrow('assets/images/tank/smokeRight.png', 'assets/images/tank/smokeRight.xml');
+		smokeRight.animation.addByPrefix('idle', 'SmokeRight ', 24, true);
+		smokeRight.scrollFactor.set(0.4, 0.4);
+		smokeRight.antialiasing = true;
+		smokeRight.animation.play('idle');
+		add(smokeRight);
+	}
 
 	tower = new FlxSprite(100, 120);
 	tower.frames = Files.sparrowAtlas('tank/tankWatchtower');
@@ -87,53 +91,55 @@ function create() {
 	ground.active = false;
 	add(ground);
 
-	tankBop1 = new FlxSprite(-500, 650);
-	tankBop1.frames = Files.sparrowAtlas('tank/tank0');
-	// tankBop1.frames = FlxAtlasFrames.fromSparrow('assets/images/tank/tank0.png', 'assets/images/tank/tank0.xml');
-	tankBop1.animation.addByPrefix('bop', 'fg tankhead far right', 24);
-	tankBop1.scrollFactor.set(1.7, 1.5);
-	tankBop1.antialiasing = true;
-	add(tankBop1);
+	if (ClientPrefs.quality != 'Low') {
+		tankBop1 = new FlxSprite(-500, 650);
+		tankBop1.frames = Files.sparrowAtlas('tank/tank0');
+		// tankBop1.frames = FlxAtlasFrames.fromSparrow('assets/images/tank/tank0.png', 'assets/images/tank/tank0.xml');
+		tankBop1.animation.addByPrefix('bop', 'fg tankhead far right', 24);
+		tankBop1.scrollFactor.set(1.7, 1.5);
+		tankBop1.antialiasing = true;
+		add(tankBop1);
 
-	tankBop2 = new FlxSprite(-300, 750);
-	tankBop2.frames = Files.sparrowAtlas('tank/tank1');
-	// tankBop2.frames = FlxAtlasFrames.fromSparrow('assets/images/tank/tank1.png', 'assets/images/tank/tank1.xml');
-	tankBop2.animation.addByPrefix('bop', 'fg tankhead 5', 24);
-	tankBop2.scrollFactor.set(2.0, 0.2);
-	tankBop2.antialiasing = true;
-	add(tankBop2);
+		tankBop2 = new FlxSprite(-300, 750);
+		tankBop2.frames = Files.sparrowAtlas('tank/tank1');
+		// tankBop2.frames = FlxAtlasFrames.fromSparrow('assets/images/tank/tank1.png', 'assets/images/tank/tank1.xml');
+		tankBop2.animation.addByPrefix('bop', 'fg tankhead 5', 24);
+		tankBop2.scrollFactor.set(2.0, 0.2);
+		tankBop2.antialiasing = true;
+		add(tankBop2);
 
-	tankBop3 = new FlxSprite(450, 940);
-	tankBop3.frames = Files.sparrowAtlas('tank/tank2');
-	// tankBop3.frames = FlxAtlasFrames.fromSparrow('assets/images/tank/tank2.png', 'assets/images/tank/tank2.xml');
-	tankBop3.animation.addByPrefix('bop', 'foreground man 3', 24);
-	tankBop3.scrollFactor.set(1.5, 1.5);
-	tankBop3.antialiasing = true;
-	add(tankBop3);
+		tankBop3 = new FlxSprite(450, 940);
+		tankBop3.frames = Files.sparrowAtlas('tank/tank2');
+		// tankBop3.frames = FlxAtlasFrames.fromSparrow('assets/images/tank/tank2.png', 'assets/images/tank/tank2.xml');
+		tankBop3.animation.addByPrefix('bop', 'foreground man 3', 24);
+		tankBop3.scrollFactor.set(1.5, 1.5);
+		tankBop3.antialiasing = true;
+		add(tankBop3);
 
-	tankBop4 = new FlxSprite(1300, 1200);
-	tankBop4.frames = Files.sparrowAtlas('tank/tank3');
-	// tankBop4.frames = FlxAtlasFrames.fromSparrow('assets/images/tank/tank3.png', 'assets/images/tank/tank3.xml');
-	tankBop4.animation.addByPrefix('bop', 'fg tankhead 4', 24);
-	tankBop4.scrollFactor.set(3.5, 2.5);
-	tankBop4.antialiasing = true;
-	add(tankBop4);
+		tankBop4 = new FlxSprite(1300, 1200);
+		tankBop4.frames = Files.sparrowAtlas('tank/tank3');
+		// tankBop4.frames = FlxAtlasFrames.fromSparrow('assets/images/tank/tank3.png', 'assets/images/tank/tank3.xml');
+		tankBop4.animation.addByPrefix('bop', 'fg tankhead 4', 24);
+		tankBop4.scrollFactor.set(3.5, 2.5);
+		tankBop4.antialiasing = true;
+		add(tankBop4);
 
-	tankBop5 = new FlxSprite(1300, 900);
-	tankBop5.frames = Files.sparrowAtlas('tank/tank4');
-	// tankBop5.frames = FlxAtlasFrames.fromSparrow('assets/images/tank/tank4.png', 'assets/images/tank/tank4.xml');
-	tankBop5.animation.addByPrefix('bop', 'fg tankman bobbin 3', 24);
-	tankBop5.scrollFactor.set(1.5, 1.5);
-	tankBop5.antialiasing = true;
-	add(tankBop5);
+		tankBop5 = new FlxSprite(1300, 900);
+		tankBop5.frames = Files.sparrowAtlas('tank/tank4');
+		// tankBop5.frames = FlxAtlasFrames.fromSparrow('assets/images/tank/tank4.png', 'assets/images/tank/tank4.xml');
+		tankBop5.animation.addByPrefix('bop', 'fg tankman bobbin 3', 24);
+		tankBop5.scrollFactor.set(1.5, 1.5);
+		tankBop5.antialiasing = true;
+		add(tankBop5);
 
-	tankBop6 = new FlxSprite(1620, 700);
-	tankBop6.frames = Files.sparrowAtlas('tank/tank5');
-	// tankBop6.frames = FlxAtlasFrames.fromSparrow('assets/images/tank/tank5.png', 'assets/images/tank/tank5.xml');
-	tankBop6.animation.addByPrefix('bop', 'fg tankhead far right', 24);
-	tankBop6.scrollFactor.set(1.5, 1.5);
-	tankBop6.antialiasing = true;
-	add(tankBop6);
+		tankBop6 = new FlxSprite(1620, 700);
+		tankBop6.frames = Files.sparrowAtlas('tank/tank5');
+		// tankBop6.frames = FlxAtlasFrames.fromSparrow('assets/images/tank/tank5.png', 'assets/images/tank/tank5.xml');
+		tankBop6.animation.addByPrefix('bop', 'fg tankhead far right', 24);
+		tankBop6.scrollFactor.set(1.5, 1.5);
+		tankBop6.antialiasing = true;
+		add(tankBop6);
+	}
 }
 
 function update(elapsed:Float) {
@@ -151,10 +157,12 @@ function update(elapsed:Float) {
 
 function beatHit() {
     tower.animation.play('idle', true);
-    tankBop1.animation.play('bop', true);
-    tankBop2.animation.play('bop', true);
-    tankBop3.animation.play('bop', true);
-    tankBop4.animation.play('bop', true);
-    tankBop5.animation.play('bop', true);
-    tankBop6.animation.play('bop', true);
+	if (ClientPrefs.quality != 'Low') {
+		tankBop1.animation.play('bop', true);
+		tankBop2.animation.play('bop', true);
+		tankBop3.animation.play('bop', true);
+		tankBop4.animation.play('bop', true);
+		tankBop5.animation.play('bop', true);
+		tankBop6.animation.play('bop', true);
+	}
 }

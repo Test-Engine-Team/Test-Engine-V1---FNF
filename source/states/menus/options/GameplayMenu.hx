@@ -171,6 +171,22 @@ class GameplayMenu extends MusicBeatState{
             }
         },
         {
+            name: "Flashing Lights",
+            description: "Leave on if you are not prone to epilepsy",
+            type: BOOL,
+            min: 0,
+            max: 1,
+            //conflicts: null,
+            updateFunc: function(menuOption:MenuOption, elapsed:Float) {
+                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
+                    ClientPrefs.flashingLights = !ClientPrefs.flashingLights;
+                }
+            },
+            valueFunc: function() {
+                return (ClientPrefs.flashingLights) ? "Enabled" : "Disabled";
+            }
+        }
+        {
             name: "Reset Cache",
             description: "Resets the Cache.",
             type: BUTTON,

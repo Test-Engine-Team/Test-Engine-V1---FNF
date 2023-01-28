@@ -1,5 +1,6 @@
 import flixel.system.FlxSound;
 import flixel.group.FlxTypedGroup;
+import handlers.ClientPrefs;
 
 var phillyCityLights:FlxTypedGroup<FlxSprite>;
 var phillyTrain:FlxSprite;
@@ -44,11 +45,13 @@ function create() {
     var streetBehind:FlxSprite = new FlxSprite(-40, 50).loadGraphic(Files.image('philly/behindTrain'));
     add(streetBehind);
 
-    phillyTrain = new FlxSprite(2000, 360).loadGraphic(Files.image('philly/train'));
-    add(phillyTrain);
+    if (ClientPrefs.quality != 'Low') {
+        phillyTrain = new FlxSprite(2000, 360).loadGraphic(Files.image('philly/train'));
+        add(phillyTrain);
 
-    trainSound = new FlxSound().loadEmbedded(Files.sound('train_passes'));
-    FlxG.sound.list.add(trainSound);
+        trainSound = new FlxSound().loadEmbedded(Files.sound('train_passes'));
+        FlxG.sound.list.add(trainSound);
+    }
 
     // var cityLights:FlxSprite = new FlxSprite().loadGraphic(AssetPaths.win0.png);
 
@@ -57,7 +60,7 @@ function create() {
 }
 
 function update(elapsed:Float) {
-    if (trainMoving) {
+    if (trainMoving && ClientPrefs.quality != 'Low') {
 		trainFrameTiming += elapsed;
 
 		if (trainFrameTiming >= 1 / 24) {
@@ -68,7 +71,7 @@ function update(elapsed:Float) {
 }
 
 function beatHit() {
-    if (!trainMoving)
+    if (!trainMoving && ClientPrefs.quality != 'Low')
         trainCooldown += 1;
 
     if (curBeat % 4 == 0) {
@@ -81,36 +84,40 @@ function beatHit() {
         // phillyCityLights.members[curLight].alpha = 1;
     }
 
-    if (curBeat % 8 == 4 && FlxG.random.bool(30) && !trainMoving && trainCooldown > 8) {
+    if (curBeat % 8 == 4 && FlxG.random.bool(30) && !trainMoving && trainCooldown > 8 && ClientPrefs.quality != 'Low') {
         trainCooldown = FlxG.random.int(-4, 0);
         trainStart();
     }
 }
 
 function updateTrainPos():Void {
-    if (trainSound.time >= 4700) {
-        if (!startedMoving)
-            event('play anim', 'gf', 'hairBlow');
-        startedMoving = true;
-    }
-
-    if (startedMoving) {
-        phillyTrain.x -= 400;
-
-        if (phillyTrain.x < -2000 && !trainFinishing) {
-            phillyTrain.x = -1150;
-            trainCars -= 1;
-
-            if (trainCars <= 0)
-                trainFinishing = true;
+    if (ClientPrefs.quality != 'Low') {
+        if (trainSound.time >= 4700) {
+            if (!startedMoving)
+                event('play anim', 'gf', 'hairBlow');
+            startedMoving = true;
         }
-
-        if (phillyTrain.x < -4000 && trainFinishing)
-            trainReset();
+    
+        if (startedMoving) {
+            phillyTrain.x -= 400;
+    
+            if (phillyTrain.x < -2000 && !trainFinishing) {
+                phillyTrain.x = -1150;
+                trainCars -= 1;
+    
+                if (trainCars <= 0)
+                    trainFinishing = true;
+            }
+    
+            if (phillyTrain.x < -4000 && trainFinishing)
+                trainReset();
+        }
     }
 }
 
 function trainStart():Void {
+    if (ClientPrefs.quality == 'Low') return;
+    
     trainMoving = true;
     if (!trainSound.playing)
         trainSound.play(true);

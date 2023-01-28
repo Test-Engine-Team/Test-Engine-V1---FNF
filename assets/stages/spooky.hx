@@ -1,8 +1,12 @@
+import handlers.ClientPrefs;
+
 var halloweenBG:FlxSprite;
 var lightningStrikeBeat:Int = 0;
 var lightningOffset:Int = 8;
 
 function lightningStrikeShit():Void {
+	if (ClientPrefs.quality == 'Low') return;
+
 	FlxG.sound.play(Files.randomSound(1, 2, 'thunder_'));
 	halloweenBG.animation.play('lightning');
     
@@ -24,6 +28,6 @@ function create() {
 }
 
 function beatHit() {
-	if (FlxG.random.bool(10) && curBeat > lightningStrikeBeat + lightningOffset)
+	if (FlxG.random.bool(10) && curBeat > lightningStrikeBeat + lightningOffset && ClientPrefs.quality != 'Low')
 		lightningStrikeShit();
 }

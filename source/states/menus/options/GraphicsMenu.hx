@@ -67,6 +67,33 @@ class GraphicsMenu extends MusicBeatState{
             valueFunc: function() {
                 return (ClientPrefs.antialiasing) ? "Enabled" : "Disabled";
             }
+        },
+        {
+            name: "Quality",
+            description: "The quality of the game (WIP)",
+            type: STRING,
+            min: 0,
+            max: 2,
+            //conflicts: null,
+            updateFunc: function(menuOption:MenuOption, elapsed:Float) {
+                if (FlxG.keys.justPressed.LEFT) {
+                    switch (ClientPrefs.quality)
+                    {
+                        case 'Medium': ClientPrefs.quality = 'Low';
+                        case 'High': ClientPrefs.quality = 'Medium';
+                    }
+                }
+                if (FlxG.keys.justPressed.RIGHT) {
+                    switch (ClientPrefs.quality)
+                    {
+                        case 'Low': ClientPrefs.quality = 'Medium';
+                        case 'Medium': ClientPrefs.quality = 'High';
+                    }
+                }
+            },
+            valueFunc: function() {
+                return ClientPrefs.quality;
+            }
         }
     ];
     var valueTxt:FlxText;

@@ -1,6 +1,7 @@
 import flixel.system.FlxSound;
 import flixel.util.FlxTimer;
 import flixel.group.FlxTypedGroup;
+import handlers.ClientPrefs;
 
 var addGF = false;
 var danced:Bool = true;
@@ -52,7 +53,8 @@ function create() {
     limo.antialiasing = true;
     add(limo);
 
-    fastCar = new FlxSprite(-300, 160).loadGraphic('assets/images/limo/fastCarLol.png');
+    if (ClientPrefs.quality != 'Low')
+        fastCar = new FlxSprite(-300, 160).loadGraphic('assets/images/limo/fastCarLol.png');
     // add(limo);
 
 	boyfriend.regX += 260;
@@ -66,12 +68,13 @@ function beatHit() {
     for (dancer in grpLimoDancers)
         dancer.animation.play(danced ? "danceLeft" : "danceRight");
 
-    if (FlxG.random.bool(10) && fastCarCanDrive)
+    if (FlxG.random.bool(10) && fastCarCanDrive && ClientPrefs.quality != 'Low')
         fastCarDrive();
 }
 
 function resetFastCar():Void
 {
+    if (ClientPrefs.quality == 'Low') return;
     fastCar.x = -12600;
     fastCar.y = FlxG.random.int(140, 250);
     fastCar.velocity.x = 0;

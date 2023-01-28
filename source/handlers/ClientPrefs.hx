@@ -12,24 +12,20 @@ import Controls;
 
 class ClientPrefs {
 	//For load and save.
-	static var settingNames:Array<String> = ["spinnyspin", "fairFight", "poisonPlus", "fcMode", "maxPoisonHits", "limitMisses", "maxMisses", "freeplayCutscenes", "downscroll", "safeFrames", "speed", "ghostTapping", "showComboSprite", "antialiasing", "uiAlpha", "camMoveOnHit"];
+	static var settingNames:Array<String> = ["flashingLights", "spinnyspin", "fairFight", "poisonPlus", "fcMode", "maxPoisonHits", "limitMisses", "maxMisses", "freeplayCutscenes", "downscroll", "safeFrames", "speed", "ghostTapping", "showComboSprite", "antialiasing", "quality", "uiAlpha", "camMoveOnHit"];
 
 	// Options
+	public static var flashingLights:Bool = true; //this assumes this is true which is bad but i dunno how to make a popup on the start of the game like PE
     public static var ghostTapping:Bool = true;
-	public static var showComboSprite:Bool = true;
 	public static var framerate:Int = 60;
 	public static var downscroll:Bool = false;
 	public static var freeplayCutscenes:Bool = false;
 	public static var safeFrames:Int = 10;
-	public static var uiAlpha:Float = 1;
 	public static var botPlay:Bool = false;
 	public static var shitSystem:Bool = true;
 	public static var camMoveOnHit:Bool = true;
 
-	//Optimization
-	public static var antialiasing:Bool = true;
-
-	//Keybinds
+	// Keybinds
 	public static var leftKeybinds:Array<FlxKey> = [FlxKey.A, FlxKey.LEFT];
 	public static var downKeybinds:Array<FlxKey> = [FlxKey.S, FlxKey.DOWN];
 	public static var upKeybinds:Array<FlxKey> = [FlxKey.W, FlxKey.UP];
@@ -46,6 +42,12 @@ class ClientPrefs {
 	public static var limitMisses:Bool = false;
 	public static var maxMisses:Int = 2;
 	public static var speed:Int = 1;
+
+	// Graphics
+	public static var showComboSprite:Bool = true;
+	public static var uiAlpha:Float = 1;
+	public static var antialiasing:Bool = true;
+	public static var quality:String = 'Medium';
 
 	//easter eggs
 	public static var tristanPlayer:Bool = false;
