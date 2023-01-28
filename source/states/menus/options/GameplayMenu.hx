@@ -185,7 +185,7 @@ class GameplayMenu extends MusicBeatState{
             valueFunc: function() {
                 return (ClientPrefs.flashingLights) ? "Enabled" : "Disabled";
             }
-        }
+        },
         {
             name: "Reset Cache",
             description: "Resets the Cache.",
