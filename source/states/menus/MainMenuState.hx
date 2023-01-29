@@ -30,6 +30,7 @@ class MainMenuState extends MusicBeatState
 	var curSelected:Int = 0;
 
 	var menuItems:FlxTypedGroup<FlxSprite>;
+	var menuItem:FlxSprite;
 
 	#if !switch
 	var optionShit:Array<String> = ['story mode', 'freeplay', 'discord', 'options'];
@@ -112,7 +113,7 @@ class MainMenuState extends MusicBeatState
 			if (Assets.exists(Files.image('menus/mainmenu/${optionShit[i]}')))
 				tex = Files.sparrowAtlas('menus/mainmenu/${optionShit[i]}');
 
-			var menuItem:FlxSprite = new FlxSprite(0, 60 + (i * 160));
+			menuItem = new FlxSprite(0, 60 + (i * 160));
 			menuItem.frames = tex;
 			menuItem.animation.addByPrefix('idle', optionShit[i] + " basic", 24);
 			menuItem.animation.addByPrefix('selected', optionShit[i] + " white", 24);
