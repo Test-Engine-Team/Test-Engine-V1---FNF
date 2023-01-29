@@ -35,7 +35,7 @@ class Options extends MusicBeatState {
     var maintextgroup:FlxTypedGroup<Alphabet>;
     var bg:FlxSprite;
     var curSelected:Int = 0;
-    var Items:Array<String> = ['Keybinds', 'Gameplay', 'Modifiers', 'Graphics', 'Optimization'];
+    var Items:Array<String> = ['Keybinds', 'Gameplay', 'Modifiers', 'Graphics'];
     var timeSinceSelect:Float = -10;
 
     override function create() {

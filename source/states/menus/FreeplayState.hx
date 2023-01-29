@@ -173,9 +173,9 @@ class FreeplayState extends MusicBeatState
 		else if (downP)
 			changeSelection(1);
 
-		if (controls.LEFT_P && !FlxG.keys.pressed.SHIFT)
+		if (controls.LEFT_P)
 			changeDiff(-1);
-		else if (controls.RIGHT_P && !FlxG.keys.pressed.SHIFT)
+		else if (controls.RIGHT_P)
 			changeDiff(1);
 
 		if (controls.BACK)
@@ -219,7 +219,7 @@ class FreeplayState extends MusicBeatState
 		intendedScore = Highscore.getScore(currentSong.path, curDifficulty);
 		#end
 
-		diffText.text = currentSong.diffs[curDifficulty].toUpperCase();
+		diffText.text = "< " + currentSong.diffs[curDifficulty].toUpperCase() + " >";
 	}
 
 	//dumb shit
@@ -231,7 +231,7 @@ class FreeplayState extends MusicBeatState
 		intendedScore = Highscore.getScore(songList[curSelected].path, curDifficulty);
 		#end
 
-		diffText.text = songList[curSelected].diffs[curDifficulty].toUpperCase();
+		diffText.text = "< " + songList[curSelected].diffs[curDifficulty].toUpperCase() + " >";
 	}
 
 	function checkDiffs(oldDiffs:Array<String>, curDiffs:Array<String>) {

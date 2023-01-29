@@ -9,6 +9,7 @@ import flixel.FlxG;
 import sys.FileSystem;
 import polymod.Polymod;
 #end
+import handlers.ClientPrefs;
 
 class Files{
     static var file:String;
@@ -29,7 +30,12 @@ class Files{
         return file = 'assets/$folder/$song.ogg';
     }
 
-    inline public static function font(font:String, extention:String = 'ttf') {
+    inline public static function font(font:String, ?extention:String = 'ttf') {
+
+        if (font == '') {
+            font = ClientPrefs.defaultFont;
+        }
+
         #if html5
         extention = 'woff';
         #end

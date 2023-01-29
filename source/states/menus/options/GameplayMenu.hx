@@ -33,8 +33,8 @@ class GameplayMenu extends MusicBeatState{
             }
         },
         {
-            name: "Downscroll",
-            description: "The notefield has been inverted to have the notes fall instead of rise.",
+            name: "Scroll Type",
+            description: "Which way does the note field go",
             type: BOOL,
             min: 0,
             max: 1,
@@ -45,7 +45,7 @@ class GameplayMenu extends MusicBeatState{
                 }
             },
             valueFunc: function() {
-                return (ClientPrefs.downscroll) ? "Enabled" : "Disabled";
+                return (ClientPrefs.downscroll) ? "Downscroll" : "Upscroll";
             }
         },
         {
@@ -136,6 +136,22 @@ class GameplayMenu extends MusicBeatState{
             },
             valueFunc: function() {
                 return (ClientPrefs.botPlay) ? "Enabled" : "Disabled";
+            }
+        },
+        {
+            name: "Practice",
+            description: "You cant die! Score will not be saved!",
+            type: BOOL,
+            min: 0,
+            max: 1,
+            //conflicts: ['FC Mode', 'Max Misses'],
+            updateFunc: function(menuOption:MenuOption, elapsed:Float) {
+                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
+                    ClientPrefs.practice = !ClientPrefs.practice;
+                }
+            },
+            valueFunc: function() {
+                return (ClientPrefs.practice) ? "Enabled" : "Disabled";
             }
         },
         {

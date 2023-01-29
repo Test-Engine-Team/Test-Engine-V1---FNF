@@ -185,9 +185,9 @@ class StoryMenuState extends MusicBeatState
 				}
 				#end
 
-				if (controls.RIGHT_P && !FlxG.keys.pressed.SHIFT)
+				if (controls.RIGHT_P)
 					changeDifficulty(1);
-				else if (controls.LEFT_P && !FlxG.keys.pressed.SHIFT)
+				else if (controls.LEFT_P)
 					changeDifficulty(-1);
 			}
 

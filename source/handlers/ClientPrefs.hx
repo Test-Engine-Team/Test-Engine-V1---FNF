@@ -22,6 +22,7 @@ class ClientPrefs {
 	public static var freeplayCutscenes:Bool = false;
 	public static var safeFrames:Int = 10;
 	public static var botPlay:Bool = false;
+	public static var practice:Bool = false;
 	public static var shitSystem:Bool = true;
 	public static var camMoveOnHit:Bool = true;
 
@@ -57,7 +58,8 @@ class ClientPrefs {
     public static var tankmanFloat:Bool = false;
 
 	// modifiable stuff for modding
-	public static var fairFightHealthLossCount:Float = 0.022;
+	public static var fairFightHealthLossCount:Float = 0.02;
+	public static var defaultFont:String = 'vcr';
 
     public static function saveSettings() {
 		for (setting in settingNames) {
