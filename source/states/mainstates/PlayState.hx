@@ -1394,7 +1394,7 @@ class PlayState extends MusicBeatState {
 			noteSplash = false;
 		}
 
-		if (!ClientPrefs.botPlay) {
+		if (!ClientPrefs.botPlay && !ClientPrefs.practice) {
 			var scoreIncrease:Float = score * ((combo + 1) * 0.05);
 			score += Math.floor(scoreIncrease);
 			songScore += score;
