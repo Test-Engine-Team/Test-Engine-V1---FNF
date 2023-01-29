@@ -12,7 +12,7 @@ import Controls;
 
 class ClientPrefs {
 	//For load and save.
-	static var settingNames:Array<String> = ["flashingLights", "spinnyspin", "fairFight", "poisonPlus", "fcMode", "maxPoisonHits", "limitMisses", "maxMisses", "freeplayCutscenes", "downscroll", "safeFrames", "speed", "ghostTapping", "showComboSprite", "antialiasing", "quality", "uiAlpha", "camMoveOnHit"];
+	static var settingNames:Array<String> = ["flashingLights", "spinnyspin", "fairFight", "poisonPlus", "fcMode", "maxPoisonHits", "limitMisses", "maxMisses", "freeplayCutscenes", "downscroll", "safeFrames", "botPlay", "practice", "speed", "ghostTapping", "showComboSprite", "antialiasing", "quality", "uiAlpha", "camMoveOnHit"];
 
 	// Options
 	public static var flashingLights:Bool = true; //this assumes this is true which is bad but i dunno how to make a popup on the start of the game like PE
@@ -22,6 +22,7 @@ class ClientPrefs {
 	public static var freeplayCutscenes:Bool = false;
 	public static var safeFrames:Int = 10;
 	public static var botPlay:Bool = false;
+	public static var practice:Bool = false;
 	public static var shitSystem:Bool = true;
 	public static var camMoveOnHit:Bool = true;
 
@@ -57,7 +58,8 @@ class ClientPrefs {
     public static var tankmanFloat:Bool = false;
 
 	// modifiable stuff for modding
-	public static var fairFightHealthLossCount:Float = 0.00110;
+	public static var fairFightHealthLossCount:Float = 0.02;
+	public static var defaultFont:String = 'vcr';
 
     public static function saveSettings() {
 		for (setting in settingNames) {
