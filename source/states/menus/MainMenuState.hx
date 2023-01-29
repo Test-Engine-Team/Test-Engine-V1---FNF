@@ -1,5 +1,8 @@
 package states.menus;
 
+import openfl.Assets;
+import handlers.CoolUtil;
+import scriptStuff.HiScript;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
@@ -29,7 +32,7 @@ class MainMenuState extends MusicBeatState
 	var menuItems:FlxTypedGroup<FlxSprite>;
 
 	#if !switch
-	var optionShit:Array<String> = ['story mode', 'freeplay', 'donate', 'options'];
+	var optionShit:Array<String> = ['story mode', 'freeplay', 'discord', 'options'];
 	#else
 	var optionShit:Array<String> = ['story mode', 'freeplay'];
 	#end
@@ -46,17 +49,14 @@ class MainMenuState extends MusicBeatState
 	var curTristanFunny:Int = 0;
 	var curDDLCFunny:Int = 0;
 
+	#if SCRIPTS_ENABLED
+    var script:HiScript;
+	#end
+
 	override function create()
 	{
 		transIn = FlxTransitionableState.defaultTransIn;
 		transOut = FlxTransitionableState.defaultTransOut;
-
-		if (!FlxG.sound.music.playing)
-		{
-			FlxG.sound.playMusic(Files.music('freakyMenu'));
-		}
-
-		persistentUpdate = persistentDraw = true;
 
 		var bg:FlxSprite = new FlxSprite(-80).loadGraphic(Files.image('menuBG'));
 		bg.scrollFactor.x = 0;
@@ -66,6 +66,22 @@ class MainMenuState extends MusicBeatState
 		bg.screenCenter();
 		bg.antialiasing = true;
 		add(bg);
+
+		#if SCRIPTS_ENABLED
+		script = new HiScript('states/MainMenuState');
+        if (!script.isBlank && script.expr != null) {
+            script.interp.scriptObject = this;
+            script.interp.execute(script.expr);
+        }
+        script.callFunction("create");
+		#end
+
+		if (!FlxG.sound.music.playing)
+		{
+			FlxG.sound.playMusic(Files.music('freakyMenu'));
+		}
+
+		persistentUpdate = persistentDraw = true;
 
 		camFollow = new FlxObject(0, 0, 1, 1);
 		add(camFollow);
@@ -82,13 +98,20 @@ class MainMenuState extends MusicBeatState
 		add(magenta);
 		// magenta.scrollFactor.set();
 
+		#if SCRIPTS_ENABLED
+		script.callFunction("createBellowItems");
+		#end
+
 		menuItems = new FlxTypedGroup<FlxSprite>();
 		add(menuItems);
 
-		var tex = Files.sparrowAtlas('FNF_main_menu_assets');
-
 		for (i in 0...optionShit.length)
 		{
+			var tex = Files.sparrowAtlas('menus/mainmenu/donate');
+			
+			if (Assets.exists(Files.image('menus/mainmenu/${optionShit[i]}')))
+				tex = Files.sparrowAtlas('menus/mainmenu/${optionShit[i]}');
+
 			var menuItem:FlxSprite = new FlxSprite(0, 60 + (i * 160));
 			menuItem.frames = tex;
 			menuItem.animation.addByPrefix('idle', optionShit[i] + " basic", 24);
@@ -113,12 +136,19 @@ class MainMenuState extends MusicBeatState
 		changeItem();
 
 		super.create();
+
+		#if SCRIPTS_ENABLED
+		script.callFunction("createPost");
+		#end
 	}
 
 	var selectedSomethin:Bool = false;
 
 	override function update(elapsed:Float)
 	{
+		#if SCRIPTS_ENABLED
+		script.callFunction("update", [elapsed]);
+		#end
 		if (FlxG.sound.music.volume < 0.8)
 		{
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
@@ -179,12 +209,6 @@ class MainMenuState extends MusicBeatState
 				return;
 			}
 			#end
-			#if SCRIPTS_ENABLED
-			if (FlxG.keys.justPressed.P) {
-				FlxG.switchState(new states.menus.HScriptTestState());
-				return;
-			}
-			#end
 
 			if (FlxG.keys.justPressed.U)
 				ugheasteregg = true;
@@ -194,13 +218,9 @@ class MainMenuState extends MusicBeatState
 
 			if (controls.ACCEPT)
 			{
-				if (optionShit[curSelected] == 'donate')
+				if (optionShit[curSelected] == 'discord')
 				{
-					#if linux
-					Sys.command('/usr/bin/xdg-open', ["https://ninja-muffin24.itch.io/funkin", "&"]);
-					#else
-					FlxG.openURL('https://ninja-muffin24.itch.io/funkin');
-					#end
+					CoolUtil.openLink('https://discord.gg/4bJ8zaapcV');
 				}
 				else
 				{

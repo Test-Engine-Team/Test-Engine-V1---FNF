@@ -30,7 +30,7 @@ class ModSelectSubstate extends MusicBeatSubstate {
         ];
         modList.insert(0, "Base Game");
 
-        coolEpicAndCoolGradient = new FlxSprite(1280, 0, Files.image("menus/coolModSelectGradient"));
+        coolEpicAndCoolGradient = new FlxSprite(1280, 0, Files.image("menus/mainmenu/coolModSelectGradient"));
         coolEpicAndCoolGradient.scrollFactor.set();
         coolEpicAndCoolGradient.color = states.menus.LoadingState.modData.selectColor;
         add(coolEpicAndCoolGradient);

@@ -24,7 +24,6 @@ function create() {
 		stageCurtains.antialiasing = true;
 		stageCurtains.scrollFactor.set(1.3, 1.3);
 		stageCurtains.active = false;
+		add(stageCurtains);
 	}
-	
-	add(stageCurtains);
 }

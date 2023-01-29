@@ -8,6 +8,8 @@ using StringTools;
 
 class CoolUtil
 {
+	public static var state:String = 'TemplateState';
+
 	public static function coolTextFile(path:String):Array<String>
 	{
 		var daList:Array<String> = Assets.getText(path).trim().split('\n');
@@ -41,5 +43,19 @@ class CoolUtil
 			return FlxColor.fromRGB(rgbArray[0], rgbArray[1], rgbArray[2]);
 		}
 		return (color.startsWith("#") || color.startsWith("0x")) ? FlxColor.fromString(color) : FlxColor.fromString("#" + color);
+	}
+
+	public static function openLink(Link:String = 'https://google.com') {
+		#if linux
+		Sys.command('/usr/bin/xdg-open', [Link, "&"]);
+		#else
+		FlxG.openURL(Link);
+		#end
+
+	}
+
+	public static function switchToCustomState(To:String) {
+		state = To;
+		FlxG.switchState(new states.menus.CustomState());
 	}
 }

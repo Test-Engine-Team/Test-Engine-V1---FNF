@@ -59,6 +59,7 @@ class HiScript {
                 "FlxSprite" => flixel.FlxSprite,
                 //Abstract Imports
                 "FlxColor" => Type.resolveClass("flixel.util._FlxColor.FlxColor_Impl_"),
+                "FlxText" => flixel.text.FlxText,
                 //Flixel Addons because hscript says "FUCK YOU! I AINT IMPORTING ADDONS!"
                 "FlxTrail" => flixel.addons.effects.FlxTrail,
                 "FlxBackdrop" => flixel.addons.display.FlxBackdrop,

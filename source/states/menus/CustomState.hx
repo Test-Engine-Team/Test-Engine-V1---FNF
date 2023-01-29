@@ -1,28 +1,22 @@
 package states.menus;
 
-import flixel.FlxG;
-import flixel.text.FlxText;
 import scriptStuff.HiScript;
 import handlers.MusicBeatState;
 
-class HScriptTestState extends MusicBeatState {
+class CustomState extends MusicBeatState {
     #if SCRIPTS_ENABLED
     var script:HiScript;
-    public var outsideTxt:FlxText;
 
     override public function create() {
         super.create();
 
-        script = new HiScript("assets/testScript");
+        script = new HiScript('states/${handlers.CoolUtil.state}');
         if (!script.isBlank && script.expr != null) {
             script.interp.scriptObject = this;
             script.setValue("yooo", true);
             script.interp.execute(script.expr);
         }
         script.callFunction("create");
-
-        outsideTxt = new FlxText(10, 10, 0, "This is a variable inside the class to test accessing outside vars.", 16);
-        add(outsideTxt);
 
         script.callFunction("createPost");
     }
