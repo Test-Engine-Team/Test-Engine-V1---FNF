@@ -57,7 +57,7 @@ class ClientPrefs {
     public static var tankmanFloat:Bool = false;
 
 	// modifiable stuff for modding
-	public static var fairFightHealthLossCount:Float = 0.00110;
+	public static var fairFightHealthLossCount:Float = 0.022;
 
     public static function saveSettings() {
 		for (setting in settingNames) {
