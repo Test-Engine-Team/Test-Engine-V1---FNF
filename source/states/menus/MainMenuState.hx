@@ -274,6 +274,10 @@ class MainMenuState extends MusicBeatState
 		{
 			spr.screenCenter(X);
 		});
+
+		#if SCRIPTS_ENABLED
+		script.callFunction("updatePost", [elapsed]);
+		#end
 	}
 
 	function changeItem(huh:Int = 0)
