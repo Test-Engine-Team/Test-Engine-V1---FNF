@@ -59,7 +59,7 @@ class MainMenuState extends MusicBeatState
 		transIn = FlxTransitionableState.defaultTransIn;
 		transOut = FlxTransitionableState.defaultTransOut;
 
-		var bg:FlxSprite = new FlxSprite(-80).loadGraphic(Files.image('menuBG'));
+		var bg:FlxSprite = new FlxSprite(-80).loadGraphic(Files.image('menus/mainmenu/menuBG'));
 		bg.scrollFactor.x = 0;
 		bg.scrollFactor.y = 0.18;
 		bg.setGraphicSize(Std.int(bg.width * 1.1));
@@ -87,7 +87,7 @@ class MainMenuState extends MusicBeatState
 		camFollow = new FlxObject(0, 0, 1, 1);
 		add(camFollow);
 
-		magenta = new FlxSprite(-80).loadGraphic(Files.image('menuDesat'));
+		magenta = new FlxSprite(-80).loadGraphic(Files.image('menus/mainmenu/menuDesat'));
 		magenta.scrollFactor.x = 0;
 		magenta.scrollFactor.y = 0.18;
 		magenta.setGraphicSize(Std.int(magenta.width * 1.1));

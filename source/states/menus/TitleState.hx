@@ -1,5 +1,6 @@
 package states.menus;
 
+import scriptStuff.HiScript;
 #if desktop
 import handlers.DiscordHandler;
 #end
@@ -51,8 +52,24 @@ class TitleState extends MusicBeatState
 
 	var wackyImage:FlxSprite;
 
+	var script:HiScript;
+
+	var logoBl:FlxSprite;
+	var gfDance:FlxSprite;
+	var danceLeft:Bool = false;
+	var titleText:FlxSprite;
+
 	override public function create():Void
 	{
+		#if SCRIPTS_ENABLED
+		script = new HiScript('states/TitleState');
+        if (!script.isBlank && script.expr != null) {
+            script.interp.scriptObject = this;
+            script.interp.execute(script.expr);
+        }
+        script.callFunction("create");
+		#end
+
 		persistentUpdate = false;
 
 		swagShader = new ColorSwap();
@@ -64,11 +81,6 @@ class TitleState extends MusicBeatState
 
 		startIntro();
 	}
-
-	var logoBl:FlxSprite;
-	var gfDance:FlxSprite;
-	var danceLeft:Bool = false;
-	var titleText:FlxSprite;
 
 	function startIntro()
 	{
@@ -101,14 +113,8 @@ class TitleState extends MusicBeatState
 		Conductor.changeBPM(102);
 		persistentUpdate = true;
 
-		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
-		// bg.antialiasing = true;
-		// bg.setGraphicSize(Std.int(bg.width * 0.6));
-		// bg.updateHitbox();
-		add(bg);
-
 		logoBl = new FlxSprite(-150, -100);
-		logoBl.frames = FlxAtlasFrames.fromSparrow('assets/images/logoBumpin.png', 'assets/images/logoBumpin.xml');
+		logoBl.frames = (Files.sparrowAtlas('menus/titlescreen/logoBumpin'));
 		logoBl.antialiasing = true;
 		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24);
 		logoBl.animation.play('bump');
@@ -118,7 +124,7 @@ class TitleState extends MusicBeatState
 		// logoBl.color = FlxColor.BLACK;
 
 		gfDance = new FlxSprite(FlxG.width * 0.4, FlxG.height * 0.07);
-		gfDance.frames = FlxAtlasFrames.fromSparrow('assets/images/gfDanceTitle.png', 'assets/images/gfDanceTitle.xml');
+		gfDance.frames = (Files.sparrowAtlas('menus/titlescreen/gfDanceTitle'));
 		gfDance.animation.addByIndices('danceLeft', 'gfDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
 		gfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
 		gfDance.antialiasing = true;
@@ -127,7 +133,7 @@ class TitleState extends MusicBeatState
 		add(logoBl);
 
 		titleText = new FlxSprite(100, FlxG.height * 0.8);
-		titleText.frames = FlxAtlasFrames.fromSparrow('assets/images/titleEnter.png', 'assets/images/titleEnter.xml');
+		titleText.frames = Files.sparrowAtlas('menus/titlescreen/titleEnter');
 		titleText.animation.addByPrefix('idle', "Press Enter to Begin", 24);
 		titleText.animation.addByPrefix('press', "ENTER PRESSED", 24);
 		titleText.antialiasing = true;
@@ -137,7 +143,7 @@ class TitleState extends MusicBeatState
 		// titleText.screenCenter(X);
 		add(titleText);
 
-		var logo:FlxSprite = new FlxSprite().loadGraphic('assets/images/logo.png');
+		var logo:FlxSprite = new FlxSprite().loadGraphic(Files.image('menus/titlescreen/logo'));
 		logo.screenCenter();
 		logo.antialiasing = true;
 		// add(logo);
@@ -159,7 +165,7 @@ class TitleState extends MusicBeatState
 
 		credTextShit.visible = false;
 
-		ngSpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic('assets/images/newgrounds_logo.png');
+		ngSpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Files.image('menus/titlescreen/newgrounds_logo'));
 		add(ngSpr);
 		ngSpr.visible = false;
 		ngSpr.setGraphicSize(Std.int(ngSpr.width * 0.8));
@@ -176,6 +182,10 @@ class TitleState extends MusicBeatState
 
 		initialized = true;
 		// credGroup.add(credTextShit);
+
+		#if SCRIPTS_ENABLED
+		script.callFunction("createPost");
+		#end
 	}
 
 	function getIntroTextShit():Array<Array<String>>
@@ -197,6 +207,10 @@ class TitleState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
+		#if SCRIPTS_ENABLED
+		script.callFunction("update", [elapsed]);
+		#end
+
 		if (FlxG.sound.music != null)
 			Conductor.songPosition = FlxG.sound.music.time;
 		// FlxG.watch.addQuick('amp', FlxG.sound.music.amplitude);
@@ -256,6 +270,10 @@ class TitleState extends MusicBeatState
 		}
 
 		super.update(elapsed);
+
+		#if SCRIPTS_ENABLED
+		script.callFunction("updatePost", [elapsed]);
+		#end
 	}
 
 	function createCoolText(textArray:Array<String>)
@@ -292,6 +310,10 @@ class TitleState extends MusicBeatState
 	{
 		super.beatHit();
 
+		#if SCRIPTS_ENABLED
+		script.callFunction("beatHit");
+		#end
+
 		if (skippedIntro) {
 			logoBl.animation.play('bump');
 			danceLeft = !danceLeft;
@@ -301,7 +323,7 @@ class TitleState extends MusicBeatState
 
 		switch (curBeat) {
 			case 1:
-				createCoolText(['ninjamuffin99', 'phantomArcade', 'kawaisprite', 'evilsk8er']);
+				createCoolText(CoolUtil.coolTextFile(Files.txt('data/creators')));
 			// credTextShit.visible = true;
 			case 3:
 				addMoreText('present');

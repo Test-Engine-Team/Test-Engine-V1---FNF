@@ -42,7 +42,7 @@ class KeybindsMenu extends MusicBeatState {
             ClientPrefs.resetKeybind
         ];
 
-        var bg:FlxSprite = new FlxSprite().loadGraphic(Files.image('menuDesat'));
+        var bg:FlxSprite = new FlxSprite().loadGraphic(Files.image('menus/mainmenu/menuDesat'));
         bg.color = 0x302D2D;
         add(bg);
 

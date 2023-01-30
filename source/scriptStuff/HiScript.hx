@@ -57,9 +57,9 @@ class HiScript {
         
                 "FlxG" => flixel.FlxG,
                 "FlxSprite" => flixel.FlxSprite,
+                "FlxText" => flixel.text.FlxText,
                 //Abstract Imports
                 "FlxColor" => Type.resolveClass("flixel.util._FlxColor.FlxColor_Impl_"),
-                "FlxText" => flixel.text.FlxText,
                 //Flixel Addons because hscript says "FUCK YOU! I AINT IMPORTING ADDONS!"
                 "FlxTrail" => flixel.addons.effects.FlxTrail,
                 "FlxBackdrop" => flixel.addons.display.FlxBackdrop,
@@ -68,6 +68,7 @@ class HiScript {
                 "Files" => handlers.Files,
                 "Conductor" => handlers.Conductor,
                 "PlayState" => states.mainstates.PlayState,
+                "MusicBeatState" => handlers.MusicBeatState,
         
                 "Assets" => Assets
             ];

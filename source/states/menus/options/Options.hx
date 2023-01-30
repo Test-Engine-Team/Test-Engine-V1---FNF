@@ -39,7 +39,7 @@ class Options extends MusicBeatState {
     var timeSinceSelect:Float = -10;
 
     override function create() {
-        bg = new FlxSprite().loadGraphic(Files.image('menuDesat'));
+        bg = new FlxSprite().loadGraphic(Files.image('menus/mainmenu/menuDesat'));
         bg.color = 0x302D2D;
 		add(bg);
         
