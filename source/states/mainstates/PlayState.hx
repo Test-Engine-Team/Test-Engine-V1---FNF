@@ -125,6 +125,7 @@ class PlayState extends MusicBeatState {
 	var talking:Bool = true;
 	var songScore:Int = 0;
 	var songMisses:Int = 0;
+	var fcing:Bool = false;
 	var infoText:FlxText;
 
 	public static var campaignScore:Int = 0;
@@ -945,12 +946,25 @@ class PlayState extends MusicBeatState {
 			}
 		}
 
-		if (ClientPrefs.limitMisses) {
-			infoText.text = "Score: " + songScore + " || Misses: " + songMisses + " / " + ClientPrefs.maxMisses + " || Combo: " + combo + " || Notes Hit: " + notesHit;
-		}
-		else 
+		if (fcing)
 		{
-			infoText.text = "Score: " + songScore + " || Misses: " + songMisses + " || Combo: " + combo + " || Notes Hit: " + notesHit;
+			if (ClientPrefs.limitMisses) {
+				infoText.text = "Score: " + songScore + " || Misses: " + songMisses + " (FC) / " + ClientPrefs.maxMisses + " || Combo: " + combo + " || Notes Hit: " + notesHit;
+			}
+			else 
+			{
+				infoText.text = "Score: " + songScore + " || Misses: " + songMisses + " (FC) || Combo: " + combo + " || Notes Hit: " + notesHit;
+			}
+		}
+		else
+		{
+			if (ClientPrefs.limitMisses) {
+				infoText.text = "Score: " + songScore + " || Misses: " + songMisses + " / " + ClientPrefs.maxMisses + " || Combo: " + combo + " || Notes Hit: " + notesHit;
+			}
+			else 
+			{
+				infoText.text = "Score: " + songScore + " || Misses: " + songMisses + " || Combo: " + combo + " || Notes Hit: " + notesHit;
+			}
 		}
 
 		#if desktop
@@ -1173,8 +1187,12 @@ class PlayState extends MusicBeatState {
 					if (noteHitParams.enableZoom)
 						camZooming = true;
 
-					if (ClientPrefs.fairFight)
-						health -= ClientPrefs.fairFightHealthLossCount;
+					if (ClientPrefs.fairFight) {
+						if (SONG.song == 'High' || SONG.song == 'Test' || SONG.song == 'Cocoa' || SONG.song == 'Ugh')
+							health -= ClientPrefs.fairFightHealthLossCount - 0.005;
+						else
+							health -= ClientPrefs.fairFightHealthLossCount;
+					}
 
 					//hopefully i make the cam offset customizable...
 					if (ClientPrefs.camMoveOnHit && noteHitParams.camMoveOnHit && !PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection) {
@@ -1215,6 +1233,7 @@ class PlayState extends MusicBeatState {
 							songMisses++;
 							songScore -= 10;
 							combo = 0;
+							fcing = false;
 							#if SCRIPTS_ENABLED scripts_call("noteMiss"); #end
 							if (ClientPrefs.poisonPlus == true
 								&& poisonTimes < ClientPrefs.maxPoisonHits
@@ -1675,6 +1694,9 @@ class PlayState extends MusicBeatState {
 			popUpScore(note.strumTime);
 			combo += 1;
 			notesHit++;
+			if (notesHit == 1 && songMisses == 0) {
+				fcing = true; //ik this is a dumb way to do it but it works!
+			}
 		}
 
 		//hopefully i make the cam offset customizable...
