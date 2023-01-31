@@ -347,10 +347,6 @@ class PlayState extends MusicBeatState {
 		iconP2.y = healthBar.y - (iconP2.height / 2);
 		add(iconP2);
 
-		if (SONG.song.toLowerCase() == 'test') {
-			iconP2.antialiasing = true;
-		}
-
 		strumLineNotes.cameras = [camHUD];
 		notes.cameras = [camHUD];
 		healthBar.cameras = [camHUD];
@@ -1247,18 +1243,6 @@ class PlayState extends MusicBeatState {
 									poisonTimes -= 1;
 								});
 							}
-
-							if (SONG.song.toLowerCase() == 'test') {
-								FlxG.updateFramerate -= 10;
-								FlxG.drawFramerate -= 10;
-
-								#if sys
-								if (FlxG.drawFramerate <= 10) {
-									trace("ERROR");
-									Sys.exit(0);
-								}
-								#end
-							}
 						}
 
 						daNote.active = false;
@@ -1302,13 +1286,6 @@ class PlayState extends MusicBeatState {
 			#if !switch
 			Highscore.saveScore(SONG.song, songScore, storyDifficulty);
 			#end
-		}
-		switch (SONG.song.toLowerCase()) {
-			case 'test':
-				FlxG.updateFramerate = ClientPrefs.framerate;
-				FlxG.drawFramerate = ClientPrefs.framerate;
-
-				//FlxG.save.data.unlockedTestSong = true;
 		}
 
 		if (isStoryMode) {
@@ -1745,14 +1722,6 @@ class PlayState extends MusicBeatState {
 
 	override function beatHit() {
 		super.beatHit();
-
-		/*
-			commenting this out because it crashed when testing it on fourth wall.
-			why is it even sorting notes?
-			if (generatedMusic && notes != null && notes.length > 0)
-			{
-				notes.sort(FlxSort.byY, FlxSort.DESCENDING);
-		}*/
 
 		if (SONG.notes[Math.floor(curStep / 16)] != null) {
 			if (SONG.notes[Math.floor(curStep / 16)].changeBPM) {
