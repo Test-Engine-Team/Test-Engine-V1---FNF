@@ -4,6 +4,8 @@ package states.etc.cutscenes;
 //WIP. DO NOT MESS WITH.
 import openfl.Assets;
 import handlers.Files;
+import handlers.SubtitleHandler;
+import handlers.ClientPrefs;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.util.FlxTimer;
@@ -19,6 +21,8 @@ class HardcodedCutscene extends handlers.MusicBeatSubstate {
             case "SENPAI FUCKING DIES OH GOD":
                 FlxG.sound.playMusic(Files.music('LunchboxScary'), 0);
 				FlxG.sound.music.fadeIn(1, 0, 0.8);
+
+				//camHUD.visible = false;
 
 				var red:FlxSprite = new FlxSprite(-100, -100).makeGraphic(FlxG.width * 2, FlxG.height * 2, 0xFFff1b31);
 				red.scrollFactor.set();
@@ -44,10 +48,13 @@ class HardcodedCutscene extends handlers.MusicBeatSubstate {
 							swagTimer.reset();
 						else {
 							senpaiEvil.animation.play('idle');
+							SubtitleHandler.addSub('Senpai Dies', 10.0);
+							//SubtitleHandler.subText.setFormat(Files.font('pixel'), 24);
 							FlxG.sound.play(Files.sound('Senpai_Dies'), 1, false, null, true, function()
 							{
 								remove(senpaiEvil);
 								remove(red);
+								SubtitleHandler.destroy();
 								FlxG.camera.fade(0xFFFFFFFF, 0.01, true, function()
 								{
 									var cutscene = new states.etc.cutscenes.DialogueCutscene('assets/data/thorns/thornsDialogue.txt');

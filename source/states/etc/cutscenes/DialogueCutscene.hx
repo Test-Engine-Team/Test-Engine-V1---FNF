@@ -38,7 +38,6 @@ class DialogueCutscene extends MusicBeatSubstate {
         text = new FlxTypeText(0, 0, 0, "", 32);
         add(text);
 
-
         var daText:String = Assets.getText(filePath);
         commandArray = [
             for (line in daText.split('\n'))
@@ -98,7 +97,7 @@ class DialogueCutscene extends MusicBeatSubstate {
         super.update(elapsed);
         #if (SCRIPTS_ENABLED) script.callFunction("update", [elapsed]); #end
         if (dialogueBox.animation.curAnim == null) return;
-        if (controls.ACCEPT && dialogueBox.animation.curAnim.name != "open") {
+        if (FlxG.keys.justPressed.ANY && dialogueBox.animation.curAnim.name != "open") {
             #if (SCRIPTS_ENABLED) script.callFunction("nextLine"); #end
             FlxG.sound.play(Files.sound('clickText'), 0.8);
             untilTalk();

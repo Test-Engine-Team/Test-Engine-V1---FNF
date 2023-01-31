@@ -115,9 +115,9 @@ class PlayState extends MusicBeatState {
 	private var generatedMusic:Bool = false;
 	private var startingSong:Bool = false;
 
-	private var iconP1:HealthIcon;
-	private var iconP2:HealthIcon;
-	private var camHUD:FlxCamera;
+	public var iconP1:HealthIcon;
+	public var iconP2:HealthIcon;
+	public var camHUD:FlxCamera;
 	private var camGame:FlxCamera;
 
 	var dialogue:Array<String> = ['dad:blah blah blah', 'bf:coolswag'];
