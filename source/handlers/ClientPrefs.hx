@@ -43,6 +43,7 @@ class ClientPrefs {
 	public static var limitMisses:Bool = false;
 	public static var maxMisses:Int = 2;
 	public static var speed:Int = 1;
+	public static var noteSplashes:Bool = true;
 
 	// Graphics
 	public static var showComboSprite:Bool = true;

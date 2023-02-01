@@ -44,6 +44,7 @@ import handlers.Conductor;
 import handlers.Character;
 import handlers.Files;
 import handlers.Stage;
+import handlers.NoteSplash;
 #if desktop
 import handlers.DiscordHandler;
 #end
@@ -127,6 +128,8 @@ class PlayState extends MusicBeatState {
 	var songMisses:Int = 0;
 	var fcing:Bool = false;
 	var infoText:FlxText;
+
+	var grpNoteSplashes:FlxTypedGroup<NoteSplash>;
 
 	public static var campaignScore:Int = 0;
 	public static var campaignMisses:Int = 0;
@@ -292,6 +295,17 @@ class PlayState extends MusicBeatState {
 		strumLineNotes = new FlxTypedGroup<FlxSprite>();
 		add(strumLineNotes);
 
+		// fake notesplash cache type deal so that it loads in the graphic?
+
+		grpNoteSplashes = new FlxTypedGroup<NoteSplash>();
+
+		var noteSplash:NoteSplash = new NoteSplash(100, 100, 0);
+		grpNoteSplashes.add(noteSplash);
+		noteSplash.alpha = 0.1;
+		noteSplash.visible = ClientPrefs.noteSplashes;
+
+		add(grpNoteSplashes);
+
 		playerStrums = new FlxTypedGroup<FlxSprite>();
 
 		// startCountdown();
@@ -348,6 +362,7 @@ class PlayState extends MusicBeatState {
 		iconP2.y = healthBar.y - (iconP2.height / 2);
 		add(iconP2);
 
+		grpNoteSplashes.cameras = [camHUD];
 		strumLineNotes.cameras = [camHUD];
 		notes.cameras = [camHUD];
 		healthBar.cameras = [camHUD];
@@ -1358,7 +1373,7 @@ class PlayState extends MusicBeatState {
 
 	var endingSong:Bool = false;
 
-	private function popUpScore(strumtime:Float):Void {
+	private function popUpScore(strumtime:Float, daNote:Note):Void {
 		var noteDiff:Float = Math.abs(strumtime - Conductor.songPosition);
 		vocals.volume = 1;
 
@@ -1388,6 +1403,14 @@ class PlayState extends MusicBeatState {
 			daRating = 'good';
 			score = 200;
 			noteSplash = false;
+		}
+
+		if (noteSplash)
+		{
+			var noteSplash:NoteSplash = grpNoteSplashes.recycle(NoteSplash);
+			noteSplash.setupNoteSplash(daNote.x, daNote.y, daNote.noteData);
+			// new NoteSplash(note.x, daNote.y, daNote.noteData);
+			grpNoteSplashes.add(noteSplash);
 		}
 
 		if (!ClientPrefs.botPlay && !ClientPrefs.practice) {
@@ -1691,7 +1714,7 @@ class PlayState extends MusicBeatState {
 			camZooming = true;
 
 		if (!note.isSustainNote && noteHitParams.rateNote) {
-			popUpScore(note.strumTime);
+			popUpScore(note.strumTime, note);
 			combo += 1;
 			notesHit++;
 			if (notesHit == 1 && songMisses == 0) {

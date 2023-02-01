@@ -32,6 +32,22 @@ class GraphicsMenu extends MusicBeatState{
             }
         },
         {
+            name: "Note Splashes",
+            description: "Shows a Splash Animation when you hit Sick on a Note.",
+            type: BOOL,
+            min: 0,
+            max: 1,
+            //conflicts: null,
+            updateFunc: function(menuOption:MenuOption, elapsed:Float) {
+                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
+                    ClientPrefs.noteSplashes = !ClientPrefs.noteSplashes;
+                }
+            },
+            valueFunc: function() {
+                return (ClientPrefs.noteSplashes) ? "Enabled" : "Disabled";
+            }
+        },
+        {
             name: "UI Alpha",
             description: "How visible the UI is",
             type: PERCENT,
