@@ -60,7 +60,9 @@ class ClientPrefs {
 
 	//Extra
 	//public static var fullscreen:Bool = false;
+	#if !html5
 	public static var autoPause:Bool = true;
+	#end
 
 	// modifiable stuff for modding
 	public static var fairFightHealthLossCount:Float = 0.02;

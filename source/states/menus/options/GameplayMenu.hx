@@ -202,6 +202,7 @@ class GameplayMenu extends MusicBeatState{
                 return (ClientPrefs.flashingLights) ? "Enabled" : "Disabled";
             }
         },
+        #if !html5
         {
             name: "Auto Pause",
             description: "If enabled, the game will pause when you tab out",
@@ -219,6 +220,7 @@ class GameplayMenu extends MusicBeatState{
                 return (ClientPrefs.autoPause) ? "Enabled" : "Disabled";
             }
         },
+        #end
         {
             name: "Reset Cache",
             description: "Resets the Cache.",
