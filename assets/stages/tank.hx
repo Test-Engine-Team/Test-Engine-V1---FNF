@@ -98,6 +98,7 @@ function create() {
 		tankBop1.animation.addByPrefix('bop', 'fg tankhead far right', 24);
 		tankBop1.scrollFactor.set(1.7, 1.5);
 		tankBop1.antialiasing = true;
+		//foregroundSprites.add(tankBop1);
 		add(tankBop1);
 
 		tankBop2 = new FlxSprite(-300, 750);
@@ -106,6 +107,7 @@ function create() {
 		tankBop2.animation.addByPrefix('bop', 'fg tankhead 5', 24);
 		tankBop2.scrollFactor.set(2.0, 0.2);
 		tankBop2.antialiasing = true;
+		//foregroundSprites.add(tankBop2);
 		add(tankBop2);
 
 		tankBop3 = new FlxSprite(450, 940);
@@ -114,6 +116,7 @@ function create() {
 		tankBop3.animation.addByPrefix('bop', 'foreground man 3', 24);
 		tankBop3.scrollFactor.set(1.5, 1.5);
 		tankBop3.antialiasing = true;
+		//foregroundSprites.add(tankBop3);
 		add(tankBop3);
 
 		tankBop4 = new FlxSprite(1300, 1200);
@@ -122,6 +125,7 @@ function create() {
 		tankBop4.animation.addByPrefix('bop', 'fg tankhead 4', 24);
 		tankBop4.scrollFactor.set(3.5, 2.5);
 		tankBop4.antialiasing = true;
+		//foregroundSprites.add(tankBop4);
 		add(tankBop4);
 
 		tankBop5 = new FlxSprite(1300, 900);
@@ -130,6 +134,7 @@ function create() {
 		tankBop5.animation.addByPrefix('bop', 'fg tankman bobbin 3', 24);
 		tankBop5.scrollFactor.set(1.5, 1.5);
 		tankBop5.antialiasing = true;
+		//foregroundSprites.add(tankBop5);
 		add(tankBop5);
 
 		tankBop6 = new FlxSprite(1620, 700);
@@ -138,6 +143,7 @@ function create() {
 		tankBop6.animation.addByPrefix('bop', 'fg tankhead far right', 24);
 		tankBop6.scrollFactor.set(1.5, 1.5);
 		tankBop6.antialiasing = true;
+		//foregroundSprites.add(tankBop6);
 		add(tankBop6);
 	}
 }

@@ -106,6 +106,10 @@ class PlayState extends MusicBeatState {
 	private var health:Float = 1;
 	private var combo:Int = 0;
 	private var notesHit:Int = 0;
+	private var sicks:Int = 0;
+	private var goods:Int = 0;
+	private var bads:Int = 0;
+	private var shits:Int = 0;
 	private var poisonTimes:Int = 0;
 
 	private var healthBarBG:FlxSprite;
@@ -135,6 +139,8 @@ class PlayState extends MusicBeatState {
 	public static var campaignMisses:Int = 0;
 
 	public var defaultCamZoom:Float = 1.05;
+
+	public var foregroundSprites:FlxTypedGroup<FlxSprite>;
 
 	// how big to stretch the pixel art assets
 	public static var daPixelZoom:Float = 6;
@@ -279,6 +285,8 @@ class PlayState extends MusicBeatState {
 		}
 		scripts_call("create", [], false);
 		#end
+
+		add(foregroundSprites);
 
 		/*var doof:DialogueBox = new DialogueBox(false, dialogue);
 		// doof.x += 70;
@@ -1195,6 +1203,7 @@ class PlayState extends MusicBeatState {
 						deleteNote: true,
 						strumGlow: true,
 						rateNote: false,
+						noteSplashes: false,
 						camMoveOnHit: true
 					}
 					#if SCRIPTS_ENABLED scripts_call("dadNoteHit", [noteHitParams]); #end
@@ -1373,7 +1382,7 @@ class PlayState extends MusicBeatState {
 
 	var endingSong:Bool = false;
 
-	private function popUpScore(strumtime:Float, daNote:Note):Void {
+	private function popUpScore(strumtime:Float, daNote:Note, ?canSplash:Bool = true):Void {
 		var noteDiff:Float = Math.abs(strumtime - Conductor.songPosition);
 		vocals.volume = 1;
 
@@ -1395,18 +1404,22 @@ class PlayState extends MusicBeatState {
 			score = 50;
 			noteSplash = false;
 			ratingMiss = true;
+			shits++;
 		} else if (noteDiff > Conductor.safeZoneOffset * 0.75) {
 			daRating = 'bad';
 			score = 100;
 			noteSplash = false;
+			bads++;
 		} else if (noteDiff > Conductor.safeZoneOffset * 0.2) {
 			daRating = 'good';
 			score = 200;
 			noteSplash = false;
+			goods++;
 		}
 
-		if (noteSplash)
+		if (noteSplash && canSplash)
 		{
+			sicks++;
 			var noteSplash:NoteSplash = grpNoteSplashes.recycle(NoteSplash);
 			noteSplash.setupNoteSplash(daNote.x, daNote.y, daNote.noteData);
 			// new NoteSplash(note.x, daNote.y, daNote.noteData);
@@ -1706,6 +1719,7 @@ class PlayState extends MusicBeatState {
 			deleteNote: true,
 			strumGlow: true,
 			rateNote: true,
+			noteSplashes: true,
 			camMoveOnHit: true
 		}
 		#if SCRIPTS_ENABLED scripts_call("bfNoteHit", [noteHitParams]); #end
@@ -1714,7 +1728,7 @@ class PlayState extends MusicBeatState {
 			camZooming = true;
 
 		if (!note.isSustainNote && noteHitParams.rateNote) {
-			popUpScore(note.strumTime, note);
+			popUpScore(note.strumTime, note, noteHitParams.noteSplashes);
 			combo += 1;
 			notesHit++;
 			if (notesHit == 1 && songMisses == 0) {
