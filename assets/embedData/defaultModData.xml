@@ -35,7 +35,7 @@
 		<char default="gf"/>
 		<char default="bf"/>
 	</week>
-	<week name="Tankman" image="week7" songs="Ugh,Guns,Stress" songPaths="ugh,guns,stress" icons="tankman,tankman,tankman" diffs="Easy, Normal, Hard">
+	<week name="Tankmen" image="week7" songs="Ugh,Guns,Stress" songPaths="ugh,guns,stress" icons="tankman,tankman,tankman" diffs="Easy, Normal, Hard">
 		<char path="campaign_menu_UI_characters" idle="Tankman" xOffset="50" yOffset="150" scale="1"/>
 		<char default="gf"/>
 		<char default="bf"/>
