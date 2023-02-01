@@ -42,6 +42,10 @@ class Files{
         return file = 'assets/fonts/$font.$extention';
     }
 
+    inline public static function video(videoName:String) {
+        return file = 'assets/videos/$videoName.mp4';
+    }
+
     inline public static function songJson(songName:String, difficulty:String = 'Normal') {
         //kinda temp
         if (difficulty.toLowerCase() == 'normal') 
