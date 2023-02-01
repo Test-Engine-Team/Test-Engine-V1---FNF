@@ -79,6 +79,17 @@ class TitleState extends MusicBeatState
 
 		super.create();
 
+		/*
+		if (!persistentUpdate)
+		{
+			if(FlxG.save.data != null && FlxG.save.data.fullscreen)
+			{
+				FlxG.fullscreen = FlxG.save.data.fullscreen;
+				//trace('LOADED FULLSCREEN SETTING!!'); IK FUCK SHIT IM STUPID - MACKERY
+			}
+		}
+		*/
+
 		startIntro();
 	}
 
