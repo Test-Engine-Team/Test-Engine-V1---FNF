@@ -12,7 +12,7 @@ import Controls;
 
 class ClientPrefs {
 	//For load and save.
-	static var settingNames:Array<String> = ["flashingLights", "spinnyspin", "fairFight", "poisonPlus", "fcMode", "maxPoisonHits", "limitMisses", "maxMisses", "freeplayCutscenes", "downscroll", "safeFrames", "botPlay", "practice", "speed", "ghostTapping", "showComboSprite", "antialiasing", "quality", "uiAlpha", "camMoveOnHit", /*"fullscreen", */"autoPause"];
+	static var settingNames:Array<String> = ["flashingLights", "spinnyspin", "fairFight", "poisonPlus", "constantDrain", "constantHeal", "fcMode", "maxPoisonHits", "limitMisses", "maxMisses", "freeplayCutscenes", "downscroll", "safeFrames", "botPlay", "practice", "speed", "ghostTapping", "showComboSprite", "antialiasing", "quality", "uiAlpha", "camMoveOnHit", /*"fullscreen", */"autoPause", "scoreMultiplier"];
 
 	// Options
 	public static var flashingLights:Bool = true; //this assumes this is true which is bad but i dunno how to make a popup on the start of the game like PE
@@ -44,6 +44,8 @@ class ClientPrefs {
 	public static var maxMisses:Int = 2;
 	public static var speed:Int = 1;
 	public static var noteSplashes:Bool = true;
+	public static var constantDrain:Int = 0;
+	public static var constantHeal:Int = 0;
 
 	// Graphics
 	public static var showComboSprite:Bool = true;
@@ -63,6 +65,7 @@ class ClientPrefs {
 	#if !html5
 	public static var autoPause:Bool = true;
 	#end
+	public static var scoreMultiplier:Float = 1; //for future multiplier stuff
 
 	// modifiable stuff for modding
 	public static var fairFightHealthLossCount:Float = 0.02;

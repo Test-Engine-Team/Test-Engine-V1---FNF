@@ -924,6 +924,9 @@ class PlayState extends MusicBeatState {
 			#if SCRIPTS_ENABLED scripts_call("oldBfChange"); #end
 		}
 
+		health -= ClientPrefs.constantDrain * 1 / 700000;
+		health += ClientPrefs.constantHeal * -1 / 700000;
+
 		if (ClientPrefs.limitMisses)
 			health = 1;
 
@@ -1442,7 +1445,7 @@ class PlayState extends MusicBeatState {
 		}
 
 		if (!ClientPrefs.botPlay && !ClientPrefs.practice) {
-			var scoreIncrease:Float = score * ((combo + 1) * 0.05);
+			var scoreIncrease:Float = (score * ((combo + 1) * 0.05)) * ClientPrefs.scoreMultiplier;
 			score += Math.floor(scoreIncrease);
 			songScore += score;
 		}

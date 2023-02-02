@@ -134,6 +134,68 @@ class ModifiersMenu extends MusicBeatState {
             valueFunc: function() {
                 return Std.string(ClientPrefs.speed);
             }
+        },
+        {
+            name: "Health Drain",
+            description: "If health should slowly drain over time (multiplier)",
+            type: INT,
+            min: 10,
+            max: 500,
+            //conflicts: ["constantHeal"],
+            updateFunc: function(menuOption:MenuOption, elapsed:Float) {
+                if (FlxG.keys.justPressed.ENTER) {
+                    ClientPrefs.constantHeal = 0;
+                    if (ClientPrefs.constantDrain != 0)
+                        ClientPrefs.constantDrain = 0;
+                    else
+                        ClientPrefs.constantDrain = 10;
+                }
+                else if (FlxG.keys.justPressed.LEFT && ClientPrefs.constantDrain != 0) {
+                    ClientPrefs.constantDrain -= 10;
+                    if (ClientPrefs.constantDrain < menuOption.min) ClientPrefs.constantDrain = Std.int(menuOption.min);
+                }
+                else if (FlxG.keys.justPressed.RIGHT && ClientPrefs.constantDrain != 0) {
+                    ClientPrefs.constantDrain += 10;
+                    if (ClientPrefs.constantDrain > menuOption.max) ClientPrefs.constantDrain = Std.int(menuOption.max);
+                }
+            },
+            valueFunc: function() {
+                if (ClientPrefs.constantDrain != 0)
+                    return Std.string(ClientPrefs.constantDrain) + "x";
+                else
+                    return "Disabled";
+            }
+        },
+        {
+            name: "Health Increase",
+            description: "If health should slowly increase over time (multiplier)",
+            type: INT,
+            min: 10,
+            max: 500,
+            //conflicts: ["constantDrain"],
+            updateFunc: function(menuOption:MenuOption, elapsed:Float) {
+                if (FlxG.keys.justPressed.ENTER) {
+                    ClientPrefs.constantDrain = 0;
+                    if (ClientPrefs.constantHeal != 0)
+                        ClientPrefs.constantHeal = 0;
+                    else
+                        ClientPrefs.constantHeal = 10;
+                }
+                else if (FlxG.keys.justPressed.LEFT && ClientPrefs.constantDrain != 0) {
+                    ClientPrefs.constantHeal -= 10;
+                    if (ClientPrefs.constantHeal < menuOption.min) ClientPrefs.constantHeal = Std.int(menuOption.min);
+                }
+                else if (FlxG.keys.justPressed.RIGHT && ClientPrefs.constantDrain != 0) {
+                    ClientPrefs.constantHeal += 10;
+                    if (ClientPrefs.constantHeal > menuOption.max) ClientPrefs.constantHeal = Std.int(menuOption.max);
+                }
+            },
+            valueFunc: function() {
+                if (ClientPrefs.constantHeal != 0)
+                    return Std.string(ClientPrefs.constantHeal) + "x";
+                else
+                    return "Disabled";
+            }
         }
     ];
     var Items:Array<String> = ['Do A Barrel Roll', 'Fair Fight', 'Poison Plus'];
