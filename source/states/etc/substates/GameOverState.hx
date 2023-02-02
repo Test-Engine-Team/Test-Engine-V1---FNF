@@ -14,12 +14,17 @@ import handlers.Character;
 import handlers.Conductor;
 import handlers.MusicBeatSubstate;
 
+import scriptStuff.EventStructures;
+import scriptStuff.HiScript;
+
 class GameOverState extends MusicBeatSubstate
 {
 	var bf:Character;
 	var camFollow:FlxObject;
 
 	var stageSuffix:String = "";
+
+	public var scripts:Array<HiScript> = [];
 
 	public function new(x:Float, y:Float)
 	{
@@ -71,6 +76,11 @@ class GameOverState extends MusicBeatSubstate
 		{
 			FlxG.sound.music.stop();
 
+			#if SCRIPTS_ENABLED
+			for (script in scripts)
+				script.callFunction("onQuit", []);
+			#end
+
 			if (PlayState.isStoryMode)
 				FlxG.switchState(new StoryMenuState());
 			else
@@ -107,6 +117,10 @@ class GameOverState extends MusicBeatSubstate
 		if (!isEnding)
 		{
 			isEnding = true;
+			#if SCRIPTS_ENABLED
+			for (script in scripts)
+				script.callFunction("onRetry", []);
+			#end
 			bf.playAnim('deathConfirm', true);
 			FlxG.sound.music.stop();
 			FlxG.sound.play(Files.music('gameOverEnd$stageSuffix'));
