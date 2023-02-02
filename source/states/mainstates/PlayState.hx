@@ -164,6 +164,8 @@ class PlayState extends MusicBeatState {
 		camHUD = new FlxCamera();
 		camHUD.bgColor.alpha = 0;
 		camHUD.alpha = ClientPrefs.uiAlpha;
+		if (ClientPrefs.uiAlpha == 0)
+			camHUD.visible = false;
 		// for those who set the cam hud to 0, its mainly for gifs and botplay videos.
 
 		FlxG.cameras.reset(camGame);
