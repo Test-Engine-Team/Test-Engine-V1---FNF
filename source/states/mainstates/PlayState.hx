@@ -284,6 +284,8 @@ class PlayState extends MusicBeatState {
 			script.interp.execute(script.expr);
 		}
 		scripts_call("create", [], false);
+
+		//scripts_call("createInFront", [], false);
 		#end
 
 		add(foregroundSprites);
@@ -929,6 +931,9 @@ class PlayState extends MusicBeatState {
 			scripts_call("update", [elapsed], false); 
 		#end
 
+		if (songMisses > 0)
+			fcing = false;
+
 		if (speed != 1) {
 			Conductor.songPosition += elapsed * speed * 100;
 			FlxG.sound.music.time += elapsed * speed * 100;
@@ -1148,6 +1153,14 @@ class PlayState extends MusicBeatState {
 
 			vocals.stop();
 			FlxG.sound.music.stop();
+
+			#if debug
+			trace("ded");
+			#end
+			
+			#if SCRIPTS_ENABLED
+			scripts_call("onDeath", [], false);
+			#end
 
 			// 1 / 1000 chance for Gitaroo Man easter egg
 			if (FlxG.random.bool(0.1)) {
