@@ -2,6 +2,7 @@ package handlers;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
+import states.mainstates.PlayState;
 
 class NoteSplash extends FlxSprite
 {
@@ -9,7 +10,10 @@ class NoteSplash extends FlxSprite
 	{
 		super(x, y);
 
-		frames = Files.sparrowAtlas('noteSplashes');
+		if (PlayState.pixelStage)
+			frames = Files.sparrowAtlas('weeb/pixelUI/noteSplashes-pixel');
+		else
+			frames = Files.sparrowAtlas('noteSplashes');
 
 		animation.addByPrefix('note1-0', 'note impact 1  blue', 24, false);
 		animation.addByPrefix('note2-0', 'note impact 1 green', 24, false);

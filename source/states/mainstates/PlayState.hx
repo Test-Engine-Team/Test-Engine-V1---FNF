@@ -145,6 +145,8 @@ class PlayState extends MusicBeatState {
 	// how big to stretch the pixel art assets
 	public static var daPixelZoom:Float = 6;
 
+	public static var pixelStage:Bool = false;
+
 	var inTransition:Bool = true;
 
 	@:unreflective private var gameControls:Controls;
@@ -1004,6 +1006,9 @@ class PlayState extends MusicBeatState {
 		DiscordHandler.changePresence('Playing ' + SONG.song.toLowerCase() + '-' + diff, 'With ' + songScore + ' Score And ' + songMisses + ' Misses');
 		#end
 
+		if (PlayState.curStage.startsWith('school'))
+			pixelStage = true;
+
 		if (FlxG.keys.justPressed.ENTER && startedCountdown && canPause) {
 			persistentUpdate = false;
 			persistentDraw = true;
@@ -1466,7 +1471,7 @@ class PlayState extends MusicBeatState {
 
 		// RecalculateRating(false);
 
-		if (curStage.startsWith('school')) {
+		if (pixelStage) {
 			pixelShitPart1 = 'weeb/pixelUI/';
 			pixelShitPart2 = '-pixel';
 		}
