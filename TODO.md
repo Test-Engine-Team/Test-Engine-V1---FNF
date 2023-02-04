@@ -1,0 +1,6 @@
+
+some stuff we need to do lol
+
+[x] - Add Mods
+[x] - Add Scripts (FINISHED SOMEWHAT)
+[ ] - Fix YoshiEngine Charts Crash
