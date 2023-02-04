@@ -76,7 +76,9 @@ class ClientPrefs {
 			Reflect.setField(FlxG.save.data, setting, Reflect.getProperty(ClientPrefs, setting));
 		}
 		FlxG.save.data.framerate = framerate;
+		#if (flixel > "5.0.0")
 		FlxSprite.defaultAntialiasing = antialiasing;
+		#end
 
         FlxG.save.flush();
 
