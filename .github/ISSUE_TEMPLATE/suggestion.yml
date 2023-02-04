@@ -9,3 +9,11 @@ body:
       description: Describe what you want added
     validations:
       required: false
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I checked for duplicate suggestions
+          required: true

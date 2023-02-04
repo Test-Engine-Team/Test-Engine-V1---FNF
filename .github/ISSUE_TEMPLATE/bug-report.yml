@@ -40,7 +40,7 @@ body:
         - "Neko, HashLink, or other build system"
     validations:
       required: true
-      
+
   - type: textarea
     id: replicable
     attributes:
@@ -53,6 +53,8 @@ body:
     attributes:
       label: Checks
       options:
+        - label: I checked for duplicate issues
+          required: true
         - label: I edited the source code
           required: false
         - label: I know what causes the crash
