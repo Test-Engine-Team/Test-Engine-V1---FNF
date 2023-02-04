@@ -151,8 +151,6 @@ class FreeplayState extends MusicBeatState
 		// this might be the cause of the weird audio issues
 		if (PlayState.speed != 1)
 			FlxG.sound.music.time += elapsed * PlayState.speed * 100;
-		else
-			FlxG.sound.music.time += elapsed;
 
 		if (FlxG.sound.music.volume < 0.7)
 		{
