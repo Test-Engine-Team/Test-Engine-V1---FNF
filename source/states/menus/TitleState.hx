@@ -31,6 +31,7 @@ import handlers.Highscore;
 import handlers.Conductor;
 import handlers.MusicBeatState;
 import handlers.ClientPrefs;
+import flixel.input.keyboard.FlxKey;
 
 using StringTools;
 
@@ -69,6 +70,8 @@ class TitleState extends MusicBeatState
         }
         script.callFunction("create");
 		#end
+
+		FlxG.sound.muteKeys = [FlxKey.ZERO];
 
 		persistentUpdate = false;
 
@@ -131,8 +134,6 @@ class TitleState extends MusicBeatState
 		logoBl.animation.play('bump');
 		logoBl.updateHitbox();
 		logoBl.shader = swagShader.shader;
-		// logoBl.screenCenter();
-		// logoBl.color = FlxColor.BLACK;
 
 		gfDance = new FlxSprite(FlxG.width * 0.4, FlxG.height * 0.07);
 		gfDance.frames = (Files.sparrowAtlas('menus/titlescreen/gfDanceTitle'));
@@ -151,16 +152,7 @@ class TitleState extends MusicBeatState
 		titleText.animation.play('idle');
 		titleText.updateHitbox();
 		titleText.shader = swagShader.shader;
-		// titleText.screenCenter(X);
 		add(titleText);
-
-		var logo:FlxSprite = new FlxSprite().loadGraphic(Files.image('menus/titlescreen/logo'));
-		logo.screenCenter();
-		logo.antialiasing = true;
-		// add(logo);
-
-		// FlxTween.tween(logoBl, {y: logoBl.y + 50}, 0.6, {ease: FlxEase.quadInOut, type: PINGPONG});
-		// FlxTween.tween(logo, {y: logoBl.y + 50}, 0.6, {ease: FlxEase.quadInOut, type: PINGPONG, startDelay: 0.1});
 
 		credGroup = new FlxGroup();
 		add(credGroup);
@@ -171,8 +163,6 @@ class TitleState extends MusicBeatState
 
 		credTextShit = new Alphabet(0, 0, "ninjamuffin99\nPhantomArcade\nkawaisprite\nevilsk8er", true);
 		credTextShit.screenCenter();
-
-		// credTextShit.alignment = CENTER;
 
 		credTextShit.visible = false;
 
@@ -192,7 +182,6 @@ class TitleState extends MusicBeatState
 			skipIntro();
 
 		initialized = true;
-		// credGroup.add(credTextShit);
 
 		#if SCRIPTS_ENABLED
 		script.callFunction("createPost");
@@ -224,7 +213,6 @@ class TitleState extends MusicBeatState
 
 		if (FlxG.sound.music != null)
 			Conductor.songPosition = FlxG.sound.music.time;
-		// FlxG.watch.addQuick('amp', FlxG.sound.music.amplitude);
 
 		if (FlxG.keys.justPressed.F)
 		{
@@ -239,11 +227,6 @@ class TitleState extends MusicBeatState
 		{
 			if (gamepad.justPressed.START)
 				pressedEnter = true;
-
-			#if switch
-			if (gamepad.justPressed.B)
-				pressedEnter = true;
-			#end
 		}
 
 		if (pressedEnter && !transitioning && skippedIntro)
@@ -254,16 +237,11 @@ class TitleState extends MusicBeatState
 			FlxG.sound.play(Files.sound('confirmMenu'));
 
 			transitioning = true;
-			// FlxG.sound.music.stop();
 
 			new FlxTimer().start(2, function(tmr:FlxTimer)
 			{
-				// Check if version is outdated
-				{
-					FlxG.switchState(new MainMenuState());
-				}
+				FlxG.switchState(new MainMenuState());
 			});
-			// FlxG.sound.play(Files.music('titleShoot'), 0.7);
 		}
 
 		if (pressedEnter && !skippedIntro)
