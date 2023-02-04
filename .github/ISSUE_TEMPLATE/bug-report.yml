@@ -1,0 +1,63 @@
+name: Bug report
+description: Report bugs here
+labels: [bug]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: "Describe your bug here."
+    validations:
+      required: true
+
+  - type: textarea
+    id: terminal
+    attributes:
+      label: "In-game terminal logs (if bug didnt crash/freeze game)"
+      render: bash
+    validations:
+      required: false
+
+  - type: dropdown
+    id: modding
+    attributes:
+      label: "Are you modding a build from source or with Lua?"
+      options:
+        - Haxe
+        - Source (not reccomended)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: btarget
+    attributes:
+      label: "What is your build platform?"
+      options:
+        - "Windows"
+        - "Linux"
+        - "Mac"
+        - "HTML5"
+        - "Flash/Air-based platform"
+        - "Neko, HashLink, or other build system"
+    validations:
+      required: true
+
+  - type: textarea
+    id: replicable
+    attributes:
+      label: "if you know how to cause this bug, describe it in full detail"
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I checked for duplicate issues
+          required: true
+        - label: I edited the source code
+          required: false
+        - label: I know what causes the crash
+          required: false
+        - label: I know how to replicate it
+          required: false

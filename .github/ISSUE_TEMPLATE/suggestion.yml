@@ -1,0 +1,19 @@
+name: Suggestion
+description: Give a suggestion that should be added to the engine here!
+labels: [suggestion]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Describe what you want added
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I checked for duplicate suggestions
+          required: true
