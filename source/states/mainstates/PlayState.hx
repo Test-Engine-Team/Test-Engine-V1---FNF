@@ -257,7 +257,6 @@ class PlayState extends MusicBeatState {
 					camPos.x += 600;
 					tweenCamIn();
 				}
-
 			case 'dad':
 				camPos.x += 400;
 			case 'pico':
@@ -322,11 +321,7 @@ class PlayState extends MusicBeatState {
 
 		playerStrums = new FlxTypedGroup<FlxSprite>();
 
-		// startCountdown();
-
-		generateSong(SONG.song);
-
-		// add(strumLine);
+		generateSong();
 
 		camFollow = new FlxObject(0, 0, 1, 1);
 
@@ -342,13 +337,10 @@ class PlayState extends MusicBeatState {
 		add(camFollow);
 
 		FlxG.camera.follow(camFollow, LOCKON, 0.04);
-		// FlxG.camera.setScrollBounds(0, FlxG.width, 0, FlxG.height);
 		FlxG.camera.zoom = defaultCamZoom;
 		FlxG.camera.focusOn(camFollow.getPosition());
 
 		FlxG.worldBounds.set(0, 0, FlxG.width, FlxG.height);
-
-		FlxG.fixedTimestep = false;
 
 		healthBarBG = new FlxSprite(0, FlxG.height * 0.9).loadGraphic('assets/images/healthBar.png');
 		healthBarBG.screenCenter(X);
@@ -596,7 +588,6 @@ class PlayState extends MusicBeatState {
 			}
 
 			switch (swagCounter) {
-
 				case 0:
 					FlxG.sound.play(Files.sound('intro3$altSuffix'), 0.6);
 				case 1:
@@ -650,12 +641,10 @@ class PlayState extends MusicBeatState {
 						}
 					});
 					FlxG.sound.play(Files.sound('introGo$altSuffix'), 0.6);
-				case 4:
 			}
 
 			swagCounter += 1;
-			// generateSong('fresh');
-		}, 5);
+		}, 4);
 	}
 
 	var previousFrameTime:Int = 0;
@@ -679,9 +668,7 @@ class PlayState extends MusicBeatState {
 
 	var debugNum:Int = 0;
 
-	private function generateSong(dataPath:String):Void {
-		// FlxG.log.add(ChartParser.parse());
-
+	private function generateSong():Void {
 		var songData = SONG;
 		Conductor.changeBPM(songData.bpm);
 

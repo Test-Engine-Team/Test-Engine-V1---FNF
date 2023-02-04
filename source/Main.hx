@@ -4,6 +4,7 @@ import flixel.FlxGame;
 import ui.FpsText;
 import ui.LogHandler;
 import openfl.display.Sprite;
+import flixel.FlxG;
 
 #if sys
 import sys.io.File;
@@ -20,10 +21,27 @@ class Main extends Sprite
 		super();
 		addChild(new FlxGame(0, 0, states.menus.LoadingState));
 		
-		#if !mobile
 		addChild(new FpsText(10, 3, 0xFFFFFF));
 		addChild(log = new LogHandler());
-		#end
+
+		FlxG.signals.preStateSwitch.add(function(){
+			FlxG.bitmap.dumpCache();
+			FlxG.sound.destroy(false);
+
+			#if cpp
+			cpp.vm.Gc.enable(true);
+			#else
+			openfl.system.System.gc();
+			#end
+		});
+
+		FlxG.signals.postStateSwitch.add(function(){
+			#if cpp
+			cpp.vm.Gc.enable(false);
+			#else
+			openfl.system.System.gc();
+			#end
+		});	
 
 		#if sys
 		var path:String = 'assets/data/buildnum.txt';
