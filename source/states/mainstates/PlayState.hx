@@ -65,6 +65,8 @@ class PlayState extends MusicBeatState {
 	public static var speed:Int = 1;
 	public static var diff:String;
 
+	private static var tankFloat:Bool = false;
+
 	public var scripts:Array<HiScript> = [];
 
 	private var vocals:FlxSound;
@@ -956,16 +958,7 @@ class PlayState extends MusicBeatState {
 		}
 
 		if (curStep > 895 && curStep < 1398 && SONG.song.toLowerCase() == 'guns' && ClientPrefs.tankmanFloat == true) {
-			dad.regY += (Math.sin(elapsedtime) * 0.2);
-			if (!PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection) {
-				camFollow.y = dad.getMidpoint().y;
-			}
-		}
-		if (curStep > 1024 && curStep < 1439 && SONG.song.toLowerCase() == 'guns' && ClientPrefs.tankmanFloat == true) {
-			boyfriend.regY += (Math.sin(elapsedtime) * 0.2);
-			if (PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection) {
-				camFollow.y = boyfriend.getMidpoint().y;
-			}
+			tankFloat = true;
 		}
 
 		if (fcing)
@@ -1237,7 +1230,10 @@ class PlayState extends MusicBeatState {
 							case "singUP":    camFollow.y = dadSingUp;
 							case "singRIGHT": camFollow.x = dadSingRight;
 						}
-					}	
+					}
+
+					if (tankFloat)
+						dad.y += 15;
 
 					noteHitParams.charForAnim.playAnim(noteHitParams.animToPlay, true);
 					noteHitParams.charForAnim.holdTimer = 0;
@@ -1269,6 +1265,8 @@ class PlayState extends MusicBeatState {
 							combo = 0;
 							fcing = false;
 							#if SCRIPTS_ENABLED scripts_call("noteMiss"); #end
+							if (tankFloat)
+								boyfriend.y -= 10;
 							if (ClientPrefs.poisonPlus == true
 								&& poisonTimes < ClientPrefs.maxPoisonHits
 								&& ClientPrefs.maxPoisonHits != 0) {
@@ -1756,6 +1754,9 @@ class PlayState extends MusicBeatState {
 				case "singRIGHT": camFollow.x = bfSingRight;
 			}
 		}
+
+		if (tankFloat)
+			boyfriend.y += 10;
 
 		if (note.noteData >= 0)
 			health += 0.023;
