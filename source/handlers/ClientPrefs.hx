@@ -120,7 +120,8 @@ class ClientPrefs {
 				FlxG.updateFramerate = framerate;
 			}
 		}
-
+		#if (flixel > "5.0.0")
 		FlxSprite.defaultAntialiasing = antialiasing;
+		#end
     }
 }

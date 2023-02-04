@@ -73,8 +73,10 @@ class Stage extends FlxTypedGroup<FlxBasic> {
     public function new(stageName:String, psInstance:PlayState) {
         super(0);
         curStage = stageName;
+		#if (flixel > "5.0.0")
 		if (isPixel == true)
 			FlxSprite.defaultAntialiasing = false;
+		#end
 
         #if SCRIPTS_ENABLED
         script = new HiScript('assets/stages/$stageName');
