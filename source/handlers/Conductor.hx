@@ -38,6 +38,8 @@ class Conductor
 
 	public static function mapBPMChanges(song:SwagSong)
 	{
+		if (song == null) throw new haxe.Exception("your song is null/non existent");
+
 		bpmChangeMap = [];
 
 		var curBPM:Int = song.bpm;
