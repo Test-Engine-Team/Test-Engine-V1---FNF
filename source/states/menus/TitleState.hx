@@ -185,8 +185,6 @@ class TitleState extends MusicBeatState {
 		FlxTween.tween(logoB2, {y: logoB2.y + 50}, 0.6, {ease: FlxEase.quadInOut, type: PINGPONG});
 		FlxTween.tween(logo, {y: logoB2.y + 50}, 0.6, {ease: FlxEase.quadInOut, type: PINGPONG, startDelay: 0.1});
 
-		add(titleText);
-
 		credGroup = new FlxGroup();
 		if (!ClientPrefs.ogTitle)
 			add(credGroup);
