@@ -160,6 +160,9 @@ class PlayState extends MusicBeatState {
 		#if debug
 		ClientPrefs.tankmanFloat = true;
 		#end
+		
+		speed = ClientPrefs.speed;
+		
 		camGame = new FlxCamera();
 		camHUD = new FlxCamera();
 		camHUD.bgColor.alpha = 0;

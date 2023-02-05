@@ -69,6 +69,22 @@ class GraphicsMenu extends MusicBeatState{
             }
         },
         {
+            name: "ogTitle",
+            description: "Ludum Dare game jam title screen",
+            type: BOOL,
+            min: 0,
+            max: 1,
+            //conflicts: null,
+            updateFunc: function(menuOption:MenuOption, elapsed:Float) {
+                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
+                    ClientPrefs.ogTitle = !ClientPrefs.ogTitle;
+                }
+            },
+            valueFunc: function() {
+                return (ClientPrefs.ogTitle) ? "Enabled" : "Disabled";
+            }
+        },
+        {
             name: "Antialiasing",
             description: "Smoothens the pixels of sprites and text objects at the cost of some resources.",
             type: BOOL,

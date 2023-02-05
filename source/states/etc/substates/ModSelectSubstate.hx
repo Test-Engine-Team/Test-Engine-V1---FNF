@@ -1,5 +1,6 @@
 package states.etc.substates;
 
+import scriptStuff.HiScript;
 import sys.io.File;
 import flixel.FlxG;
 import flixel.tweens.FlxTween;
@@ -19,8 +20,19 @@ class ModSelectSubstate extends MusicBeatSubstate {
     var listTxt:FlxText;
     var coolEpicAndCoolGradient:FlxSprite;
 
+    var script:HiScript;
+
     public function new() {
         super();
+
+        #if SCRIPTS_ENABLED
+		script = new HiScript('substates/ModSelectSubstate');
+		if (!script.isBlank && script.expr != null) {
+			script.interp.scriptObject = this;
+			script.interp.execute(script.expr);
+		}
+		script.callFunction("create");
+		#end
 
         #if (!desktop) close(); return; #end
 
@@ -34,6 +46,10 @@ class ModSelectSubstate extends MusicBeatSubstate {
         coolEpicAndCoolGradient.scrollFactor.set();
         coolEpicAndCoolGradient.color = states.menus.LoadingState.modData.selectColor;
         add(coolEpicAndCoolGradient);
+
+        #if SCRIPTS_ENABLED
+        script.callFunction("createBellowItems");
+        #end
 
         listTxt = new FlxText(coolEpicAndCoolGradient.width - 10, 10, FlxG.width, "Select Mod\n\n", 20);
         listTxt.setFormat("VCR OSD Mono", 20, 0xFFFFFFFF, "right", FlxTextBorderStyle.OUTLINE, 0xFF000000);
@@ -49,10 +65,17 @@ class ModSelectSubstate extends MusicBeatSubstate {
             canLeave = true;
         }});
         FlxTween.tween(listTxt, {x: -10}, 0.5, {ease: FlxEase.circOut});
+
+        #if SCRIPTS_ENABLED
+        script.callFunction("createPost");
+        #end
     }
 
     override function update(elapsed:Float) {
         super.update(elapsed);
+        #if SCRIPTS_ENABLED
+        script.callFunction("update", [elapsed]);
+        #end
 
         #if (!desktop) close(); return; #end
 

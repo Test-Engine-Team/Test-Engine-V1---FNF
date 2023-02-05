@@ -12,7 +12,7 @@ import Controls;
 
 class ClientPrefs {
 	//For load and save.
-	static var settingNames:Array<String> = ["flashingLights", "spinnyspin", "fairFight", "poisonPlus", "fcMode", "maxPoisonHits", "limitMisses", "maxMisses", "freeplayCutscenes", "downscroll", "safeFrames", "botPlay", "practice", "speed", "ghostTapping", "showComboSprite", "antialiasing", "quality", "uiAlpha", "camMoveOnHit"];
+	static var settingNames:Array<String> = ["flashingLights", "spinnyspin", "fairFight", "poisonPlus", "fcMode", "maxPoisonHits", "limitMisses", "maxMisses", "freeplayCutscenes", "downscroll", "safeFrames", "botPlay", "practice", "speed", "ghostTapping", "showComboSprite", "antialiasing", "quality", "uiAlpha", "camMoveOnHit", "noteSplashes", "ogTitle"];
 
 	// Options
 	public static var flashingLights:Bool = true; //this assumes this is true which is bad but i dunno how to make a popup on the start of the game like PE
@@ -49,6 +49,7 @@ class ClientPrefs {
 	public static var showComboSprite:Bool = true;
 	public static var uiAlpha:Float = 1;
 	public static var antialiasing:Bool = true;
+	public static var ogTitle:Bool = false;
 	public static var quality:String = 'Medium';
 
 	//easter eggs

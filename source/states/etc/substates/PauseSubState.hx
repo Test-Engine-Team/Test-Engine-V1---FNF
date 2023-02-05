@@ -1,5 +1,6 @@
 package states.etc.substates;
 
+import scriptStuff.HiScript;
 import flixel.text.FlxText;
 import Controls.Control;
 import flixel.FlxG;
@@ -30,9 +31,19 @@ class PauseSubState extends MusicBeatSubstate
 
 	var levelinfotext:FlxText;
 
+	var script:HiScript;
+
 	public function new(x:Float, y:Float)
 	{
 		super();
+		#if SCRIPTS_ENABLED
+		script = new HiScript('substates/PauseSubState');
+		if (!script.isBlank && script.expr != null) {
+			script.interp.scriptObject = this;
+			script.interp.execute(script.expr);
+		}
+		script.callFunction("create");
+		#end
 
 		pauseMusic = new FlxSound().loadEmbedded(Files.music('breakfast'), true, true);
 		pauseMusic.volume = 0;
@@ -44,6 +55,10 @@ class PauseSubState extends MusicBeatSubstate
 		bg.alpha = 0.6;
 		bg.scrollFactor.set();
 		add(bg);
+
+		#if SCRIPTS_ENABLED
+		script.callFunction("createBellowItems");
+		#end
 
 		levelinfotext = new FlxText(20, 15, 0, '${PlayState.SONG.song}\nSpeed:${PlayState.speed}\n${PlayState.diff}');
 		levelinfotext.setFormat("assets/fonts/vcr.ttf", 25, FlxColor.WHITE, null, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -64,10 +79,17 @@ class PauseSubState extends MusicBeatSubstate
 		changeSelection();
 
 		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
+
+		#if SCRIPTS_ENABLED
+		script.callFunction("createPost");
+		#end
 	}
 
 	override function update(elapsed:Float)
 	{
+		#if SCRIPTS_ENABLED
+		script.callFunction("update", [elapsed]);
+		#end
 		if (pauseMusic.volume < 0.5)
 			pauseMusic.volume += 0.01 * elapsed;
 
@@ -114,10 +136,18 @@ class PauseSubState extends MusicBeatSubstate
 			// for reference later!
 			// PlayerSettings.player1.controls.replaceBinding(Control.LEFT, Keys, FlxKey.J, null);
 		}
+
+		#if SCRIPTS_ENABLED
+		script.callFunction("updatePost");
+		#end
 	}
 
 	override function destroy()
 	{
+		#if SCRIPTS_ENABLED
+		script.callFunction("close");
+		#end
+
 		pauseMusic.destroy();
 
 		super.destroy();
@@ -125,6 +155,10 @@ class PauseSubState extends MusicBeatSubstate
 
 	function changeSelection(change:Int = 0):Void
 	{
+		#if SCRIPTS_ENABLED
+		script.callFunction("changeSelection");
+		#end
+
 		curSelected += change;
 
 		if (curSelected < 0)
@@ -148,5 +182,8 @@ class PauseSubState extends MusicBeatSubstate
 				// item.setGraphicSize(Std.int(item.width));
 			}
 		}
+		#if SCRIPTS_ENABLED
+		script.callFunction("changeSelectionPost");
+		#end
 	}
 }

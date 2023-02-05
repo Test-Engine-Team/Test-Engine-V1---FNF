@@ -1,5 +1,6 @@
 package states.menus;
 
+import scriptStuff.HiScript;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.addons.transition.FlxTransitionableState;
@@ -44,8 +45,19 @@ class StoryMenuState extends MusicBeatState
 	var leftArrow:FlxSprite;
 	var rightArrow:FlxSprite;
 
+	var script:HiScript;
+
 	override function create()
 	{
+		#if SCRIPTS_ENABLED
+		script = new HiScript('states/StoryMenuState');
+        if (!script.isBlank && script.expr != null) {
+            script.interp.scriptObject = this;
+            script.interp.execute(script.expr);
+        }
+        script.callFunction("create");
+		#end
+
 		weekList = LoadingState.modData.weekList;
 		var firstWeek:ModWeekYee = weekList[curWeek];
 
@@ -78,6 +90,10 @@ class StoryMenuState extends MusicBeatState
 
 		var blackBarThingie:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, 56, FlxColor.BLACK);
 		add(blackBarThingie);
+
+		#if SCRIPTS_ENABLED
+		script.callFunction('createBellowItems');
+		#end
 
 		grpWeekCharacters = new FlxTypedGroup<MenuCharacter>();
 
@@ -150,11 +166,18 @@ class StoryMenuState extends MusicBeatState
 		#end
 
 		super.create();
+
+		#if SCRIPTS_ENABLED
+		script.callFunction('createPost');
+		#end
 	}
 
 	override function update(elapsed:Float)
 	{
-		PlayState.speed = ClientPrefs.speed;
+		#if SCRIPTS_ENABLED
+		script.callFunction('update', [elapsed]);
+		#end
+
 		// scoreText.setFormat('VCR OSD Mono', 32);
 		lerpScore = Math.floor(FlxMath.lerp(lerpScore, intendedScore, 0.5));
 
@@ -203,6 +226,9 @@ class StoryMenuState extends MusicBeatState
 		}
 
 		super.update(elapsed);
+		#if SCRIPTS_ENABLED
+		script.callFunction('updatePost', [elapsed]);
+		#end
 	}
 
 	var movedBack:Bool = false;
@@ -211,6 +237,9 @@ class StoryMenuState extends MusicBeatState
 
 	function selectWeek()
 	{
+		#if SCRIPTS_ENABLED
+		script.callFunction('selectWeek');
+		#end
 		if (!stopspamming) {
 			FlxG.sound.play(Files.sound('confirmMenu'));
 
@@ -245,6 +274,10 @@ class StoryMenuState extends MusicBeatState
 
 	function changeDifficulty(change:Int = 0):Void
 	{
+		#if SCRIPTS_ENABLED
+		script.callFunction('changeDifficulty');
+		#end
+
 		curDifficulty += change;
 
 		if (curDifficulty < 0)
@@ -306,6 +339,10 @@ class StoryMenuState extends MusicBeatState
 
 	function changeWeek(change:Int = 0):Void
 	{
+		#if SCRIPTS_ENABLED
+		script.callFunction('changeWeek');
+		#end
+
 		var oldDiffs = weekList[curWeek].diffs;
 		curWeek += change;
 

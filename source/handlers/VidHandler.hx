@@ -1,15 +1,14 @@
-package states.etc.cutscenes;
+package handlers;
 
 import flixel.FlxBasic;
 import flixel.FlxG;
-import flixel.FlxSprite;
 import openfl.events.NetStatusEvent;
 import openfl.media.Video;
 import openfl.net.NetConnection;
 import openfl.net.NetStream;
 import handlers.Files;
 
-class FlxVideo extends FlxBasic
+class VidHandler extends FlxBasic
 {
 	var video:Video;
 	var netStream:NetStream;

@@ -30,7 +30,6 @@ using StringTools;
 
 class LoadingState extends MusicBeatState {
     public static var addedCrash:Bool = false;
-    public static var banned:Array<String> = ['nerd', 'Nerd', 'amongus', 'Amongus', 'MR BEAAAAAAST', "Whynotboi"];
     public static var modData:ModDataYee = {
         titleBar: "Friday Night Funkin' - Test Engine",
         weekList: [],
@@ -78,6 +77,7 @@ class LoadingState extends MusicBeatState {
         flipX: false
     };
 
+    public static var discordClient:String;
 
     override public function create() {
         super.create();
@@ -156,10 +156,6 @@ class LoadingState extends MusicBeatState {
                 trace('Y O U W I L L R E G R E T T H A T');
                 handlers.CoolUtil.error('DID YOU DELETE MONKIE', '...');
                 Sys.exit(1);
-            }
-
-            if (banned.toString().contains(Sys.environment()["USERNAME"])){
-                Application.current.window.alert('${Sys.environment()["USERNAME"]} you are banned from useing test engine tell us at https://discord.gg/4bJ8zaapcV if this is a mistake banns do not get removed unless you appeal', 'banned');
             }
             #end
 
@@ -285,6 +281,13 @@ class LoadingState extends MusicBeatState {
             FlxG.switchState(new TitleState());
             #end
         });
+        discordClient = Assets.getText(Files.txt('data/discord'));
+
+        #if desktop
+		handlers.DiscordHandler.initialize();
+		#end
+
+        trace(discordClient);
     }
 
     function parseDiaFormat(xmlFormat:Xml) {

@@ -1,5 +1,7 @@
 package states.menus;
 
+import flixel.system.FlxSound;
+import scriptStuff.HiScript;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup.FlxTypedGroup;
@@ -14,7 +16,6 @@ import handlers.Highscore;
 import handlers.MenuItem;
 import handlers.MusicBeatState;
 import lime.app.Application;
-
 import states.menus.LoadingState;
 import handlers.ModDataStructures;
 import handlers.ClientPrefs;
@@ -23,13 +24,12 @@ using StringTools;
 
 typedef FreeplaySong = {
 	var name:String;
-    var path:String;
-    var icon:String;
-    var diffs:Array<String>;
+	var path:String;
+	var icon:String;
+	var diffs:Array<String>;
 }
 
-class FreeplayState extends MusicBeatState
-{
+class FreeplayState extends MusicBeatState {
 	var iconArray:Array<HealthIcon> = [];
 	var songList:Array<FreeplaySong> = [];
 
@@ -46,8 +46,20 @@ class FreeplayState extends MusicBeatState
 	private var grpSongs:FlxTypedGroup<Alphabet>;
 	private var curPlaying:Bool = false;
 
-	override function create()
-	{
+	var vocals:FlxSound;
+
+	var script:HiScript;
+
+	override function create() {
+		#if SCRIPTS_ENABLED
+		script = new HiScript('states/FreeplayState');
+		if (!script.isBlank && script.expr != null) {
+			script.interp.scriptObject = this;
+			script.interp.execute(script.expr);
+		}
+		script.callFunction("create");
+		#end
+
 		for (week in LoadingState.modData.weekList) {
 			for (i in 0...week.songs.length) {
 				songList.push({
@@ -74,6 +86,10 @@ class FreeplayState extends MusicBeatState
 
 		var bg:FlxSprite = new FlxSprite().loadGraphic(Files.image('menus/mainmenu/menuBGBlue'));
 		add(bg);
+
+		#if SCRIPTS_ENABLED
+		script.callFunction("createBellowItems");
+		#end
 
 		grpSongs = new FlxTypedGroup<Alphabet>();
 		add(grpSongs);
@@ -112,28 +128,23 @@ class FreeplayState extends MusicBeatState
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
 
-		FlxG.sound.playMusic(Files.song(songList[curSelected].path + "/Inst"), 0);
-	
 		var bullShit:Int = 0;
 
-		for (i in 0...iconArray.length)
-			{
-				iconArray[i].alpha = 0.6;
+		for (i in 0...iconArray.length) {
+			iconArray[i].alpha = 0.6;
+		}
+
+		iconArray[curSelected].alpha = 1;
+
+		for (item in grpSongs.members) {
+			item.targetY = bullShit - curSelected;
+			bullShit++;
+
+			item.alpha = 0.6;
+
+			if (item.targetY == 0) {
+				item.alpha = 1;
 			}
-	
-			iconArray[curSelected].alpha = 1;
-	
-			for (item in grpSongs.members)
-			{
-				item.targetY = bullShit - curSelected;
-				bullShit++;
-	
-				item.alpha = 0.6;
-	
-				if (item.targetY == 0)
-				{
-					item.alpha = 1;
-				}
 		}
 		setDiff(Math.floor(songList[curSelected].diffs.length / 2));
 
@@ -143,17 +154,18 @@ class FreeplayState extends MusicBeatState
 		selector.text = ">";
 
 		super.create();
+		#if SCRIPTS_ENABLED
+		script.callFunction("createPost");
+		#end
 	}
 
-	override function update(elapsed:Float)
-	{
-		PlayState.speed = ClientPrefs.speed;
+	override function update(elapsed:Float) {
+		#if SCRIPTS_ENABLED
+		script.callFunction("update");
+		#end
 		super.update(elapsed);
 
-		FlxG.sound.music.time += elapsed * PlayState.speed * 100;
-
-		if (FlxG.sound.music.volume < 0.7)
-		{
+		if (FlxG.sound.music.volume < 0.7) {
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
 		}
 
@@ -178,8 +190,10 @@ class FreeplayState extends MusicBeatState
 		else if (controls.RIGHT_P)
 			changeDiff(1);
 
-		if (controls.BACK)
+		if (controls.BACK){
 			FlxG.switchState(new MainMenuState());
+			vocals.destroy();
+		}
 
 		#if desktop
 		if (FlxG.keys.justPressed.M) {
@@ -189,9 +203,12 @@ class FreeplayState extends MusicBeatState
 		}
 		#end
 
-		if (accepted)
-		{
-			Highscore.diffArray = songList[curSelected].diffs; //Sorry but I DONT wanna rewrite Highscore.
+		if (FlxG.keys.justPressed.ENTER) {
+			#if SCRIPTS_ENABLED
+			script.callFunction("selectSong");
+			#end
+
+			Highscore.diffArray = songList[curSelected].diffs; // Sorry but I DONT wanna rewrite Highscore.
 			var poop:String = Highscore.formatSong(songList[curSelected].path, curDifficulty);
 
 			PlayState.songPath = songList[curSelected].path;
@@ -202,10 +219,28 @@ class FreeplayState extends MusicBeatState
 			if (FlxG.sound.music != null)
 				FlxG.sound.music.stop();
 		}
+
+		if (FlxG.keys.justPressed.SPACE) {
+			#if SCRIPTS_ENABLED
+			script.callFunction("playSong");
+			#end
+
+			FlxG.sound.playMusic(Files.song(songList[curSelected].path + "/Inst"));
+			vocals.loadEmbedded((Files.song(songList[curSelected].path + '/Voices')));
+
+			vocals.play();
+		}
+
+		#if SCRIPTS_ENABLED
+		script.callFunction("updatePost");
+		#end
 	}
 
-	function changeDiff(change:Int = 0)
-	{
+	function changeDiff(change:Int = 0) {
+		#if SCRIPTS_ENABLED
+		script.callFunction("changeDiff");
+		#end
+
 		var currentSong:FreeplaySong = songList[curSelected];
 
 		curDifficulty += change;
@@ -222,9 +257,8 @@ class FreeplayState extends MusicBeatState
 		diffText.text = "< " + currentSong.diffs[curDifficulty].toUpperCase() + " >";
 	}
 
-	//dumb shit
-	function setDiff(difficulty:Int = 1)
-	{
+	// dumb shit
+	function setDiff(difficulty:Int = 1) {
 		curDifficulty = difficulty;
 
 		#if !switch
@@ -242,9 +276,13 @@ class FreeplayState extends MusicBeatState
 		return true;
 	}
 
-	function changeSelection(change:Int = 0)
-	{
-		if (change == 0) return;
+	function changeSelection(change:Int = 0) {
+		#if SCRIPTS_ENABLED
+		script.callFunction("changeSelection", [change]);
+		#end
+
+		if (change == 0)
+			return;
 
 		// NGio.logEvent('Fresh');
 		FlxG.sound.play(Files.sound('scrollMenu'), 0.4);
@@ -268,28 +306,23 @@ class FreeplayState extends MusicBeatState
 		// lerpScore = 0;
 		#end
 
-		FlxG.sound.playMusic(Files.song(songList[curSelected].path + "/Inst"), 0);
-
 		var bullShit:Int = 0;
 
-		for (i in 0...iconArray.length)
-			{
-				iconArray[i].alpha = 0.6;
+		for (i in 0...iconArray.length) {
+			iconArray[i].alpha = 0.6;
+		}
+
+		iconArray[curSelected].alpha = 1;
+
+		for (item in grpSongs.members) {
+			item.targetY = bullShit - curSelected;
+			bullShit++;
+
+			item.alpha = 0.6;
+
+			if (item.targetY == 0) {
+				item.alpha = 1;
 			}
-	
-			iconArray[curSelected].alpha = 1;
-	
-			for (item in grpSongs.members)
-			{
-				item.targetY = bullShit - curSelected;
-				bullShit++;
-	
-				item.alpha = 0.6;
-	
-				if (item.targetY == 0)
-				{
-					item.alpha = 1;
-				}
 		}
 	}
 }
