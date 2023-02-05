@@ -109,9 +109,7 @@ class FreeplayState extends MusicBeatState {
 		}
 
 		scoreText = new FlxText(FlxG.width * 0.7, 5, 0, "", 32);
-		// scoreText.autoSize = false;
 		scoreText.setFormat("assets/fonts/vcr.ttf", 32, FlxColor.WHITE, RIGHT);
-		// scoreText.alignment = RIGHT;
 
 		var scoreBG:FlxSprite = new FlxSprite(scoreText.x - 6, 0).makeGraphic(Std.int(FlxG.width * 0.35), 66, 0xFF000000);
 		scoreBG.alpha = 0.6;
@@ -165,7 +163,12 @@ class FreeplayState extends MusicBeatState {
 		#end
 		super.update(elapsed);
 
-		if (FlxG.sound.music.volume < 0.7) {
+		// this might be the cause of the weird audio issues
+		if (PlayState.speed != 1)
+			FlxG.sound.music.time += elapsed * PlayState.speed * 100;
+
+		if (FlxG.sound.music.volume < 0.7)
+		{
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
 		}
 
@@ -250,9 +253,7 @@ class FreeplayState extends MusicBeatState {
 		else if (curDifficulty > currentSong.diffs.length - 1)
 			curDifficulty = 0;
 
-		#if !switch
 		intendedScore = Highscore.getScore(currentSong.path, curDifficulty);
-		#end
 
 		diffText.text = "< " + currentSong.diffs[curDifficulty].toUpperCase() + " >";
 	}
@@ -261,9 +262,7 @@ class FreeplayState extends MusicBeatState {
 	function setDiff(difficulty:Int = 1) {
 		curDifficulty = difficulty;
 
-		#if !switch
 		intendedScore = Highscore.getScore(songList[curSelected].path, curDifficulty);
-		#end
 
 		diffText.text = "< " + songList[curSelected].diffs[curDifficulty].toUpperCase() + " >";
 	}
@@ -284,7 +283,6 @@ class FreeplayState extends MusicBeatState {
 		if (change == 0)
 			return;
 
-		// NGio.logEvent('Fresh');
 		FlxG.sound.play(Files.sound('scrollMenu'), 0.4);
 
 		var oldDiffs:Array<String> = songList[curSelected].diffs;
@@ -299,12 +297,7 @@ class FreeplayState extends MusicBeatState {
 		if (oldDiffs.length != currentSong.diffs.length || !checkDiffs(oldDiffs, currentSong.diffs))
 			setDiff(Math.floor(currentSong.diffs.length / 2));
 
-		// selector.y = (70 * curSelected) + 30;
-
-		#if !switch
 		intendedScore = Highscore.getScore(currentSong.path, curDifficulty);
-		// lerpScore = 0;
-		#end
 
 		var bullShit:Int = 0;
 

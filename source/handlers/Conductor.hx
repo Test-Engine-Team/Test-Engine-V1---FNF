@@ -1,11 +1,7 @@
 package handlers;
 
 import Song.SwagSong;
-
-/**
- * ...
- * @author
- */
+import flixel.FlxG;
 
 typedef BPMChangeEvent =
 {
@@ -28,16 +24,27 @@ class Conductor
 
 	public static var bpmChangeMap:Array<BPMChangeEvent> = [];
 
+	private static var elapsed:Float;
+
 	public function new()
 	{
+		FlxG.signals.preUpdate.add(update);
+
+		safeFrames = ClientPrefs.safeFrames;
 	}
 
 	function update() {
-		safeFrames = ClientPrefs.safeFrames;
+		elapsed = FlxG.elapsed;
+	}
+
+	inline public static function getCrochet(bpm:Int){
+		return (60 / bpm * 1000);
 	}
 
 	public static function mapBPMChanges(song:SwagSong)
 	{
+		if (song == null) throw new haxe.Exception("your song is null/non existent");
+
 		bpmChangeMap = [];
 
 		var curBPM:Int = song.bpm;
@@ -45,9 +52,13 @@ class Conductor
 		var totalPos:Float = 0;
 		for (i in 0...song.notes.length)
 		{
-			if(song.notes[i].changeBPM && song.notes[i].bpm != curBPM)
-			{
+			var doPush = false;
+			if (song.notes[i].changeBPM && song.notes[i] != null){
 				curBPM = song.notes[i].bpm;
+				doPush = true;
+			}
+			if(doPush && song.notes[i] != null)
+			{
 				var event:BPMChangeEvent = {
 					stepTime: totalSteps,
 					songTime: totalPos,
@@ -63,11 +74,17 @@ class Conductor
 		trace("new BPM map BUDDY " + bpmChangeMap);
 	}
 
-	public static function changeBPM(newBpm:Int)
+	inline public static function changeBPM(newBpm:Int)
 	{
+		if (newBpm <= 0 || newBpm == bpm) return;
+
 		bpm = newBpm;
 
-		crochet = ((60 / bpm) * 1000);
+		updateCrochet();
+	}
+
+	inline static function updateCrochet(){
+		crochet = getCrochet(bpm);
 		stepCrochet = crochet / 4;
 	}
 }

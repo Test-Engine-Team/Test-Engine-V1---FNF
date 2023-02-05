@@ -202,6 +202,25 @@ class GameplayMenu extends MusicBeatState{
                 return (ClientPrefs.flashingLights) ? "Enabled" : "Disabled";
             }
         },
+        #if !html5
+        {
+            name: "Auto Pause",
+            description: "If enabled, the game will pause when you tab out",
+            type: BOOL,
+            min: 0,
+            max: 1,
+            //conflicts: null,
+            updateFunc: function(menuOption:MenuOption, elapsed:Float) {
+                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
+                    ClientPrefs.autoPause = !ClientPrefs.autoPause;
+                    FlxG.autoPause = ClientPrefs.autoPause;
+                }
+            },
+            valueFunc: function() {
+                return (ClientPrefs.autoPause) ? "Enabled" : "Disabled";
+            }
+        },
+        #end
         {
             name: "Reset Cache",
             description: "Resets the Cache.",

@@ -31,6 +31,7 @@ import handlers.Highscore;
 import handlers.Conductor;
 import handlers.MusicBeatState;
 import handlers.ClientPrefs;
+import flixel.input.keyboard.FlxKey;
 
 using StringTools;
 
@@ -77,6 +78,7 @@ class TitleState extends MusicBeatState {
 		#end
 
 		FlxG.mouse.visible = false;
+		FlxG.sound.muteKeys = [FlxKey.ZERO];
 
 		persistentUpdate = false;
 
@@ -86,6 +88,17 @@ class TitleState extends MusicBeatState {
 		curWacky = FlxG.random.getObject(getIntroTextShit());
 
 		super.create();
+
+		/*
+		if (!persistentUpdate)
+		{
+			if(FlxG.save.data != null && FlxG.save.data.fullscreen)
+			{
+				FlxG.fullscreen = FlxG.save.data.fullscreen;
+				//trace('LOADED FULLSCREEN SETTING!!'); IK FUCK SHIT IM STUPID - MACKERY
+			}
+		}
+		*/
 
 		startIntro();
 	}
@@ -172,6 +185,8 @@ class TitleState extends MusicBeatState {
 		FlxTween.tween(logoB2, {y: logoB2.y + 50}, 0.6, {ease: FlxEase.quadInOut, type: PINGPONG});
 		FlxTween.tween(logo, {y: logoB2.y + 50}, 0.6, {ease: FlxEase.quadInOut, type: PINGPONG, startDelay: 0.1});
 
+		add(titleText);
+
 		credGroup = new FlxGroup();
 		if (!ClientPrefs.ogTitle)
 			add(credGroup);
@@ -182,8 +197,6 @@ class TitleState extends MusicBeatState {
 
 		credTextShit = new Alphabet(0, 0, "ninjamuffin99\nPhantomArcade\nkawaisprite\nevilsk8er", true);
 		credTextShit.screenCenter();
-
-		// credTextShit.alignment = CENTER;
 
 		credTextShit.visible = false;
 
@@ -202,7 +215,6 @@ class TitleState extends MusicBeatState {
 			skipIntro();
 
 		initialized = true;
-		// credGroup.add(credTextShit);
 
 		#if SCRIPTS_ENABLED
 		script.callFunction("createPost");
@@ -248,7 +260,6 @@ class TitleState extends MusicBeatState {
 
 		if (FlxG.sound.music != null)
 			Conductor.songPosition = FlxG.sound.music.time;
-		// FlxG.watch.addQuick('amp', FlxG.sound.music.amplitude);
 
 		if (FlxG.keys.justPressed.F) {
 			FlxG.fullscreen = !FlxG.fullscreen;
@@ -259,11 +270,6 @@ class TitleState extends MusicBeatState {
 		if (gamepad != null) {
 			if (gamepad.justPressed.START)
 				pressedEnter = true;
-
-			#if switch
-			if (gamepad.justPressed.B)
-				pressedEnter = true;
-			#end
 		}
 
 		if (pressedEnter && !transitioning && skippedIntro) {
@@ -275,7 +281,6 @@ class TitleState extends MusicBeatState {
 			FlxG.sound.play(Files.sound('confirmMenu'));
 
 			transitioning = true;
-			// FlxG.sound.music.stop();
 
 			new FlxTimer().start(2, function(tmr:FlxTimer) {
 				// Check if version is outdated
@@ -283,7 +288,6 @@ class TitleState extends MusicBeatState {
 					FlxG.switchState(new MainMenuState());
 				}
 			});
-			// FlxG.sound.play(Files.music('titleShoot'), 0.7);
 		}
 
 		if (pressedEnter && !skippedIntro) {

@@ -1,5 +1,6 @@
 
 some stuff we need to do lol
 
-[HIGH PRIORATY] - Add Mods
-[LOW PRIORATY] - Add Scripts (FINISHED SOMEWHAT)
+[x] - Add Mods
+[x] - Add Scripts (FINISHED SOMEWHAT)
+[ ] - Fix YoshiEngine Charts Crash

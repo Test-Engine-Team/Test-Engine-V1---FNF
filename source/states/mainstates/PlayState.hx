@@ -65,6 +65,8 @@ class PlayState extends MusicBeatState {
 	public static var speed:Int = 1;
 	public static var diff:String;
 
+	private static var tankFloat:Bool = false;
+
 	public var scripts:Array<HiScript> = [];
 
 	private var vocals:FlxSound;
@@ -145,6 +147,8 @@ class PlayState extends MusicBeatState {
 	// how big to stretch the pixel art assets
 	public static var daPixelZoom:Float = 6;
 
+	public static var pixelStage:Bool = false;
+
 	var inTransition:Bool = true;
 
 	@:unreflective private var gameControls:Controls;
@@ -167,6 +171,8 @@ class PlayState extends MusicBeatState {
 		camHUD = new FlxCamera();
 		camHUD.bgColor.alpha = 0;
 		camHUD.alpha = ClientPrefs.uiAlpha;
+		if (ClientPrefs.uiAlpha == 0)
+			camHUD.visible = false;
 		// for those who set the cam hud to 0, its mainly for gifs and botplay videos.
 
 		FlxG.cameras.reset(camGame);
@@ -256,7 +262,6 @@ class PlayState extends MusicBeatState {
 					camPos.x += 600;
 					tweenCamIn();
 				}
-
 			case 'dad':
 				camPos.x += 400;
 			case 'pico':
@@ -287,6 +292,8 @@ class PlayState extends MusicBeatState {
 			script.interp.execute(script.expr);
 		}
 		scripts_call("create", [], false);
+
+		//scripts_call("createInFront", [], false);
 		#end
 
 		add(foregroundSprites);
@@ -319,11 +326,7 @@ class PlayState extends MusicBeatState {
 
 		playerStrums = new FlxTypedGroup<FlxSprite>();
 
-		// startCountdown();
-
-		generateSong(SONG.song);
-
-		// add(strumLine);
+		generateSong();
 
 		camFollow = new FlxObject(0, 0, 1, 1);
 
@@ -339,13 +342,10 @@ class PlayState extends MusicBeatState {
 		add(camFollow);
 
 		FlxG.camera.follow(camFollow, LOCKON, 0.04);
-		// FlxG.camera.setScrollBounds(0, FlxG.width, 0, FlxG.height);
 		FlxG.camera.zoom = defaultCamZoom;
 		FlxG.camera.focusOn(camFollow.getPosition());
 
 		FlxG.worldBounds.set(0, 0, FlxG.width, FlxG.height);
-
-		FlxG.fixedTimestep = false;
 
 		healthBarBG = new FlxSprite(0, FlxG.height * 0.9).loadGraphic('assets/images/healthBar.png');
 		healthBarBG.screenCenter(X);
@@ -593,7 +593,6 @@ class PlayState extends MusicBeatState {
 			}
 
 			switch (swagCounter) {
-
 				case 0:
 					FlxG.sound.play(Files.sound('intro3$altSuffix'), 0.6);
 				case 1:
@@ -647,12 +646,10 @@ class PlayState extends MusicBeatState {
 						}
 					});
 					FlxG.sound.play(Files.sound('introGo$altSuffix'), 0.6);
-				case 4:
 			}
 
 			swagCounter += 1;
-			// generateSong('fresh');
-		}, 5);
+		}, 4);
 	}
 
 	var previousFrameTime:Int = 0;
@@ -676,9 +673,7 @@ class PlayState extends MusicBeatState {
 
 	var debugNum:Int = 0;
 
-	private function generateSong(dataPath:String):Void {
-		// FlxG.log.add(ChartParser.parse());
-
+	private function generateSong():Void {
 		var songData = SONG;
 		Conductor.changeBPM(songData.bpm);
 
@@ -923,6 +918,9 @@ class PlayState extends MusicBeatState {
 			#if SCRIPTS_ENABLED scripts_call("oldBfChange"); #end
 		}
 
+		health -= ClientPrefs.constantDrain * 1 / 700000;
+		health += ClientPrefs.constantHeal * -1 / 700000;
+
 		if (ClientPrefs.limitMisses)
 			health = 1;
 
@@ -931,6 +929,9 @@ class PlayState extends MusicBeatState {
 		if (!inTransition)
 			scripts_call("update", [elapsed], false); 
 		#end
+
+		if (songMisses > 0)
+			fcing = false;
 
 		if (speed != 1) {
 			Conductor.songPosition += elapsed * speed * 100;
@@ -960,16 +961,7 @@ class PlayState extends MusicBeatState {
 		}
 
 		if (curStep > 895 && curStep < 1398 && SONG.song.toLowerCase() == 'guns' && ClientPrefs.tankmanFloat == true) {
-			dad.regY += (Math.sin(elapsedtime) * 0.2);
-			if (!PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection) {
-				camFollow.y = dad.getMidpoint().y;
-			}
-		}
-		if (curStep > 1024 && curStep < 1439 && SONG.song.toLowerCase() == 'guns' && ClientPrefs.tankmanFloat == true) {
-			boyfriend.regY += (Math.sin(elapsedtime) * 0.2);
-			if (PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection) {
-				camFollow.y = boyfriend.getMidpoint().y;
-			}
+			tankFloat = true;
 		}
 
 		if (fcing)
@@ -996,6 +988,9 @@ class PlayState extends MusicBeatState {
 		#if desktop
 		DiscordHandler.changePresence('Playing ' + SONG.song.toLowerCase() + '-' + diff, 'With ' + songScore + ' Score And ' + songMisses + ' Misses');
 		#end
+
+		if (PlayState.curStage.startsWith('school'))
+			pixelStage = true;
 
 		if (FlxG.keys.justPressed.ENTER && startedCountdown && canPause) {
 			persistentUpdate = false;
@@ -1152,6 +1147,14 @@ class PlayState extends MusicBeatState {
 			vocals.stop();
 			FlxG.sound.music.stop();
 
+			#if debug
+			trace("ded");
+			#end
+			
+			#if SCRIPTS_ENABLED
+			scripts_call("onDeath", [], false);
+			#end
+
 			// 1 / 1000 chance for Gitaroo Man easter egg
 			if (FlxG.random.bool(0.1)) {
 				// gitaroo man easter egg
@@ -1230,7 +1233,10 @@ class PlayState extends MusicBeatState {
 							case "singUP":    camFollow.y = dadSingUp;
 							case "singRIGHT": camFollow.x = dadSingRight;
 						}
-					}	
+					}
+
+					if (tankFloat)
+						dad.y += 15;
 
 					noteHitParams.charForAnim.playAnim(noteHitParams.animToPlay, true);
 					noteHitParams.charForAnim.holdTimer = 0;
@@ -1262,6 +1268,8 @@ class PlayState extends MusicBeatState {
 							combo = 0;
 							fcing = false;
 							#if SCRIPTS_ENABLED scripts_call("noteMiss"); #end
+							if (tankFloat)
+								boyfriend.y -= 10;
 							if (ClientPrefs.poisonPlus == true
 								&& poisonTimes < ClientPrefs.maxPoisonHits
 								&& ClientPrefs.maxPoisonHits != 0) {
@@ -1430,7 +1438,7 @@ class PlayState extends MusicBeatState {
 		}
 
 		if (!ClientPrefs.botPlay && !ClientPrefs.practice) {
-			var scoreIncrease:Float = score * ((combo + 1) * 0.05);
+			var scoreIncrease:Float = (score * ((combo + 1) * 0.05)) * ClientPrefs.scoreMultiplier;
 			score += Math.floor(scoreIncrease);
 			songScore += score;
 		}
@@ -1451,7 +1459,7 @@ class PlayState extends MusicBeatState {
 
 		// RecalculateRating(false);
 
-		if (curStage.startsWith('school')) {
+		if (pixelStage) {
 			pixelShitPart1 = 'weeb/pixelUI/';
 			pixelShitPart2 = '-pixel';
 		}
@@ -1749,6 +1757,9 @@ class PlayState extends MusicBeatState {
 				case "singRIGHT": camFollow.x = bfSingRight;
 			}
 		}
+
+		if (tankFloat)
+			boyfriend.y += 10;
 
 		if (note.noteData >= 0)
 			health += 0.023;

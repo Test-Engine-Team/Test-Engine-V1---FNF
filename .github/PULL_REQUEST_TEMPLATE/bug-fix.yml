@@ -1,0 +1,26 @@
+name: Bug fix
+description: Make a pull-request fixing a bug here!
+labels: [bug-fix]
+body:
+  - type: textarea
+    id: issue
+    attributes:
+      label: Link a issue thats related to this pull request here.
+    validations:
+      required: false
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Describe your pull request
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I checked for duplicate pull requests
+          required: true

@@ -90,7 +90,9 @@ function create() {
 	ground.scrollFactor.set(0.9, 0.9);
 	ground.active = false;
 	add(ground);
+}
 
+function createPost() {
 	if (ClientPrefs.quality != 'Low') {
 		tankBop1 = new FlxSprite(-500, 650);
 		tankBop1.frames = Files.sparrowAtlas('tank/tank0');
