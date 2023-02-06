@@ -274,7 +274,7 @@ class TitleState extends MusicBeatState {
 				pressedEnter = true;
 		}
 
-		if (pressedEnter || FlxG.keys.justPressed.ENTER) {
+		if (pressedEnter || controls.ACCEPT) {
 			if (!transitioning && skippedIntro)
 			{
 				titleText.animation.play('press');
@@ -295,9 +295,9 @@ class TitleState extends MusicBeatState {
 			}
 		}
 
-		if (pressedEnter && !skippedIntro) {
-			skipIntro();
-		}
+		if (pressedEnter || controls.ACCEPT) {
+			if (!skippedIntro)
+				skipIntro();
 
 		if (controls.LEFT) {
 			swagShader.update(elapsed * 0.1);
