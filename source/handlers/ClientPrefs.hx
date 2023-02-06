@@ -61,10 +61,8 @@ class ClientPrefs {
     public static var tankmanFloat:Bool = false;
 
 	//Extra
-	//public static var fullscreen:Bool = false;
-	#if !html5
+	public static var fullscreen:Bool = false;
 	public static var autoPause:Bool = true;
-	#end
 	public static var scoreMultiplier:Float = 1; //for future multiplier stuff
 
 	// modifiable stuff for modding

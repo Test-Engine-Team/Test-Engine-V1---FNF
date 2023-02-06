@@ -65,7 +65,7 @@ class TitleState extends MusicBeatState {
 
 	var transitioning:Bool = false;
 
-	var pressedEnter:Bool = FlxG.keys.justPressed.ENTER;
+	var pressedEnter:Bool = false;
 
 	override public function create():Void {
 		#if SCRIPTS_ENABLED
@@ -261,7 +261,11 @@ class TitleState extends MusicBeatState {
 
 		if (FlxG.keys.justPressed.F) {
 			FlxG.fullscreen = !FlxG.fullscreen;
+			ClientPrefs.fullscreen = !ClientPrefs.fullscreen;
 		}
+
+		if (ClientPrefs.fullscreen)
+			FlxG.fullscreen = true;
 
 		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
 
@@ -270,8 +274,10 @@ class TitleState extends MusicBeatState {
 				pressedEnter = true;
 		}
 
-		if (pressedEnter && !transitioning && skippedIntro) {
-			titleText.animation.play('press');
+		if (pressedEnter || FlxG.keys.justPressed.ENTER) {
+			if (!transitioning && skippedIntro)
+			{
+				titleText.animation.play('press');
 
 			if (flash)
 				FlxG.camera.flash(FlxColor.WHITE, 1);
@@ -286,6 +292,7 @@ class TitleState extends MusicBeatState {
 					FlxG.switchState(new MainMenuState());
 				}
 			});
+			}
 		}
 
 		if (pressedEnter && !skippedIntro) {

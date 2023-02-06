@@ -11,6 +11,10 @@ import sys.io.File;
 import sys.FileSystem;
 #end
 
+#if html5
+import handlers.ClientPrefs;
+#end
+
 class Main extends Sprite
 {
 	static public var buildNumber:Int;
@@ -48,6 +52,11 @@ class Main extends Sprite
 		if (!FileSystem.exists(FileSystem.absolutePath(path))) {buildNumber = -1; return;}
 		buildNumber = Std.parseInt(File.getContent(FileSystem.absolutePath(path))) + 1;
 		File.saveContent(FileSystem.absolutePath(path), buildNumber + "");
+		#end
+
+		#if html5
+		ClientPrefs.fullscreen = true;
+		ClientPrefs.autoPause = false;
 		#end
 	}
 }
