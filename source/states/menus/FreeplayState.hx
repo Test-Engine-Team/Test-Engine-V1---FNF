@@ -195,7 +195,7 @@ class FreeplayState extends MusicBeatState {
 
 		if (controls.BACK){
 			FlxG.switchState(new MainMenuState());
-			vocals.destroy();
+			//vocals.destroy();
 		}
 
 		#if desktop
