@@ -223,6 +223,7 @@ class FreeplayState extends MusicBeatState {
 				FlxG.sound.music.stop();
 		}
 
+		/* temporarily disabled for crashing
 		if (FlxG.keys.justPressed.SPACE) {
 			#if SCRIPTS_ENABLED
 			script.callFunction("playSong");
@@ -233,6 +234,7 @@ class FreeplayState extends MusicBeatState {
 
 			vocals.play();
 		}
+		*/
 
 		#if SCRIPTS_ENABLED
 		script.callFunction("updatePost");
