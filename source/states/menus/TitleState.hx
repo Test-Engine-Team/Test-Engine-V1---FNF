@@ -295,7 +295,7 @@ class TitleState extends MusicBeatState {
 			}
 		}
 
-		if (pressedEnter || controls.ACCEPT) {
+		if (pressedEnter || controls.ACCEPT)
 			if (!skippedIntro)
 				skipIntro();
 
