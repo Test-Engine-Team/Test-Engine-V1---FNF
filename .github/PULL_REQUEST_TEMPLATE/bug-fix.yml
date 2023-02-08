@@ -24,3 +24,5 @@ body:
       options:
         - label: I checked for duplicate pull requests
           required: true
+        - label: I tested it
+          required: true
