@@ -2,7 +2,7 @@
 ![Logo](https://github.com/Test-Engine-Team/Test-Engine-V1---FNF/blob/4d8b0e2ed659ea8ac0e4c30b93332ca400f8efce/art/logo.png)
 
 ## About
-Test Engine is a Friday Night Funkin engine that keeps Customizatioon and User Experience in mind.
+Test Engine is a Friday Night Funkin engine that keeps Customization and User Experience in mind.
 
 ## Compiling
 go to [Compiling.md](https://github.com/Test-Engine-Team/Test-Engine-V1---FNF/blob/master/docs/Compiling.md) and theres a tutorial there.
@@ -14,7 +14,7 @@ go to [Modding.md](https://github.com/Test-Engine-Team/Test-Engine-V1---FNF/blob
 Theres currently no videos yet!
 Keep waiting!
 
-Srt should be making some videos which i will link below:
+Srt should be making some videos which I will link below:
 
 #### Links
 NONE
