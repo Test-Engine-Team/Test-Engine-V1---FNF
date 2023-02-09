@@ -51,6 +51,7 @@ class ClientPrefs {
 	public static var uiAlpha:Float = 1;
 	public static var antialiasing:Bool = true;
 	public static var ogTitle:Bool = false;
+	public static var infoTxt:Bool = true;
 	public static var quality:String = 'Medium';
 
 	//easter eggs

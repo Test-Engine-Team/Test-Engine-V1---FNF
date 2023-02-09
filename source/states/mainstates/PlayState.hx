@@ -347,6 +347,7 @@ class PlayState extends MusicBeatState {
 		infoText = new FlxText(0, healthBarBG.y + 40, FlxG.width, "", 20);
 		infoText.setFormat("assets/fonts/vcr.ttf", 16, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		infoText.scrollFactor.set();
+		infoText.visible = ClientPrefs.infoTxt;
 		add(infoText);
 
 		iconP1 = new HealthIcon(boyfriend.charData.iconImage, true);

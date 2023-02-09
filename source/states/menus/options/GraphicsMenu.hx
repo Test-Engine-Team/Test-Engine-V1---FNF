@@ -107,6 +107,23 @@ class GraphicsMenu extends MusicBeatState{
             }
         },
         {
+            name: "Show Info Text",
+            description: "if enabled, there will be info text that will give you information about how good you are doing",
+            type: BOOL,
+            min: 0,
+            max: 1,
+            //conflicts: null,
+            updateFunc: function(menuOption:MenuOption, elapsed:Float) {
+                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true))
+                    ClientPrefs.infoTxt = !ClientPrefs.infoTxt;
+                if (FlxG.keys.justPressed.R)
+                    ClientPrefs.infoTxt = true;
+            },
+            valueFunc: function() {
+                return (ClientPrefs.infoTxt) ? "Enabled" : "Disabled";
+            }
+        },
+        {
             name: "Quality",
             description: "The quality of the game (WIP)",
             type: STRING,
