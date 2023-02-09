@@ -243,9 +243,9 @@ class GameplayMenu extends MusicBeatState{
             //conflicts: null,
             updateFunc: function(menuOption:MenuOption, elapsed:Float) {
                 if ([FlxG.keys.justPressed.ENTER].contains(true)) {
-                   // if (sure == true) {
-                        FlxG.save.erase();
-                        FlxG.switchState(new states.menus.LoadingState());
+                    // if (sure == true) {
+                    FlxG.save.erase();
+                    FlxG.switchState(new states.menus.TitleState());
                     //}
                     //else
                     //{

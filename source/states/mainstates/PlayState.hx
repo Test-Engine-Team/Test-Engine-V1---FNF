@@ -120,7 +120,12 @@ class PlayState extends MusicBeatState {
 	var songScore:Int = 0;
 	var songMisses:Int = 0;
 	var fcing:Bool = false;
+
 	var infoText:FlxText;
+	var scoreText:FlxText;
+	var missText:FlxText;
+	var comboText:FlxText;
+	var noteHitText:FlxText;
 
 	var grpNoteSplashes:FlxTypedGroup<NoteSplash>;
 
@@ -942,26 +947,30 @@ class PlayState extends MusicBeatState {
 			tankFloat = true;
 		}
 
-		if (fcing)
-		{
-			if (ClientPrefs.limitMisses) {
-				infoText.text = "Score: " + songScore + " || Misses: " + songMisses + " (FC) / " + ClientPrefs.maxMisses + " || Combo: " + combo + " || Notes Hit: " + notesHit;
+		if (ClientPrefs.scoreTxt) {
+			scoreText.text = "|| Score: " + songScore + " ";	
+		}
+		if (ClientPrefs.missTxt) {
+			if (fcing) {
+				if (ClientPrefs.limitMisses)
+					missText.text = "|| Misses: " + songMisses + " / " + ClientPrefs.maxMisses + " (FC) ";
+				else
+					missText.text = "|| Misses: " + songMisses + " (FC) ";
 			}
-			else 
+			else
 			{
-				infoText.text = "Score: " + songScore + " || Misses: " + songMisses + " (FC) || Combo: " + combo + " || Notes Hit: " + notesHit;
+				missText.text = "|| Misses: " + songMisses + " ";
 			}
 		}
-		else
+		if (ClientPrefs.comboTxt)
 		{
-			if (ClientPrefs.limitMisses) {
-				infoText.text = "Score: " + songScore + " || Misses: " + songMisses + " / " + ClientPrefs.maxMisses + " || Combo: " + combo + " || Notes Hit: " + notesHit;
-			}
-			else 
-			{
-				infoText.text = "Score: " + songScore + " || Misses: " + songMisses + " || Combo: " + combo + " || Notes Hit: " + notesHit;
-			}
+			comboText.text = "|| Combo: " + combo + " ";
 		}
+		if (ClientPrefs.noteHitTxt)
+		{
+			noteHitText.text = "|| Notes Hit: " + notesHit + " ";
+		}
+		infoText.text = "" + scoreText + missText + comboText + noteHitText + "||";
 
 		#if desktop
 		DiscordHandler.changePresence('Playing ' + SONG.song.toLowerCase() + '-' + Highscore.diffArray[storyDifficulty].toUpperCase(), 'With ' + songScore + ' Score And ' + songMisses + ' Misses');
@@ -1203,7 +1212,7 @@ class PlayState extends MusicBeatState {
 					}
 
 					//hopefully i make the cam offset customizable...
-					if (ClientPrefs.camMoveOnHit && noteHitParams.camMoveOnHit && !PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection) {
+					if (ClientPrefs.camMoveOnHit && noteHitParams.camMoveOnHit && !PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection && !daNote.isSustainNote) {
 						switch (noteHitParams.animToPlay)
 						{
 							case "singLEFT":  camFollow.x = camFollow.x - 20;
@@ -1726,7 +1735,7 @@ class PlayState extends MusicBeatState {
 		}
 
 		//hopefully i make the cam offset customizable...
-		if (ClientPrefs.camMoveOnHit && noteHitParams.camMoveOnHit && PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection) {
+		if (ClientPrefs.camMoveOnHit && noteHitParams.camMoveOnHit && PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection && !note.isSustainNote) {
 			switch (noteHitParams.animToPlay)
 			{
 				case "singLEFT":  camFollow.x = camFollow.x - 20;
