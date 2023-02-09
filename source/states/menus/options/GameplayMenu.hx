@@ -10,6 +10,7 @@ import flixel.FlxG;
 import ui.Alphabet;
 import handlers.ClientPrefs;
 import states.menus.options.Options;
+import Controls;
 
 class GameplayMenu extends MusicBeatState{
     var maintextgroup:FlxTypedGroup<Alphabet>;
@@ -24,9 +25,10 @@ class GameplayMenu extends MusicBeatState{
             max: 1,
             //conflicts: null,
             updateFunc: function(menuOption:MenuOption, elapsed:Float) {
-                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
+                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true))
                     ClientPrefs.ghostTapping = !ClientPrefs.ghostTapping;
-                }
+                if (FlxG.keys.justPressed.R)
+                    ClientPrefs.ghostTapping = true;
             },
             valueFunc: function() {
                 return (ClientPrefs.ghostTapping) ? "Enabled" : "Disabled";
@@ -40,9 +42,10 @@ class GameplayMenu extends MusicBeatState{
             max: 1,
             //conflicts: null,
             updateFunc: function(menuOption:MenuOption, elapsed:Float) {
-                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
+                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true))
                     ClientPrefs.downscroll = !ClientPrefs.downscroll;
-                }
+                if (FlxG.keys.justPressed.R)
+                    ClientPrefs.downscroll = false;
             },
             valueFunc: function() {
                 return (ClientPrefs.downscroll) ? "Downscroll" : "Upscroll";
@@ -80,6 +83,8 @@ class GameplayMenu extends MusicBeatState{
                             FlxG.updateFramerate = ClientPrefs.framerate;
                         }
                 }
+                if (FlxG.keys.justPressed.R)
+                    ClientPrefs.framerate = 60;
             },
             valueFunc: function() {
                 return Std.string(ClientPrefs.framerate);
@@ -93,9 +98,10 @@ class GameplayMenu extends MusicBeatState{
             max: 1,
             //conflicts: null,
             updateFunc: function(menuOption:MenuOption, elapsed:Float) {
-                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
+                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true))
                     ClientPrefs.freeplayCutscenes = !ClientPrefs.freeplayCutscenes;
-                }
+                if (FlxG.keys.justPressed.R)
+                    ClientPrefs.freeplayCutscenes = false;
             },
             valueFunc: function() {
                 return (ClientPrefs.freeplayCutscenes) ? "Enabled" : "Disabled";
@@ -117,6 +123,8 @@ class GameplayMenu extends MusicBeatState{
                     ClientPrefs.safeFrames += 1;
                     if (ClientPrefs.safeFrames > menuOption.max) ClientPrefs.safeFrames = Std.int(menuOption.max);
                 }
+                if (FlxG.keys.justPressed.R)
+                    ClientPrefs.safeFrames = 10;
             },
             valueFunc: function() {
                 return Std.string(ClientPrefs.safeFrames);
@@ -130,9 +138,10 @@ class GameplayMenu extends MusicBeatState{
             max: 1,
             //conflicts: null,
             updateFunc: function(menuOption:MenuOption, elapsed:Float) {
-                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
+                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true))
                     ClientPrefs.botPlay = !ClientPrefs.botPlay;
-                }
+                if (FlxG.keys.justPressed.R)
+                    ClientPrefs.botPlay = false;
             },
             valueFunc: function() {
                 return (ClientPrefs.botPlay) ? "Enabled" : "Disabled";
@@ -144,11 +153,12 @@ class GameplayMenu extends MusicBeatState{
             type: BOOL,
             min: 0,
             max: 1,
-            //conflicts: ['FC Mode', 'Max Misses'],
+            //conflicts: ['FC Mode', 'Max Misses', 'BotPlay'],
             updateFunc: function(menuOption:MenuOption, elapsed:Float) {
-                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
+                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true))
                     ClientPrefs.practice = !ClientPrefs.practice;
-                }
+                if (FlxG.keys.justPressed.R)
+                    ClientPrefs.practice = false;
             },
             valueFunc: function() {
                 return (ClientPrefs.practice) ? "Enabled" : "Disabled";
@@ -162,9 +172,10 @@ class GameplayMenu extends MusicBeatState{
             max: 1,
             //conflicts: null,
             updateFunc: function(menuOption:MenuOption, elapsed:Float) {
-                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
+                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true))
                     ClientPrefs.shitSystem = !ClientPrefs.shitSystem;
-                }
+                if (FlxG.keys.justPressed.R)
+                    ClientPrefs.shitSystem = true;
             },
             valueFunc: function() {
                 return (ClientPrefs.shitSystem) ? "Enabled" : "Disabled";
@@ -178,9 +189,10 @@ class GameplayMenu extends MusicBeatState{
             max: 1,
             //conflicts: null,
             updateFunc: function(menuOption:MenuOption, elapsed:Float) {
-                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
+                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true))
                     ClientPrefs.camMoveOnHit = !ClientPrefs.camMoveOnHit;
-                }
+                if (FlxG.keys.justPressed.R)
+                    ClientPrefs.camMoveOnHit = true;
             },
             valueFunc: function() {
                 return (ClientPrefs.camMoveOnHit) ? "Enabled" : "Disabled";
@@ -194,9 +206,8 @@ class GameplayMenu extends MusicBeatState{
             max: 1,
             //conflicts: null,
             updateFunc: function(menuOption:MenuOption, elapsed:Float) {
-                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
+                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true))
                     ClientPrefs.flashingLights = !ClientPrefs.flashingLights;
-                }
             },
             valueFunc: function() {
                 return (ClientPrefs.flashingLights) ? "Enabled" : "Disabled";
@@ -215,6 +226,8 @@ class GameplayMenu extends MusicBeatState{
                     ClientPrefs.autoPause = !ClientPrefs.autoPause;
                     FlxG.autoPause = ClientPrefs.autoPause;
                 }
+                if (FlxG.keys.justPressed.R)
+                    ClientPrefs.autoPause = true;
             },
             valueFunc: function() {
                 return (ClientPrefs.autoPause) ? "Enabled" : "Disabled";

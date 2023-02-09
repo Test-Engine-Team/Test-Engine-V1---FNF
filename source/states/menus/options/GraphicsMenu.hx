@@ -23,9 +23,10 @@ class GraphicsMenu extends MusicBeatState{
             max: 1,
             //conflicts: null,
             updateFunc: function(menuOption:MenuOption, elapsed:Float) {
-                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
+                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true))
                     ClientPrefs.showComboSprite = !ClientPrefs.showComboSprite;
-                }
+                if (FlxG.keys.justPressed.R)
+                    ClientPrefs.showComboSprite = true;
             },
             valueFunc: function() {
                 return (ClientPrefs.showComboSprite) ? "Enabled" : "Disabled";
@@ -39,9 +40,10 @@ class GraphicsMenu extends MusicBeatState{
             max: 1,
             //conflicts: null,
             updateFunc: function(menuOption:MenuOption, elapsed:Float) {
-                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
+                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true))
                     ClientPrefs.noteSplashes = !ClientPrefs.noteSplashes;
-                }
+                if (FlxG.keys.justPressed.R)
+                    ClientPrefs.noteSplashes = true;
             },
             valueFunc: function() {
                 return (ClientPrefs.noteSplashes) ? "Enabled" : "Disabled";
@@ -63,6 +65,8 @@ class GraphicsMenu extends MusicBeatState{
                     ClientPrefs.uiAlpha += 0.1;
                     if (ClientPrefs.uiAlpha > menuOption.max) ClientPrefs.uiAlpha = Std.int(menuOption.max);
                 }
+                if (FlxG.keys.justPressed.R)
+                    ClientPrefs.uiAlpha = 1;
             },
             valueFunc: function() {
                 return Std.string(ClientPrefs.uiAlpha);
@@ -76,9 +80,10 @@ class GraphicsMenu extends MusicBeatState{
             max: 1,
             //conflicts: null,
             updateFunc: function(menuOption:MenuOption, elapsed:Float) {
-                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
+                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true))
                     ClientPrefs.ogTitle = !ClientPrefs.ogTitle;
-                }
+                if (FlxG.keys.justPressed.R)
+                    ClientPrefs.ogTitle = false;
             },
             valueFunc: function() {
                 return (ClientPrefs.ogTitle) ? "Enabled" : "Disabled";
@@ -92,9 +97,10 @@ class GraphicsMenu extends MusicBeatState{
             max: 1,
             //conflicts: null,
             updateFunc: function(menuOption:MenuOption, elapsed:Float) {
-                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
+                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true))
                     ClientPrefs.antialiasing = !ClientPrefs.antialiasing;
-                }
+                if (FlxG.keys.justPressed.R)
+                    ClientPrefs.antialiasing = true;
             },
             valueFunc: function() {
                 return (ClientPrefs.antialiasing) ? "Enabled" : "Disabled";
@@ -122,6 +128,8 @@ class GraphicsMenu extends MusicBeatState{
                         case 'Medium': ClientPrefs.quality = 'High';
                     }
                 }
+                if (FlxG.keys.justPressed.R)
+                    ClientPrefs.quality = 'Medium';
             },
             valueFunc: function() {
                 return ClientPrefs.quality;

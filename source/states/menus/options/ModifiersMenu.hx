@@ -23,9 +23,10 @@ class ModifiersMenu extends MusicBeatState {
             max: 1,
             //conflicts: null,
             updateFunc: function(menuOption:MenuOption, elapsed:Float) {
-                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
+                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true))
                     ClientPrefs.spinnyspin = !ClientPrefs.spinnyspin;
-                }
+                if (FlxG.keys.justPressed.R)
+                    ClientPrefs.spinnyspin = false; //most of the modifiers will be false
             },
             valueFunc: function() {
                 return (ClientPrefs.spinnyspin) ? "Enabled" : "Disabled";
@@ -39,9 +40,10 @@ class ModifiersMenu extends MusicBeatState {
             max: 1,
             //conflicts: null,
             updateFunc: function(menuOption:MenuOption, elapsed:Float) {
-                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
+                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true))
                     ClientPrefs.fairFight = !ClientPrefs.fairFight;
-                }
+                if (FlxG.keys.justPressed.R)
+                    ClientPrefs.fairFight = false;
             },
             valueFunc: function() {
                 return (ClientPrefs.fairFight) ? "Enabled" : "Disabled";
@@ -58,6 +60,7 @@ class ModifiersMenu extends MusicBeatState {
                 switch ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].indexOf(true)) {
                     case 0:
                         ClientPrefs.poisonPlus = !ClientPrefs.poisonPlus;
+                        ClientPrefs.maxPoisonHits = 3;
                         ClientPrefs.fcMode = false;
                     case 1:
                         if (ClientPrefs.poisonPlus) ClientPrefs.maxPoisonHits -= 1;
@@ -65,6 +68,10 @@ class ModifiersMenu extends MusicBeatState {
                     case 2:
                         if (ClientPrefs.poisonPlus) ClientPrefs.maxPoisonHits += 1;
                         if (ClientPrefs.maxPoisonHits > menuOption.max) ClientPrefs.maxPoisonHits = Std.int(menuOption.max);
+                }
+                if (FlxG.keys.justPressed.R) {
+                    ClientPrefs.poisonPlus = false;
+                    ClientPrefs.maxPoisonHits = 3;
                 }
             },
             valueFunc: function() {
@@ -85,6 +92,8 @@ class ModifiersMenu extends MusicBeatState {
                     ClientPrefs.limitMisses = false;
                     ClientPrefs.maxMisses = 2;
                 }
+                if (FlxG.keys.justPressed.R)
+                    ClientPrefs.fcMode = false;
             },
             valueFunc: function() {
                 return (ClientPrefs.fcMode) ? "Enabled" : "Disabled";
@@ -109,6 +118,10 @@ class ModifiersMenu extends MusicBeatState {
                         if (ClientPrefs.limitMisses) ClientPrefs.maxMisses += 1;
                         if (ClientPrefs.maxMisses > menuOption.max) ClientPrefs.maxMisses = Std.int(menuOption.max);
                 }
+                if (FlxG.keys.justPressed.R) {
+                    ClientPrefs.limitMisses = false;
+                    ClientPrefs.maxMisses = 2;
+                }
             },
             valueFunc: function() {
                 return (ClientPrefs.limitMisses) ? Std.string(ClientPrefs.maxMisses) : "Disabled";
@@ -130,6 +143,8 @@ class ModifiersMenu extends MusicBeatState {
                     ClientPrefs.speed += 1;
                     if (ClientPrefs.speed > menuOption.max) ClientPrefs.speed = Std.int(menuOption.max);
                 }
+                if (FlxG.keys.justPressed.R)
+                    ClientPrefs.speed = 1;
             },
             valueFunc: function() {
                 return Std.string(ClientPrefs.speed);
@@ -158,6 +173,8 @@ class ModifiersMenu extends MusicBeatState {
                     ClientPrefs.constantDrain += 10;
                     if (ClientPrefs.constantDrain > menuOption.max) ClientPrefs.constantDrain = Std.int(menuOption.max);
                 }
+                if (FlxG.keys.justPressed.R)
+                    ClientPrefs.constantDrain = 0;
             },
             valueFunc: function() {
                 if (ClientPrefs.constantDrain != 0)
@@ -189,6 +206,8 @@ class ModifiersMenu extends MusicBeatState {
                     ClientPrefs.constantHeal += 10;
                     if (ClientPrefs.constantHeal > menuOption.max) ClientPrefs.constantHeal = Std.int(menuOption.max);
                 }
+                if (FlxG.keys.justPressed.R)
+                    ClientPrefs.constantHeal = 0;
             },
             valueFunc: function() {
                 if (ClientPrefs.constantHeal != 0)

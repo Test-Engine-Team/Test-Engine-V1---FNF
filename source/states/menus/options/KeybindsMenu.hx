@@ -101,6 +101,9 @@ class KeybindsMenu extends MusicBeatState {
             return;
         }
 
+        if (FlxG.keys.justPressed.R)
+            restartKeybinds();
+
         if (FlxG.keys.justPressed.ESCAPE) {
             FlxG.sound.play(Files.sound("cancelMenu"));
             FlxG.switchState(new states.menus.options.Options());
