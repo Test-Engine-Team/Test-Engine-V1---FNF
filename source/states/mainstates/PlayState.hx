@@ -63,7 +63,6 @@ class PlayState extends MusicBeatState {
 	public static var storyPlaylist:Array<String> = [];
 	public static var storyDifficulty:Int = 1;
 	public static var speed:Int = 1;
-	public static var diff:String;
 
 	private static var tankFloat:Bool = false;
 
@@ -88,16 +87,6 @@ class PlayState extends MusicBeatState {
 	private var camFollow:FlxObject;
 
 	private static var prevCamFollow:FlxObject;
-
-	private static var dadSingLeft:Float = 0;
-	private static var dadSingDown:Float = 0;
-	private static var dadSingUp:Float = 0;
-	private static var dadSingRight:Float = 0;
-
-	private static var bfSingLeft:Float = 0;
-	private static var bfSingDown:Float = 0;
-	private static var bfSingUp:Float = 0;
-	private static var bfSingRight:Float = 0;
 
 	private var strumLineNotes:FlxTypedGroup<FlxSprite>;
 	private var playerStrums:FlxTypedGroup<FlxSprite>;
@@ -181,8 +170,6 @@ class PlayState extends MusicBeatState {
 		FlxCamera.defaultCameras = [camGame];
 
 		// prevFramerateStuff = FlxG.updateFramerate;
-
-		diff = Highscore.diffArray[storyDifficulty].toUpperCase();
 
 		persistentUpdate = true;
 		persistentDraw = true;
@@ -986,7 +973,7 @@ class PlayState extends MusicBeatState {
 		}
 
 		#if desktop
-		DiscordHandler.changePresence('Playing ' + SONG.song.toLowerCase() + '-' + diff, 'With ' + songScore + ' Score And ' + songMisses + ' Misses');
+		DiscordHandler.changePresence('Playing ' + SONG.song.toLowerCase() + '-' + Highscore.diffArray[storyDifficulty].toUpperCase(), 'With ' + songScore + ' Score And ' + songMisses + ' Misses');
 		#end
 
 		if (PlayState.curStage.startsWith('school'))
@@ -1228,10 +1215,10 @@ class PlayState extends MusicBeatState {
 					if (ClientPrefs.camMoveOnHit && noteHitParams.camMoveOnHit && !PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection) {
 						switch (noteHitParams.animToPlay)
 						{
-							case "singLEFT":  camFollow.x = dadSingLeft;
-							case "singDOWN":  camFollow.y = dadSingDown;
-							case "singUP":    camFollow.y = dadSingUp;
-							case "singRIGHT": camFollow.x = dadSingRight;
+							case "singLEFT":  camFollow.x = camFollow.x - 20;
+							case "singDOWN":  camFollow.y = camFollow.y + 20;
+							case "singUP":    camFollow.y = camFollow.y - 20;
+							case "singRIGHT": camFollow.x = camFollow.x + 20;
 						}
 					}
 
@@ -1751,10 +1738,10 @@ class PlayState extends MusicBeatState {
 		if (ClientPrefs.camMoveOnHit && noteHitParams.camMoveOnHit && PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection) {
 			switch (noteHitParams.animToPlay)
 			{
-				case "singLEFT":  camFollow.x = bfSingLeft;
-				case "singDOWN":  camFollow.y = bfSingDown;
-				case "singUP":    camFollow.y = bfSingUp;
-				case "singRIGHT": camFollow.x = bfSingRight;
+				case "singLEFT":  camFollow.x = camFollow.x - 20;
+				case "singDOWN":  camFollow.y = camFollow.y + 20;
+				case "singUP":    camFollow.y = camFollow.y - 20;
+				case "singRIGHT": camFollow.x = camFollow.x + 20;
 			}
 		}
 
@@ -1801,17 +1788,6 @@ class PlayState extends MusicBeatState {
 				Conductor.changeBPM(SONG.notes[Math.floor(curStep / 16)].bpm);
 				FlxG.log.add('CHANGED BPM!');
 			}
-			// else
-			// Conductor.changeBPM(SONG.bpm);
-
-			// Dad doesnt interupt his own notes
-			if (!SONG.notes[Math.floor(curStep / 16)].mustHitSection && dadSingLeft == 0)
-			{
-				dadSingLeft = camFollow.x - 20;
-				dadSingDown = camFollow.y + 20;
-				dadSingUp = camFollow.y - 20;
-				dadSingRight = camFollow.x + 20;
-			}
 			dad.dance();
 		}
 		// FlxG.log.add('change bpm' + SONG.notes[Std.int(curStep / 16)].changeBPM);
@@ -1838,14 +1814,6 @@ class PlayState extends MusicBeatState {
 
 		if (!boyfriend.animation.curAnim.name.startsWith("sing")) {
 			boyfriend.dance();
-
-			if (bfSingLeft == 0)
-			{
-				bfSingLeft = camFollow.x - 20;
-				bfSingDown = camFollow.y + 20;
-				bfSingUp = camFollow.y - 20;
-				bfSingRight = camFollow.x + 20;
-			}
 		}
 
 		if (curBeat % 8 == 7 && SONG.song == 'Bopeebo') {

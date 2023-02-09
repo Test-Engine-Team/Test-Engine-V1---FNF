@@ -16,6 +16,7 @@ import states.menus.MainMenuState;
 import ui.Alphabet;
 import handlers.MusicBeatSubstate;
 import handlers.Files;
+import handlers.Highscore;
 #if desktop
 import handlers.DiscordHandler;
 #end
@@ -60,7 +61,7 @@ class PauseSubState extends MusicBeatSubstate
 		script.callFunction("createBellowItems");
 		#end
 
-		levelinfotext = new FlxText(20, 15, 0, '${PlayState.SONG.song}\nSpeed:${PlayState.speed}\n${PlayState.diff}');
+		levelinfotext = new FlxText(20, 15, 0, '${PlayState.SONG.song}\nSpeed:${PlayState.speed}\n${Highscore.diffArray[PlayState.storyDifficulty].toUpperCase()}');
 		levelinfotext.setFormat("assets/fonts/vcr.ttf", 25, FlxColor.WHITE, null, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		levelinfotext.borderSize = 3;
 		add(levelinfotext);
@@ -131,12 +132,6 @@ class PauseSubState extends MusicBeatSubstate
 			}
 		}
 
-		if (FlxG.keys.justPressed.J)
-		{
-			// for reference later!
-			// PlayerSettings.player1.controls.replaceBinding(Control.LEFT, Keys, FlxKey.J, null);
-		}
-
 		#if SCRIPTS_ENABLED
 		script.callFunction("updatePost");
 		#end
@@ -174,13 +169,9 @@ class PauseSubState extends MusicBeatSubstate
 			bullShit++;
 
 			item.alpha = 0.6;
-			// item.setGraphicSize(Std.int(item.width * 0.8));
 
 			if (item.targetY == 0)
-			{
 				item.alpha = 1;
-				// item.setGraphicSize(Std.int(item.width));
-			}
 		}
 		#if SCRIPTS_ENABLED
 		script.callFunction("changeSelectionPost");
