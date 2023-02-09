@@ -76,8 +76,6 @@ class PlayState extends MusicBeatState {
 
 	var stage:Stage;
 
-	public var elapsedtime:Float = 0;
-
 	private var notes:FlxTypedGroup<Note>;
 	private var unspawnNotes:Array<Note> = [];
 
@@ -171,8 +169,7 @@ class PlayState extends MusicBeatState {
 
 		// prevFramerateStuff = FlxG.updateFramerate;
 
-		persistentUpdate = true;
-		persistentDraw = true;
+		persistentUpdate = persistentDraw = true;
 
 		if (SONG == null)
 			SONG = Song.loadFromJson(songPath = 'tutorial');
@@ -658,8 +655,6 @@ class PlayState extends MusicBeatState {
 		#if SCRIPTS_ENABLED scripts_call("songStart"); #end
 	}
 
-	var debugNum:Int = 0;
-
 	private function generateSong():Void {
 		var songData = SONG;
 		Conductor.changeBPM(songData.bpm);
@@ -759,9 +754,6 @@ class PlayState extends MusicBeatState {
 			daBeats += 1;
 		}
 
-		// trace(unspawnNotes.length);
-		// playerCounter += 1;
-
 		unspawnNotes.sort(sortByShit);
 
 		generatedMusic = true;
@@ -852,7 +844,7 @@ class PlayState extends MusicBeatState {
 		}
 	}
 
-	function tweenCamIn():Void {
+	inline function tweenCamIn():Void {
 		FlxTween.tween(FlxG.camera, {zoom: 1.3}, (Conductor.stepCrochet * 4 / 1000), {ease: FlxEase.elasticInOut});
 	}
 
@@ -898,8 +890,6 @@ class PlayState extends MusicBeatState {
 	var canPause:Bool = true;
 
 	override public function update(elapsed:Float) {
-		elapsedtime += elapsed;
-
 		if (FlxG.keys.justPressed.NINE) {
 			iconP1.changeIcon((iconP1.char == "bf-old") ? boyfriend.charData.iconImage : "bf-old");
 			#if SCRIPTS_ENABLED scripts_call("oldBfChange"); #end

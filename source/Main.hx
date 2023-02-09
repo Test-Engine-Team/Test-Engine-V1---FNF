@@ -4,7 +4,6 @@ import flixel.FlxGame;
 import ui.FpsText;
 import ui.LogHandler;
 import openfl.display.Sprite;
-import flixel.FlxG;
 
 #if sys
 import sys.io.File;
@@ -57,6 +56,8 @@ class Main extends Sprite
 		#if html5
 		ClientPrefs.fullscreen = true;
 		ClientPrefs.autoPause = false;
+
+		FlxG.mouse.visible = false;
 		#end
 	}
 }

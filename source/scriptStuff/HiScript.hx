@@ -86,17 +86,19 @@ class HiScript {
     }
 
     public function callFunction(name:String, ?params:Array<Dynamic>) {
+        if (interp == null || parser == null) return null;
+
         var functionVar = (isBlank) ? blankVars.get(name) : interp.variables.get(name);
         var hasParams = (params != null && params.length > 0);
         if (functionVar == null || !Reflect.isFunction(functionVar)) return null;
         return hasParams ? Reflect.callMethod(null, functionVar, params) : functionVar();
     }
 
-    public function getValue(name:String)
-        return (isBlank) ? blankVars.get(name) : interp.variables.get(name);
+    inline public function getValue(name:String)
+        return (isBlank) ? blankVars.get(name) : (interp != null) ? interp.variables.get(name) : null;
 
-    public function setValue(name:String, value:Dynamic)
-        if (isBlank) blankVars.set(name, value) else interp.variables.set(name, value);
+    inline public function setValue(name:String, value:Dynamic)
+        (isBlank) ? blankVars.set(name, value) : (interp != null) ? interp.variables.set(name, value) : null;
     #else
     public var interp:Null<Dynamic> = null;
     public var expr:Null<Dynamic> = null;
@@ -105,14 +107,7 @@ class HiScript {
         isBlank = true;
     }
 
-    public function callFunction(name:String, ?params:Array<Dynamic>) {
-        var functionVar = blankVars.get(name);
-        var hasParams = (params != null && params.length > 0);
-        if (functionVar == null || !Reflect.isFunction(functionVar)) return null;
-        return hasParams ? Reflect.callMethod(null, functionVar, params) : functionVar();
-    }
-
-    public function getValue(name:String)
+    inline public function getValue(name:String)
         return blankVars.get(name);
 
     public function setValue(name:String, value:Dynamic)
