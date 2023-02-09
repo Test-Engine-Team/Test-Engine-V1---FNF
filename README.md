@@ -4,11 +4,26 @@
 ## About
 Test Engine is a Friday Night Funkin engine that keeps Customization and User Experience in mind.
 
+### Features
+Heres some features in the engine:
+
+* Mod System
+* Modifiers
+* Downscroll
+* Multi-Quality selections
+* Custom Discord RPC
+* Subtitles
+* Softcoded Menus, Stages, & Cutscenes
+* Shaders
+* Video Cutscenes (BETA)
+
+And thats just a few of the features this engine holds!
+
 ## Compiling
-go to [Compiling.md](https://github.com/Test-Engine-Team/Test-Engine-V1---FNF/blob/master/docs/Compiling.md) and theres a tutorial there.
+Go to [Compiling.md](https://github.com/Test-Engine-Team/Test-Engine-V1---FNF/blob/master/docs/Compiling.md) and theres a tutorial there.
 
 ## Modding
-go to [Modding.md](https://github.com/Test-Engine-Team/Test-Engine-V1---FNF/blob/master/docs/Modding.md) and theres a tutorial there.
+Go to [Modding.md](https://github.com/Test-Engine-Team/Test-Engine-V1---FNF/blob/master/docs/Modding.md) and theres a tutorial there.
 
 ### Videos
 Theres currently no videos yet!
