@@ -245,6 +245,7 @@ class GameplayMenu extends MusicBeatState{
                 if ([FlxG.keys.justPressed.ENTER].contains(true)) {
                    // if (sure == true) {
                         FlxG.save.erase();
+                        FlxG.save.data.seenFlashingLightsWarning = false;
                         FlxG.switchState(new states.menus.LoadingState());
                     //}
                     //else
