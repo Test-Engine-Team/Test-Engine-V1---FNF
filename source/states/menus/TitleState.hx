@@ -32,6 +32,7 @@ import handlers.Conductor;
 import handlers.MusicBeatState;
 import handlers.ClientPrefs;
 import flixel.input.keyboard.FlxKey;
+import states.etc.substates.FlashingLightsWarningSubState;
 
 using StringTools;
 
@@ -66,6 +67,8 @@ class TitleState extends MusicBeatState {
 	var transitioning:Bool = false;
 
 	var pressedEnter:Bool = false;
+
+	public static var reloadNeeded:Bool = false;
 
 	override public function create():Void {
 		#if SCRIPTS_ENABLED
@@ -116,6 +119,16 @@ class TitleState extends MusicBeatState {
 
 			transIn = FlxTransitionableState.defaultTransIn;
 			transOut = FlxTransitionableState.defaultTransOut;
+		}
+
+		//checks if flashing is null, if so desplay a warning
+		if (FlxG.save.data.seenFlashingLightsWarning == false)
+			openSubState(new states.etc.substates.FlashingLightsWarningSubState());
+
+		if (reloadNeeded)
+		{
+			reloadNeeded = false;
+			FlxG.resetState();
 		}
 
 		if (!seenIntro) {
