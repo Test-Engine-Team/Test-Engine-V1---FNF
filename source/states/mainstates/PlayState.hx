@@ -114,12 +114,18 @@ class PlayState extends MusicBeatState {
 	public var camHUD:FlxCamera;
 	private var camGame:FlxCamera;
 
+	var canPause:Bool = true;
+
 	var dialogue:Array<String> = ['dad:blah blah blah', 'bf:coolswag'];
 
 	var talking:Bool = true;
-	var songScore:Int = 0;
-	var songMisses:Int = 0;
-	var fcing:Bool = false;
+	public var songScore:Int = 0;
+	public var songMisses:Int = 0;
+	//public var accuracy(get, set):Float;
+	//public var accuracyPressedNotes:Float = 0;
+	//public var totalAccuracyAmount:Float = 0;
+	public var fcing:Bool = false;
+
 	var infoText:FlxText;
 
 	var grpNoteSplashes:FlxTypedGroup<NoteSplash>;
@@ -888,7 +894,6 @@ class PlayState extends MusicBeatState {
 
 	private var paused:Bool = false;
 	var startedCountdown:Bool = false;
-	var canPause:Bool = true;
 
 	override public function update(elapsed:Float) {
 		if (FlxG.keys.justPressed.NINE) {
@@ -942,26 +947,41 @@ class PlayState extends MusicBeatState {
 			tankFloat = true;
 		}
 
-		if (fcing)
-		{
-			if (ClientPrefs.limitMisses) {
-				infoText.text = "Score: " + songScore + " || Misses: " + songMisses + " (FC) / " + ClientPrefs.maxMisses + " || Combo: " + combo + " || Notes Hit: " + notesHit;
+		var scoreText = "";
+		var missText = "";
+		var comboText = "";
+		var noteHitText = "";
+		//var accuracyText = "";
+		if (ClientPrefs.scoreTxt) {
+			scoreText = "|| Score: " + songScore + " ";
+		}
+		if (ClientPrefs.missTxt) {
+			if (fcing) {
+				if (ClientPrefs.limitMisses)
+					missText = "|| Misses: " + songMisses + " / " + ClientPrefs.maxMisses + " (FC) ";
+				else
+					missText = "|| Misses: " + songMisses + " (FC) ";
 			}
-			else 
+			else
 			{
-				infoText.text = "Score: " + songScore + " || Misses: " + songMisses + " (FC) || Combo: " + combo + " || Notes Hit: " + notesHit;
+				missText = "|| Misses: " + songMisses + " ";
 			}
 		}
-		else
+		/*
+		if (ClientPrefs.accuracyTxt)
 		{
-			if (ClientPrefs.limitMisses) {
-				infoText.text = "Score: " + songScore + " || Misses: " + songMisses + " / " + ClientPrefs.maxMisses + " || Combo: " + combo + " || Notes Hit: " + notesHit;
-			}
-			else 
-			{
-				infoText.text = "Score: " + songScore + " || Misses: " + songMisses + " || Combo: " + combo + " || Notes Hit: " + notesHit;
-			}
+			acuracyText = "|| Accuracy: " + songAccuracy + "% ";
 		}
+		*/
+		if (ClientPrefs.comboTxt)
+		{
+			comboText = "|| Combo: " + combo + " ";
+		}
+		if (ClientPrefs.noteHitTxt)
+		{
+			noteHitText = "|| Notes Hit: " + notesHit + " ";
+		}
+		infoText.text = "" + scoreText + missText + /*accuracyText + */comboText + noteHitText + "||";
 
 		#if desktop
 		DiscordHandler.changePresence('Playing ' + SONG.song.toLowerCase() + '-' + Highscore.diffArray[storyDifficulty].toUpperCase(), 'With ' + songScore + ' Score And ' + songMisses + ' Misses');
@@ -1203,7 +1223,7 @@ class PlayState extends MusicBeatState {
 					}
 
 					//hopefully i make the cam offset customizable...
-					if (ClientPrefs.camMoveOnHit && noteHitParams.camMoveOnHit && !PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection) {
+					if (ClientPrefs.camMoveOnHit && noteHitParams.camMoveOnHit && !PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection && !daNote.isSustainNote) {
 						switch (noteHitParams.animToPlay)
 						{
 							case "singLEFT":  camFollow.x = camFollow.x - 20;
@@ -1726,7 +1746,7 @@ class PlayState extends MusicBeatState {
 		}
 
 		//hopefully i make the cam offset customizable...
-		if (ClientPrefs.camMoveOnHit && noteHitParams.camMoveOnHit && PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection) {
+		if (ClientPrefs.camMoveOnHit && noteHitParams.camMoveOnHit && PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection && !note.isSustainNote) {
 			switch (noteHitParams.animToPlay)
 			{
 				case "singLEFT":  camFollow.x = camFollow.x - 20;

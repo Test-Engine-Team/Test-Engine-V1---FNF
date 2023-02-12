@@ -12,7 +12,7 @@ import Controls;
 
 class ClientPrefs {
 	//For load and save.
-	static var settingNames:Array<String> = ["flashingLights", "spinnyspin", "fairFight", "poisonPlus", "fcMode", "maxPoisonHits", "limitMisses", "maxMisses", "freeplayCutscenes", "downscroll", "safeFrames", "botPlay", "practice", "speed", "ghostTapping", "showComboSprite", "antialiasing", "quality", "uiAlpha", "camMoveOnHit", "noteSplashes", "ogTitle", "fullscreen", "autoPause", "scoreMultiplier"];
+	static var settingNames:Array<String> = ["infoTxtX", "flashingLights", "spinnyspin", "fairFight", "poisonPlus", "fcMode", "maxPoisonHits", "limitMisses", "maxMisses", "freeplayCutscenes", "downscroll", "safeFrames", "botPlay", "practice", "speed", "ghostTapping", "showComboSprite", "antialiasing", "quality", "uiAlpha", "camMoveOnHit", "noteSplashes", "ogTitle", "fullscreen", "autoPause", "scoreMultiplier", "scoreTxt", "missTxt", "comboTxt", "noteHitTxt", "accuracyTxt"];
 	// Options
 	public static var flashingLights:Bool = true; //this assumes this is true which is bad but i dunno how to make a popup on the start of the game like PE
     public static var ghostTapping:Bool = true;
@@ -53,6 +53,14 @@ class ClientPrefs {
 	public static var ogTitle:Bool = false;
 	public static var infoTxt:Bool = true;
 	public static var quality:String = 'Medium';
+
+	// Info Text stuff
+	public static var infoTxtX:Float = 3;
+	public static var scoreTxt:Bool = true;
+	public static var missTxt:Bool = true;
+	public static var comboTxt:Bool = true;
+	public static var accuracyTxt:Bool = false;
+	public static var noteHitTxt:Bool = true;
 
 	//easter eggs
 	public static var tristanPlayer:Bool = false;

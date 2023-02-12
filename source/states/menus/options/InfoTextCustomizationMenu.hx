@@ -11,143 +11,128 @@ import ui.Alphabet;
 import handlers.ClientPrefs;
 import states.menus.options.Options;
 
-class GraphicsMenu extends MusicBeatState{
+class InfoTextCustomizationMenu extends MusicBeatState
+{
     var maintextgroup:FlxTypedGroup<Alphabet>;
     var curSelected:Int = 0;
     var options:Array<MenuOption> = [
         {
-            name: "Show Combo Sprite",
-            description: 'Shows the sprite saying "COMBO" when you hit a note.',
+            name: "Show Info Text",
+            description: "if enabled, there will be info text that will give you information about how good you are doing",
             type: BOOL,
             min: 0,
             max: 1,
             //conflicts: null,
             updateFunc: function(menuOption:MenuOption, elapsed:Float) {
                 if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true))
-                    ClientPrefs.showComboSprite = !ClientPrefs.showComboSprite;
+                    ClientPrefs.infoTxt = !ClientPrefs.infoTxt;
                 if (FlxG.keys.justPressed.R)
-                    ClientPrefs.showComboSprite = true;
+                    ClientPrefs.infoTxt = true;
             },
             valueFunc: function() {
-                return (ClientPrefs.showComboSprite) ? "Enabled" : "Disabled";
+                return (ClientPrefs.infoTxt) ? "Enabled" : "Disabled";
             }
         },
         {
-            name: "Note Splashes",
-            description: "Shows a Splash Animation when you hit Sick on a Note.",
+            name: "Score Text",
+            description: "Shows the song score",
             type: BOOL,
             min: 0,
             max: 1,
             //conflicts: null,
             updateFunc: function(menuOption:MenuOption, elapsed:Float) {
-                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true))
-                    ClientPrefs.noteSplashes = !ClientPrefs.noteSplashes;
-                if (FlxG.keys.justPressed.R)
-                    ClientPrefs.noteSplashes = true;
+                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true) && ClientPrefs.infoTxtX < 5) {
+                    ClientPrefs.scoreTxt = !ClientPrefs.scoreTxt;
+                    if (ClientPrefs.scoreTxt)
+                        ClientPrefs.infoTxtX += 1;
+                    else
+                        ClientPrefs.infoTxtX -= 1;
+                }
             },
             valueFunc: function() {
-                return (ClientPrefs.noteSplashes) ? "Enabled" : "Disabled";
+                return (ClientPrefs.scoreTxt) ? "Enabled" : "Disabled";
             }
         },
         {
-            name: "UI Alpha",
-            description: "How visible the UI is",
-            type: PERCENT,
-            min: 0,
-            max: 1,
-            //conflicts: null,
-            updateFunc: function(menuOption:MenuOption, elapsed:Float) {
-                if (FlxG.keys.justPressed.LEFT) {
-                    ClientPrefs.uiAlpha -= 0.1;
-                    if (ClientPrefs.uiAlpha < menuOption.min) ClientPrefs.uiAlpha = Std.int(menuOption.min);
-                }
-                else if (FlxG.keys.justPressed.RIGHT) {
-                    ClientPrefs.uiAlpha += 0.1;
-                    if (ClientPrefs.uiAlpha > menuOption.max) ClientPrefs.uiAlpha = Std.int(menuOption.max);
-                }
-                if (FlxG.keys.justPressed.R)
-                    ClientPrefs.uiAlpha = 1;
-            },
-            valueFunc: function() {
-                return Std.string(ClientPrefs.uiAlpha);
-            }
-        },
-        {
-            name: "ogTitle",
-            description: "Ludum Dare game jam title screen",
+            name: "Miss Text",
+            description: "Shows the amount of misses you have",
             type: BOOL,
             min: 0,
             max: 1,
             //conflicts: null,
             updateFunc: function(menuOption:MenuOption, elapsed:Float) {
-                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true))
-                    ClientPrefs.ogTitle = !ClientPrefs.ogTitle;
-                if (FlxG.keys.justPressed.R)
-                    ClientPrefs.ogTitle = false;
+                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true) && ClientPrefs.infoTxtX < 5) {
+                    ClientPrefs.missTxt = !ClientPrefs.missTxt;
+                    if (ClientPrefs.missTxt)
+                        ClientPrefs.infoTxtX += 1;
+                    else
+                        ClientPrefs.infoTxtX -= 1;
+                }
             },
             valueFunc: function() {
-                return (ClientPrefs.ogTitle) ? "Enabled" : "Disabled";
+                return (ClientPrefs.missTxt) ? "Enabled" : "Disabled";
             }
         },
         {
-            name: "Info Text Customization",
-            description: "",
-            type: BUTTON,
-            min: 0,
-            max: 0,
-            //conflicts: null
-            updateFunc: function(menuOption:MenuOption, elapsed:Float) {
-                if (FlxG.keys.justPressed.ENTER)
-                    FlxG.switchState(new InfoTextCustomizationMenu());
-            },
-            valueFunc: function() {
-                return "goto Info Text Customization Menu?";
-            }
-        },
-        {
-            name: "Antialiasing",
-            description: "Smoothens the pixels of sprites and text objects at the cost of some resources.",
+            name: "Combo Text",
+            description: "Shows the amount of combo hits you did",
             type: BOOL,
             min: 0,
             max: 1,
             //conflicts: null,
             updateFunc: function(menuOption:MenuOption, elapsed:Float) {
-                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true))
-                    ClientPrefs.antialiasing = !ClientPrefs.antialiasing;
-                if (FlxG.keys.justPressed.R)
-                    ClientPrefs.antialiasing = true;
+                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true) && ClientPrefs.infoTxtX < 5) {
+                    ClientPrefs.comboTxt = !ClientPrefs.comboTxt;
+                    if (ClientPrefs.comboTxt)
+                        ClientPrefs.infoTxtX += 1;
+                    else
+                        ClientPrefs.infoTxtX -= 1;
+                }
             },
             valueFunc: function() {
-                return (ClientPrefs.antialiasing) ? "Enabled" : "Disabled";
+                return (ClientPrefs.comboTxt) ? "Enabled" : "Disabled";
             }
         },
+        /*
         {
-            name: "Quality",
-            description: "The quality of the game (WIP)",
-            type: STRING,
+            name: "Accuracy Text",
+            description: "Shows the accuracy of your hits",
+            type: BOOL,
             min: 0,
-            max: 2,
+            max: 1,
             //conflicts: null,
             updateFunc: function(menuOption:MenuOption, elapsed:Float) {
-                if (FlxG.keys.justPressed.LEFT) {
-                    switch (ClientPrefs.quality)
-                    {
-                        case 'Medium': ClientPrefs.quality = 'Low';
-                        case 'High': ClientPrefs.quality = 'Medium';
-                    }
+                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true) && ClientPrefs.infoTxtX < 5) {
+                    ClientPrefs.accuracyTxt = !ClientPrefs.accuracyTxt;
+                    if (ClientPrefs.accuracyTxt)
+                        ClientPrefs.infoTxtX += 1;
+                    else
+                        ClientPrefs.infoTxtX -= 1;
                 }
-                if (FlxG.keys.justPressed.RIGHT) {
-                    switch (ClientPrefs.quality)
-                    {
-                        case 'Low': ClientPrefs.quality = 'Medium';
-                        case 'Medium': ClientPrefs.quality = 'High';
-                    }
-                }
-                if (FlxG.keys.justPressed.R)
-                    ClientPrefs.quality = 'Medium';
             },
             valueFunc: function() {
-                return ClientPrefs.quality;
+                return (ClientPrefs.accuracyTxt) ? "Enabled" : "Disabled";
+            }
+        },
+        */
+        {
+            name: "Notes Hit Text",
+            description: "Shows the amount of notes you hit",
+            type: BOOL,
+            min: 0,
+            max: 1,
+            //conflicts: null,
+            updateFunc: function(menuOption:MenuOption, elapsed:Float) {
+                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true) && ClientPrefs.infoTxtX < 5) {
+                    ClientPrefs.noteHitTxt = !ClientPrefs.noteHitTxt;
+                    if (ClientPrefs.infoTxt)
+                        ClientPrefs.infoTxtX += 1;
+                    else
+                        ClientPrefs.infoTxtX -= 1;
+                }
+            },
+            valueFunc: function() {
+                return (ClientPrefs.noteHitTxt) ? "Enabled" : "Disabled";
             }
         }
     ];
@@ -180,6 +165,8 @@ class GraphicsMenu extends MusicBeatState{
             maintextgroup.add(maintext);
         }
 
+        trace('Note that you can only have a Max of 5 parts on the info text at a time!')
+
         changeSelection();
     }
 
@@ -187,7 +174,7 @@ class GraphicsMenu extends MusicBeatState{
         super.update(elapsed);
 
         if (FlxG.keys.justPressed.ESCAPE)
-            FlxG.switchState(new Options());
+            FlxG.switchState(new GraphicsMenu());
 
         if (controls.UP_P || controls.DOWN_P) {
             changeSelection((controls.UP_P) ? -1 : 1);
