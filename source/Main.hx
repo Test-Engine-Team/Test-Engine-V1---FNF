@@ -4,6 +4,7 @@ import flixel.FlxGame;
 import ui.FpsText;
 import ui.LogHandler;
 import openfl.display.Sprite;
+import handlers.Files;
 
 #if sys
 import sys.io.File;
@@ -46,7 +47,7 @@ class Main extends Sprite
 			#end
 		});	
 
-		#if github_action
+		#if (github_action || debug)
 		#if sys
 		var pathBack = #if windows
 			"../../../../"
@@ -56,10 +57,13 @@ class Main extends Sprite
 			""
 		#end; // thx yoshi lool
 		
-		var buildNum:Int = Std.parseInt(File.getContent('./${pathBack}buildnum.txt'));
-		buildNum++;
-		File.saveContent('./${pathBack}buildnum.txt', Std.string(buildNum));
-		trace("Build number: " + buildNum);
+		if (Files.fileExists('./${pathBack}', 'buildnum', 'txt'))
+		{
+			var buildNum:Int = Std.parseInt(File.getContent('./${pathBack}buildnum.txt'));
+			buildNum++;
+			File.saveContent('./${pathBack}buildnum.txt', Std.string(buildNum));
+			trace("Build number: " + buildNum);
+		}
 		#end
 		#end
 
