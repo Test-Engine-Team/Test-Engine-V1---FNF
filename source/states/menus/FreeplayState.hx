@@ -243,7 +243,9 @@ class FreeplayState extends MusicBeatState {
 			#end
 
 			FlxG.sound.playMusic(Files.song(songList[curSelected].path + "/Inst"));
-			if (PlayState.SONG.needsVoices)
+			Highscore.diffArray = songList[curSelected].diffs;
+			var jsonPath = 'assets/data/${songList[curSelected].path}/${Highscore.formatSong(songList[curSelected].path, curDifficulty)}.json';
+			if (haxe.Json.parse(openfl.Assets.getText(jsonPath)).song.needsVoices)
 				vocals = new FlxSound().loadEmbedded((Files.song(songList[curSelected].path + '/Voices')));
 			else
 				vocals = new FlxSound();

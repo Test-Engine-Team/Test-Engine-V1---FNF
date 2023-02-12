@@ -171,18 +171,18 @@ class Character extends FlxSprite
 	/**
 	 * FOR GF DANCING SHIT
 	 */
-	public function dance()
-	{
-		var isCurrentlyDancing:Bool = animation.curAnim != null && ["idle", "danceLeft", "danceRight"].contains(animation.curAnim.name);
-		var leftDance:String = (isSwagDanceLefterDanceRighter) ? "danceLeft" : "idle";
+	public function dance()	{
+		var hairFalling = (animation.curAnim != null && animation.curAnim.name.startsWith('hair') && !animation.curAnim.finished);
+		var isSinging = (animation.curAnim != null && animation.curAnim.name.startsWith('sing') && holdTimer < Conductor.stepCrochet * charData.singDur * 0.001);
+		if (debugMode || hairFalling || isSinging) return;
+
 		danced = !danced;
-		var boolArray:Array<Bool> = [
-			debugMode,
-			(animation.curAnim != null && animation.curAnim.name.startsWith("hair")),
-			(holdTimer < Conductor.stepCrochet * charData.singDur * 0.001 && !isCurrentlyDancing)
-		];
-		if (boolArray.contains(true)) return;
-		playAnim(danced ? leftDance : "danceRight");
+
+		var danceAnim:String = 'idle';
+		if (isSwagDanceLefterDanceRighter)
+			danceAnim = danced ? 'danceLeft' : "danceRight";
+
+		playAnim(danceAnim);
 	}
 
 	public function playAnim(AnimName:String, Force:Bool = false, Reversed:Bool = false, Frame:Int = 0):Void
@@ -200,21 +200,13 @@ class Character extends FlxSprite
 		else
 			offset.set(0, 0);
 
-		if (charData.regCharType == 'gf')
-		{
-			var animIndex:Int = [
-				(AnimName == "singLEFT"),
-				(AnimName == "singRIGHT"),
-				(AnimName == "singUP" || AnimName == "singDOWN"),
-				true
-			].indexOf(true);
-			var setDance:Array<Bool> = [
-				true,
-				false,
-				!danced,
-				danced
-			];
-			danced = setDance[animIndex];
+		if (charData.regCharType == 'gf') {
+			danced = switch(AnimName) {
+				case "singLEFT": true;
+				case "singRIGHT": false;
+				case "singUP" | "singDOWN": !danced;
+				default: danced;
+			}
 		}
 	}
 
