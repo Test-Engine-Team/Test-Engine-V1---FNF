@@ -114,18 +114,19 @@ class PlayState extends MusicBeatState {
 	public var camHUD:FlxCamera;
 	private var camGame:FlxCamera;
 
+	var canPause:Bool = true;
+
 	var dialogue:Array<String> = ['dad:blah blah blah', 'bf:coolswag'];
 
 	var talking:Bool = true;
-	var songScore:Int = 0;
-	var songMisses:Int = 0;
-	var fcing:Bool = false;
+	public var songScore:Int = 0;
+	public var songMisses:Int = 0;
+	//public var accuracy(get, set):Float;
+	//public var accuracyPressedNotes:Float = 0;
+	//public var totalAccuracyAmount:Float = 0;
+	public var fcing:Bool = false;
 
 	var infoText:FlxText;
-	var scoreText:FlxText;
-	var missText:FlxText;
-	var comboText:FlxText;
-	var noteHitText:FlxText;
 
 	var grpNoteSplashes:FlxTypedGroup<NoteSplash>;
 
@@ -893,7 +894,6 @@ class PlayState extends MusicBeatState {
 
 	private var paused:Bool = false;
 	var startedCountdown:Bool = false;
-	var canPause:Bool = true;
 
 	override public function update(elapsed:Float) {
 		if (FlxG.keys.justPressed.NINE) {
@@ -947,30 +947,41 @@ class PlayState extends MusicBeatState {
 			tankFloat = true;
 		}
 
+		var scoreText = "";
+		var missText = "";
+		var comboText = "";
+		var noteHitText = "";
+		//var accuracyText = "";
 		if (ClientPrefs.scoreTxt) {
-			scoreText.text = "|| Score: " + songScore + " ";	
+			scoreText = "|| Score: " + songScore + " ";
 		}
 		if (ClientPrefs.missTxt) {
 			if (fcing) {
 				if (ClientPrefs.limitMisses)
-					missText.text = "|| Misses: " + songMisses + " / " + ClientPrefs.maxMisses + " (FC) ";
+					missText = "|| Misses: " + songMisses + " / " + ClientPrefs.maxMisses + " (FC) ";
 				else
-					missText.text = "|| Misses: " + songMisses + " (FC) ";
+					missText = "|| Misses: " + songMisses + " (FC) ";
 			}
 			else
 			{
-				missText.text = "|| Misses: " + songMisses + " ";
+				missText = "|| Misses: " + songMisses + " ";
 			}
 		}
+		/*
+		if (ClientPrefs.accuracyTxt)
+		{
+			acuracyText = "|| Accuracy: " + songAccuracy + "% ";
+		}
+		*/
 		if (ClientPrefs.comboTxt)
 		{
-			comboText.text = "|| Combo: " + combo + " ";
+			comboText = "|| Combo: " + combo + " ";
 		}
 		if (ClientPrefs.noteHitTxt)
 		{
-			noteHitText.text = "|| Notes Hit: " + notesHit + " ";
+			noteHitText = "|| Notes Hit: " + notesHit + " ";
 		}
-		infoText.text = "" + scoreText + missText + comboText + noteHitText + "||";
+		infoText.text = "" + scoreText + missText + /*accuracyText + */comboText + noteHitText + "||";
 
 		#if desktop
 		DiscordHandler.changePresence('Playing ' + SONG.song.toLowerCase() + '-' + Highscore.diffArray[storyDifficulty].toUpperCase(), 'With ' + songScore + ' Score And ' + songMisses + ' Misses');

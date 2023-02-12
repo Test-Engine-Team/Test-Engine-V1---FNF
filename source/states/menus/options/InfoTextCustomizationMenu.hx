@@ -41,8 +41,13 @@ class InfoTextCustomizationMenu extends MusicBeatState
             max: 1,
             //conflicts: null,
             updateFunc: function(menuOption:MenuOption, elapsed:Float) {
-                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true))
+                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true) && ClientPrefs.infoTxtX < 5) {
                     ClientPrefs.scoreTxt = !ClientPrefs.scoreTxt;
+                    if (ClientPrefs.scoreTxt)
+                        ClientPrefs.infoTxtX += 1;
+                    else
+                        ClientPrefs.infoTxtX -= 1;
+                }
             },
             valueFunc: function() {
                 return (ClientPrefs.scoreTxt) ? "Enabled" : "Disabled";
@@ -56,8 +61,13 @@ class InfoTextCustomizationMenu extends MusicBeatState
             max: 1,
             //conflicts: null,
             updateFunc: function(menuOption:MenuOption, elapsed:Float) {
-                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true))
+                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true) && ClientPrefs.infoTxtX < 5) {
                     ClientPrefs.missTxt = !ClientPrefs.missTxt;
+                    if (ClientPrefs.missTxt)
+                        ClientPrefs.infoTxtX += 1;
+                    else
+                        ClientPrefs.infoTxtX -= 1;
+                }
             },
             valueFunc: function() {
                 return (ClientPrefs.missTxt) ? "Enabled" : "Disabled";
@@ -71,13 +81,40 @@ class InfoTextCustomizationMenu extends MusicBeatState
             max: 1,
             //conflicts: null,
             updateFunc: function(menuOption:MenuOption, elapsed:Float) {
-                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true))
+                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true) && ClientPrefs.infoTxtX < 5) {
                     ClientPrefs.comboTxt = !ClientPrefs.comboTxt;
+                    if (ClientPrefs.comboTxt)
+                        ClientPrefs.infoTxtX += 1;
+                    else
+                        ClientPrefs.infoTxtX -= 1;
+                }
             },
             valueFunc: function() {
                 return (ClientPrefs.comboTxt) ? "Enabled" : "Disabled";
             }
         },
+        /*
+        {
+            name: "Accuracy Text",
+            description: "Shows the accuracy of your hits",
+            type: BOOL,
+            min: 0,
+            max: 1,
+            //conflicts: null,
+            updateFunc: function(menuOption:MenuOption, elapsed:Float) {
+                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true) && ClientPrefs.infoTxtX < 5) {
+                    ClientPrefs.accuracyTxt = !ClientPrefs.accuracyTxt;
+                    if (ClientPrefs.accuracyTxt)
+                        ClientPrefs.infoTxtX += 1;
+                    else
+                        ClientPrefs.infoTxtX -= 1;
+                }
+            },
+            valueFunc: function() {
+                return (ClientPrefs.accuracyTxt) ? "Enabled" : "Disabled";
+            }
+        },
+        */
         {
             name: "Notes Hit Text",
             description: "Shows the amount of notes you hit",
@@ -86,8 +123,13 @@ class InfoTextCustomizationMenu extends MusicBeatState
             max: 1,
             //conflicts: null,
             updateFunc: function(menuOption:MenuOption, elapsed:Float) {
-                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true))
+                if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true) && ClientPrefs.infoTxtX < 5) {
                     ClientPrefs.noteHitTxt = !ClientPrefs.noteHitTxt;
+                    if (ClientPrefs.infoTxt)
+                        ClientPrefs.infoTxtX += 1;
+                    else
+                        ClientPrefs.infoTxtX -= 1;
+                }
             },
             valueFunc: function() {
                 return (ClientPrefs.noteHitTxt) ? "Enabled" : "Disabled";
@@ -122,6 +164,8 @@ class InfoTextCustomizationMenu extends MusicBeatState
             maintext.targetY = i;
             maintextgroup.add(maintext);
         }
+
+        trace('Note that you can only have a Max of 5 parts on the info text at a time!')
 
         changeSelection();
     }
