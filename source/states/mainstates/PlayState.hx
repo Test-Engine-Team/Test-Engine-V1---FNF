@@ -841,10 +841,8 @@ class PlayState extends MusicBeatState {
 
 			if (player == 1)
 				playerStrums.add(babyArrow);
-			/*
-			else if (player == 2)
+			if (player == 2)
 				opponentStrums.add(babyArrow);
-			*/
 
 			babyArrow.animation.play('static');
 			babyArrow.x += FlxG.width / 16;
@@ -1242,10 +1240,8 @@ class PlayState extends MusicBeatState {
 					if (tankFloat)
 						dad.y += 15;
 
-					/*
 					if (noteHitParams.strumGlow)
 						opponentStrums.members[daNote.noteData].animation.play("confirm", true);
-					*/
 
 					noteHitParams.charForAnim.playAnim(noteHitParams.animToPlay, true);
 					noteHitParams.charForAnim.holdTimer = 0;
