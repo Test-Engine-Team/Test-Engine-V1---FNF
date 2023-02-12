@@ -67,6 +67,7 @@
 	<define name="SCRIPTS_ENABLED" if="desktop"/>
 
 	<define name="officialBuild" />
+	<define name="github_action" /> <!-- USED BY GITHUB ACTIONS TO CHANGE THE BUILD NUMBER!!-->
 
 	<!-- _______________________________ Libraries ______________________________ -->
 

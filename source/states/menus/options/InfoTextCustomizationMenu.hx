@@ -165,7 +165,7 @@ class InfoTextCustomizationMenu extends MusicBeatState
             maintextgroup.add(maintext);
         }
 
-        trace('Note that you can only have a Max of 5 parts on the info text at a time!')
+        trace('Note that you can only have a Max of 5 parts on the info text at a time!');
 
         changeSelection();
     }

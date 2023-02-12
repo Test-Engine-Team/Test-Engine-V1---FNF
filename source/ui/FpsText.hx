@@ -84,7 +84,7 @@ class FpsText extends TextField
 
 		if (currentCount != cacheCount /*&& visible*/)
 		{
-			#if debug
+			#if github_action
 			text = '${currentFPS}FPS\n${Utilities.format_bytes(Memory.getCurrentUsage())} / ${Utilities.format_bytes(Memory.getPeakUsage())}\nBUILD: ${Main.buildNumber}';
 			#else
 			text = '${currentFPS}FPS\n${Utilities.format_bytes(Memory.getCurrentUsage())} / ${Utilities.format_bytes(Memory.getPeakUsage())}';

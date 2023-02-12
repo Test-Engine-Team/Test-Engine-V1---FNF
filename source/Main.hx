@@ -46,11 +46,21 @@ class Main extends Sprite
 			#end
 		});	
 
+		#if github_action
 		#if sys
-		var path:String = 'assets/data/buildnum.txt';
-		if (!FileSystem.exists(FileSystem.absolutePath(path))) {buildNumber = -1; return;}
-		buildNumber = Std.parseInt(File.getContent(FileSystem.absolutePath(path))) + 1;
-		File.saveContent(FileSystem.absolutePath(path), buildNumber + "");
+		var pathBack = #if windows
+			"../../../../"
+		#elseif mac
+			"../../../../../../../"
+		#else
+			""
+		#end; // thx yoshi lool
+		
+		var buildNum:Int = Std.parseInt(File.getContent('./${pathBack}buildnum.txt'));
+		buildNum++;
+		File.saveContent('./${pathBack}buildnum.txt', Std.string(buildNum));
+		trace("Build number: " + buildNum);
+		#end
 		#end
 
 		#if html5
