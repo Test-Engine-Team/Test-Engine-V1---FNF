@@ -55,19 +55,15 @@ class CreditsState extends FlxState
 	{
 		super.update(elapsed);
 
-		var upP = controls.UP_P;
-		var downP = controls.DOWN_P;
-		var accepted = controls.ACCEPT;
-
-        if (FlxG.keys.justPressed.ESCAPE)
+        if (controls.BACK)
             FlxG.switchState(new MainMenuState());
 
-		if (upP)
+		if (controls.UP_P)
 			changeSelection(-1);
-		if (downP)
+		if (controls.DOWN_P)
 			changeSelection(1);
 
-		if (accepted)
+		if (controls.ACCEPT)
 		{
             if (credits[curSelected][3] == null || credits[curSelected][3].length <= 0) return;
 
