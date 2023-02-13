@@ -3,6 +3,19 @@ All notable changes will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## [0.2.8.1.0] Test Engine Beta Release 7 - 2023-02-12
+### Added
+ - Cam movements on animations
+ - VINE BOOM
+ - Health Drain
+ - Health Increase
+ - EVEN MORE Modifiers
+ - Custom Info Text
+ - FLASHING!!!
+ - practice mode
+ - Discord button
+### Removed
+ - the Donate button (was replaced by the Discord Button)
 ## [0.2.8.0.0] Test Engine Beta Release 6 - 2023-01-13
 ### Added
  - April Fools ban system (reads computer name)
