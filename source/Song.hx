@@ -19,7 +19,6 @@ typedef SwagSong =
 	var player2:String;
 	var gfVersion:Null<String>;
 	var stage:Null<String>;
-	var validScore:Bool;
 }
 
 class Song
@@ -46,18 +45,16 @@ class Song
 	{
 		var rawJson = Assets.getText('assets/data/' + folder.toLowerCase() + '/' + jsonInput.toLowerCase() + '.json').trim();
 
-		while (!rawJson.endsWith("}"))
-		{
-			rawJson = rawJson.substr(0, rawJson.length - 1);
-		}
+		if (rawJson == null)
+			throw "Failed to load from JSON in " + jsonInput;
+
+		while (!rawJson.endsWith("}")) rawJson = rawJson.substr(0, rawJson.length - 1);
 
 		return parseJSONshit(rawJson);
 	}
 
-	public static function parseJSONshit(rawJson:String):SwagSong
+	inline public static function parseJSONshit(rawJson:String):SwagSong
 	{
-		var swagShit:SwagSong = cast Json.parse(rawJson).song;
-		swagShit.validScore = true;
-		return swagShit;
+		return cast Json.parse(rawJson).song;
 	}
 }
