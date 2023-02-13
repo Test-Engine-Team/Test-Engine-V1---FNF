@@ -1,7 +1,6 @@
 package;
 
 import flixel.text.FlxText;
-import Controls.Control;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxSubState;
@@ -43,8 +42,7 @@ class CreditsState extends FlxState
 
 		for (i in 0...credits.length)
 		{
-			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, credits[i], true, false);
-			songText.isMenuItem = true;
+			var songText:Alphabet = new Alphabet(FlxG.width / 2, 300, credits[i][0], true, false);
 			songText.targetY = i;
 			grpText.add(songText);
 		}
@@ -71,9 +69,9 @@ class CreditsState extends FlxState
 
 		if (accepted)
 		{
-			var daSelected:String = credits[curSelected];
+            if (credits[curSelected][3] == null || credits[curSelected][3].length <= 0) return;
 
-			switch (daSelected)
+			switch (credits[curSelected][3])
 			{
 				case "Megalo":
 					//trace('https://www.youtube.com/channel/UCJiGOmngd5RGGHwO1Dctnyg');
@@ -81,8 +79,8 @@ class CreditsState extends FlxState
 					//openfl.system.System.exit(0); deleted because it was just a troll. - Megalo
 
 				case "mackery":
-				//trace('https://www.youtube.com/@Mackery');
-				//Lib.getURL (new URLRequest ('https://www.youtube.com/@Mackery'), "_blank"); 
+                    //trace('https://www.youtube.com/@Mackery');
+                    //Lib.getURL (new URLRequest ('https://www.youtube.com/@Mackery'), "_blank"); 
 
 				case "[504]Brandon":
 					//trace('https://github.com/504brandon');
@@ -101,8 +99,8 @@ class CreditsState extends FlxState
 		curSelected += change;
 
 		if (curSelected < 0)
-			curSelected = menuItems.length - 1;
-		if (curSelected >= menuItems.length)
+			curSelected = credits.length - 1;
+		if (curSelected >= credits.length)
 			curSelected = 0;
 
 		var bullShit:Int = 0;
