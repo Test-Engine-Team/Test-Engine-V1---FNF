@@ -1,8 +1,12 @@
 package states.menus;
 
 import scriptStuff.HiScript;
+import haxe.Http;
 #if desktop
 import handlers.DiscordHandler;
+#end
+#if sys
+import sys.thread.Thread;
 #end
 import handlers.shaders.BuildingShaders;
 import handlers.shaders.ColorSwap;
@@ -33,6 +37,7 @@ import handlers.MusicBeatState;
 import handlers.ClientPrefs;
 import flixel.input.keyboard.FlxKey;
 import states.etc.substates.FlashingLightsWarningSubState;
+import Main;
 
 using StringTools;
 
@@ -67,6 +72,8 @@ class TitleState extends MusicBeatState {
 	var transitioning:Bool = false;
 
 	var pressedEnter:Bool = false;
+
+	var thrd:Thread;
 
 	public static var reloadNeeded:Bool = false;
 
@@ -253,18 +260,33 @@ class TitleState extends MusicBeatState {
 			if (controls.ACCEPT && !transitioning) {
 				FlxG.sound.play(Files.music('titleShoot'));
 
-				if (flash)
+				if (ClientPrefs.flashingLights)
 					FlxG.camera.flash(FlxColor.WHITE, 1);
 
 				transitioning = true;
 				FlxG.sound.music.stop();
 
-				new FlxTimer().start(2, function(tmr:FlxTimer) {
-					// Check if version is outdated
+				var tmr = new FlxTimer().start(2, function(tmr:FlxTimer)
 					{
-						FlxG.switchState(new MainMenuState());
-					}
-				});
+						if (ClientPrefs.checkForUpdates) {
+							thrd = Thread.create(function() {
+								try {
+									var data = Http.requestUrl("https://raw.githubusercontent.com/Test-Engine-Team/Test-Engine-Latest/main/_changes/list.txt");
+									
+									onUpdateData(data);
+								} catch(e) {
+									trace(e.details());
+									trace(e.stack.toString());
+									MusicBeatState.nextCallbacks.push(function() {
+										FlxG.switchState(new MainMenuState());
+									});
+								}
+							});
+							trace('Checking for updates...');
+						} else {
+							FlxG.switchState(new MainMenuState());
+						}
+					});
 			}
 			return;
 		}
@@ -299,12 +321,27 @@ class TitleState extends MusicBeatState {
 
 			transitioning = true;
 
-			new FlxTimer().start(2, function(tmr:FlxTimer) {
-				// Check if version is outdated
+			var tmr = new FlxTimer().start(2, function(tmr:FlxTimer)
 				{
-					FlxG.switchState(new MainMenuState());
-				}
-			});
+					if (ClientPrefs.checkForUpdates) {
+						thrd = Thread.create(function() {
+							try {
+								var data = Http.requestUrl("https://raw.githubusercontent.com/Test-Engine-Team/Test-Engine-Latest/main/_changes/list.txt");
+								
+								onUpdateData(data);
+							} catch(e) {
+								trace(e.details());
+								trace(e.stack.toString());
+								MusicBeatState.nextCallbacks.push(function() {
+									FlxG.switchState(new MainMenuState());
+								});
+							}
+						});
+						trace('Checking for updates...');
+					} else {
+						FlxG.switchState(new MainMenuState());
+					}
+				});
 			}
 		}
 
@@ -323,6 +360,48 @@ class TitleState extends MusicBeatState {
 
 		#if SCRIPTS_ENABLED
 		script.callFunction("updatePost", [elapsed]);
+		#end
+	}
+
+	function onUpdateData(data:String) {
+		var versions = [for(e in data.split("\n")) if (e.trim() != "") e];
+		var currentVerPos = versions.indexOf(Main.version);
+		var files:Array<String> = [];
+		for(i in currentVerPos+1...versions.length) {
+			var data:String = "";
+			try {
+				data = Http.requestUrl('https://raw.githubusercontent.com/Test-Engine-Team/Test-Engine-Latest/main/_changes/${versions[i]}.txt');
+			} catch(e) {
+				trace(versions[i] + " data is incorrect");
+			}
+			var parsedFiles = [for(e in data.split("\n")) if (e.trim() != "") e];
+			for(f in parsedFiles) {
+				if (!files.contains(f)) {
+					files.push(f);
+				}
+			}
+		}
+
+		var changeLog:String = Http.requestUrl('https://raw.githubusercontent.com/Test-Engine-Team/Test-Engine-Latest/main/_changes/changelog.txt');
+		#if enable_updates
+		trace(currentVerPos);
+		trace(versions.length);
+		
+		updateIcon.visible = false;
+		updateAlphabet.visible = false;
+		updateRibbon.visible = false;
+		
+		if (currentVerPos+1 < versions.length)
+		{
+			trace("OLD VER!!!");
+			FlxG.switchState(new OutdatedSubState(files, versions[versions.length - 1], changeLog));
+		}
+		else
+		{
+		#end
+		FlxG.switchState(new MainMenuState());
+		#if enable_updates
+		}
 		#end
 	}
 
