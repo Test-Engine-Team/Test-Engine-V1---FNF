@@ -188,6 +188,9 @@ class GraphicsMenu extends MusicBeatState{
 
         if (FlxG.keys.justPressed.ESCAPE)
             FlxG.switchState(new Options());
+        
+        if (FlxG.keys.justPressed.BACKSPACE)
+            FlxG.switchState(new Options());
 
         if (controls.UP_P || controls.DOWN_P) {
             changeSelection((controls.UP_P) ? -1 : 1);
