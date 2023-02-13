@@ -18,10 +18,9 @@ import ui.HealthIcon;
 #if desktop
 import handlers.DiscordHandler;
 #end
-
 import flixel.FlxState;
 
-class CreditsState extends FlxState 
+class CreditsState extends handlers.MusicBeatState 
 {
     static var curSelected:Int = 0;
 
