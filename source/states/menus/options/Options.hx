@@ -53,7 +53,6 @@ class Options extends MusicBeatState {
             maintext.targetY = i;
             maintextgroup.add(maintext);
         }
-
         changeSelection();
     }
 
@@ -70,6 +69,9 @@ class Options extends MusicBeatState {
                     changeSelection(1);
                 case 3:
                     ClientPrefs.saveSettings();
+                    FlxG.switchState(new MainMenuState());
+
+                if (FlxG.keys.justPressed.BACKSPACE)
                     FlxG.switchState(new MainMenuState());
             }
         } else {

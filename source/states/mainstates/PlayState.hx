@@ -1341,11 +1341,7 @@ class PlayState extends MusicBeatState {
 		canPause = false;
 		FlxG.sound.music.volume = 0;
 		vocals.volume = 0;
-		if (SONG.validScore) {
-			#if !switch
-			Highscore.saveScore(SONG.song, songScore, storyDifficulty);
-			#end
-		}
+		Highscore.saveScore(SONG.song, songScore, storyDifficulty);
 
 		if (isStoryMode) {
 			campaignScore += songScore;
@@ -1361,9 +1357,7 @@ class PlayState extends MusicBeatState {
 
 				FlxG.switchState(new StoryMenuState());
 
-				if (SONG.validScore) {
-					Highscore.saveWeekScore(storyWeek, campaignScore, storyDifficulty, campaignMisses);
-				}
+				Highscore.saveWeekScore(storyWeek, campaignScore, storyDifficulty, campaignMisses);
 
 				FlxG.save.flush();
 			} else {
