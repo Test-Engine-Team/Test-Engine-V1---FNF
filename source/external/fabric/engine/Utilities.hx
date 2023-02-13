@@ -13,11 +13,11 @@ class Utilities
 	 * [`Format`, `Divisor`]
 	 */
 	public static var byte_formats:Array<Array<Dynamic>> = [
-		["$bytes b", 1.0],
-		["$bytes kb", 1024.0],
-		["$bytes mb", 1048576.0],
-		["$bytes gb", 1073741824.0],
-		["$bytes tb", 1099511627776.0]
+		["$bytes B", 1.0],
+		["$bytes KB", 1024.0],
+		["$bytes MB", 1048576.0],
+		["$bytes GB", 1073741824.0],
+		["$bytes TB", 1099511627776.0]
 	];
 
 	/**

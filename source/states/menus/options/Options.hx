@@ -70,6 +70,9 @@ class Options extends MusicBeatState {
                 case 3:
                     ClientPrefs.saveSettings();
                     FlxG.switchState(new MainMenuState());
+
+                if (FlxG.keys.justPressed.BACKSPACE)
+                    FlxG.switchState(new MainMenuState());
             }
         } else {
             timeSinceSelect += elapsed;

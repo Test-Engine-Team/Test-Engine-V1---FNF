@@ -20,6 +20,7 @@ import handlers.ClientPrefs;
 import handlers.Files;
 import handlers.MusicBeatState;
 import states.menus.options.Options;
+import flixel.FlxState;
 
 using StringTools;
 
@@ -33,7 +34,7 @@ class MainMenuState extends MusicBeatState
 	var menuItem:FlxSprite;
 
 	#if !switch
-	var optionShit:Array<String> = ['story mode', 'freeplay', 'discord', 'options'];
+	var optionShit:Array<String> = ['story mode', 'freeplay', 'credits', 'options'];
 	#else
 	var optionShit:Array<String> = ['story mode', 'freeplay'];
 	#end
@@ -113,7 +114,7 @@ class MainMenuState extends MusicBeatState
 			if (Assets.exists(Files.image('menus/mainmenu/${optionShit[i]}')))
 				tex = Files.sparrowAtlas('menus/mainmenu/${optionShit[i]}');
 
-			menuItem = new FlxSprite(0, 60 + (i * 160));
+			menuItem = new FlxSprite(0, 60 + (i * 150));
 			menuItem.frames = tex;
 			menuItem.animation.addByPrefix('idle', optionShit[i] + " basic", 24);
 			menuItem.animation.addByPrefix('selected', optionShit[i] + " white", 24);
@@ -123,6 +124,7 @@ class MainMenuState extends MusicBeatState
 			menuItems.add(menuItem);
 			menuItem.scrollFactor.set();
 			menuItem.antialiasing = true;
+			menuItem.scale.set(0.9, 0.9);
 		}
 
 		FlxG.camera.follow(camFollow, null, 0.06);
@@ -131,6 +133,8 @@ class MainMenuState extends MusicBeatState
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
+
+		// NG.core.calls.event.logEvent('swag').send();
 
 		changeItem();
 
@@ -258,6 +262,9 @@ class MainMenuState extends MusicBeatState
 									case 'options':
 										FlxG.switchState(new Options());
 										trace("Options Menu Selected");
+									case 'credits':
+										FlxG.switchState(new CreditsState());
+										trace("Credits Menu Selected");
 								}
 							});
 						}
