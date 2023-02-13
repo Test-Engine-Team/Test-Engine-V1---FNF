@@ -994,7 +994,7 @@ class PlayState extends MusicBeatState {
 		if (PlayState.curStage.startsWith('school'))
 			pixelStage = true;
 
-		if (FlxG.keys.justPressed.ENTER && startedCountdown && canPause) {
+		if (controls.PAUSE && startedCountdown && canPause) {
 			persistentUpdate = false;
 			persistentDraw = true;
 			paused = true;

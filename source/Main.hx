@@ -21,7 +21,7 @@ class Main extends Sprite
 {
 	static public var buildNumber:Int;
 	static public var log:LogHandler;
-	static public var version:String = " 0.2.8.0.0";
+	static public var version:String = " 0.2.8.1.0";
 
 	#if sys
 	public static function readLine(buff:Input, l:Int):String {

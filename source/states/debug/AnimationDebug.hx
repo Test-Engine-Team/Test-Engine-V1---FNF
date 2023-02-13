@@ -10,11 +10,13 @@ import states.menus.LoadingState;
 import states.mainstates.PlayState;
 import handlers.Character;
 import handlers.Files;
+import Controls;
+import handlers.MusicBeatState;
 
 /**
 	*DEBUG MODE
  */
-class AnimationDebug extends FlxState
+class AnimationDebug extends MusicBeatState
 {
 	var char:Character;
 	var charghost:Character;
@@ -119,7 +121,7 @@ class AnimationDebug extends FlxState
 	{
 		textAnim.text = char.animation.curAnim.name;
 
-		if (FlxG.keys.justPressed.ESCAPE)
+		if (controls.BACK)
 			FlxG.switchState(new PlayState());
 
 		if (FlxG.keys.justPressed.E)

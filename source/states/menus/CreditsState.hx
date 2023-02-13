@@ -1,6 +1,7 @@
 package states.menus;
 
 import flixel.text.FlxText;
+import scriptStuff.HiScript;
 import Controls.Control;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -29,8 +30,19 @@ class CreditsState extends MusicBeatState
 	var menuItems:Array<String> = ['Megalo', '[504]Brandon', 'mackery', 'SRT', 'MemeHoovy', 'SIG7Ivan', 'Alik Guh', 'Void', 'YeeterOk', 'Swordcube', 'Chocolate (Iris)', 'Bash Bush', 'your mother'];
 	var curSelected:Int = 0;
 
+	var script:HiScript;
+
     override public function create()
-        {
+    {
+		#if SCRIPTS_ENABLED
+		script = new HiScript('states/CreditsState');
+		if (!script.isBlank && script.expr != null) {
+			script.interp.scriptObject = this;
+			script.interp.execute(script.expr);
+		}
+		script.callFunction("create");
+		#end
+
         var bg = new FlxSprite().loadGraphic(Files.image('menus/mainmenu/menuDesat'));
         bg.color = 0x340666;
         add(bg);
@@ -46,44 +58,48 @@ class CreditsState extends MusicBeatState
 			grpMenuShit.add(songText);
 		}
 
+		#if SCRIPTS_ENABLED
+		script.callFunction("createBellowItems");
+		#end
+
 		changeSelection();
 
 		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
-
+		#if SCRIPTS_ENABLED
+		script.callFunction("createPost");
+		#end
 	}
 
 	override function update(elapsed:Float)
 	{
+		#if SCRIPTS_ENABLED
+		script.callFunction("update");
+		#end
 
 		super.update(elapsed);
-
-		var upP = controls.UP_P;
-		var downP = controls.DOWN_P;
-		var accepted = controls.ACCEPT;
         
-        if (FlxG.keys.justPressed.ESCAPE)
+        if (controls.BACK)
             FlxG.switchState(new MainMenuState());
-
-		if (upP)
-		{
+		if (controls.UP_P)
 			changeSelection(-1);
-		}
-		if (downP)
-		{
+		if (controls.DOWN_P)
 			changeSelection(1);
-		}
-
-		if (accepted)
+		if (controls.ACCEPT)
 		{
 			var daSelected:String = menuItems[curSelected];
 
 			switch (daSelected)
 			{
+				//not yet troll
 			}
-	}
-	if (accepted)
+		}
+		if (controls.ACCEPT)
 		{
 			var daSelected:String = menuItems[curSelected];
+
+			#if SCRIPTS_ENABLED
+			script.callFunction("selectCredit");
+			#end
 
 			switch (daSelected)
 			{
@@ -101,7 +117,10 @@ class CreditsState extends MusicBeatState
 					//Lib.getURL (new URLRequest ('https://github.com/504brandon'), "_blank"); 
 			}
 		}
-}
+		#if SCRIPTS_ENABLED
+		script.callFunction("updatePost");
+		#end
+	}
 	override function destroy()
 	{
 		super.destroy();
@@ -109,6 +128,9 @@ class CreditsState extends MusicBeatState
 
 	function changeSelection(change:Int = 0):Void
 	{
+		#if SCRIPTS_ENABLED
+		script.callFunction("changeSelection", [change]);
+		#end
 
 		curSelected += change;
 
