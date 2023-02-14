@@ -73,7 +73,9 @@ class TitleState extends MusicBeatState {
 
 	var pressedEnter:Bool = false;
 
+	#if sys
 	var thrd:Thread;
+	#end
 
 	public static var reloadNeeded:Bool = false;
 
@@ -267,26 +269,32 @@ class TitleState extends MusicBeatState {
 				FlxG.sound.music.stop();
 
 				var tmr = new FlxTimer().start(2, function(tmr:FlxTimer)
-					{
-						if (ClientPrefs.checkForUpdates) {
-							thrd = Thread.create(function() {
-								try {
-									var data = Http.requestUrl("https://raw.githubusercontent.com/Test-Engine-Team/Test-Engine-Latest/main/_changes/list.txt");
-									
-									onUpdateData(data);
-								} catch(e) {
-									trace(e.details());
-									trace(e.stack.toString());
-									MusicBeatState.nextCallbacks.push(function() {
-										FlxG.switchState(new MainMenuState());
-									});
-								}
-							});
-							trace('Checking for updates...');
-						} else {
-							FlxG.switchState(new MainMenuState());
-						}
-					});
+				#if sys
+				{
+					if (ClientPrefs.checkForUpdates) {
+						thrd = Thread.create(function() {
+							try {
+								var data = Http.requestUrl("https://raw.githubusercontent.com/Test-Engine-Team/Test-Engine-Latest/main/_changes/list.txt");
+								
+								onUpdateData(data);
+							} catch(e) {
+								trace(e.details());
+								trace(e.stack.toString());
+								MusicBeatState.nextCallbacks.push(function() {
+									FlxG.switchState(new MainMenuState());
+								});
+							}
+						});
+						trace('Checking for updates...');
+					} else {
+						FlxG.switchState(new MainMenuState());
+					}
+				});
+				#else
+				{
+					FlxG.switchState(new MainMenuState());
+				};
+				#end
 			}
 			return;
 		}
@@ -322,6 +330,7 @@ class TitleState extends MusicBeatState {
 			transitioning = true;
 
 			var tmr = new FlxTimer().start(2, function(tmr:FlxTimer)
+				#if sys
 				{
 					if (ClientPrefs.checkForUpdates) {
 						thrd = Thread.create(function() {
@@ -342,6 +351,11 @@ class TitleState extends MusicBeatState {
 						FlxG.switchState(new MainMenuState());
 					}
 				});
+				#else
+				{
+					FlxG.switchState(new MainMenuState());
+				};
+				#end
 			}
 		}
 
