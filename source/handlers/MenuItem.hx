@@ -6,6 +6,7 @@ import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxMath;
 import flixel.FlxG;
 import flixel.util.FlxColor;
+import handlers.ClientPrefs;
 
 /* Rewrote this a bit.
 class MenuItem extends FlxSpriteGroup
@@ -67,9 +68,12 @@ class MenuItem extends FlxSprite {
 		super.update(elapsed);
 		y = FlxMath.lerp(y, (targetY * 120) + 480, 0.17);
 	
-		if (flashColor == 0xFFFFFFFF) return;
-		flashingInt = (flashingInt + 1) % fakeFramerate;
-	
-		color = (flashingInt >= Math.floor(fakeFramerate / 2)) ? flashColor : 0xFFFFFFFF;
+		if (ClientPrefs.flashingLights)
+		{
+			if (flashColor == 0xFFFFFFFF) return;
+			flashingInt = (flashingInt + 1) % fakeFramerate;
+		
+			color = (flashingInt >= Math.floor(fakeFramerate / 2)) ? flashColor : 0xFFFFFFFF;
+		}
 	}
 }

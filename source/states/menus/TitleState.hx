@@ -130,7 +130,6 @@ class TitleState extends MusicBeatState {
 			transOut = FlxTransitionableState.defaultTransOut;
 		}
 
-		//checks if flashing is null, if so desplay a warning
 		if (FlxG.save.data.seenFlashingLightsWarning == false)
 			openSubState(new states.etc.substates.FlashingLightsWarningSubState());
 
@@ -258,11 +257,12 @@ class TitleState extends MusicBeatState {
 		#if SCRIPTS_ENABLED
 		script.callFunction("update", [elapsed]);
 		#end
+		flash = ClientPrefs.flashingLights;
 		if (ClientPrefs.ogTitle) {
 			if (controls.ACCEPT && !transitioning) {
 				FlxG.sound.play(Files.music('titleShoot'));
 
-				if (ClientPrefs.flashingLights)
+				if (flash)
 					FlxG.camera.flash(FlxColor.WHITE, 1);
 
 				transitioning = true;

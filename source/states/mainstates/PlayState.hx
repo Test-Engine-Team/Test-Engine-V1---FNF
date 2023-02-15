@@ -1275,6 +1275,7 @@ class PlayState extends MusicBeatState {
 							combo = 0;
 							fcing = false;
 							#if SCRIPTS_ENABLED scripts_call("noteMiss"); #end
+							calculateAccuracy(0);
 							if (tankFloat)
 								boyfriend.y -= 10;
 							if (ClientPrefs.poisonPlus == true
