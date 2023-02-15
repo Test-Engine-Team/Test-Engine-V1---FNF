@@ -94,6 +94,8 @@ class PlayState extends MusicBeatState {
 
 	private var gfSpeed:Int = 1;
 	public static var health:Float = 1;
+	public static var maxHealth:Float = 2;
+	public static var minHealth:Float = 0;
 	public var accuracy:Float = 100;
 	private var combo:Int = 0;
 	private var notesHit:Int = 0;
@@ -351,7 +353,7 @@ class PlayState extends MusicBeatState {
 			healthBarBG.y = 0.11 * FlxG.height;
 
 		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8), this,
-			'health', 0, 2);
+			'health', minHealth, maxHealth);
 		healthBar.scrollFactor.set();
 		healthBar.createFilledBar(dad.hpcolor, boyfriend.hpcolor);
 		add(healthBar);
@@ -934,8 +936,8 @@ class PlayState extends MusicBeatState {
 			health -= 9999;
 		if (songMisses == ClientPrefs.maxMisses && ClientPrefs.limitMisses)
 			health -= 9999;
-		if (health <= 0 && !ClientPrefs.practice)
-			health = 0;
+		if (health <= minHealth && !ClientPrefs.practice)
+			health = minHealth;
 
 		if (ClientPrefs.spinnyspin)
 			FlxG.camera.angle += elapsed * 50;
@@ -1026,8 +1028,8 @@ class PlayState extends MusicBeatState {
 		iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
 		iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (iconP2.width - iconOffset);
 
-		if (health > 2)
-			health = 2;
+		if (health > maxHealth)
+			health = maxHealth;
 
 		if (healthBar.percent < 20)
 			iconP1.animation.curAnim.curFrame = 1;
@@ -1141,7 +1143,7 @@ class PlayState extends MusicBeatState {
 			trace("User is cheating!");
 		}
 
-		if (health <= 0 && !ClientPrefs.practice) {
+		if (health <= minHealth && !ClientPrefs.practice) {
 			boyfriend.stunned = true;
 
 			persistentUpdate = false;
@@ -1268,7 +1270,7 @@ class PlayState extends MusicBeatState {
 						daNote.destroy();
 					} else {
 						if (daNote.tooLate || !daNote.wasGoodHit && daNote.doesMiss) {
-							health -= 0.0475;
+							health -= daNote.noteMissHealth;
 							vocals.volume = 0;
 							songMisses++;
 							songScore -= 10;
@@ -1746,8 +1748,11 @@ class PlayState extends MusicBeatState {
 			charForAnim: boyfriend,
 			animToPlay: animList[note.noteData],
 			enableZoom: (SONG.song != "Tutorial"),
+			noteHitHealth: 0.04,
+			noteMissHealth: 0.0475,
 			deleteNote: true,
 			strumGlow: true,
+			hitCauseMiss: false,
 			rateNote: true,
 			noteSplashes: true,
 			camMoveOnHit: true
@@ -1756,6 +1761,9 @@ class PlayState extends MusicBeatState {
 
 		if (noteHitParams.enableZoom)
 			camZooming = true;
+
+		if (NoteHitParams.hitCauseMiss)
+			noteMiss(noteHitParams.animToPlay);
 
 		if (!note.isSustainNote && noteHitParams.rateNote) {
 			popUpScore(note.strumTime, note, noteHitParams.noteSplashes);
@@ -1781,9 +1789,9 @@ class PlayState extends MusicBeatState {
 			boyfriend.y += 10;
 
 		if (note.noteData >= 0)
-			health += 0.023;
+			health += noteHitParams.noteHitHealth + 0.019;
 		else
-			health += 0.004;
+			health += noteHitParams.noteHitHealth; //idk wat this means but ok :)
 
 		noteHitParams.charForAnim.playAnim(noteHitParams.animToPlay, true);
 		noteHitParams.charForAnim.holdTimer = 0;
