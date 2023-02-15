@@ -76,6 +76,26 @@ class Main extends Sprite
 			#end
 		});	
 
+		#if (github_action || debug)
+		#if sys
+		var pathBack = #if windows
+			"../../../../"
+		#elseif mac
+			"../../../../../../../"
+		#else
+			""
+		#end; // thx yoshi lool
+		
+		if (Files.fileExists('./${pathBack}', 'buildnum', 'txt'))
+		{
+			var buildNum:Int = Std.parseInt(File.getContent('./${pathBack}buildnum.txt'));
+			buildNum++;
+			File.saveContent('./${pathBack}buildnum.txt', Std.string(buildNum));
+			trace("Build number: " + buildNum);
+		}
+		#end
+		#end
+
 		#if html5
 		ClientPrefs.fullscreen = true;
 		ClientPrefs.autoPause = false;

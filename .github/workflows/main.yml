@@ -204,18 +204,4 @@ jobs:
         with:
           name: macUpdator
           path: 'export/release/macos/bin/TEST.app'
-  IncreaseBuild:
-    name: save the build number
-    runs-on: ubuntu-latest
-    steps:
-      - shell: bash
-        run: |
-          expr buildnum.txt + 1
-      - name: Commit and push changes
-        run: |
-          git config --global user.name "Mackery6969"
-          git config --global user.email "davishayden32@gmail.com"
-
-          git add -A
-          git commit -m "update build number"
-          git push
+          
