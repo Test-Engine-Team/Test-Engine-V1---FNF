@@ -93,7 +93,6 @@ class InfoTextCustomizationMenu extends MusicBeatState
                 return (ClientPrefs.comboTxt) ? "Enabled" : "Disabled";
             }
         },
-        /*
         {
             name: "Accuracy Text",
             description: "Shows the accuracy of your hits",
@@ -114,7 +113,6 @@ class InfoTextCustomizationMenu extends MusicBeatState
                 return (ClientPrefs.accuracyTxt) ? "Enabled" : "Disabled";
             }
         },
-        */
         {
             name: "Notes Hit Text",
             description: "Shows the amount of notes you hit",

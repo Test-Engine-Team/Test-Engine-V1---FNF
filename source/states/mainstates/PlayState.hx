@@ -93,14 +93,18 @@ class PlayState extends MusicBeatState {
 	private var camZooming:Bool = false;
 
 	private var gfSpeed:Int = 1;
-	private var health:Float = 1;
+	public static var health:Float = 1;
+	public var accuracy:Float = 100;
 	private var combo:Int = 0;
 	private var notesHit:Int = 0;
+	private var funnyNoteCalc:Float = 0;
 	private var sicks:Int = 0;
 	private var goods:Int = 0;
 	private var bads:Int = 0;
 	private var shits:Int = 0;
 	private var poisonTimes:Int = 0;
+
+	private var accuracyCalculationTimes:Int = 1;
 
 	private var healthBarBG:FlxSprite;
 	private var healthBar:FlxBar;
@@ -971,12 +975,10 @@ class PlayState extends MusicBeatState {
 				missText = "|| Misses: " + songMisses + " ";
 			}
 		}
-		/*
 		if (ClientPrefs.accuracyTxt)
 		{
-			acuracyText = "|| Accuracy: " + songAccuracy + "% ";
+			acuracyText = "|| Accuracy: " + accuracy + "% ";
 		}
-		*/
 		if (ClientPrefs.comboTxt)
 		{
 			comboText = "|| Combo: " + combo + " ";
@@ -1404,6 +1406,7 @@ class PlayState extends MusicBeatState {
 
 		var rating:FlxSprite = new FlxSprite();
 		var score:Int = 350;
+		var kadeEngineAccuracy:Float = 1;
 		var noteSplash:Bool = true;
 		var ratingMiss:Bool = false;
 
@@ -1412,17 +1415,23 @@ class PlayState extends MusicBeatState {
 		if (noteDiff > Conductor.safeZoneOffset * 0.9) {
 			daRating = 'shit';
 			score = 50;
+			if (!ClientPrefs.shitSystem)
+				kadeEngineAccuracy = 0.25;
+			else
+				kadeEngineAccuracy = -1;
 			noteSplash = false;
 			ratingMiss = true;
 			shits++;
 		} else if (noteDiff > Conductor.safeZoneOffset * 0.75) {
 			daRating = 'bad';
 			score = 100;
+			kadeEngineAccuracy = 0.5;
 			noteSplash = false;
 			bads++;
 		} else if (noteDiff > Conductor.safeZoneOffset * 0.2) {
 			daRating = 'good';
 			score = 200;
+			kadeEngineAccuracy = 0.75;
 			noteSplash = false;
 			goods++;
 		}
@@ -1441,6 +1450,10 @@ class PlayState extends MusicBeatState {
 			score += Math.floor(scoreIncrease);
 			songScore += score;
 		}
+
+		funnyNoteCalc += kadeEngineAccuracy;
+
+		calculateAccuracy(funnyNoteCalc);
 
 		if (ratingMiss && ClientPrefs.shitSystem) {
 			var pressedIndex:Int = [
@@ -1556,6 +1569,12 @@ class PlayState extends MusicBeatState {
 		});
 
 		curSection += 1;
+	}
+
+	private function calculateAccuracy(daNum:Float):Void
+	{
+		var daAccuracy:Float = daNum / accuracyCalculationTimes; //KE
+		accuracyCalculationTimes += 1; // probs dont need a function for this but what ever... - Mackery
 	}
 
 	private function keyShit():Void {
