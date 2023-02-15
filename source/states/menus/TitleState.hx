@@ -291,6 +291,7 @@ class TitleState extends MusicBeatState {
 					}
 				});
 				#else
+				var tmr = new FlxTimer().start(2, function(tmr:FlxTimer)
 				{
 					FlxG.switchState(new MainMenuState());
 				});
@@ -329,8 +330,8 @@ class TitleState extends MusicBeatState {
 
 			transitioning = true;
 
-			var tmr = new FlxTimer().start(2, function(tmr:FlxTimer)
-				#if sys
+			#if sys
+				var tmr = new FlxTimer().start(2, function(tmr:FlxTimer)
 				{
 					if (ClientPrefs.checkForUpdates) {
 						thrd = Thread.create(function() {
@@ -352,9 +353,10 @@ class TitleState extends MusicBeatState {
 					}
 				});
 				#else
+				var tmr = new FlxTimer().start(2, function(tmr:FlxTimer)
 				{
 					FlxG.switchState(new MainMenuState());
-				};
+				});
 				#end
 			}
 		}
