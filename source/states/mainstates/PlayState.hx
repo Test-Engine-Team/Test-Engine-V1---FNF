@@ -1242,8 +1242,8 @@ class PlayState extends MusicBeatState {
 					if (tankFloat)
 						dad.y += 15;
 
-					if (noteHitParams.strumGlow)
-						opponentStrums.members[daNote.noteData].animation.play("confirm", true);
+					//if (noteHitParams.strumGlow)
+						//opponentStrums.members[daNote.noteData].animation.play("confirm", true);
 
 					noteHitParams.charForAnim.playAnim(noteHitParams.animToPlay, true);
 					noteHitParams.charForAnim.holdTimer = 0;
