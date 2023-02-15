@@ -959,7 +959,7 @@ class PlayState extends MusicBeatState {
 		var missText = "";
 		var comboText = "";
 		var noteHitText = "";
-		//var accuracyText = "";
+		var accuracyText = "";
 		if (ClientPrefs.scoreTxt) {
 			scoreText = "|| Score: " + songScore + " ";
 		}
@@ -977,7 +977,7 @@ class PlayState extends MusicBeatState {
 		}
 		if (ClientPrefs.accuracyTxt)
 		{
-			acuracyText = "|| Accuracy: " + accuracy + "% ";
+			accuracyText = "|| Accuracy: " + accuracy + "% ";
 		}
 		if (ClientPrefs.comboTxt)
 		{
