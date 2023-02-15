@@ -268,8 +268,8 @@ class TitleState extends MusicBeatState {
 				transitioning = true;
 				FlxG.sound.music.stop();
 
-				var tmr = new FlxTimer().start(2, function(tmr:FlxTimer)
 				#if sys
+				var tmr = new FlxTimer().start(2, function(tmr:FlxTimer)
 				{
 					if (ClientPrefs.checkForUpdates) {
 						thrd = Thread.create(function() {
@@ -293,7 +293,7 @@ class TitleState extends MusicBeatState {
 				#else
 				{
 					FlxG.switchState(new MainMenuState());
-				};
+				});
 				#end
 			}
 			return;
