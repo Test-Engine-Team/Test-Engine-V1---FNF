@@ -911,8 +911,10 @@ class PlayState extends MusicBeatState {
 			#if SCRIPTS_ENABLED scripts_call("oldBfChange"); #end
 		}
 
-		health -= ClientPrefs.constantDrain * 1 / 700000;
-		health += ClientPrefs.constantHeal * -1 / 700000;
+		if (ClientPrefs.constantDrain > 0)
+			health -= ClientPrefs.constantDrain * 1 / 700000;
+		if (ClientPrefs.constantHeal > 0)
+			health += ClientPrefs.constantHeal * -1 / 700000;
 
 		if (ClientPrefs.limitMisses)
 			health = 1;
@@ -933,9 +935,10 @@ class PlayState extends MusicBeatState {
 		}
 
 		if (songMisses >= 1 && ClientPrefs.fcMode)
-			health -= 9999;
+			health = -9999;
 		if (songMisses == ClientPrefs.maxMisses && ClientPrefs.limitMisses)
-			health -= 9999;
+			health = -9999;
+
 		if (health <= minHealth && !ClientPrefs.practice)
 			health = minHealth;
 
@@ -1762,8 +1765,8 @@ class PlayState extends MusicBeatState {
 		if (noteHitParams.enableZoom)
 			camZooming = true;
 
-		if (NoteHitParams.hitCauseMiss)
-			noteMiss(noteHitParams.animToPlay);
+		if (noteHitParams.hitCauseMiss)
+			noteMiss(note.noteData % 4);
 
 		if (!note.isSustainNote && noteHitParams.rateNote) {
 			popUpScore(note.strumTime, note, noteHitParams.noteSplashes);

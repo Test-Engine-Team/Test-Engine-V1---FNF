@@ -30,6 +30,8 @@ class Note extends FlxSprite
 	public var wasGoodHit:Bool = false;
 	public var prevNote:Note;
 
+	public var noteMissHealth:Float = 0.0475;
+
 	public static var swagWidth:Float = 160 * 0.7;
 
 	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false, ?params:scriptStuff.EventStructures.NoteCreateParams)
