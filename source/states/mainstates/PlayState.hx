@@ -428,6 +428,10 @@ class PlayState extends MusicBeatState {
 		super.create();
 		#if SCRIPTS_ENABLED scripts_call("createPost");
 		scripts_call("postCreate"); #end
+
+		#if debug
+		FlxG.log.add('CurHealth: $health');
+		#end
 	}
 
 	override function finishTransIn() {
