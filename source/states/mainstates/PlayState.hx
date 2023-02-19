@@ -1120,6 +1120,8 @@ class PlayState extends MusicBeatState {
 		FlxG.watch.addQuick("beatShit", curBeat);
 		FlxG.watch.addQuick("stepShit", curStep);
 
+		FlxG.watch.addQuick("curHealth", health);
+
 		if (SONG.song == 'Fresh') {
 			switch (curBeat) {
 				case 16:
