@@ -656,14 +656,12 @@ class PlayState extends MusicBeatState {
 	}
 
 	var previousFrameTime:Int = 0;
-	var lastReportedPlayheadPosition:Int = 0;
 	var songTime:Float = 0;
 
 	function startSong():Void {
 		startingSong = false;
 
 		previousFrameTime = FlxG.game.ticks;
-		lastReportedPlayheadPosition = 0;
 
 		var instPath:String = (Assets.exists(Files.songInst(SONG.song))) ? Files.songInst(SONG.song) : Files.songInst(songPath);
 		if (!paused)
@@ -810,7 +808,6 @@ class PlayState extends MusicBeatState {
 			}
 			#end
 
-			// FlxG.log.add(i);
 			var babyArrow:FlxSprite = new FlxSprite(0, strumLine.y);
 
 			switch (strumCreateParams.spriteType) {
@@ -1021,9 +1018,6 @@ class PlayState extends MusicBeatState {
 			#end
 		}
 
-		// FlxG.watch.addQuick('VOL', vocals.amplitudeLeft);
-		// FlxG.watch.addQuick('VOLRight', vocals.amplitudeRight);
-
 		iconP1.setGraphicSize(Std.int(FlxMath.lerp(150, iconP1.width, 0.50)));
 		iconP2.setGraphicSize(Std.int(FlxMath.lerp(150, iconP2.width, 0.50)));
 
@@ -1061,7 +1055,6 @@ class PlayState extends MusicBeatState {
 					startSong();
 			}
 		} else {
-			// Conductor.songPosition = FlxG.sound.music.time;
 			Conductor.songPosition += FlxG.elapsed * 1000;
 
 			if (!paused) {
@@ -1072,12 +1065,8 @@ class PlayState extends MusicBeatState {
 				if (Conductor.lastSongPos != Conductor.songPosition) {
 					songTime = (songTime + Conductor.songPosition) / 2;
 					Conductor.lastSongPos = Conductor.songPosition;
-					// Conductor.songPosition += FlxG.elapsed * 1000;
-					// trace('MISSED FRAME');
 				}
 			}
-
-			// Conductor.lastSongPos = FlxG.sound.music.time;
 		}
 
 		if (generatedMusic && PlayState.SONG.notes[Std.int(curStep / 16)] != null) {
@@ -1089,9 +1078,6 @@ class PlayState extends MusicBeatState {
 			if (camFollow.x != dadMidpoint.x + 150 + dad.charData.offsets[2] + opOffsetX && !PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection) {
 				camFollow.x = dadMidpoint.x + 150 + dad.charData.offsets[2] + opOffsetX;
 				camFollow.y = dadMidpoint.y - 100 + dad.charData.offsets[3] + opOffsetY;
-
-				if (dad.curCharacter == 'mom')
-					vocals.volume = 1;
 
 				if (SONG.song.toLowerCase() == 'tutorial') {
 					tweenCamIn();
@@ -1133,23 +1119,13 @@ class PlayState extends MusicBeatState {
 					gfSpeed = 2;
 				case 112:
 					gfSpeed = 1;
-				case 163:
-					// FlxG.sound.music.stop();
-					// FlxG.switchState(new TitleState());
 			}
 		}
-		// better streaming of shit
 
 		// RESET = Quick Game Over Screen
 		if (gameControls.RESET) {
 			health = 0;
 			trace("RESET = True");
-		}
-
-		// CHEAT = brandon's a pussy
-		if (controls.CHEAT) {
-			health += 1;
-			trace("User is cheating!");
 		}
 
 		if (health <= minHealth && !ClientPrefs.practice) {
