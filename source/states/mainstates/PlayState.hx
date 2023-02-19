@@ -428,10 +428,6 @@ class PlayState extends MusicBeatState {
 		super.create();
 		#if SCRIPTS_ENABLED scripts_call("createPost");
 		scripts_call("postCreate"); #end
-
-		#if debug
-		FlxG.log.add('CurHealth: $health');
-		#end
 	}
 
 	override function finishTransIn() {
@@ -673,10 +669,7 @@ class PlayState extends MusicBeatState {
 	}
 
 	private function generateSong():Void {
-		var songData = SONG;
-		Conductor.changeBPM(songData.bpm);
-
-		SONG.song = songData.song;
+		Conductor.changeBPM(SONG.bpm);
 
 		var vocalsPath:String = (Assets.exists(Files.songVoices(SONG.song))) ? Files.songVoices(SONG.song) : Files.songVoices(songPath);
 		if (SONG.needsVoices)
@@ -692,7 +685,7 @@ class PlayState extends MusicBeatState {
 		var noteData:Array<SwagSection>;
 
 		// NEW SHIT
-		noteData = songData.notes;
+		noteData = SONG.notes;
 
 		var daBeats:Int = 0; // Not exactly representative of 'daBeats' lol, just how much it has looped
 		for (section in noteData) {
@@ -1107,6 +1100,7 @@ class PlayState extends MusicBeatState {
 		FlxG.watch.addQuick("stepShit", curStep);
 
 		FlxG.watch.addQuick("curHealth", health);
+		FlxG.watch.addQuick("healthBarPercent", healthBar.percent);
 
 		if (SONG.song == 'Fresh') {
 			switch (curBeat) {
@@ -1131,8 +1125,7 @@ class PlayState extends MusicBeatState {
 		if (health <= minHealth && !ClientPrefs.practice) {
 			boyfriend.stunned = true;
 
-			persistentUpdate = false;
-			persistentDraw = false;
+			persistentUpdate = persistentDraw = false;
 			paused = true;
 
 			vocals.stop();
@@ -1147,10 +1140,10 @@ class PlayState extends MusicBeatState {
 			#end
 
 			// 1 / 1000 chance for Gitaroo Man easter egg
-			if (FlxG.random.bool(0.1)) {
+			if (FlxG.random.bool(0.1))
 				// gitaroo man easter egg
 				FlxG.switchState(new GitarooPause());
-			} else
+			else
 				openSubState(new GameOverState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 		}
 
