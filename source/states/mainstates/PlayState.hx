@@ -94,6 +94,8 @@ class PlayState extends MusicBeatState {
 
 	private var gfSpeed:Int = 1;
 	public static var health:Float = 1;
+	public static var maxHealth:Float = 2;
+	public static var minHealth:Float = 0;
 	public var accuracy:Float = 100;
 	private var combo:Int = 0;
 	private var notesHit:Int = 0;
@@ -351,7 +353,7 @@ class PlayState extends MusicBeatState {
 			healthBarBG.y = 0.11 * FlxG.height;
 
 		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8), this,
-			'health', 0, 2);
+			'health', minHealth, maxHealth);
 		healthBar.scrollFactor.set();
 		healthBar.createFilledBar(dad.hpcolor, boyfriend.hpcolor);
 		add(healthBar);
@@ -650,14 +652,12 @@ class PlayState extends MusicBeatState {
 	}
 
 	var previousFrameTime:Int = 0;
-	var lastReportedPlayheadPosition:Int = 0;
 	var songTime:Float = 0;
 
 	function startSong():Void {
 		startingSong = false;
 
 		previousFrameTime = FlxG.game.ticks;
-		lastReportedPlayheadPosition = 0;
 
 		var instPath:String = (Assets.exists(Files.songInst(SONG.song))) ? Files.songInst(SONG.song) : Files.songInst(songPath);
 		if (!paused)
@@ -669,10 +669,7 @@ class PlayState extends MusicBeatState {
 	}
 
 	private function generateSong():Void {
-		var songData = SONG;
-		Conductor.changeBPM(songData.bpm);
-
-		SONG.song = songData.song;
+		Conductor.changeBPM(SONG.bpm);
 
 		var vocalsPath:String = (Assets.exists(Files.songVoices(SONG.song))) ? Files.songVoices(SONG.song) : Files.songVoices(songPath);
 		if (SONG.needsVoices)
@@ -688,7 +685,7 @@ class PlayState extends MusicBeatState {
 		var noteData:Array<SwagSection>;
 
 		// NEW SHIT
-		noteData = songData.notes;
+		noteData = SONG.notes;
 
 		var daBeats:Int = 0; // Not exactly representative of 'daBeats' lol, just how much it has looped
 		for (section in noteData) {
@@ -804,7 +801,6 @@ class PlayState extends MusicBeatState {
 			}
 			#end
 
-			// FlxG.log.add(i);
 			var babyArrow:FlxSprite = new FlxSprite(0, strumLine.y);
 
 			switch (strumCreateParams.spriteType) {
@@ -909,8 +905,10 @@ class PlayState extends MusicBeatState {
 			#if SCRIPTS_ENABLED scripts_call("oldBfChange"); #end
 		}
 
-		health -= ClientPrefs.constantDrain * 1 / 700000;
-		health += ClientPrefs.constantHeal * -1 / 700000;
+		if (ClientPrefs.constantDrain > 0)
+			health -= ClientPrefs.constantDrain * 1 / 700000;
+		if (ClientPrefs.constantHeal > 0)
+			health += ClientPrefs.constantHeal * -1 / 700000;
 
 		if (ClientPrefs.limitMisses)
 			health = 1;
@@ -931,11 +929,12 @@ class PlayState extends MusicBeatState {
 		}
 
 		if (songMisses >= 1 && ClientPrefs.fcMode)
-			health -= 9999;
+			health = -9999;
 		if (songMisses == ClientPrefs.maxMisses && ClientPrefs.limitMisses)
-			health -= 9999;
-		if (health <= 0 && !ClientPrefs.practice)
-			health = 0;
+			health = -9999;
+
+		if (health <= minHealth && !ClientPrefs.practice)
+			health = minHealth;
 
 		if (ClientPrefs.spinnyspin)
 			FlxG.camera.angle += elapsed * 50;
@@ -1012,9 +1011,6 @@ class PlayState extends MusicBeatState {
 			#end
 		}
 
-		// FlxG.watch.addQuick('VOL', vocals.amplitudeLeft);
-		// FlxG.watch.addQuick('VOLRight', vocals.amplitudeRight);
-
 		iconP1.setGraphicSize(Std.int(FlxMath.lerp(150, iconP1.width, 0.50)));
 		iconP2.setGraphicSize(Std.int(FlxMath.lerp(150, iconP2.width, 0.50)));
 
@@ -1026,8 +1022,8 @@ class PlayState extends MusicBeatState {
 		iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
 		iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (iconP2.width - iconOffset);
 
-		if (health > 2)
-			health = 2;
+		if (health > maxHealth)
+			health = maxHealth;
 
 		if (healthBar.percent < 20)
 			iconP1.animation.curAnim.curFrame = 1;
@@ -1052,7 +1048,6 @@ class PlayState extends MusicBeatState {
 					startSong();
 			}
 		} else {
-			// Conductor.songPosition = FlxG.sound.music.time;
 			Conductor.songPosition += FlxG.elapsed * 1000;
 
 			if (!paused) {
@@ -1063,12 +1058,8 @@ class PlayState extends MusicBeatState {
 				if (Conductor.lastSongPos != Conductor.songPosition) {
 					songTime = (songTime + Conductor.songPosition) / 2;
 					Conductor.lastSongPos = Conductor.songPosition;
-					// Conductor.songPosition += FlxG.elapsed * 1000;
-					// trace('MISSED FRAME');
 				}
 			}
-
-			// Conductor.lastSongPos = FlxG.sound.music.time;
 		}
 
 		if (generatedMusic && PlayState.SONG.notes[Std.int(curStep / 16)] != null) {
@@ -1080,9 +1071,6 @@ class PlayState extends MusicBeatState {
 			if (camFollow.x != dadMidpoint.x + 150 + dad.charData.offsets[2] + opOffsetX && !PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection) {
 				camFollow.x = dadMidpoint.x + 150 + dad.charData.offsets[2] + opOffsetX;
 				camFollow.y = dadMidpoint.y - 100 + dad.charData.offsets[3] + opOffsetY;
-
-				if (dad.curCharacter == 'mom')
-					vocals.volume = 1;
 
 				if (SONG.song.toLowerCase() == 'tutorial') {
 					tweenCamIn();
@@ -1111,6 +1099,9 @@ class PlayState extends MusicBeatState {
 		FlxG.watch.addQuick("beatShit", curBeat);
 		FlxG.watch.addQuick("stepShit", curStep);
 
+		FlxG.watch.addQuick("curHealth", health);
+		FlxG.watch.addQuick("healthBarPercent", healthBar.percent);
+
 		if (SONG.song == 'Fresh') {
 			switch (curBeat) {
 				case 16:
@@ -1122,12 +1113,8 @@ class PlayState extends MusicBeatState {
 					gfSpeed = 2;
 				case 112:
 					gfSpeed = 1;
-				case 163:
-					// FlxG.sound.music.stop();
-					// FlxG.switchState(new TitleState());
 			}
 		}
-		// better streaming of shit
 
 		// RESET = Quick Game Over Screen
 		if (gameControls.RESET) {
@@ -1135,17 +1122,10 @@ class PlayState extends MusicBeatState {
 			trace("RESET = True");
 		}
 
-		// CHEAT = brandon's a pussy
-		if (controls.CHEAT) {
-			health += 1;
-			trace("User is cheating!");
-		}
-
-		if (health <= 0 && !ClientPrefs.practice) {
+		if (health <= minHealth && !ClientPrefs.practice) {
 			boyfriend.stunned = true;
 
-			persistentUpdate = false;
-			persistentDraw = false;
+			persistentUpdate = persistentDraw = false;
 			paused = true;
 
 			vocals.stop();
@@ -1160,10 +1140,10 @@ class PlayState extends MusicBeatState {
 			#end
 
 			// 1 / 1000 chance for Gitaroo Man easter egg
-			if (FlxG.random.bool(0.1)) {
+			if (FlxG.random.bool(0.1))
 				// gitaroo man easter egg
 				FlxG.switchState(new GitarooPause());
-			} else
+			else
 				openSubState(new GameOverState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 		}
 
@@ -1268,7 +1248,7 @@ class PlayState extends MusicBeatState {
 						daNote.destroy();
 					} else {
 						if (daNote.tooLate || !daNote.wasGoodHit && daNote.doesMiss) {
-							health -= 0.0475;
+							health -= daNote.noteMissHealth;
 							vocals.volume = 0;
 							songMisses++;
 							songScore -= 10;
@@ -1746,8 +1726,11 @@ class PlayState extends MusicBeatState {
 			charForAnim: boyfriend,
 			animToPlay: animList[note.noteData],
 			enableZoom: (SONG.song != "Tutorial"),
+			noteHitHealth: 0.04,
+			noteMissHealth: 0.0475,
 			deleteNote: true,
 			strumGlow: true,
+			hitCauseMiss: false,
 			rateNote: true,
 			noteSplashes: true,
 			camMoveOnHit: true
@@ -1756,6 +1739,9 @@ class PlayState extends MusicBeatState {
 
 		if (noteHitParams.enableZoom)
 			camZooming = true;
+
+		if (noteHitParams.hitCauseMiss)
+			noteMiss(note.noteData % 4);
 
 		if (!note.isSustainNote && noteHitParams.rateNote) {
 			popUpScore(note.strumTime, note, noteHitParams.noteSplashes);
@@ -1781,9 +1767,9 @@ class PlayState extends MusicBeatState {
 			boyfriend.y += 10;
 
 		if (note.noteData >= 0)
-			health += 0.023;
+			health += noteHitParams.noteHitHealth + 0.019;
 		else
-			health += 0.004;
+			health += noteHitParams.noteHitHealth; //idk wat this means but ok :)
 
 		noteHitParams.charForAnim.playAnim(noteHitParams.animToPlay, true);
 		noteHitParams.charForAnim.holdTimer = 0;
