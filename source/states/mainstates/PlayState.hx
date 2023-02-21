@@ -866,7 +866,7 @@ class PlayState extends MusicBeatState {
 				vocals.pause();
 			}
 
-			if (!startTimer.finished)
+			if (startTimer != null && !startTimer.finished)
 				startTimer.active = false;
 		}
 
