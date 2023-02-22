@@ -24,7 +24,6 @@ import sys.FileSystem;
 import sys.io.File;
 import sys.io.FileOutput;
 import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
-import handlers.MusicBeatState;
 
 using StringTools;
 /**
@@ -170,7 +169,7 @@ class UpdateState extends MusicBeatState
 		// apply update
 
 		// copy file to prevent overriding issues
-		File.copy('TEST.exe', 'temp.exe');
+		File.copy('YoshiCrafterEngine.exe', 'temp.exe');
 
 		// launch that file
 		new Process('start /B temp.exe update', null);
@@ -195,7 +194,34 @@ class UpdateState extends MusicBeatState
         }
         loadingThingy.pixels.unlock();
         add(loadingThingy);
+		
 
+		for(x in 0...Math.ceil(FlxG.width / w)+1) {
+            for(y in 0...(Math.ceil(FlxG.height / h)+1)) {
+                // bg pattern
+                var pattern = new FlxSprite(x * w, y * h);
+                pattern.loadGraphic(Paths.image("loading/bgpattern", "preload"));
+                pattern.antialiasing = true;
+                bg.add(pattern);
+            }
+        }
+        add(bg);
+
+		bf = new FlxSprite(337.60, 27.30).loadGraphic(Paths.image("loading/bf", "preload"));
+		bf.antialiasing = true;
+        bf.screenCenter(X);
+        add(bf);
+
+        var loading = new FlxSprite().loadGraphic(Paths.image("loading/updating"));
+        loading.scale.set(0.85, 0.85);
+        loading.updateHitbox();
+        loading.y = FlxG.height - (loading.height * 1.15);
+        loading.screenCenter(X);
+        loading.antialiasing = true;
+        add(loading);
+
+
+		
 		var downloadBar = new FlxBar(0, 0, LEFT_TO_RIGHT, Std.int(FlxG.width * 0.75), 30, this, "downloadedFiles", 0, fileList.length);
 		downloadBar.createGradientBar([0x88222222], [0xFF7163F1, 0xFFD15CF8], 1, 90, true, 0xFF000000);
 		downloadBar.screenCenter(X);

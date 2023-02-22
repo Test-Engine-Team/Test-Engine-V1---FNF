@@ -43,9 +43,6 @@ jobs:
           haxelib git linc_luajit https://github.com/AndreiRudenko/linc_luajit
           haxelib git hscript-improved https://www.github.com/YoshiCrafter29/hscript-improved
           haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
-          haxelib git tentools https://github.com/TentaRJ/tentools.git
-          haxelib git systools https://github.com/haya3218/systools
-          haxelib run lime rebuild systools linux
           haxelib install hxcpp-debug-server
           haxelib list
       - name: Create Version Tag
@@ -135,9 +132,6 @@ jobs:
           haxelib git hscript-improved https://www.github.com/YoshiCrafter29/hscript-improved
           haxelib git openfl https://github.com/openfl/openfl
           haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
-          haxelib git tentools https://github.com/TentaRJ/tentools.git
-          haxelib git systools https://github.com/haya3218/systools
-          haxelib run lime rebuild systools windows
           haxelib install hxcpp-debug-server
           haxelib list
         shell: cmd
@@ -185,9 +179,6 @@ jobs:
           haxelib git hscript-improved https://www.github.com/YoshiCrafter29/hscript-improved
           haxelib git openfl https://github.com/openfl/openfl
           haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
-          haxelib git tentools https://github.com/TentaRJ/tentools.git
-          haxelib git systools https://github.com/haya3218/systools
-          haxelib run lime rebuild systools mac
           haxelib install hxcpp-debug-server
           haxelib list
       - name: Create Version Tag

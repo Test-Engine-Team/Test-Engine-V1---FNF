@@ -46,15 +46,16 @@ class Options extends MusicBeatState {
         maintextgroup = new FlxTypedGroup<Alphabet>();
 		add(maintextgroup);
 
-        for (i in 0...Items.length)
+    for (i in 0...Items.length)
         {
-            var maintext:Alphabet = new Alphabet(10, (70 * i) + 41.2, Items[i], true, false);
-            maintext.isMenuItem = true;
-            maintext.targetY = i;
-            maintextgroup.add(maintext);
+        var maintext:Alphabet = new Alphabet(10, (70 * i) + 41.2, Items[i], true, false);
+        maintext.isMenuItem = true;
+        maintext.targetY = i;
+        maintextgroup.add(maintext);
         }
+
         changeSelection();
-    }
+}
 
     override public function update(elapsed:Float){
 

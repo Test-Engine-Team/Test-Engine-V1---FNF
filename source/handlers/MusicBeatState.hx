@@ -14,8 +14,6 @@ class MusicBeatState extends FlxUIState
 	private var lastBeat:Float = 0;
 	private var lastStep:Float = 0;
 
-	public static var nextCallbacks:Array<Void->Void> = [];
-
 	private var curStep:Int = 0;
 	private var curBeat:Int = 0;
 	private var controls(get, never):Controls;
@@ -42,11 +40,6 @@ class MusicBeatState extends FlxUIState
 		//if(FlxG.save.data != null) FlxG.save.data.fullscreen = FlxG.fullscreen;
 
 		super.update(elapsed);
-
-		for(e in nextCallbacks) {
-			e();
-		}
-		nextCallbacks = [];
 	}
 
 	private function updateBeat():Void

@@ -23,6 +23,6 @@ function update() {
 	outsideTxt.scale.set(daScale, daScale);
 	outsideTxt.updateHitbox();
 
-	if (controls.BACK)
+	if (FlxG.keys.justPressed.ESCAPE)
 		FlxG.switchState(new MainMenuState());
 }

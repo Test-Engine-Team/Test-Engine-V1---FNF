@@ -220,7 +220,7 @@ class FreeplayState extends MusicBeatState {
 		}
 		#end
 
-		if (controls.ACCEPT && !FlxG.keys.justPressed.SPACE) {
+		if (FlxG.keys.justPressed.ENTER) {
 			#if SCRIPTS_ENABLED
 			script.callFunction("selectSong");
 			#end

@@ -73,7 +73,6 @@ class ClientPrefs {
 	public static var fullscreen:Bool = false;
 	public static var autoPause:Bool = true;
 	public static var scoreMultiplier:Float = 1; //for future multiplier stuff
-	public static var checkForUpdates:Bool = true;
 
 	// modifiable stuff for modding
 	public static var fairFightHealthLossCount:Float = 0.02;

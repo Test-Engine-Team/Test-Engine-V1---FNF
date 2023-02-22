@@ -129,6 +129,7 @@ class ChartingState extends MusicBeatState
 				gfVersion: "gf",
 				stage: "stage",
 				speed: 1,
+				validScore: false
 			};
 		}
 
@@ -520,7 +521,7 @@ class ChartingState extends MusicBeatState
 				dummyArrow.y = Math.floor(FlxG.mouse.y / GRID_SIZE) * GRID_SIZE;
 		}
 
-		if (controls.ACCEPT)
+		if (FlxG.keys.justPressed.ENTER)
 		{
 			lastSection = curSection;
 
@@ -628,9 +629,9 @@ class ChartingState extends MusicBeatState
 		var shiftThing:Int = 1;
 		if (FlxG.keys.pressed.SHIFT)
 			shiftThing = 4;
-		if (controls.RIGHT)
+		if (FlxG.keys.justPressed.RIGHT || FlxG.keys.justPressed.D)
 			changeSection(curSection + shiftThing);
-		if (controls.LEFT)
+		if (FlxG.keys.justPressed.LEFT || FlxG.keys.justPressed.A)
 			changeSection(curSection - shiftThing);
 
 		bpmTxt.text = bpmTxt.text = Std.string(FlxMath.roundDecimal(Conductor.songPosition / 1000, 2))
