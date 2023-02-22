@@ -58,7 +58,7 @@ jobs:
         uses: actions/upload-artifact@v2.2.4
         with:
           name: linuxUpdator
-          path: 'export/release/linux/bin/TEST.exe'
+          path: 'export/release/linux/bin/TEST'
 
   buildHTML5:
     # The type of runner that the job will run on
@@ -194,4 +194,5 @@ jobs:
         uses: actions/upload-artifact@v2.2.4
         with:
           name: macUpdator
-          path: 'export/release/macos/bin/TEST.exe'
+          path: 'export/release/macos/bin/TEST.app'
+          
