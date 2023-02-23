@@ -2,8 +2,7 @@ package handlers.shaders;
 
 import flixel.graphics.tile.FlxGraphicsShader;
 
-class ColorSwapShader extends FlxGraphicsShader
-{
+class ColorSwapShader extends FlxGraphicsShader {
 	@:glFragmentSource('
 		varying float openfl_Alphav;
 		varying vec4 openfl_ColorMultiplierv;
@@ -189,8 +188,7 @@ class ColorSwapShader extends FlxGraphicsShader
 				openfl_ColorMultiplierv = colorMultiplier;
 			}
 		}')
-	public function new()
-	{
+	public function new() {
 		super();
 	}
 }

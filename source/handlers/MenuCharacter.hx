@@ -4,14 +4,13 @@ import flixel.graphics.frames.FlxFramesCollection;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
 
-class MenuCharacter extends FlxSprite
-{
+class MenuCharacter extends FlxSprite {
 	public var ogX:Float;
+
 	var dadOffset:Int = 0;
 	var multX:Int = 1;
 
-	public function new(x:Float, charNum:Int, charData:handlers.ModDataStructures.MenuCharData)
-	{
+	public function new(x:Float, charNum:Int, charData:handlers.ModDataStructures.MenuCharData) {
 		super();
 		this.ogX = x;
 		this.dadOffset = (charNum == 0) ? -100 : 0;

@@ -13,12 +13,10 @@ import handlers.Files;
 import handlers.Character;
 import handlers.Conductor;
 import handlers.MusicBeatSubstate;
-
 import scriptStuff.EventStructures;
 import scriptStuff.HiScript;
 
-class GameOverState extends MusicBeatSubstate
-{
+class GameOverState extends MusicBeatSubstate {
 	var bf:Character;
 	var camFollow:FlxObject;
 
@@ -26,12 +24,10 @@ class GameOverState extends MusicBeatSubstate
 
 	public var scripts:Array<HiScript> = [];
 
-	public function new(x:Float, y:Float)
-	{
+	public function new(x:Float, y:Float) {
 		var daStage = PlayState.curStage;
 		var daBf:String = '';
-		switch (daStage)
-		{
+		switch (daStage) {
 			case 'school':
 				stageSuffix = '-pixel';
 				daBf = 'bf-pixel-dead';
@@ -63,17 +59,14 @@ class GameOverState extends MusicBeatSubstate
 		bf.playAnim('firstDeath');
 	}
 
-	override function update(elapsed:Float)
-	{
+	override function update(elapsed:Float) {
 		super.update(elapsed);
 
-		if (controls.ACCEPT)
-		{
+		if (controls.ACCEPT) {
 			endBullshit();
 		}
 
-		if (controls.BACK)
-		{
+		if (controls.BACK) {
 			FlxG.sound.music.stop();
 
 			#if SCRIPTS_ENABLED
@@ -87,24 +80,20 @@ class GameOverState extends MusicBeatSubstate
 				FlxG.switchState(new FreeplayState());
 		}
 
-		if (bf.animation.curAnim.name == 'firstDeath' && bf.animation.curAnim.curFrame == 12)
-		{
+		if (bf.animation.curAnim.name == 'firstDeath' && bf.animation.curAnim.curFrame == 12) {
 			FlxG.camera.follow(camFollow, LOCKON, 0.01);
 		}
 
-		if (bf.animation.curAnim.name == 'firstDeath' && bf.animation.curAnim.finished)
-		{
+		if (bf.animation.curAnim.name == 'firstDeath' && bf.animation.curAnim.finished) {
 			FlxG.sound.playMusic(Files.music('gameOver$stageSuffix'));
 		}
 
-		if (FlxG.sound.music.playing)
-		{
+		if (FlxG.sound.music.playing) {
 			Conductor.songPosition = FlxG.sound.music.time;
 		}
 	}
 
-	override function beatHit()
-	{
+	override function beatHit() {
 		super.beatHit();
 
 		FlxG.log.add('beat');
@@ -112,10 +101,8 @@ class GameOverState extends MusicBeatSubstate
 
 	var isEnding:Bool = false;
 
-	function endBullshit():Void
-	{
-		if (!isEnding)
-		{
+	function endBullshit():Void {
+		if (!isEnding) {
 			isEnding = true;
 			#if SCRIPTS_ENABLED
 			for (script in scripts)
@@ -124,10 +111,8 @@ class GameOverState extends MusicBeatSubstate
 			bf.playAnim('deathConfirm', true);
 			FlxG.sound.music.stop();
 			FlxG.sound.play(Files.music('gameOverEnd$stageSuffix'));
-			new FlxTimer().start(0.7, function(tmr:FlxTimer)
-			{
-				FlxG.camera.fade(FlxColor.BLACK, 2, false, function()
-				{
+			new FlxTimer().start(0.7, function(tmr:FlxTimer) {
+				FlxG.camera.fade(FlxColor.BLACK, 2, false, function() {
 					FlxG.switchState(new PlayState());
 				});
 			});

@@ -7,8 +7,7 @@ import lime.utils.Assets;
 
 using StringTools;
 
-typedef SwagSong =
-{
+typedef SwagSong = {
 	var song:String;
 	var notes:Array<SwagSection>;
 	var bpm:Int;
@@ -21,8 +20,7 @@ typedef SwagSong =
 	var stage:Null<String>;
 }
 
-class Song
-{
+class Song {
 	public var song:String;
 	public var notes:Array<SwagSection>;
 	public var bpm:Int;
@@ -34,19 +32,16 @@ class Song
 	public var gfVersion:Null<String> = 'gf';
 	public var stage:Null<String> = 'stage';
 
-	public function new(song, notes, bpm)
-	{
+	public function new(song, notes, bpm) {
 		this.song = song;
 		this.notes = notes;
 		this.bpm = bpm;
 	}
 
-	public static function loadFromJson(jsonInput:String, ?folder:String):SwagSong
-	{
+	public static function loadFromJson(jsonInput:String, ?folder:String):SwagSong {
 		var rawJson = Assets.getText('assets/data/' + folder.toLowerCase() + '/' + jsonInput.toLowerCase() + '.json').trim();
 
-		while (!rawJson.endsWith("}"))
-		{
+		while (!rawJson.endsWith("}")) {
 			rawJson = rawJson.substr(0, rawJson.length - 1);
 		}
 
@@ -56,8 +51,7 @@ class Song
 		return parseJSONshit(rawJson);
 	}
 
-	inline public static function parseJSONshit(rawJson:String):SwagSong
-	{
+	inline public static function parseJSONshit(rawJson:String):SwagSong {
 		return cast Json.parse(rawJson).song;
 	}
 }

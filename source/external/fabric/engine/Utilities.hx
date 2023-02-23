@@ -4,8 +4,7 @@ package external.fabric.engine;
  * A class full of various utilities for different tasks.
  * @author Leather128
  */
-class Utilities
-{
+class Utilities {
 	/**
 	 * List of formatting for different byte amounts
 	 * in an array formatted like this:
@@ -36,12 +35,10 @@ class Utilities
 	 * @param precision (Optional, Default = `2`) The precision of the decimal value of bytes. (ex: `1 -> 1.5, 2 -> 1.53, etc`).
 	 * @return Formatted byte string.
 	 */
-	public static function format_bytes(bytes:Float, only_value:Bool = false, precision:Int = 2):String
-	{
+	public static function format_bytes(bytes:Float, only_value:Bool = false, precision:Int = 2):String {
 		var formatted_bytes:String = "?";
 
-		for (i in 0...byte_formats.length)
-		{
+		for (i in 0...byte_formats.length) {
 			// If the next byte format has a divisor smaller than the current amount of bytes,
 			// and thus not the right format skip it.
 			if (byte_formats.length > i + 1 && byte_formats[i + 1][1] < bytes)

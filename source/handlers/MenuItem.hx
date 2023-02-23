@@ -9,8 +9,8 @@ import flixel.util.FlxColor;
 import handlers.ClientPrefs;
 
 /* Rewrote this a bit.
-class MenuItem extends FlxSpriteGroup
-{
+	class MenuItem extends FlxSpriteGroup
+	{
 	public var targetY:Float = 0;
 	public var week:FlxSprite;
 	private var isFlashing:Bool = false;
@@ -51,8 +51,6 @@ class MenuItem extends FlxSpriteGroup
 			week.color = FlxColor.WHITE;
 	}
 }*/
-
-
 class MenuItem extends FlxSprite {
 	public var targetY:Int = 0;
 	public var flashingInt:Int = 0;
@@ -62,17 +60,18 @@ class MenuItem extends FlxSprite {
 		super(x, y, Files.image("menus/storymenu/" + image));
 	}
 
-	//I also don't understand this.
+	// I also don't understand this.
 	var fakeFramerate:Int = Math.round((1 / FlxG.elapsed) / 10);
+
 	override function update(elapsed:Float) {
 		super.update(elapsed);
 		y = FlxMath.lerp(y, (targetY * 120) + 480, 0.17);
-	
-		if (ClientPrefs.flashingLights)
-		{
-			if (flashColor == 0xFFFFFFFF) return;
+
+		if (ClientPrefs.flashingLights) {
+			if (flashColor == 0xFFFFFFFF)
+				return;
 			flashingInt = (flashingInt + 1) % fakeFramerate;
-		
+
 			color = (flashingInt >= Math.floor(fakeFramerate / 2)) ? flashColor : 0xFFFFFFFF;
 		}
 	}

@@ -8,8 +8,7 @@ import openfl.net.NetConnection;
 import openfl.net.NetStream;
 import handlers.Files;
 
-class VidHandler extends FlxBasic
-{
+class VidHandler extends FlxBasic {
 	var video:Video;
 	var netStream:NetStream;
 
@@ -18,8 +17,7 @@ class VidHandler extends FlxBasic
 	/**
 	 * Doesn't actually interact with Flixel shit, only just a pleasant to use class    
 	 */
-	public function new(vidSrc:String)
-	{
+	public function new(vidSrc:String) {
 		super();
 
 		video = new Video();
@@ -37,8 +35,7 @@ class VidHandler extends FlxBasic
 		netStream.play(Files.video(vidSrc));
 	}
 
-	public function finishVideo():Void
-	{
+	public function finishVideo():Void {
 		netStream.dispose();
 		FlxG.removeChild(video);
 
@@ -46,16 +43,14 @@ class VidHandler extends FlxBasic
 			finishCallback();
 	}
 
-	public function client_onMetaData(metaData:Dynamic)
-	{
+	public function client_onMetaData(metaData:Dynamic) {
 		video.attachNetStream(netStream);
 
 		video.width = FlxG.width;
 		video.height = FlxG.height;
 	}
 
-	private function netConnection_onNetStatus(event:NetStatusEvent):Void
-	{
+	private function netConnection_onNetStatus(event:NetStatusEvent):Void {
 		if (event.info.code == 'NetStream.Play.Complete')
 			finishVideo();
 	}
