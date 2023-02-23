@@ -1622,6 +1622,7 @@ class PlayState extends MusicBeatState {
 				Conductor.changeBPM(SONG.notes[Math.floor(curStep / 16)].bpm);
 				FlxG.log.add('CHANGED BPM!');
 			}
+
 			dad.dance();
 		}
 		// FlxG.log.add('change bpm' + SONG.notes[Std.int(curStep / 16)].changeBPM);
@@ -1642,20 +1643,18 @@ class PlayState extends MusicBeatState {
 		iconP1.updateHitbox();
 		iconP2.updateHitbox();
 
-		if (curBeat % gfSpeed == 0) {
+		if (curBeat % gfSpeed == 0)
 			gf.dance();
-		}
 
-		if (!boyfriend.animation.curAnim.name.startsWith("sing")) {
+		if (boyfriend.animation.name == null || !boyfriend.animation.name.startsWith("sing"))
 			boyfriend.dance();
-		}
 
-		if (curBeat % 8 == 7 && SONG.song == 'Bopeebo') {
-			boyfriend.playAnim('hey', true);
+		if (curBeat % 8 == 7) {
+			if (SONG.song.toLowerCase() == 'bopeebo')
+				boyfriend.playAnim('hey', true);
 
-			if (SONG.song == 'Tutorial' && dad.curCharacter == 'gf') {
+			if (SONG.song.toLowerCase() == 'tutorial' && dad.curCharacter.startsWith('gf'))
 				dad.playAnim('cheer', true);
-			}
 		}
 
 		stage.beatHit(curBeat);
