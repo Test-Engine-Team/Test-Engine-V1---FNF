@@ -1017,7 +1017,7 @@ class PlayState extends MusicBeatState {
 			}
 		}
 
-		songPositionBar = FlxStringUtil.formatTime((FlxG.sound.music.length - FlxMath.bound(Conductor.songPosition, 0) / 1000), false);
+		songPositionBar = (Conductor.songPosition - songLength) / 1000;
 
 		if (generatedMusic && PlayState.SONG.notes[Std.int(curStep / 16)] != null) {
 			var opOffsetX:Float = (dad.regX == gf.regX && dad.regY == gf.regY) ? stage.offsets.gfCamX : stage.offsets.dadCamX;
