@@ -7,15 +7,18 @@ import flixel.input.keyboard.FlxKey;
 import flixel.graphics.FlxGraphic;
 import Controls;
 
-//Im not gonna rewrite the entirity of this,
-//BUT WHO THE FUCK COPY PASTED CLIENTPREFS FROM PSYCH? -Srt
-
+// Im not gonna rewrite the entirity of this,
+// BUT WHO THE FUCK COPY PASTED CLIENTPREFS FROM PSYCH? -Srt
 class ClientPrefs {
-	//For load and save.
-	static var settingNames:Array<String> = ["infoTxtX", "flashingLights", "spinnyspin", "fairFight", "poisonPlus", "fcMode", "maxPoisonHits", "limitMisses", "maxMisses", "freeplayCutscenes", "downscroll", "safeFrames", "botPlay", "practice", "speed", "ghostTapping", "showComboSprite", "antialiasing", "quality", "uiAlpha", "camMoveOnHit", "noteSplashes", "ogTitle", "fullscreen", "autoPause", "scoreMultiplier", "scoreTxt", "missTxt", "comboTxt", "noteHitTxt", "accuracyTxt"];
+	// For load and save.
+	static var settingNames:Array<String> = [
+		"infoTxtX", "flashingLights", "spinnyspin", "fairFight", "poisonPlus", "fcMode", "maxPoisonHits", "limitMisses", "maxMisses", "freeplayCutscenes",
+		"downscroll", "safeFrames", "botPlay", "practice", "speed", "ghostTapping", "showComboSprite", "antialiasing", "quality", "uiAlpha", "camMoveOnHit",
+		"noteSplashes", "ogTitle", "fullscreen", "autoPause", "scoreMultiplier", "scoreTxt", "missTxt", "comboTxt", "noteHitTxt", "accuracyTxt"
+	];
 	// Options
-	public static var flashingLights:Bool = true; //this assumes this is true which is bad but i dunno how to make a popup on the start of the game like PE
-    public static var ghostTapping:Bool = true;
+	public static var flashingLights:Bool = true; // this assumes this is true which is bad but i dunno how to make a popup on the start of the game like PE
+	public static var ghostTapping:Bool = true;
 	public static var framerate:Int = 60;
 	public static var downscroll:Bool = false;
 	public static var freeplayCutscenes:Bool = false;
@@ -62,23 +65,23 @@ class ClientPrefs {
 	public static var accuracyTxt:Bool = false;
 	public static var noteHitTxt:Bool = true;
 
-	//easter eggs
+	// easter eggs
 	public static var tristanPlayer:Bool = false;
 	public static var monikaGF:Bool = false;
 
-    //funny
-    public static var tankmanFloat:Bool = false;
+	// funny
+	public static var tankmanFloat:Bool = false;
 
-	//Extra
+	// Extra
 	public static var fullscreen:Bool = false;
 	public static var autoPause:Bool = true;
-	public static var scoreMultiplier:Float = 1; //for future multiplier stuff
+	public static var scoreMultiplier:Float = 1; // for future multiplier stuff
 
 	// modifiable stuff for modding
 	public static var fairFightHealthLossCount:Float = 0.02;
 	public static var defaultFont:String = 'vcr';
 
-    public static function saveSettings() {
+	public static function saveSettings() {
 		for (setting in settingNames) {
 			Reflect.setField(FlxG.save.data, setting, Reflect.getProperty(ClientPrefs, setting));
 		}
@@ -87,10 +90,11 @@ class ClientPrefs {
 		FlxSprite.defaultAntialiasing = antialiasing;
 		#end
 
-        FlxG.save.flush();
+		FlxG.save.flush();
 
-        var controlSave:FlxSave = new FlxSave();
-		controlSave.bind('controls', 'Test-Engine-Save'); //Placing this in a separate save so that it can be manually deleted without removing your Score and stuff
+		var controlSave:FlxSave = new FlxSave();
+		controlSave.bind('controls',
+			'Test-Engine-Save'); // Placing this in a separate save so that it can be manually deleted without removing your Score and stuff
 		controlSave.data.leftBinds = leftKeybinds;
 		controlSave.data.downBinds = downKeybinds;
 		controlSave.data.upBinds = upKeybinds;
@@ -98,9 +102,9 @@ class ClientPrefs {
 		controlSave.data.resetBind = resetKeybind;
 		controlSave.flush();
 		controlSave.destroy();
-    }
+	}
 
-    public static function loadPrefs() {
+	public static function loadPrefs() {
 		FlxG.save.bind('funkin', 'Test-Engine-Save');
 		for (setting in settingNames) {
 			var savedData = Reflect.field(FlxG.save.data, setting);
@@ -110,16 +114,21 @@ class ClientPrefs {
 
 		var controlSave:FlxSave = new FlxSave();
 		controlSave.bind('controls', 'Test-Engine-Save');
-		if (controlSave.data.leftBinds != null) leftKeybinds = controlSave.data.leftBinds;
-		if (controlSave.data.downBinds != null) downKeybinds = controlSave.data.downBinds;
-		if (controlSave.data.upBinds != null) upKeybinds = controlSave.data.upBinds;
-		if (controlSave.data.rightBinds != null) rightKeybinds = controlSave.data.rightBinds;
-		if (controlSave.data.resetBind != null) resetKeybind = controlSave.data.resetBind;
+		if (controlSave.data.leftBinds != null)
+			leftKeybinds = controlSave.data.leftBinds;
+		if (controlSave.data.downBinds != null)
+			downKeybinds = controlSave.data.downBinds;
+		if (controlSave.data.upBinds != null)
+			upKeybinds = controlSave.data.upBinds;
+		if (controlSave.data.rightBinds != null)
+			rightKeybinds = controlSave.data.rightBinds;
+		if (controlSave.data.resetBind != null)
+			resetKeybind = controlSave.data.resetBind;
 		controlSave.destroy();
 
-		if(FlxG.save.data.framerate != null) {
+		if (FlxG.save.data.framerate != null) {
 			framerate = FlxG.save.data.framerate;
-			if(framerate > FlxG.drawFramerate) {
+			if (framerate > FlxG.drawFramerate) {
 				FlxG.updateFramerate = framerate;
 				FlxG.drawFramerate = framerate;
 			} else {
@@ -127,8 +136,12 @@ class ClientPrefs {
 				FlxG.updateFramerate = framerate;
 			}
 		}
+
 		#if (flixel > "5.0.0")
 		FlxSprite.defaultAntialiasing = antialiasing;
 		#end
-    }
+
+		FlxG.autoPause = autoPause;
+		FlxG.fullscreen = fullscreen;
+	}
 }
