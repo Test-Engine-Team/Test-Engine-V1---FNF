@@ -147,6 +147,8 @@ class PlayState extends MusicBeatState {
 
 	@:unreflective private var gameControls:Controls;
 
+	private var vocalsFinished:Bool = false;
+
 	override public function create() {
 		gameControls = new Controls("gameControls", None);
 		gameControls.bindKeys(Control.LEFT, ClientPrefs.leftKeybinds);
@@ -660,6 +662,7 @@ class PlayState extends MusicBeatState {
 			FlxG.sound.playMusic(instPath, 1, false);
 		FlxG.sound.music.onComplete = endSong;
 		vocals.play();
+		vocals.onComplete = () -> vocalsFinished = true;
 
 		#if SCRIPTS_ENABLED scripts_call("songStart"); #end
 	}
@@ -892,8 +895,14 @@ class PlayState extends MusicBeatState {
 
 		FlxG.sound.music.play();
 		Conductor.songPosition = FlxG.sound.music.time;
-		vocals.time = Conductor.songPosition;
-		vocals.play();
+
+		if (vocalsFinished) return;
+
+		if (vocals != null){
+			if (Conductor.songPosition <= vocals.length)
+				vocals.time = Conductor.songPosition;
+			vocals.play();
+		}
 	}
 
 	private var paused:Bool = false;
@@ -1793,11 +1802,9 @@ class PlayState extends MusicBeatState {
 		super.stepHit();
 		stage.stepHit(curStep);
 		#if SCRIPTS_ENABLED scripts_call("stepHit", [], false); #end
-		if (SONG.needsVoices) {
-			if (vocals.time > Conductor.songPosition + 20 || vocals.time < Conductor.songPosition - 20) {
-				resyncVocals();
-			}
-		}
+		if (Math.abs(FlxG.sound.music.time - (Conductor.songPosition - Conductor.offset)) > 20
+			|| (SONG.needsVoices && Math.abs(vocals.time - (Conductor.songPosition - Conductor.offset)) > 20))
+			resyncVocals();
 	}
 
 	override function beatHit() {
