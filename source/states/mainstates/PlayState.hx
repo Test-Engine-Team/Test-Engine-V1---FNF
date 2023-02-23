@@ -532,6 +532,9 @@ class PlayState extends MusicBeatState {
 
 		SONG.song = songData.song;
 
+		// if you want you could just preload FlxG.sound.music like vocals is here but either way works
+		FlxG.sound.cache((Assets.exists(Files.songInst(SONG.song))) ? Files.songInst(SONG.song) : Files.songInst(songPath));
+
 		var vocalsPath:String = (Assets.exists(Files.songVoices(SONG.song))) ? Files.songVoices(SONG.song) : Files.songVoices(songPath);
 		if (SONG.needsVoices)
 			vocals = new FlxSound().loadEmbedded(vocalsPath);
