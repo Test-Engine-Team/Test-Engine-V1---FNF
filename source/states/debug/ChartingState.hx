@@ -130,10 +130,7 @@ class ChartingState extends MusicBeatState {
 		}
 
 		FlxG.mouse.visible = true;
-		FlxG.save.bind('funkin', 'ninjamuffin99');
-
 		addSection();
-
 		updateGrid();
 
 		if (autoSaveTimer != null) {

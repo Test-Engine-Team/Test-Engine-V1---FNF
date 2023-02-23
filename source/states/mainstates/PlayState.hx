@@ -142,6 +142,8 @@ class PlayState extends MusicBeatState {
 	private var vocalsFinished:Bool = false;
 
 	override public function create() {
+		FlxG.mouse.visible = false;
+
 		gameControls = new Controls("gameControls", None);
 		gameControls.bindKeys(Control.LEFT, ClientPrefs.leftKeybinds);
 		gameControls.bindKeys(Control.DOWN, ClientPrefs.downKeybinds);

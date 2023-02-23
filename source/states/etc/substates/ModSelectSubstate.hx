@@ -34,8 +34,10 @@ class ModSelectSubstate extends MusicBeatSubstate {
 		script.callFunction("create");
 		#end
 
-		#if (!desktop) close();
-		return; #end
+		#if !MODS_ENABLED
+		close();
+		return;
+		#end
 
 		modList = [
 			for (mod in FileSystem.readDirectory("./mods"))
@@ -77,12 +79,16 @@ class ModSelectSubstate extends MusicBeatSubstate {
 
 	override function update(elapsed:Float) {
 		super.update(elapsed);
+
 		#if SCRIPTS_ENABLED
 		script.callFunction("update", [elapsed]);
 		#end
 
-		#if (!desktop) close();
-		return; #end
+		// not sure how this would be called but better safe than sorry ig
+		#if !MODS_ENABLED
+		close();
+		return;
+		#end
 
 		switch ([
 			(controls.UP_P && canSelect),
