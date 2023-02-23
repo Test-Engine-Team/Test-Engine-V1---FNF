@@ -12,9 +12,9 @@ import Controls;
 class ClientPrefs {
 	// For load and save.
 	static var settingNames:Array<String> = [
-		"infoTxtX", "flashingLights", "spinnyspin", "fairFight", "poisonPlus", "fcMode", "maxPoisonHits", "limitMisses", "maxMisses", "freeplayCutscenes",
+		"flashingLights", "spinnyspin", "fairFight", "poisonPlus", "fcMode", "maxPoisonHits", "limitMisses", "maxMisses", "freeplayCutscenes",
 		"downscroll", "safeFrames", "botPlay", "practice", "speed", "ghostTapping", "showComboSprite", "antialiasing", "quality", "uiAlpha", "camMoveOnHit",
-		"noteSplashes", "ogTitle", "fullscreen", "autoPause", "scoreMultiplier", "scoreTxt", "missTxt", "comboTxt", "noteHitTxt", "accuracyTxt"
+		"noteSplashes", "ogTitle", "showTimeBar", "fullscreen", "autoPause", "scoreMultiplier", "scoreTxt", "missTxt", "comboTxt", "noteHitTxt", "accuracyTxt"
 	];
 	// Options
 	public static var flashingLights:Bool = true; // this assumes this is true which is bad but i dunno how to make a popup on the start of the game like PE
@@ -54,11 +54,13 @@ class ClientPrefs {
 	public static var uiAlpha:Float = 1;
 	public static var antialiasing:Bool = true;
 	public static var ogTitle:Bool = false;
-	public static var infoTxt:Bool = true;
+	public static var showTimeBar:Bool = true;
+	public static var timeBarType:String = 'Time';
 	public static var quality:String = 'Medium';
 
 	// Info Text stuff
 	public static var infoTxtX:Float = 3;
+	public static var infoTxt:Bool = true;
 	public static var scoreTxt:Bool = true;
 	public static var missTxt:Bool = true;
 	public static var comboTxt:Bool = true;

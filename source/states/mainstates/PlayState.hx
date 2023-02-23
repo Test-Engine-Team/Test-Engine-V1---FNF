@@ -644,9 +644,11 @@ class PlayState extends MusicBeatState {
 
 		if (ClientPrefs.showTimeBar)
 		{
+			/*
 			var forceDifferentColor = false;
-			if (TimeBarColor != null)
+			if (timeBarColor != null)
 				forceDifferentColor = true;
+			*/
 			timeBarBG = new FlxSprite(0, 10).loadGraphic(Files.image('healthBar'));
 			if (ClientPrefs.downscroll)
 				timeBarBG.y = FlxG.height * 0.9 + 35;
@@ -656,10 +658,10 @@ class PlayState extends MusicBeatState {
 			timeBarBar = new FlxBar(640 - (Std.int(timeBarBG.width - 100) / 2), timeBarBG.y + 4, LEFT_TO_RIGHT, Std.int(timeBarBG.width - 100),
 				Std.int(timeBarBG.height + 6), this, 'songPositionBar', 0, songLength);
 			timeBarBar.scrollFactor.set();
-			if (forceDifferentColor)
-				timeBarBar.createFilledBar(FlxColor.BLACK, TimeBarColor);
-			else
-				timeBarBar.createFilledBar(FlxColor.BLACK, dad.hpcolor);
+			//if (forceDifferentColor)
+				//timeBarBar.createFilledBar(FlxColor.BLACK, timeBarColor);
+			//else
+			timeBarBar.createFilledBar(FlxColor.BLACK, dad.hpcolor);
 			add(timeBarBar);
 
 			bar = new FlxSprite(timeBarBar.x, timeBarBar.y).makeGraphic(Math.floor(timeBarBar.width), Math.floor(timeBarBar.height), FlxColor.TRANSPARENT);
