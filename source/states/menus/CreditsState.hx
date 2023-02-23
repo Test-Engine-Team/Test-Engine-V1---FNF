@@ -1,5 +1,7 @@
 package states.menus;
 
+import handlers.CoolUtil;
+import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import Controls.Control;
 import flixel.FlxG;
@@ -16,30 +18,28 @@ import ui.Alphabet;
 import handlers.MusicBeatState;
 import handlers.Files;
 import ui.HealthIcon;
-#if desktop
+#if discord_rpc
 import handlers.DiscordHandler;
 #end
-//import openfl.net.URLRequest;
-//import openfl.Lib;
 
-class CreditsState extends MusicBeatState
-{
+class CreditsState extends MusicBeatState {
 	var grpMenuShit:FlxTypedGroup<Alphabet>;
 
-	var menuItems:Array<String> = ['Megalo', '[504]Brandon', 'mackery', 'SRT', 'MemeHoovy', 'SIG7Ivan', 'Alik Guh', 'Void', 'YeeterOk', 'Swordcube', 'Chocolate (Iris)', 'Bash Bush', 'your mother'];
+	var menuItems:Array<String> = [
+		'Megalo', '[504] brandon', 'mackery', 'SRT', 'MemeHoovy', 'SIG7Ivan', 'Alik Guh', 'Void', 'YeeterOk', 'Swordcube', 'Chocolate (Iris)', 'Bash Bush',
+		'your mother'
+	];
 	var curSelected:Int = 0;
 
-    override public function create()
-        {
-        var bg = new FlxSprite().loadGraphic(Files.image('menus/mainmenu/menuDesat'));
-        bg.color = 0x340666;
-        add(bg);
+	override public function create() {
+		var bg = new FlxSprite().loadGraphic(Files.image('menus/mainmenu/menuDesat'));
+		bg.color = 0x340666;
+		add(bg);
 
 		grpMenuShit = new FlxTypedGroup<Alphabet>();
 		add(grpMenuShit);
 
-		for (i in 0...menuItems.length)
-		{	
+		for (i in 0...menuItems.length) {
 			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, menuItems[i], true, false);
 			songText.isMenuItem = true;
 			songText.targetY = i;
@@ -49,90 +49,39 @@ class CreditsState extends MusicBeatState
 		changeSelection();
 
 		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
-
 	}
 
-	override function update(elapsed:Float)
-	{
-
+	override function update(elapsed:Float) {
 		super.update(elapsed);
 
-		var upP = controls.UP_P;
-		var downP = controls.DOWN_P;
-		var accepted = controls.ACCEPT;
-        
-        if (FlxG.keys.justPressed.ESCAPE)
-            FlxG.switchState(new MainMenuState());
-
-		if (upP)
-		{
+		if (controls.UP_P)
 			changeSelection(-1);
-		}
-		if (downP)
-		{
+		if (controls.DOWN_P)
 			changeSelection(1);
-		}
 
-		if (accepted)
-		{
-			var daSelected:String = menuItems[curSelected];
+		if (controls.BACK)
+			FlxG.switchState(new MainMenuState());
+		if (controls.ACCEPT) {
+			var daSelected:String = menuItems[curSelected].toLowerCase();
 
-			switch (daSelected)
-			{
-			}
-	}
-	if (accepted)
-		{
-			var daSelected:String = menuItems[curSelected];
-
-			switch (daSelected)
-			{
-				case "Megalo":
-					//trace('https://www.youtube.com/channel/UCJiGOmngd5RGGHwO1Dctnyg');
-					//Lib.getURL (new URLRequest ('https://www.youtube.com/channel/UCJiGOmngd5RGGHwO1Dctnyg'), "_blank"); 
-					//openfl.system.System.exit(0); deleted because it was just a troll. - Megalo
-
+			switch (daSelected) {
+				case "megalo":
+					CoolUtil.openLink('https://www.youtube.com/@megalo7877');
 				case "mackery":
-				//trace('https://www.youtube.com/@Mackery');
-				//Lib.getURL (new URLRequest ('https://www.youtube.com/@Mackery'), "_blank"); 
-
-				case "[504]Brandon":
-					//trace('https://github.com/504brandon');
-					//Lib.getURL (new URLRequest ('https://github.com/504brandon'), "_blank"); 
-			}
-		}
-}
-	override function destroy()
-	{
-		super.destroy();
-	}
-
-	function changeSelection(change:Int = 0):Void
-	{
-
-		curSelected += change;
-
-		if (curSelected < 0)
-			curSelected = menuItems.length - 1;
-		if (curSelected >= menuItems.length)
-			curSelected = 0;
-
-		var bullShit:Int = 0;
-
-		for (item in grpMenuShit.members)
-		{
-			item.targetY = bullShit - curSelected;
-			bullShit++;
-
-			item.alpha = 0.6;
-			// item.setGraphicSize(Std.int(item.width * 0.8));
-
-			if (item.targetY == 0)
-			{
-				item.alpha = 1;
-				// item.setGraphicSize(Std.int(item.width));
+					CoolUtil.openLink('https://www.youtube.com/@Mackery');
+				case "[504]brandon":
+					CoolUtil.openLink('https://github.com/504brandon');
 			}
 		}
 	}
-}
 
+	function changeSelection(change:Int = 0):Void {
+		curSelected = FlxMath.wrap(curSelected + change, 0, menuItems.length - 1);
+
+		for (i in 0...grpMenuShit.length) {
+			var item = grpMenuShit.members[i];
+			item.targetY = i - curSelected;
+			item.alpha = item.targetY == 0 ? 1 : 0.6;
+		}
+	}
+}
