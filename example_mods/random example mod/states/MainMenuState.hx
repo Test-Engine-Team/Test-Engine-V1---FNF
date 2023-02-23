@@ -5,7 +5,7 @@ function create() {
 	optionShit = ['freeplay'];
 }
 
-function createBellowItems() {
+function createBelowItems() {
 	var bg2 = new FlxSprite(0, 0, Files.image("menus/rapbattle"));
 	bg2.scale.set(1.7, 1.7);
 	bg2.scrollFactor.set(0, 0.18);

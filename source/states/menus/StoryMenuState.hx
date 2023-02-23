@@ -21,13 +21,11 @@ import handlers.MenuItem;
 import handlers.MusicBeatState;
 import states.menus.LoadingState;
 import handlers.ModDataStructures;
-
 import handlers.ClientPrefs;
 
 using StringTools;
 
-class StoryMenuState extends MusicBeatState
-{
+class StoryMenuState extends MusicBeatState {
 	var weekList:Array<ModWeekYee> = [];
 	var curDifficulty:Int = 1;
 	var curWeek:Int = 0;
@@ -47,15 +45,14 @@ class StoryMenuState extends MusicBeatState
 
 	var script:HiScript;
 
-	override function create()
-	{
+	override function create() {
 		#if SCRIPTS_ENABLED
 		script = new HiScript('states/StoryMenuState');
-        if (!script.isBlank && script.expr != null) {
-            script.interp.scriptObject = this;
-            script.interp.execute(script.expr);
-        }
-        script.callFunction("create");
+		if (!script.isBlank && script.expr != null) {
+			script.interp.scriptObject = this;
+			script.interp.execute(script.expr);
+		}
+		script.callFunction("create");
 		#end
 
 		weekList = LoadingState.modData.weekList;
@@ -69,7 +66,7 @@ class StoryMenuState extends MusicBeatState
 
 		persistentUpdate = persistentDraw = true;
 
-		scoreText = new FlxText(10, 10, 0, "SCORE: 69420"/*laugh*/, 36);
+		scoreText = new FlxText(10, 10, 0, "SCORE: 69420" /*laugh*/, 36);
 		scoreText.setFormat("VCR OSD Mono", 32);
 
 		txtWeekTitle = new FlxText(FlxG.width * 0.7, 10, 0, "", 32);
@@ -92,7 +89,7 @@ class StoryMenuState extends MusicBeatState
 		add(blackBarThingie);
 
 		#if SCRIPTS_ENABLED
-		script.callFunction('createBellowItems');
+		script.callFunction('createBelowItems');
 		#end
 
 		grpWeekCharacters = new FlxTypedGroup<MenuCharacter>();
@@ -157,10 +154,10 @@ class StoryMenuState extends MusicBeatState
 			txtTracklist.text += "\n" + i;
 
 		txtTracklist.text = txtTracklist.text.toUpperCase();
-	
+
 		txtTracklist.screenCenter(X);
 		txtTracklist.x -= FlxG.width * 0.35;
-	
+
 		#if !switch
 		intendedScore = Highscore.getWeekScore(firstWeek.name, curDifficulty);
 		#end
@@ -172,8 +169,7 @@ class StoryMenuState extends MusicBeatState
 		#end
 	}
 
-	override function update(elapsed:Float)
-	{
+	override function update(elapsed:Float) {
 		#if SCRIPTS_ENABLED
 		script.callFunction('update', [elapsed]);
 		#end
@@ -188,10 +184,8 @@ class StoryMenuState extends MusicBeatState
 
 		// FlxG.watch.addQuick('font', scoreText.font);
 
-		if (!movedBack)
-		{
-			if (!selectedWeek)
-			{
+		if (!movedBack) {
+			if (!selectedWeek) {
 				if (controls.UP_P)
 					changeWeek(-1);
 				else if (controls.DOWN_P)
@@ -218,8 +212,7 @@ class StoryMenuState extends MusicBeatState
 				selectWeek();
 		}
 
-		if (controls.BACK && !movedBack && !selectedWeek)
-		{
+		if (controls.BACK && !movedBack && !selectedWeek) {
 			FlxG.sound.play(Files.sound('cancelMenu'));
 			movedBack = true;
 			FlxG.switchState(new MainMenuState());
@@ -235,8 +228,7 @@ class StoryMenuState extends MusicBeatState
 	var selectedWeek:Bool = false;
 	var stopspamming:Bool = false;
 
-	function selectWeek()
-	{
+	function selectWeek() {
 		#if SCRIPTS_ENABLED
 		script.callFunction('selectWeek');
 		#end
@@ -251,7 +243,7 @@ class StoryMenuState extends MusicBeatState
 			stopspamming = true;
 		}
 
-		//Doin for loop cause if i just do `weekList[curWeek].paths` it removes the modData paths as the week continues.
+		// Doin for loop cause if i just do `weekList[curWeek].paths` it removes the modData paths as the week continues.
 		PlayState.storyPlaylist = [for (path in weekList[curWeek].paths) path];
 		PlayState.isStoryMode = true;
 		selectedWeek = true;
@@ -264,16 +256,14 @@ class StoryMenuState extends MusicBeatState
 		PlayState.SONG = Song.loadFromJson(songPath, PlayState.storyPlaylist[0]);
 		PlayState.storyWeek = weekList[curWeek].name;
 		PlayState.campaignScore = 0;
-		new FlxTimer().start(1, function(tmr:FlxTimer)
-		{
+		new FlxTimer().start(1, function(tmr:FlxTimer) {
 			if (FlxG.sound.music != null)
 				FlxG.sound.music.stop();
 			FlxG.switchState(new PlayState());
 		});
 	}
 
-	function changeDifficulty(change:Int = 0):Void
-	{
+	function changeDifficulty(change:Int = 0):Void {
 		#if SCRIPTS_ENABLED
 		script.callFunction('changeDifficulty');
 		#end
@@ -313,7 +303,8 @@ class StoryMenuState extends MusicBeatState
 			}
 		}
 
-		if (!checkFailed) return;
+		if (!checkFailed)
+			return;
 
 		curDifficulty = Math.floor(weekList[curWeek].diffs.length / 2);
 
@@ -337,8 +328,7 @@ class StoryMenuState extends MusicBeatState
 	var lerpScore:Int = 0;
 	var intendedScore:Int = 0;
 
-	function changeWeek(change:Int = 0):Void
-	{
+	function changeWeek(change:Int = 0):Void {
 		#if SCRIPTS_ENABLED
 		script.callFunction('changeWeek');
 		#end
@@ -353,8 +343,7 @@ class StoryMenuState extends MusicBeatState
 
 		var bullShit:Int = 0;
 
-		for (item in grpWeekText.members)
-		{
+		for (item in grpWeekText.members) {
 			item.targetY = bullShit - curWeek;
 			item.alpha = (item.targetY == 0) ? 1 : 0.6;
 			bullShit++;
@@ -371,8 +360,7 @@ class StoryMenuState extends MusicBeatState
 			grpWeekCharacters.members[i].loadCharacter(weekList[curWeek].chars[i]);
 
 		txtTracklist.text = "Tracks\n";
-		for (i in weekList[curWeek].songs)
-		{
+		for (i in weekList[curWeek].songs) {
 			txtTracklist.text += "\n" + i;
 		}
 		txtTracklist.text = txtTracklist.text.toUpperCase();
