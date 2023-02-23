@@ -9,11 +9,13 @@ Heres some features in the engine:
 
 * Mod System
 * Modifiers
+* Update System
 * Downscroll
-* Multi-Quality selections
+* Multi-Quality Selections
 * Custom Discord RPC
 * Subtitles
 * Softcoded Menus, Stages, & Cutscenes
+* Custom Score Text (its called info text in the engine)
 * Shaders
 * Video Cutscenes (BETA)
 
