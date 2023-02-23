@@ -21,8 +21,7 @@ import handlers.Highscore;
 import handlers.DiscordHandler;
 #end
 
-class PauseSubState extends MusicBeatSubstate
-{
+class PauseSubState extends MusicBeatSubstate {
 	var grpMenuShit:FlxTypedGroup<Alphabet>;
 
 	var menuItems:Array<String> = ['Resume', 'Restart Song', 'Exit to menu'];
@@ -34,8 +33,7 @@ class PauseSubState extends MusicBeatSubstate
 
 	var script:HiScript;
 
-	public function new(x:Float, y:Float)
-	{
+	public function new(x:Float, y:Float) {
 		super();
 		#if SCRIPTS_ENABLED
 		script = new HiScript('substates/PauseSubState');
@@ -58,10 +56,11 @@ class PauseSubState extends MusicBeatSubstate
 		add(bg);
 
 		#if SCRIPTS_ENABLED
-		script.callFunction("createBellowItems");
+		script.callFunction("createBelowItems");
 		#end
 
-		levelinfotext = new FlxText(20, 15, 0, '${PlayState.SONG.song}\nSpeed:${PlayState.speed}\n${Highscore.diffArray[PlayState.storyDifficulty].toUpperCase()}');
+		levelinfotext = new FlxText(20, 15, 0,
+			'${PlayState.SONG.song}\nSpeed:${PlayState.speed}\n${Highscore.diffArray[PlayState.storyDifficulty].toUpperCase()}');
 		levelinfotext.setFormat("assets/fonts/vcr.ttf", 25, FlxColor.WHITE, null, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		levelinfotext.borderSize = 3;
 		add(levelinfotext);
@@ -69,8 +68,7 @@ class PauseSubState extends MusicBeatSubstate
 		grpMenuShit = new FlxTypedGroup<Alphabet>();
 		add(grpMenuShit);
 
-		for (i in 0...menuItems.length)
-		{	
+		for (i in 0...menuItems.length) {
 			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, menuItems[i], true, false);
 			songText.isMenuItem = true;
 			songText.targetY = i;
@@ -86,8 +84,7 @@ class PauseSubState extends MusicBeatSubstate
 		#end
 	}
 
-	override function update(elapsed:Float)
-	{
+	override function update(elapsed:Float) {
 		#if SCRIPTS_ENABLED
 		script.callFunction("update", [elapsed]);
 		#end
@@ -100,21 +97,17 @@ class PauseSubState extends MusicBeatSubstate
 		var downP = controls.DOWN_P;
 		var accepted = controls.ACCEPT;
 
-		if (upP)
-		{
+		if (upP) {
 			changeSelection(-1);
 		}
-		if (downP)
-		{
+		if (downP) {
 			changeSelection(1);
 		}
 
-		if (accepted)
-		{
+		if (accepted) {
 			var daSelected:String = menuItems[curSelected];
 
-			switch (daSelected)
-			{
+			switch (daSelected) {
 				case "Resume":
 					close();
 				case "Restart Song":
@@ -137,8 +130,7 @@ class PauseSubState extends MusicBeatSubstate
 		#end
 	}
 
-	override function destroy()
-	{
+	override function destroy() {
 		#if SCRIPTS_ENABLED
 		script.callFunction("close");
 		#end
@@ -148,8 +140,7 @@ class PauseSubState extends MusicBeatSubstate
 		super.destroy();
 	}
 
-	function changeSelection(change:Int = 0):Void
-	{
+	function changeSelection(change:Int = 0):Void {
 		#if SCRIPTS_ENABLED
 		script.callFunction("changeSelection");
 		#end
@@ -163,8 +154,7 @@ class PauseSubState extends MusicBeatSubstate
 
 		var bullShit:Int = 0;
 
-		for (item in grpMenuShit.members)
-		{
+		for (item in grpMenuShit.members) {
 			item.targetY = bullShit - curSelected;
 			bullShit++;
 

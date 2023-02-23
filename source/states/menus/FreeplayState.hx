@@ -45,7 +45,7 @@ class FreeplayState extends MusicBeatState {
 	private var grpSongs:FlxTypedGroup<Alphabet>;
 	private var curPlaying:Bool = false;
 
-	var vocals:FlxSound = null;
+	private static var vocals:FlxSound = null;
 
 	var script:HiScript;
 
@@ -63,10 +63,9 @@ class FreeplayState extends MusicBeatState {
 	var bg:FlxSprite;
 
 	/*
-	var curWeek:Int = 0;
-	var weekList:Array<ModWeekYee> = [];
-	*/
-
+		var curWeek:Int = 0;
+		var weekList:Array<ModWeekYee> = [];
+	 */
 	override function create() {
 		#if SCRIPTS_ENABLED
 		script = new HiScript('states/FreeplayState');
@@ -101,7 +100,7 @@ class FreeplayState extends MusicBeatState {
 		add(bg);
 
 		#if SCRIPTS_ENABLED
-		script.callFunction("createBellowItems");
+		script.callFunction("createBelowItems");
 		#end
 
 		grpSongs = new FlxTypedGroup<Alphabet>();
@@ -185,7 +184,6 @@ class FreeplayState extends MusicBeatState {
 
 		var upP = controls.UP_P;
 		var downP = controls.DOWN_P;
-		var accepted = controls.ACCEPT;
 
 		if (upP)
 			changeSelection(-1);
@@ -197,20 +195,20 @@ class FreeplayState extends MusicBeatState {
 		else if (controls.RIGHT_P)
 			changeDiff(1);
 
-		if (controls.BACK){
+		if (controls.BACK) {
 			FlxG.switchState(new MainMenuState());
-			if (vocals != null){
+			if (vocals != null) {
 				vocals.stop();
 				vocals.destroy();
 			}
 		}
 
 		/*
-		if (songList[curSelected].name != null || songList[curSelected].name != 'test')
-			bg.color = FlxColor.interpolate(bg.color, coolColors[Std.parseInt(weeks[curWeek]) % coolColors.length], CoolUtil.camLerpShit(0.045));
-		else
-			bg.color = FlxColor.interpolate(bg.color, 0xff31B0D1, CoolUtil.camLerpShit(0.045));
-		*/
+			if (songList[curSelected].name != null || songList[curSelected].name != 'test')
+				bg.color = FlxColor.interpolate(bg.color, coolColors[Std.parseInt(weeks[curWeek]) % coolColors.length], CoolUtil.camLerpShit(0.045));
+			else
+				bg.color = FlxColor.interpolate(bg.color, 0xff31B0D1, CoolUtil.camLerpShit(0.045));
+		 */
 
 		#if desktop
 		if (FlxG.keys.justPressed.M) {
@@ -242,9 +240,18 @@ class FreeplayState extends MusicBeatState {
 			script.callFunction("playSong");
 			#end
 
+			// destroy old vocals lmfao
+			if (vocals != null) {
+				vocals.stop();
+				vocals.destroy();
+				vocals = null;
+			}
+
 			FlxG.sound.playMusic(Files.song(songList[curSelected].path + "/Inst"));
 			Highscore.diffArray = songList[curSelected].diffs;
+
 			var jsonPath = 'assets/data/${songList[curSelected].path}/${Highscore.formatSong(songList[curSelected].path, curDifficulty)}.json';
+
 			if (haxe.Json.parse(openfl.Assets.getText(jsonPath)).song.needsVoices)
 				vocals = new FlxSound().loadEmbedded((Files.song(songList[curSelected].path + '/Voices')));
 			else
