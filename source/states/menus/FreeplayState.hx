@@ -1,5 +1,7 @@
 package states.menus;
 
+import openfl.utils.Assets;
+import handlers.Conductor;
 import flixel.system.FlxSound;
 import scriptStuff.HiScript;
 import flixel.FlxG;
@@ -62,10 +64,8 @@ class FreeplayState extends MusicBeatState {
 
 	var bg:FlxSprite;
 
-	/*
-		var curWeek:Int = 0;
-		var weekList:Array<ModWeekYee> = [];
-	 */
+	var playingIcon:Int = -1;
+
 	override function create() {
 		#if SCRIPTS_ENABLED
 		script = new HiScript('states/FreeplayState');
@@ -175,6 +175,9 @@ class FreeplayState extends MusicBeatState {
 		if (FlxG.sound.music.volume < 0.7)
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
 
+		if (FlxG.sound.music.playing)
+			Conductor.songPosition = FlxG.sound.music.time;
+
 		lerpScore = Math.floor(FlxMath.lerp(lerpScore, intendedScore, 0.4));
 
 		if (Math.abs(lerpScore - intendedScore) <= 10)
@@ -246,9 +249,19 @@ class FreeplayState extends MusicBeatState {
 			FlxG.sound.music.pause();
 			Highscore.diffArray = songList[curSelected].diffs;
 
-			var jsonPath = 'assets/data/${songList[curSelected].path}/${Highscore.formatSong(songList[curSelected].path, curDifficulty)}.json';
+			Highscore.diffArray = songList[curSelected].diffs; // Sorry but I DONT wanna rewrite Highscore.
+			var poop:String = Highscore.formatSong(songList[curSelected].path, curDifficulty);
 
-			if (haxe.Json.parse(openfl.Assets.getText(jsonPath)).song.needsVoices)
+			PlayState.songPath = songList[curSelected].path;
+
+			if (!Assets.exists('assets/data/' + songList[curSelected].path.toLowerCase() + '/' + poop.toLowerCase() + '.json')) {
+				trace('Song does not have a valid JSON! Aborting before errors occur!');
+				return;
+			}
+
+			PlayState.SONG = Song.loadFromJson(poop, songList[curSelected].path);
+
+			if (PlayState.SONG.needsVoices)
 				vocals = new FlxSound().loadEmbedded((Files.song(songList[curSelected].path + '/Voices')));
 			else
 				vocals = new FlxSound();
@@ -262,10 +275,32 @@ class FreeplayState extends MusicBeatState {
 				vocals.play();
 			vocals.persist = false;
 			vocals.looped = true;
+
+			playingIcon = curSelected;
+			Conductor.changeBPM(PlayState.SONG.bpm);
+			Conductor.mapBPMChanges(PlayState.SONG);
 		}
+
+		for (icon in iconArray)
+			icon.scale.set(FlxMath.lerp(icon.scale.x, 1, elapsed * 9), FlxMath.lerp(icon.scale.y, 1, elapsed * 9));
 
 		#if SCRIPTS_ENABLED
 		script.callFunction("updatePost");
+		#end
+	}
+
+	override function beatHit():Void {
+		super.beatHit();
+
+		#if SCRIPTS_ENABLED
+		script.callFunction("beatHit");
+		#end
+
+		if (iconArray[playingIcon] != null)
+			iconArray[playingIcon].scale.add(0.2, 0.2);
+
+		#if SCRIPTS_ENABLED
+		script.callFunction("beatHitPost");
 		#end
 	}
 

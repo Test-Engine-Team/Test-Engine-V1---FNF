@@ -1,13 +1,12 @@
 package scriptStuff;
 
-import Section.SwagSection;
 import ui.Note;
 import handlers.Character;
 
 typedef NoteCreateParams = {
 	var makeNote:Bool;
 	var jsonData:Array<Dynamic>;
-	var sectionData:SwagSection;
+	var sectionData:Section;
 	var spritePath:String;
 	var holdSpritePath:Null<String>;
 	var spriteType:String;
@@ -51,7 +50,4 @@ typedef NoteHitParams = {
 	var deleteNote:Bool;
 	var strumGlow:Bool;
 	var rateNote:Bool;
-	var ?hitCauseMiss:Bool;
-	var ?noteMissHealth:Float;
-	var ?noteHitHealth:Float;
 }
