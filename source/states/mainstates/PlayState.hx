@@ -19,6 +19,8 @@ import flixel.FlxG;
 import flixel.ui.FlxBar;
 import flixel.util.FlxColor;
 import flixel.util.FlxSort;
+import flixel.util.FlxSpriteUtil;
+import flixel.util.FlxStringUtil;
 import flixel.util.FlxTimer;
 import states.menus.MainMenuState;
 import states.menus.FreeplayState;
@@ -62,6 +64,8 @@ class PlayState extends MusicBeatState {
 
 	public var scripts:Array<HiScript> = [];
 
+	var songLength:Float = 0;
+
 	private var vocals:FlxSound;
 
 	public var dad:Character;
@@ -96,8 +100,15 @@ class PlayState extends MusicBeatState {
 	private var shits:Int = 0;
 	private var poisonTimes:Int = 0;
 
+	public static var timeBarBG:FlxSprite;
+	public static var timeBarBar:FlxBar;
+	public var bar:FlxSprite;
+
+	public static var timeBarColor:FlxColor;
+
 	private var healthBarBG:FlxSprite;
 	private var healthBar:FlxBar;
+	private var songPositionBar:Float = 0;
 
 	private var generatedMusic:Bool = false;
 	private var startingSong:Bool = false;
@@ -111,6 +122,10 @@ class PlayState extends MusicBeatState {
 	var canPause:Bool = true;
 
 	var dialogue:Array<String> = ['dad:blah blah blah', 'bf:coolswag'];
+
+	var timeBarTxt:FlxText;
+
+	var talking:Bool = true;
 
 	public var songScore:Int = 0;
 	public var songMisses:Int = 0;
@@ -984,6 +999,22 @@ class PlayState extends MusicBeatState {
 			}
 		} else {
 			Conductor.songPosition += FlxG.elapsed * 1000;
+
+			if (!paused)
+			{
+
+				var curTime:Float = FlxG.sound.music.time;
+				if (curTime < 0)
+					curTime = 0;
+
+				var secondsTotal:Int = Math.floor(((curTime - songLength) / 1000));
+				if (secondsTotal < 0)
+					secondsTotal = 0;
+
+
+				if (ClientPrefs.showTimeBar && ClientPrefs.timeBarType == 'Time')
+					timeBarTxt.text = FlxStringUtil.formatTime((songLength - secondsTotal), false);
+			}
 		}
 
 		songPositionBar = FlxStringUtil.formatTime((FlxG.sound.music.length - FlxMath.bound(Conductor.songPosition, 0) / 1000), false);
@@ -1217,6 +1248,7 @@ class PlayState extends MusicBeatState {
 
 		if (FlxG.keys.justPressed.ONE)
 			endSong();
+
 		if (FlxG.keys.justPressed.TWO)
 			perfectMode = true;
 
@@ -1246,6 +1278,13 @@ class PlayState extends MusicBeatState {
 
 			if (storyPlaylist.length <= 0) {
 				FlxG.sound.playMusic(Files.music('freakyMenu'));
+
+				if (ClientPrefs.showTimeBar)
+				{
+					FlxTween.tween(timeBarBar, {alpha: 0}, 1);
+					FlxTween.tween(bar, {alpha: 0}, 1);
+					FlxTween.tween(timeBarTxt, {alpha: 0}, 1);
+				}
 
 				transIn = FlxTransitionableState.defaultTransIn;
 				transOut = FlxTransitionableState.defaultTransOut;
