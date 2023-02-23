@@ -1,8 +1,6 @@
 package handlers;
 
-import flixel.graphics.frames.FlxFramesCollection;
 import flixel.FlxSprite;
-import flixel.graphics.frames.FlxAtlasFrames;
 
 class MenuCharacter extends FlxSprite {
 	public var ogX:Float;
