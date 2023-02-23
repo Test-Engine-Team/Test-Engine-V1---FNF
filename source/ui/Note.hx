@@ -2,16 +2,12 @@ package ui;
 
 import handlers.Files;
 import flixel.FlxSprite;
-import flixel.graphics.frames.FlxAtlasFrames;
-import flixel.math.FlxMath;
-import flixel.util.FlxColor;
 import states.mainstates.PlayState;
 import handlers.Conductor;
 
 using StringTools;
 
-class Note extends FlxSprite
-{
+class Note extends FlxSprite {
 	public var strumTime:Float = 0;
 	public var noteData:Int = 0;
 	public var sustainLength:Float = 0;
@@ -19,9 +15,10 @@ class Note extends FlxSprite
 	public var doesMiss:Bool = true;
 	public var dadCanHit:Bool = true;
 	public var jsonData:Array<Dynamic>;
+
 	/**
-     * Not actaully used by source. Just a helper var for hscript.
-     */
+	 * Not actaully used by source. Just a helper var for hscript.
+	 */
 	public var noteType:String;
 
 	public var mustPress:Bool = false;
@@ -34,12 +31,11 @@ class Note extends FlxSprite
 
 	public static var swagWidth:Float = 160 * 0.7;
 
-	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false, ?params:scriptStuff.EventStructures.NoteCreateParams)
-	{
+	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false, ?params:scriptStuff.EventStructures.NoteCreateParams) {
 		super();
 
 		if (params == null) {
-			//So I don't have to edit ChartingState.
+			// So I don't have to edit ChartingState.
 			params = {
 				makeNote: true,
 				jsonData: [strumTime, noteData, 0],
@@ -94,7 +90,8 @@ class Note extends FlxSprite
 			case "grid":
 				var spritePath = (isSustainNote) ? params.holdSpritePath : params.spritePath;
 				var bitmapData:openfl.display.BitmapData = openfl.Assets.getBitmapData(Files.image(spritePath));
-				loadGraphic(bitmapData, true, Std.int(bitmapData.width / 4), (isSustainNote) ? Std.int(bitmapData.height / 2) : Std.int(bitmapData.height / 5));
+				loadGraphic(bitmapData, true, Std.int(bitmapData.width / 4),
+					(isSustainNote) ? Std.int(bitmapData.height / 2) : Std.int(bitmapData.height / 5));
 				animation.add("note", [noteData + 4], params.animFPS);
 				animation.add("hold", [noteData], params.animFPS);
 				animation.add("tail", [noteData + 4], params.animFPS);
@@ -111,8 +108,7 @@ class Note extends FlxSprite
 		x += swagWidth * noteData;
 		animation.play("note");
 
-		if (isSustainNote && prevNote != null)
-		{
+		if (isSustainNote && prevNote != null) {
 			alpha = 0.6;
 
 			x += width / 2;
@@ -125,8 +121,7 @@ class Note extends FlxSprite
 			if (PlayState.curStage.startsWith('school'))
 				x += 30;
 
-			if (prevNote.isSustainNote)
-			{
+			if (prevNote.isSustainNote) {
 				prevNote.animation.play("hold");
 				prevNote.scale.y *= Conductor.stepCrochet / 100 * 1.5 * PlayState.SONG.speed;
 				prevNote.updateHitbox();
@@ -134,36 +129,28 @@ class Note extends FlxSprite
 		}
 	}
 
-	override function update(elapsed:Float)
-	{
+	override function update(elapsed:Float) {
 		super.update(elapsed);
 
-		if (mustPress)
-		{
+		if (mustPress) {
 			// The * 0.5 us so that its easier to hit them too late, instead of too early
 			if (strumTime > Conductor.songPosition - Conductor.safeZoneOffset
-				&& strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * 0.5))
-			{
+				&& strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * 0.5)) {
 				canBeHit = true;
-			}
-			else
+			} else
 				canBeHit = false;
 
 			if (strumTime < Conductor.songPosition - Conductor.safeZoneOffset)
 				tooLate = true;
-		}
-		else
-		{
+		} else {
 			canBeHit = false;
 
-			if (strumTime <= Conductor.songPosition)
-			{
+			if (strumTime <= Conductor.songPosition) {
 				wasGoodHit = true;
 			}
 		}
 
-		if (tooLate)
-		{
+		if (tooLate) {
 			if (alpha > 0.3)
 				alpha = 0.3;
 		}

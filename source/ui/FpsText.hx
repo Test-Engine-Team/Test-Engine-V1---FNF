@@ -4,13 +4,6 @@ import external.fabric.engine.Utilities;
 import external.memory.Memory;
 import openfl.text.TextField;
 import openfl.text.TextFormat;
-#if gl_stats
-import openfl.display._internal.stats.Context3DStats;
-import openfl.display._internal.stats.DrawCallContext;
-#end
-#if flash
-import openfl.Lib;
-#end
 #if MODS_ENABLED
 import flixel.FlxG;
 import states.menus.LoadingState;
@@ -24,8 +17,7 @@ import states.menus.LoadingState;
 @:fileXml('tags="haxe,release"')
 @:noDebug
 #end
-class FpsText extends TextField
-{
+class FpsText extends TextField {
 	/**
 		The current frame rate, expressed using frames-per-second
 	**/
@@ -39,8 +31,7 @@ class FpsText extends TextField
 	var timeHeld:Float = 0;
 	#end
 
-	public function new(x:Float = 10, y:Float = 10, color:Int = 0x000000)
-	{
+	public function new(x:Float = 10, y:Float = 10, color:Int = 0x000000) {
 		super();
 
 		this.x = x;
@@ -56,45 +47,31 @@ class FpsText extends TextField
 		cacheCount = 0;
 		currentTime = 0;
 		times = [];
-
-		#if flash
-		addEventListener(Event.ENTER_FRAME, function(e)
-		{
-			var time = Lib.getTimer();
-			__enterFrame(time - currentTime);
-		});
-		#end
 	}
 
 	var textLength:Int = 0;
+
 	// Event Handlers
+
 	@:noCompletion
-	private #if !flash override #end function __enterFrame(deltaTime:Float):Void
-	{
+	private override function __enterFrame(deltaTime:Float):Void {
 		currentTime += deltaTime;
 		times.push(currentTime);
 
-		while (times[0] < currentTime - 1000)
-		{
+		while (times[0] < currentTime - 1000) {
 			times.shift();
 		}
 
 		var currentCount = times.length;
 		currentFPS = Math.round((currentCount + cacheCount) / 2);
 
-		if (currentCount != cacheCount /*&& visible*/)
-		{
+		if (currentCount != cacheCount /*&& visible*/) {
 			#if github_action
 			text = '${currentFPS}FPS\n${Utilities.format_bytes(Memory.getCurrentUsage())} / ${Utilities.format_bytes(Memory.getPeakUsage())}\nBUILD: ${Main.buildNumber}';
 			#else
 			text = '${currentFPS}FPS\n${Utilities.format_bytes(Memory.getCurrentUsage())} / ${Utilities.format_bytes(Memory.getPeakUsage())}';
 			#end
 
-			#if (gl_stats && !disable_cffi && (!html5 || !canvas))
-			text += "\ntotalDC: " + Context3DStats.totalDrawCalls();
-			text += "\nstageDC: " + Context3DStats.contextDrawCalls(DrawCallContext.STAGE);
-			text += "\nstage3DDC: " + Context3DStats.contextDrawCalls(DrawCallContext.STAGE3D);
-			#end
 			textLength = text.length;
 		}
 

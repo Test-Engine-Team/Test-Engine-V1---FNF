@@ -3,20 +3,17 @@ package handlers;
 import Song.SwagSong;
 import flixel.FlxG;
 
-typedef BPMChangeEvent =
-{
+typedef BPMChangeEvent = {
 	var stepTime:Int;
 	var songTime:Float;
 	var bpm:Int;
 }
 
-class Conductor
-{
+class Conductor {
 	public static var bpm:Int = 100;
 	public static var crochet:Float = ((60 / bpm) * 1000); // beats in milliseconds
 	public static var stepCrochet:Float = crochet / 4; // steps in milliseconds
 	public static var songPosition:Float;
-	public static var lastSongPos:Float;
 	public static var offset:Float = 0;
 
 	public static var safeFrames:Int = 10;
@@ -26,10 +23,8 @@ class Conductor
 
 	private static var elapsed:Float;
 
-	public function new()
-	{
+	public function new() {
 		FlxG.signals.preUpdate.add(update);
-
 		safeFrames = ClientPrefs.safeFrames;
 	}
 
@@ -37,28 +32,26 @@ class Conductor
 		elapsed = FlxG.elapsed;
 	}
 
-	inline public static function getCrochet(bpm:Int){
+	inline public static function getCrochet(bpm:Int) {
 		return (60 / bpm * 1000);
 	}
 
-	public static function mapBPMChanges(song:SwagSong)
-	{
-		if (song == null) throw new haxe.Exception("your song is null/non existent");
+	public static function mapBPMChanges(song:SwagSong) {
+		if (song == null)
+			throw new haxe.Exception("your song is null/non existent");
 
 		bpmChangeMap = [];
 
 		var curBPM:Int = song.bpm;
 		var totalSteps:Int = 0;
 		var totalPos:Float = 0;
-		for (i in 0...song.notes.length)
-		{
+		for (i in 0...song.notes.length) {
 			var doPush = false;
-			if (song.notes[i].changeBPM && song.notes[i] != null){
+			if (song.notes[i].changeBPM && song.notes[i] != null) {
 				curBPM = song.notes[i].bpm;
 				doPush = true;
 			}
-			if(doPush && song.notes[i] != null)
-			{
+			if (doPush && song.notes[i] != null) {
 				var event:BPMChangeEvent = {
 					stepTime: totalSteps,
 					songTime: totalPos,
@@ -74,16 +67,16 @@ class Conductor
 		trace("new BPM map BUDDY " + bpmChangeMap);
 	}
 
-	inline public static function changeBPM(newBpm:Int)
-	{
-		if (newBpm <= 0 || newBpm == bpm) return;
+	inline public static function changeBPM(newBpm:Int) {
+		if (newBpm <= 0 || newBpm == bpm)
+			return;
 
 		bpm = newBpm;
 
 		updateCrochet();
 	}
 
-	inline static function updateCrochet(){
+	inline static function updateCrochet() {
 		crochet = getCrochet(bpm);
 		stepCrochet = crochet / 4;
 	}

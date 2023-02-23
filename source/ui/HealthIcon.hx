@@ -6,8 +6,7 @@ import handlers.Files;
 
 using StringTools;
 
-class HealthIcon extends FlxSprite
-{
+class HealthIcon extends FlxSprite {
 	/**
 	 * Used for FreeplayState! If you use it elsewhere, prob gonna annoying
 	 */
@@ -16,8 +15,7 @@ class HealthIcon extends FlxSprite
 	public var char:String;
 	public var isPlayer:Bool = false;
 
-	public function new(char:String = 'bf', isPlayer:Bool = false)
-	{
+	public function new(char:String = 'bf', isPlayer:Bool = false) {
 		super();
 		this.isPlayer = isPlayer;
 		changeIcon(char);
@@ -38,8 +36,7 @@ class HealthIcon extends FlxSprite
 		this.char = char;
 	}
 
-	override function update(elapsed:Float)
-	{
+	override function update(elapsed:Float) {
 		super.update(elapsed);
 
 		if (sprTracker != null)
