@@ -2,17 +2,11 @@ package handlers;
 
 import flixel.FlxG;
 
-class Highscore
-{
-	#if (haxe >= "4.0.0")
+class Highscore {
 	public static var songScores:Map<String, Int> = new Map();
 	public static var weekScores:Map<String, Int> = new Map();
-	#else
-	public static var songScores:Map<String, Int> = new Map<String, Int>();
-	public static var weekScores:Map<String, Int> = new Map<String, Int>();
-	#end
 
-	public static var diffArray:Array<String> =["Easy", "Normal", "Hard"];
+	public static var diffArray:Array<String> = ["Easy", "Normal", "Hard"];
 
 	public static function saveScore(song:String, score:Int = 0, ?diff:Int = 0, misses:Int = 0):Void {
 		var daSong:String = formatSong(song, diff);
@@ -37,6 +31,7 @@ class Highscore
 		FlxG.save.data.songScores = songScores;
 		FlxG.save.flush();
 	}
+
 	static function setWeekScore(week:String, score:Int, misses:Int):Void {
 		// Reminder that I don't need to format this song, it should come formatted!
 		weekScores.set(week, score);
