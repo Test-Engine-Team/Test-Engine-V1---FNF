@@ -91,6 +91,49 @@ class GraphicsMenu extends MusicBeatState {
 			}
 		},
 		{
+			name: "Show Time Bar",
+			description: "Shows a bar with a timer on it to show how long you have gone through the song.",
+			type: BOOL,
+			min: 0,
+			max: 1,
+			// conflicts: null,
+			updateFunc: function(menuOption:MenuOption, elapsed:Float) {
+				if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true))
+					ClientPrefs.showTimeBar = !ClientPrefs.showTimeBar;
+				if (FlxG.keys.justPressed.R)
+					ClientPrefs.showTimeBar = true;
+			},
+			valueFunc: function() {
+				return (ClientPrefs.showTimeBar) ? "Enabled" : "Disabled";
+			}
+		},
+		{
+			name: "Time Bar Type",
+			description: "The type of title should show on the time bar.",
+			type: STRING,
+			min: 0,
+			max: 2,
+			// conflicts: null,
+			updateFunc: function(menuOption:MenuOption, elapsed:Float) {
+				if (FlxG.keys.justPressed.LEFT) {
+					if (ClientPrefs.timeBarType == 'Nothing')
+						ClientPrefs.timeBarType = 'Song Name';
+					else if (ClientPrefs.timeBarType == 'Song Name')
+						ClientPrefs.timeBarType = 'Time';
+				} else if (FlxG.keys.justPressed.RIGHT) {
+					if (ClientPrefs.timeBarType == 'Time')
+						ClientPrefs.timeBarType = 'Song Name';
+					else if (ClientPrefs.timeBarType == 'Song Name')
+						ClientPrefs.timeBarType = 'Nothing';
+				}
+				if (FlxG.keys.justPressed.R)
+					ClientPrefs.timeBarType = 'Time';
+			},
+			valueFunc: function() {
+				return ClientPrefs.timeBarType;
+			}
+		},
+		{
 			name: "Info Text Customization",
 			description: "",
 			type: BUTTON,
