@@ -1229,11 +1229,7 @@ class PlayState extends MusicBeatState {
 		var noteDiff:Float = Math.abs(strumtime - Conductor.songPosition);
 		vocals.volume = 1;
 
-		var placement:String = Std.string(combo);
-
-		var coolText:FlxText = new FlxText(0, 0, 0, placement, 32);
-		coolText.screenCenter();
-		coolText.x = FlxG.width * 0.55;
+		var coolX:Float = FlxG.width * 0.55;
 
 		var rating:FlxSprite = new FlxSprite();
 		var score:Int = 350;
@@ -1296,7 +1292,7 @@ class PlayState extends MusicBeatState {
 
 		rating.loadGraphic(Files.image(pixelShitPart1 + daRating + pixelShitPart2));
 		rating.screenCenter();
-		rating.x = coolText.x - 40;
+		rating.x = coolX - 40;
 		rating.y -= 60;
 		rating.acceleration.y = 550;
 		rating.velocity.y -= FlxG.random.int(140, 175);
@@ -1304,7 +1300,7 @@ class PlayState extends MusicBeatState {
 
 		var comboSpr:FlxSprite = new FlxSprite().loadGraphic(Files.image(pixelShitPart1 + 'combo' + pixelShitPart2));
 		comboSpr.screenCenter();
-		comboSpr.x = coolText.x;
+		comboSpr.x = coolX;
 		comboSpr.acceleration.y = 600;
 		comboSpr.velocity.y -= 150;
 
@@ -1334,7 +1330,7 @@ class PlayState extends MusicBeatState {
 		for (i in seperatedScore) {
 			var numScore:FlxSprite = new FlxSprite().loadGraphic(Files.image(pixelShitPart1 + 'num' + Std.int(i) + pixelShitPart2));
 			numScore.screenCenter();
-			numScore.x = coolText.x + (43 * daLoop) - 90;
+			numScore.x = coolX + (43 * daLoop) - 90;
 			numScore.y += 80;
 
 			if (!curStage.startsWith('school')) {
@@ -1365,17 +1361,13 @@ class PlayState extends MusicBeatState {
 			daLoop++;
 		}
 
-		coolText.text = Std.string(seperatedScore);
-
 		FlxTween.tween(rating, {alpha: 0}, 0.2, {
 			startDelay: Conductor.crochet * 0.001
 		});
 
 		FlxTween.tween(comboSpr, {alpha: 0}, 0.2, {
 			onComplete: function(tween:FlxTween) {
-				coolText.destroy();
 				comboSpr.destroy();
-
 				rating.destroy();
 			},
 			startDelay: Conductor.crochet * 0.001
