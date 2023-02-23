@@ -14,8 +14,7 @@ import handlers.Files;
 /**
 	*DEBUG MODE
  */
-class AnimationDebug extends FlxState
-{
+class AnimationDebug extends FlxState {
 	var char:Character;
 	var charghost:Character;
 	var textAnim:FlxText;
@@ -26,14 +25,12 @@ class AnimationDebug extends FlxState
 	var daAnim:String = 'spooky';
 	var camFollow:FlxObject;
 
-	public function new(daAnim:String = 'spooky')
-	{
+	public function new(daAnim:String = 'spooky') {
 		super();
 		this.daAnim = daAnim;
 	}
 
-	override function create()
-	{
+	override function create() {
 		FlxG.sound.music.stop();
 
 		var bg:FlxSprite = new FlxSprite(-600, -200).loadGraphic(Files.image('stageback'));
@@ -76,7 +73,7 @@ class AnimationDebug extends FlxState
 		char.debugMode = true;
 		add(char);
 
-		animListTxt = new FlxText(10, 20, 0,  "");
+		animListTxt = new FlxText(10, 20, 0, "");
 		animListTxt.scrollFactor.set();
 		animListTxt.setFormat("assets/fonts/vcr.ttf", 20, FlxColor.WHITE, null, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(animListTxt);
@@ -98,13 +95,11 @@ class AnimationDebug extends FlxState
 		super.create();
 	}
 
-	function genBoyOffsets(pushList:Bool = true):Void
-	{
+	function genBoyOffsets(pushList:Bool = true):Void {
 		var daLoop:Int = 0;
 
 		animListTxt.text = "";
-		for (anim => offsets in char.animOffsets)
-		{
+		for (anim => offsets in char.animOffsets) {
 			var prefix = (daLoop == curAnim) ? ">>> " : "";
 			animListTxt.text += prefix + anim + ": " + offsets + "\n";
 
@@ -115,8 +110,7 @@ class AnimationDebug extends FlxState
 		}
 	}
 
-	override function update(elapsed:Float)
-	{
+	override function update(elapsed:Float) {
 		textAnim.text = char.animation.curAnim.name;
 
 		if (FlxG.keys.justPressed.ESCAPE)
@@ -127,8 +121,7 @@ class AnimationDebug extends FlxState
 		if (FlxG.keys.justPressed.Q)
 			FlxG.camera.zoom -= 0.25;
 
-		if (FlxG.keys.pressed.I || FlxG.keys.pressed.J || FlxG.keys.pressed.K || FlxG.keys.pressed.L)
-		{
+		if (FlxG.keys.pressed.I || FlxG.keys.pressed.J || FlxG.keys.pressed.K || FlxG.keys.pressed.L) {
 			if (FlxG.keys.pressed.I)
 				camFollow.velocity.y = -90;
 			else if (FlxG.keys.pressed.K)
@@ -142,19 +135,15 @@ class AnimationDebug extends FlxState
 				camFollow.velocity.x = 90;
 			else
 				camFollow.velocity.x = 0;
-		}
-		else
-		{
+		} else {
 			camFollow.velocity.set();
 		}
 
-		if (FlxG.keys.justPressed.W)
-		{
+		if (FlxG.keys.justPressed.W) {
 			curAnim -= 1;
 		}
 
-		if (FlxG.keys.justPressed.S)
-		{
+		if (FlxG.keys.justPressed.S) {
 			curAnim += 1;
 		}
 
@@ -164,8 +153,7 @@ class AnimationDebug extends FlxState
 		if (curAnim >= animList.length)
 			curAnim = 0;
 
-		if (FlxG.keys.justPressed.S || FlxG.keys.justPressed.W || FlxG.keys.justPressed.SPACE)
-		{
+		if (FlxG.keys.justPressed.S || FlxG.keys.justPressed.W || FlxG.keys.justPressed.SPACE) {
 			char.playAnim(animList[curAnim]);
 
 			genBoyOffsets(false);
@@ -181,8 +169,7 @@ class AnimationDebug extends FlxState
 		if (holdShift)
 			multiplier = 10;
 
-		if (upP || rightP || downP || leftP)
-		{
+		if (upP || rightP || downP || leftP) {
 			if (upP)
 				char.animOffsets.get(animList[curAnim])[1] += 1 * multiplier;
 			if (downP)

@@ -2,8 +2,7 @@ package handlers.shaders;
 
 import flixel.graphics.tile.FlxGraphicsShader;
 
-class BuildingShader extends FlxGraphicsShader
-{
+class BuildingShader extends FlxGraphicsShader {
 	@:glFragmentSource('
         varying float openfl_Alphav;
 		varying vec4 openfl_ColorMultiplierv;
@@ -110,8 +109,7 @@ class BuildingShader extends FlxGraphicsShader
 				openfl_ColorMultiplierv = colorMultiplier;
 			}
 		}')
-	public function new()
-	{
+	public function new() {
 		super();
 	}
 }

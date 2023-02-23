@@ -93,15 +93,15 @@ class TitleState extends MusicBeatState {
 		super.create();
 
 		/*
-		if (!persistentUpdate)
-		{
-			if(FlxG.save.data != null && FlxG.save.data.fullscreen)
+			if (!persistentUpdate)
 			{
-				FlxG.fullscreen = FlxG.save.data.fullscreen;
-				//trace('LOADED FULLSCREEN SETTING!!'); IK FUCK SHIT IM STUPID - MACKERY
+				if(FlxG.save.data != null && FlxG.save.data.fullscreen)
+				{
+					FlxG.fullscreen = FlxG.save.data.fullscreen;
+					//trace('LOADED FULLSCREEN SETTING!!'); IK FUCK SHIT IM STUPID - MACKERY
+				}
 			}
-		}
-		*/
+		 */
 
 		startIntro();
 	}
@@ -121,12 +121,11 @@ class TitleState extends MusicBeatState {
 			transOut = FlxTransitionableState.defaultTransOut;
 		}
 
-		//checks if flashing is null, if so desplay a warning
+		// checks if flashing is null, if so desplay a warning
 		if (FlxG.save.data.seenFlashingLightsWarning == false)
 			openSubState(new states.etc.substates.FlashingLightsWarningSubState());
 
-		if (reloadNeeded)
-		{
+		if (reloadNeeded) {
 			reloadNeeded = false;
 			FlxG.resetState();
 		}
@@ -288,23 +287,22 @@ class TitleState extends MusicBeatState {
 		}
 
 		if (pressedEnter || controls.ACCEPT) {
-			if (!transitioning && skippedIntro)
-			{
+			if (!transitioning && skippedIntro) {
 				titleText.animation.play('press');
 
-			if (flash)
-				FlxG.camera.flash(FlxColor.WHITE, 1);
+				if (flash)
+					FlxG.camera.flash(FlxColor.WHITE, 1);
 
-			FlxG.sound.play(Files.sound('confirmMenu'));
+				FlxG.sound.play(Files.sound('confirmMenu'));
 
-			transitioning = true;
+				transitioning = true;
 
-			new FlxTimer().start(2, function(tmr:FlxTimer) {
-				// Check if version is outdated
-				{
-					FlxG.switchState(new MainMenuState());
-				}
-			});
+				new FlxTimer().start(2, function(tmr:FlxTimer) {
+					// Check if version is outdated
+					{
+						FlxG.switchState(new MainMenuState());
+					}
+				});
 			}
 		}
 

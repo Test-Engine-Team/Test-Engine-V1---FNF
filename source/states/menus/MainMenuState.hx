@@ -32,11 +32,7 @@ class MainMenuState extends MusicBeatState {
 	var menuItems:FlxTypedGroup<FlxSprite>;
 	var menuItem:FlxSprite;
 
-	#if !switch
 	var optionShit:Array<String> = ['story mode', 'freeplay', 'credits', 'options'];
-	#else
-	var optionShit:Array<String> = ['story mode', 'freeplay'];
-	#end
 
 	var magenta:FlxSprite;
 	var camFollow:FlxObject;
@@ -127,8 +123,6 @@ class MainMenuState extends MusicBeatState {
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
-
-		// NG.core.calls.event.logEvent('swag').send();
 
 		changeItem();
 

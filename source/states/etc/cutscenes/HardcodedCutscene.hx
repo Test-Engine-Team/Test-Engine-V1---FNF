@@ -43,7 +43,6 @@ class HardcodedCutscene extends handlers.MusicBeatSubstate {
 						else {
 							senpaiEvil.animation.play('idle');
 							SubtitleHandler.addSub('Senpai Dies', 10.0);
-
 							FlxG.sound.play(Files.sound('Senpai_Dies'), 1, false, null, true, function() {
 								remove(senpaiEvil);
 								remove(red);

@@ -1,26 +1,22 @@
 package flixel.graphics.tile;
 
 /*
-This is a copy pasted class of FlxDrawQuadsItem.
-It was originally FlxSprite that was copied but one of the devs had issues compiling because he had a older flixel. (5.0.0 < 5.0.2).
-But yea, this is copy pasted to ensure ClientPrefs.antialiasing is APPLIED TO EVERYTHING.
-*/
-
+	This is a copy pasted class of FlxDrawQuadsItem.
+	It was originally FlxSprite that was copied but one of the devs had issues compiling because he had a older flixel. (5.0.0 < 5.0.2).
+	But yea, this is copy pasted to ensure ClientPrefs.antialiasing is APPLIED TO EVERYTHING.
+ */
 #if FLX_DRAW_QUADS
 import handlers.ClientPrefs;
-
 import flixel.FlxCamera;
 import flixel.graphics.frames.FlxFrame;
 import flixel.graphics.tile.FlxDrawBaseItem.FlxDrawItemType;
 import flixel.system.FlxAssets.FlxShader;
 import flixel.math.FlxMatrix;
-
 import openfl.display.ShaderParameter;
 import openfl.geom.ColorTransform;
 import openfl.Vector;
 
-class FlxDrawQuadsItem extends FlxDrawBaseItem<FlxDrawQuadsItem>
-{
+class FlxDrawQuadsItem extends FlxDrawBaseItem<FlxDrawQuadsItem> {
 	static inline var VERTICES_PER_QUAD = #if (openfl >= "8.5.0") 4 #else 6 #end;
 
 	public var shader:FlxShader;
@@ -31,8 +27,7 @@ class FlxDrawQuadsItem extends FlxDrawBaseItem<FlxDrawQuadsItem>
 	var colorMultipliers:Array<Float>;
 	var colorOffsets:Array<Float>;
 
-	public function new()
-	{
+	public function new() {
 		super();
 		type = FlxDrawItemType.TILES;
 		rects = new Vector<Float>();
@@ -40,8 +35,7 @@ class FlxDrawQuadsItem extends FlxDrawBaseItem<FlxDrawQuadsItem>
 		alphas = [];
 	}
 
-	override public function reset():Void
-	{
+	override public function reset():Void {
 		super.reset();
 		rects.length = 0;
 		transforms.length = 0;
@@ -52,8 +46,7 @@ class FlxDrawQuadsItem extends FlxDrawBaseItem<FlxDrawQuadsItem>
 			colorOffsets.splice(0, colorOffsets.length);
 	}
 
-	override public function dispose():Void
-	{
+	override public function dispose():Void {
 		super.dispose();
 		rects = null;
 		transforms = null;
@@ -62,8 +55,7 @@ class FlxDrawQuadsItem extends FlxDrawBaseItem<FlxDrawQuadsItem>
 		colorOffsets = null;
 	}
 
-	override public function addQuad(frame:FlxFrame, matrix:FlxMatrix, ?transform:ColorTransform):Void
-	{
+	override public function addQuad(frame:FlxFrame, matrix:FlxMatrix, ?transform:ColorTransform):Void {
 		var rect = frame.frame;
 		rects.push(rect.x);
 		rects.push(rect.y);
@@ -80,18 +72,15 @@ class FlxDrawQuadsItem extends FlxDrawBaseItem<FlxDrawQuadsItem>
 		for (i in 0...VERTICES_PER_QUAD)
 			alphas.push(transform != null ? transform.alphaMultiplier : 1.0);
 
-		if (colored || hasColorOffsets)
-		{
+		if (colored || hasColorOffsets) {
 			if (colorMultipliers == null)
 				colorMultipliers = [];
 
 			if (colorOffsets == null)
 				colorOffsets = [];
 
-			for (i in 0...VERTICES_PER_QUAD)
-			{
-				if (transform != null)
-				{
+			for (i in 0...VERTICES_PER_QUAD) {
+				if (transform != null) {
 					colorMultipliers.push(transform.redMultiplier);
 					colorMultipliers.push(transform.greenMultiplier);
 					colorMultipliers.push(transform.blueMultiplier);
@@ -100,9 +89,7 @@ class FlxDrawQuadsItem extends FlxDrawBaseItem<FlxDrawQuadsItem>
 					colorOffsets.push(transform.greenOffset);
 					colorOffsets.push(transform.blueOffset);
 					colorOffsets.push(transform.alphaOffset);
-				}
-				else
-				{
+				} else {
 					colorMultipliers.push(1);
 					colorMultipliers.push(1);
 					colorMultipliers.push(1);
@@ -119,20 +106,19 @@ class FlxDrawQuadsItem extends FlxDrawBaseItem<FlxDrawQuadsItem>
 	}
 
 	#if !flash
-	override public function render(camera:FlxCamera):Void
-	{
+	override public function render(camera:FlxCamera):Void {
 		if (rects.length == 0)
 			return;
 
 		var shader = shader != null ? shader : graphics.shader;
-		if (shader == null) return;
+		if (shader == null)
+			return;
 		shader.bitmap.input = graphics.bitmap;
 
 		shader.bitmap.filter = ((camera.antialiasing || antialiasing) && ClientPrefs.antialiasing) ? LINEAR : NEAREST;
 		shader.alpha.value = alphas;
 
-		if (colored || hasColorOffsets)
-		{
+		if (colored || hasColorOffsets) {
 			shader.colorMultiplier.value = colorMultipliers;
 			shader.colorOffset.value = colorOffsets;
 		}
@@ -148,8 +134,7 @@ class FlxDrawQuadsItem extends FlxDrawBaseItem<FlxDrawQuadsItem>
 		super.render(camera);
 	}
 
-	inline function setParameterValue(parameter:ShaderParameter<Bool>, value:Bool):Void
-	{
+	inline function setParameterValue(parameter:ShaderParameter<Bool>, value:Bool):Void {
 		if (parameter.value == null)
 			parameter.value = [];
 		parameter.value[0] = value;

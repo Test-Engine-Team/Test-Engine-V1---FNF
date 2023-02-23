@@ -2,8 +2,7 @@ package handlers.shaders;
 
 import flixel.graphics.tile.FlxGraphicsShader;
 
-class DropShadowShader extends FlxGraphicsShader
-{
+class DropShadowShader extends FlxGraphicsShader {
 	@:glFragmentSource('
     #pragma header
 
@@ -18,8 +17,7 @@ class DropShadowShader extends FlxGraphicsShader
 		gl_FragColor = mix(shadowColor, color, color.a) * openfl_Alphav;
 	}
     ')
-	public function new()
-	{
+	public function new() {
 		super();
 	}
 }
