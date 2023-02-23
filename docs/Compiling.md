@@ -3,7 +3,7 @@ This is a tutorial on how to compile
 
 go to [Friday Night Funkin's Source Code](https://github.com/ninjamuffin99/Funkin#build-instructions) to start...
 
-Once your done, run these codelines in terminal
+Once your done, run these in a terminal
 ```
 haxelib git flixel-leather https://github.com/Leather128/flixel.git
 haxelib git scriptless-polymod https://github.com/SrtHero278/scriptless-polymod
@@ -13,7 +13,7 @@ haxelib git openfl https://github.com/openfl/openfl
 haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
 ```
 
-If you are running debug also run this too if you havent!
+If you are running debug also run this too if you haven't!
 ```
 haxelib install hxcpp-debug-server
 ```
@@ -21,4 +21,4 @@ haxelib install hxcpp-debug-server
 Once you have done all of that run `lime test [platform name]` in the terminal
 [platform name] is your platformm your running this on (Windows, Mac, Linux, etc)
 
-Wait a bit then your done!
+Wait a bit then you're done!
