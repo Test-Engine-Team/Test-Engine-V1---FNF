@@ -50,6 +50,9 @@ class Song
 			rawJson = rawJson.substr(0, rawJson.length - 1);
 		}
 
+		if (rawJson == null)
+			throw "Failed to load from JSON in " + jsonInput;
+
 		return parseJSONshit(rawJson);
 	}
 
