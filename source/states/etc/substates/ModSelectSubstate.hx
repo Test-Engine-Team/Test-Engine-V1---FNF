@@ -34,7 +34,7 @@ class ModSelectSubstate extends MusicBeatSubstate {
 		script.callFunction("create");
 		#end
 
-		#if (!desktop)
+		#if !MODS_ENABLED
 		close();
 		return;
 		#end
@@ -79,11 +79,13 @@ class ModSelectSubstate extends MusicBeatSubstate {
 
 	override function update(elapsed:Float) {
 		super.update(elapsed);
+
 		#if SCRIPTS_ENABLED
 		script.callFunction("update", [elapsed]);
 		#end
 
-		#if (!desktop)
+		// not sure how this would be called but better safe than sorry ig
+		#if !MODS_ENABLED
 		close();
 		return;
 		#end

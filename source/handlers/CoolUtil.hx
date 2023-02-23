@@ -41,11 +41,11 @@ class CoolUtil {
 		return (color.startsWith("#") || color.startsWith("0x")) ? FlxColor.fromString(color) : FlxColor.fromString("#" + color);
 	}
 
-	public static function openLink(Link:String = 'https://google.com') {
+	public static function openLink(link:String = 'https://google.com') {
 		#if linux
-		Sys.command('/usr/bin/xdg-open', [Link, "&"]);
+		Sys.command('/usr/bin/xdg-open', [link]);
 		#else
-		FlxG.openURL(Link);
+		FlxG.openURL(link);
 		#end
 	}
 
