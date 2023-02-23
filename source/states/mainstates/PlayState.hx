@@ -328,12 +328,6 @@ class PlayState extends MusicBeatState {
 		healthBar.createFilledBar(dad.hpcolor, boyfriend.hpcolor);
 		add(healthBar);
 
-		infoText = new FlxText(0, healthBarBG.y + 40, FlxG.width, "", 20);
-		infoText.setFormat("assets/fonts/vcr.ttf", 16, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		infoText.scrollFactor.set();
-		infoText.visible = ClientPrefs.infoTxt;
-		add(infoText);
-
 		iconP1 = new HealthIcon(boyfriend.charData.iconImage, true);
 		iconP1.y = healthBar.y - (iconP1.height / 2);
 		add(iconP1);
@@ -341,6 +335,12 @@ class PlayState extends MusicBeatState {
 		iconP2 = new HealthIcon(dad.charData.iconImage, false);
 		iconP2.y = healthBar.y - (iconP2.height / 2);
 		add(iconP2);
+
+		infoText = new FlxText(0, healthBarBG.y + 40, FlxG.width, "", 20);
+		infoText.setFormat("assets/fonts/vcr.ttf", 16, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		infoText.scrollFactor.set();
+		infoText.visible = ClientPrefs.infoTxt;
+		add(infoText);
 
 		grpNoteSplashes.cameras = [camHUD];
 		strumLineNotes.cameras = [camHUD];
