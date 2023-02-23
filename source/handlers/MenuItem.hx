@@ -10,7 +10,6 @@ import handlers.ClientPrefs;
 
 class MenuItem extends FlxSprite {
 	public var targetY:Int = 0;
-	public var flashingInt:Int = 0;
 	public var flashColor:FlxColor = 0xFFFFFFFF;
 
 	public function new(x:Float, y:Float, image:String) {
@@ -28,7 +27,6 @@ class MenuItem extends FlxSprite {
 		if (ClientPrefs.flashingLights) {
 			if (flashColor == 0xFFFFFFFF)
 				return;
-			flashingInt = (flashingInt + 1) % fakeFramerate;
 
 			color = (time % 0.1 > 0.05) ? flashColor : 0xFFFFFFFF;
 		}
