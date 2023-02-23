@@ -623,6 +623,72 @@ class PlayState extends MusicBeatState {
 			daBeats += 1;
 		}
 
+		// Song duration in a float, useful for the time left feature
+		songLength = ((FlxG.sound.music.length) / 1000);
+
+		if (ClientPrefs.showTimeBar)
+		{
+			/*
+			var forceDifferentColor = false;
+			if (timeBarColor != null)
+				forceDifferentColor = true;
+			*/
+			timeBarBG = new FlxSprite(0, 10).loadGraphic(Files.image('healthBar'));
+			if (ClientPrefs.downscroll)
+				timeBarBG.y = FlxG.height * 0.9 + 35;
+			timeBarBG.screenCenter(X);
+			timeBarBG.scrollFactor.set();
+
+			timeBarBar = new FlxBar(640 - (Std.int(timeBarBG.width - 100) / 2), timeBarBG.y + 4, LEFT_TO_RIGHT, Std.int(timeBarBG.width - 100),
+				Std.int(timeBarBG.height + 6), this, 'songPositionBar', 0, 1);
+			timeBarBar.scrollFactor.set();
+			//if (forceDifferentColor)
+				//timeBarBar.createFilledBar(FlxColor.BLACK, timeBarColor);
+			//else
+			timeBarBar.createFilledBar(FlxColor.BLACK, dad.hpcolor);
+			add(timeBarBar);
+
+			bar = new FlxSprite(timeBarBar.x, timeBarBar.y).makeGraphic(Math.floor(timeBarBar.width), Math.floor(timeBarBar.height), FlxColor.TRANSPARENT);
+
+			add(bar);
+
+			FlxSpriteUtil.drawRect(bar, 0, 0, timeBarBar.width, timeBarBar.height, FlxColor.TRANSPARENT, {thickness: 4, color: FlxColor.BLACK});
+
+			timeBarBG.width = timeBarBar.width;
+
+			switch(ClientPrefs.timeBarType)
+			{
+				case 'Song Name':
+					timeBarTxt = new FlxText(timeBarBG.x + (timeBarBG.width / 2) - (SONG.song.length * 5), timeBarBG.y - 15, 0, SONG.song, 16);
+					timeBarTxt.setFormat(Files.font("assets/fonts/vcr.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+					timeBarTxt.scrollFactor.set();
+
+					timeBarTxt.text = SONG.song;
+					timeBarTxt.y = timeBarBG.y + (timeBarBG.height / 3);
+				case 'Time':
+					timeBarTxt = new FlxText(timeBarBG.x + (timeBarBG.width / 2) - (SONG.song.length * 5), timeBarBG.y - 15, 0, SONG.song, 16);
+					timeBarTxt.setFormat(Files.font("assets/fonts/vcr.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+					timeBarTxt.scrollFactor.set();
+
+					timeBarTxt.text = FlxStringUtil.formatTime(songLength, false);
+					timeBarTxt.y = timeBarBG.y + (timeBarBG.height / 3);
+				case 'Nothing':
+					//mmm
+			}
+
+			if (ClientPrefs.timeBarType != 'Nothing') {
+				add(timeBarTxt);
+
+				timeBarTxt.screenCenter(X);
+			}
+
+			timeBarBG.cameras = [camHUD];
+			bar.cameras = [camHUD];
+			timeBarBar.cameras = [camHUD];
+			if (ClientPrefs.timeBarType != 'Nothing')
+				timeBarTxt.cameras = [camHUD];
+		}
+
 		unspawnNotes.sort(sortByShit);
 
 		generatedMusic = true;
@@ -698,10 +764,13 @@ class PlayState extends MusicBeatState {
 
 			babyArrow.ID = i;
 
-			if (player == 1)
-				playerStrums.add(babyArrow);
-			if (player == 2)
-				opponentStrums.add(babyArrow);
+			switch (player)
+			{
+				case 1:
+					playerStrums.add(babyArrow);
+				case 2:
+					opponentStrums.add(babyArrow);		
+			}
 
 			babyArrow.animation.play('static');
 			babyArrow.x += FlxG.width / 16;
@@ -916,6 +985,8 @@ class PlayState extends MusicBeatState {
 		} else {
 			Conductor.songPosition += FlxG.elapsed * 1000;
 		}
+
+		songPositionBar = FlxStringUtil.formatTime((FlxG.sound.music.length - FlxMath.bound(Conductor.songPosition, 0) / 1000), false);
 
 		if (generatedMusic && PlayState.SONG.notes[Std.int(curStep / 16)] != null) {
 			var opOffsetX:Float = (dad.regX == gf.regX && dad.regY == gf.regY) ? stage.offsets.gfCamX : stage.offsets.dadCamX;
