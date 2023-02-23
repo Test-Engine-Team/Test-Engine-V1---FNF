@@ -24,6 +24,7 @@ class Main extends Sprite {
 		addChild(new FpsText(10, 3, 0xFFFFFF));
 		addChild(log = new LogHandler());
 
+		// thanks Leather :D
 		FlxG.signals.preStateSwitch.add(function() {
 			FlxG.bitmap.mapCacheAsDestroyable();
 			FlxG.bitmap.clearCache();
