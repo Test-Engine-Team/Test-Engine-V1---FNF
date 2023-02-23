@@ -50,7 +50,4 @@ typedef NoteHitParams = {
 	var deleteNote:Bool;
 	var strumGlow:Bool;
 	var rateNote:Bool;
-	var ?hitCauseMiss:Bool;
-	var ?noteMissHealth:Float;
-	var ?noteHitHealth:Float;
 }

@@ -528,10 +528,7 @@ class PlayState extends MusicBeatState {
 	}
 
 	private function generateSong():Void {
-		var songData = SONG;
-		Conductor.changeBPM(songData.bpm);
-
-		SONG.song = songData.song;
+		Conductor.changeBPM(SONG.bpm);
 
 		// if you want you could just preload FlxG.sound.music like vocals is here but either way works
 		FlxG.sound.cache((Assets.exists(Files.songInst(SONG.song))) ? Files.songInst(SONG.song) : Files.songInst(songPath));
@@ -550,7 +547,7 @@ class PlayState extends MusicBeatState {
 		var noteData:Array<Section>;
 
 		// NEW SHIT
-		noteData = songData.notes;
+		noteData = SONG.notes;
 
 		var daBeats:Int = 0; // Not exactly representative of 'daBeats' lol, just how much it has looped
 		for (section in noteData) {
@@ -666,7 +663,6 @@ class PlayState extends MusicBeatState {
 			}
 			#end
 
-			// FlxG.log.add(i);
 			var babyArrow:FlxSprite = new FlxSprite(0, strumLine.y);
 
 			switch (strumCreateParams.spriteType) {
@@ -732,7 +728,7 @@ class PlayState extends MusicBeatState {
 				vocals.pause();
 			}
 
-			if (!startTimer.finished)
+			if (startTimer != null && !startTimer.finished)
 				startTimer.active = false;
 		}
 
@@ -745,7 +741,7 @@ class PlayState extends MusicBeatState {
 				resyncVocals();
 			}
 
-			if (!startTimer.finished)
+			if (startTimer != null && !startTimer.finished)
 				startTimer.active = true;
 			paused = false;
 		}
@@ -932,9 +928,6 @@ class PlayState extends MusicBeatState {
 				camFollow.x = dadMidpoint.x + 150 + dad.charData.offsets[2] + opOffsetX;
 				camFollow.y = dadMidpoint.y - 100 + dad.charData.offsets[3] + opOffsetY;
 
-				if (dad.curCharacter == 'mom')
-					vocals.volume = 1;
-
 				if (SONG.song.toLowerCase() == 'tutorial') {
 					tweenCamIn();
 				}
@@ -976,8 +969,6 @@ class PlayState extends MusicBeatState {
 			}
 		}
 
-		// better streaming of shit
-
 		// RESET = Quick Game Over Screen
 		if (gameControls.RESET) {
 			health = 0;
@@ -987,8 +978,7 @@ class PlayState extends MusicBeatState {
 		if (health <= 0 && !ClientPrefs.practice) {
 			boyfriend.stunned = true;
 
-			persistentUpdate = false;
-			persistentDraw = false;
+			persistentUpdate = persistentDraw = false;
 			paused = true;
 
 			vocals.stop();
