@@ -40,7 +40,6 @@ import handlers.Character;
 import handlers.Files;
 import handlers.Stage;
 import handlers.NoteSplash;
-import Section.SwagSection;
 import Song.SwagSong;
 import Controls;
 #if discord_rpc
@@ -548,7 +547,7 @@ class PlayState extends MusicBeatState {
 		notes = new FlxTypedGroup<Note>();
 		add(notes);
 
-		var noteData:Array<SwagSection>;
+		var noteData:Array<Section>;
 
 		// NEW SHIT
 		noteData = songData.notes;
