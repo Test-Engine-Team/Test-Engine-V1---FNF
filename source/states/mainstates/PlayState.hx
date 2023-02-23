@@ -106,6 +106,10 @@ class PlayState extends MusicBeatState {
 
 	public static var timeBarColor:FlxColor;
 
+	var previousFrameTime:Int = 0;
+	var lastReportedPlayheadPosition:Int = 0;
+	var songTime:Float = 0;
+
 	private var healthBarBG:FlxSprite;
 	private var healthBar:FlxBar;
 	private var songPositionBar:Float = 0;
@@ -529,6 +533,9 @@ class PlayState extends MusicBeatState {
 	function startSong():Void {
 		startingSong = false;
 
+		previousFrameTime = FlxG.game.ticks;
+		lastReportedPlayheadPosition = 0;
+
 		var instPath:String = (Assets.exists(Files.songInst(SONG.song))) ? Files.songInst(SONG.song) : Files.songInst(songPath);
 		if (!paused)
 			FlxG.sound.playMusic(instPath, 1, false);
@@ -638,16 +645,10 @@ class PlayState extends MusicBeatState {
 			daBeats += 1;
 		}
 
-		// Song duration in a float, useful for the time left feature
-		songLength = ((FlxG.sound.music.length) / 1000);
+		songLength = ((FlxG.sound.music.length / 1) / 1000);
 
 		if (ClientPrefs.showTimeBar)
 		{
-			/*
-			var forceDifferentColor = false;
-			if (timeBarColor != null)
-				forceDifferentColor = true;
-			*/
 			timeBarBG = new FlxSprite(0, 10).loadGraphic(Files.image('healthBar'));
 			if (ClientPrefs.downscroll)
 				timeBarBG.y = FlxG.height * 0.9 + 35;
@@ -657,9 +658,6 @@ class PlayState extends MusicBeatState {
 			timeBarBar = new FlxBar(640 - (Std.int(timeBarBG.width - 100) / 2), timeBarBG.y + 4, LEFT_TO_RIGHT, Std.int(timeBarBG.width - 100),
 				Std.int(timeBarBG.height + 6), this, 'songPositionBar', 0, 1);
 			timeBarBar.scrollFactor.set();
-			//if (forceDifferentColor)
-				//timeBarBar.createFilledBar(FlxColor.BLACK, timeBarColor);
-			//else
 			timeBarBar.createFilledBar(FlxColor.BLACK, dad.hpcolor);
 			add(timeBarBar);
 
@@ -671,37 +669,25 @@ class PlayState extends MusicBeatState {
 
 			timeBarBG.width = timeBarBar.width;
 
+			timeBarTxt = new FlxText(timeBarBG.x + (timeBarBG.width / 2) - (SONG.song.length * 5), timeBarBG.y - 15, 0, SONG.song, 16);
+			timeBarTxt.setFormat(Files.font("vcr"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			timeBarTxt.scrollFactor.set();
 			switch(ClientPrefs.timeBarType)
 			{
-				case 'Song Name':
-					timeBarTxt = new FlxText(timeBarBG.x + (timeBarBG.width / 2) - (SONG.song.length * 5), timeBarBG.y - 15, 0, SONG.song, 16);
-					timeBarTxt.setFormat(Files.font("assets/fonts/vcr.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-					timeBarTxt.scrollFactor.set();
-
-					timeBarTxt.text = SONG.song;
-					timeBarTxt.y = timeBarBG.y + (timeBarBG.height / 3);
-				case 'Time':
-					timeBarTxt = new FlxText(timeBarBG.x + (timeBarBG.width / 2) - (SONG.song.length * 5), timeBarBG.y - 15, 0, SONG.song, 16);
-					timeBarTxt.setFormat(Files.font("assets/fonts/vcr.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-					timeBarTxt.scrollFactor.set();
-
-					timeBarTxt.text = FlxStringUtil.formatTime(songLength, false);
-					timeBarTxt.y = timeBarBG.y + (timeBarBG.height / 3);
-				case 'Nothing':
-					//mmm
+				case 'Song Name': timeBarTxt.text = SONG.song;
+				case 'Time': timeBarTxt.text = FlxStringUtil.formatTime(songLength, false);
 			}
+			timeBarTxt.y = timeBarBG.y + (timeBarBG.height / 3);
 
-			if (ClientPrefs.timeBarType != 'Nothing') {
-				add(timeBarTxt);
+			if (ClientPrefs.timeBarType == 'Nothing')
+				timeBarTxt.visible = false;
 
-				timeBarTxt.screenCenter(X);
-			}
+			add(timeBarTxt);
 
 			timeBarBG.cameras = [camHUD];
 			bar.cameras = [camHUD];
 			timeBarBar.cameras = [camHUD];
-			if (ClientPrefs.timeBarType != 'Nothing')
-				timeBarTxt.cameras = [camHUD];
+			timeBarTxt.cameras = [camHUD];
 		}
 
 		unspawnNotes.sort(sortByShit);
@@ -1000,8 +986,21 @@ class PlayState extends MusicBeatState {
 		} else {
 			Conductor.songPosition += FlxG.elapsed * 1000;
 
+			// Interpolation type beat
+			if (Conductor.lastSongPos != Conductor.songPosition)
+			{
+				songTime = (songTime + Conductor.songPosition) / 2;
+				Conductor.lastSongPos = Conductor.songPosition;
+				// Conductor.songPosition += FlxG.elapsed * 1000;
+				// trace('MISSED FRAME');
+			}
+
 			if (!paused)
 			{
+				songTime += FlxG.game.ticks - previousFrameTime;
+				previousFrameTime = FlxG.game.ticks;
+
+				songPositionBar = (Conductor.songPosition - songLength) / 1000;
 
 				var curTime:Float = FlxG.sound.music.time;
 				if (curTime < 0)
@@ -1011,13 +1010,10 @@ class PlayState extends MusicBeatState {
 				if (secondsTotal < 0)
 					secondsTotal = 0;
 
-
 				if (ClientPrefs.showTimeBar && ClientPrefs.timeBarType == 'Time')
 					timeBarTxt.text = FlxStringUtil.formatTime((songLength - secondsTotal), false);
 			}
 		}
-
-		songPositionBar = (Conductor.songPosition - songLength) / 1000;
 
 		if (generatedMusic && PlayState.SONG.notes[Std.int(curStep / 16)] != null) {
 			var opOffsetX:Float = (dad.regX == gf.regX && dad.regY == gf.regY) ? stage.offsets.gfCamX : stage.offsets.dadCamX;
