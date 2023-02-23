@@ -403,9 +403,8 @@ class ChartingState extends MusicBeatState {
 	function sectionStartTime():Float {
 		var daPos:Float = 0;
 		for (i in 0...curSection) {
-			if (_song.notes[i].changeBPM) {
+			if (_song.notes[i].changeBPM)
 				_song.bpm = _song.notes[i].bpm;
-			}
 			daPos += 4 * (1000 * 60 / _song.bpm);
 		}
 		return daPos;
@@ -787,9 +786,8 @@ class ChartingState extends MusicBeatState {
 
 		curSelectedNote = _song.notes[curSection].sectionNotes[_song.notes[curSection].sectionNotes.length - 1];
 
-		if (FlxG.keys.pressed.CONTROL) {
+		if (FlxG.keys.pressed.CONTROL)
 			_song.notes[curSection].sectionNotes.push([noteStrum, (noteData + 4) % 8, noteSus]);
-		}
 
 		trace(noteStrum);
 		trace(curSection);

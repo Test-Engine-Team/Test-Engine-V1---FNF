@@ -62,9 +62,8 @@ class GameOverState extends MusicBeatSubstate {
 	override function update(elapsed:Float) {
 		super.update(elapsed);
 
-		if (controls.ACCEPT) {
+		if (controls.ACCEPT)
 			endBullshit();
-		}
 
 		if (controls.BACK) {
 			FlxG.sound.music.stop();
@@ -80,17 +79,14 @@ class GameOverState extends MusicBeatSubstate {
 				FlxG.switchState(new FreeplayState());
 		}
 
-		if (bf.animation.curAnim.name == 'firstDeath' && bf.animation.curAnim.curFrame == 12) {
+		if (bf.animation.curAnim.name == 'firstDeath' && bf.animation.curAnim.curFrame == 12)
 			FlxG.camera.follow(camFollow, LOCKON, 0.01);
-		}
 
-		if (bf.animation.curAnim.name == 'firstDeath' && bf.animation.curAnim.finished) {
+		if (bf.animation.curAnim.name == 'firstDeath' && bf.animation.curAnim.finished)
 			FlxG.sound.playMusic(Files.music('gameOver$stageSuffix'));
-		}
 
-		if (FlxG.sound.music.playing) {
+		if (FlxG.sound.music.playing)
 			Conductor.songPosition = FlxG.sound.music.time;
-		}
 	}
 
 	override function beatHit() {

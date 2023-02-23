@@ -193,9 +193,9 @@ class Character extends FlxSprite {
 		animation.play(AnimName, Force, Reversed, Frame);
 
 		var daOffset = animOffsets.get(animation.curAnim.name);
-		if (animOffsets.exists(animation.curAnim.name)) {
+		if (animOffsets.exists(animation.curAnim.name))
 			offset.set(daOffset[0], daOffset[1]);
-		} else
+		else
 			offset.set(0, 0);
 
 		if (charData.regCharType == 'gf') {

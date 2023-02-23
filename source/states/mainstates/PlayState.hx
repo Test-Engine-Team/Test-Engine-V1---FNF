@@ -742,9 +742,8 @@ class PlayState extends MusicBeatState {
 
 	override function closeSubState() {
 		if (paused) {
-			if (FlxG.sound.music != null && !startingSong) {
+			if (FlxG.sound.music != null && !startingSong)
 				resyncVocals();
-			}
 
 			if (!startTimer.finished)
 				startTimer.active = true;
@@ -821,15 +820,14 @@ class PlayState extends MusicBeatState {
 				}
 		}
 
-		if (curStep > 895 && curStep < 1398 && SONG.song.toLowerCase() == 'guns' && ClientPrefs.tankmanFloat == true) {
+		if (curStep > 895 && curStep < 1398 && SONG.song.toLowerCase() == 'guns' && ClientPrefs.tankmanFloat == true)
 			tankFloat = true;
-		}
 
 		var scoreText = "";
 		var missText = "";
 		var comboText = "";
 		var noteHitText = "";
-		// var accuracyText = "";
+		//var accuracyText = "";
 		if (ClientPrefs.scoreTxt) {
 			scoreText = "|| Score: " + songScore + " ";
 		}
@@ -843,13 +841,18 @@ class PlayState extends MusicBeatState {
 				missText = "|| Misses: " + songMisses + " ";
 			}
 		}
+		/*
+		if (ClientPrefs.accuracyTxt) {
+			accuracyText = "|| Accuracy: " + Math.round(songAccuracy) + "% ";
+		}
+		*/
 		if (ClientPrefs.comboTxt) {
 			comboText = "|| Combo: " + combo + " ";
 		}
 		if (ClientPrefs.noteHitTxt) {
 			noteHitText = "|| Notes Hit: " + notesHit + " ";
 		}
-		infoText.text = "" + scoreText + missText + comboText + noteHitText + "||";
+		infoText.text = "" + scoreText + missText + /*accuracyText + */comboText + noteHitText + "||";
 
 		#if desktop
 		DiscordHandler.changePresence('Playing '
@@ -1338,9 +1341,8 @@ class PlayState extends MusicBeatState {
 			if (!curStage.startsWith('school')) {
 				numScore.antialiasing = true;
 				numScore.setGraphicSize(Std.int(numScore.width * 0.5));
-			} else {
+			} else
 				numScore.setGraphicSize(Std.int(numScore.width * daPixelZoom));
-			}
 			numScore.updateHitbox();
 
 			numScore.acceleration.y = FlxG.random.int(200, 300);
@@ -1395,9 +1397,8 @@ class PlayState extends MusicBeatState {
 
 		if (heldControlArray.indexOf(true) != -1 && generatedMusic) {
 			notes.forEachAlive(function(daNote:Note) {
-				if (daNote.isSustainNote && daNote.canBeHit && daNote.mustPress && heldControlArray[daNote.noteData]) {
+				if (daNote.isSustainNote && daNote.canBeHit && daNote.mustPress && heldControlArray[daNote.noteData])
 					goodNoteHit(daNote);
-				}
 			});
 		};
 
@@ -1437,41 +1438,35 @@ class PlayState extends MusicBeatState {
 			if (pressedNotes.length > 0)
 				pressedNotes.sort(sortByShit);
 
-			if (perfectMode) {
+			if (perfectMode)
 				goodNoteHit(pressedNotes[0]);
-			} else if (pressedNotes.length > 0) {
+			else if (pressedNotes.length > 0) {
 				for (i in 0...controlArray.length) {
-					if (controlArray[i] && noteDatas.indexOf(i) == -1) {
+					if (controlArray[i] && noteDatas.indexOf(i) == -1)
 						badNoteCheck();
-					}
 				}
 				for (i in 0...pressedNotes.length) {
 					var note:Note = pressedNotes[i];
-					if (controlArray[note.noteData]) {
+					if (controlArray[note.noteData])
 						goodNoteHit(note);
-					}
 				}
-			} else {
+			} else
 				badNoteCheck(); // turn this back to BadNoteHit if no work
-			}
 		};
 
 		if (boyfriend.holdTimer > 0.004 * Conductor.stepCrochet && heldControlArray.indexOf(true) == -1) {
-			if (boyfriend.animation.curAnim.name.startsWith('sing') && !boyfriend.animation.curAnim.name.endsWith('miss')) {
+			if (boyfriend.animation.curAnim.name.startsWith('sing') && !boyfriend.animation.curAnim.name.endsWith('miss'))
 				boyfriend.dance();
-			}
 		}
 
 		playerStrums.forEach(function(spr:FlxSprite) {
-			if (controlArray[spr.ID] && spr.animation.curAnim.name != 'confirm') {
+			if (controlArray[spr.ID] && spr.animation.curAnim.name != 'confirm')
 				spr.animation.play('pressed');
-			}
-			if (!heldControlArray[spr.ID]) {
+			if (!heldControlArray[spr.ID])
 				spr.animation.play('static');
-			}
-			if (spr.animation.curAnim.name != 'confirm' || curStage.startsWith('school')) {
+			if (spr.animation.curAnim.name != 'confirm' || curStage.startsWith('school'))
 				spr.centerOffsets();
-			} else {
+			else {
 				spr.centerOffsets();
 				var d = spr.offset;
 				d.set(d.x - 13, d.y - 13);
@@ -1486,9 +1481,8 @@ class PlayState extends MusicBeatState {
 			else
 				health -= 0.04;
 
-			if (combo > 5) {
+			if (combo > 5)
 				gf.playAnim('sad');
-			}
 			combo = 0;
 
 			songScore -= 10;
@@ -1561,9 +1555,8 @@ class PlayState extends MusicBeatState {
 			popUpScore(note.strumTime, note, noteHitParams.noteSplashes);
 			combo += 1;
 			notesHit++;
-			if (notesHit == 1 && songMisses == 0) {
+			if (notesHit == 1 && songMisses == 0)
 				fcing = true; // ik this is a dumb way to do it but it works!
-			}
 		}
 
 		// hopefully i make the cam offset customizable...

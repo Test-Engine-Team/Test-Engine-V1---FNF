@@ -310,12 +310,10 @@ class TitleState extends MusicBeatState {
 			if (!skippedIntro)
 				skipIntro();
 
-		if (controls.LEFT) {
+		if (controls.LEFT)
 			swagShader.update(elapsed * 0.1);
-		}
-		if (controls.RIGHT) {
+		if (controls.RIGHT)
 			swagShader.update(-elapsed * 0.1);
-		}
 
 		super.update(elapsed);
 

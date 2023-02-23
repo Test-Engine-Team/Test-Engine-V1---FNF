@@ -43,10 +43,6 @@ class InfoTextCustomizationMenu extends MusicBeatState {
 				if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)
 					&& ClientPrefs.infoTxtX < 5) {
 					ClientPrefs.scoreTxt = !ClientPrefs.scoreTxt;
-					if (ClientPrefs.scoreTxt)
-						ClientPrefs.infoTxtX += 1;
-					else
-						ClientPrefs.infoTxtX -= 1;
 				}
 			},
 			valueFunc: function() {
@@ -64,10 +60,6 @@ class InfoTextCustomizationMenu extends MusicBeatState {
 				if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)
 					&& ClientPrefs.infoTxtX < 5) {
 					ClientPrefs.missTxt = !ClientPrefs.missTxt;
-					if (ClientPrefs.missTxt)
-						ClientPrefs.infoTxtX += 1;
-					else
-						ClientPrefs.infoTxtX -= 1;
 				}
 			},
 			valueFunc: function() {
@@ -85,10 +77,6 @@ class InfoTextCustomizationMenu extends MusicBeatState {
 				if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)
 					&& ClientPrefs.infoTxtX < 5) {
 					ClientPrefs.comboTxt = !ClientPrefs.comboTxt;
-					if (ClientPrefs.comboTxt)
-						ClientPrefs.infoTxtX += 1;
-					else
-						ClientPrefs.infoTxtX -= 1;
 				}
 			},
 			valueFunc: function() {
@@ -106,10 +94,6 @@ class InfoTextCustomizationMenu extends MusicBeatState {
 				if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)
 					&& ClientPrefs.infoTxtX < 5) {
 					ClientPrefs.accuracyTxt = !ClientPrefs.accuracyTxt;
-					if (ClientPrefs.accuracyTxt)
-						ClientPrefs.infoTxtX += 1;
-					else
-						ClientPrefs.infoTxtX -= 1;
 				}
 			},
 			valueFunc: function() {
@@ -127,10 +111,6 @@ class InfoTextCustomizationMenu extends MusicBeatState {
 				if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)
 					&& ClientPrefs.infoTxtX < 5) {
 					ClientPrefs.noteHitTxt = !ClientPrefs.noteHitTxt;
-					if (ClientPrefs.infoTxt)
-						ClientPrefs.infoTxtX += 1;
-					else
-						ClientPrefs.infoTxtX -= 1;
 				}
 			},
 			valueFunc: function() {
@@ -166,8 +146,6 @@ class InfoTextCustomizationMenu extends MusicBeatState {
 			maintext.targetY = i;
 			maintextgroup.add(maintext);
 		}
-
-		trace('Note that you can only have a Max of 5 parts on the info text at a time!');
 
 		changeSelection();
 	}

@@ -50,11 +50,10 @@ class Alphabet extends FlxSpriteGroup {
 		scaleValue = daScale;
 
 		if (text != "") {
-			if (typed) {
+			if (typed)
 				startTypedText();
-			} else {
+			else
 				addText();
-			}
 		}
 		scale.set(daScale, daScale);
 	}
@@ -68,16 +67,14 @@ class Alphabet extends FlxSpriteGroup {
 			// {
 			// }
 
-			if (character == " " || character == "-") {
+			if (character == " " || character == "-")
 				lastWasSpace = true;
-			}
 
 			if (AlphaCharacter.alphabet.indexOf(character.toLowerCase()) != -1)
 				// if (AlphaCharacter.alphabet.contains(character.toLowerCase()))
 			{
-				if (lastSprite != null) {
+				if (lastSprite != null)
 					xPos = lastSprite.x + lastSprite.width * scaleValue;
-				}
 
 				if (lastWasSpace) {
 					xPos += 40 * scaleValue;
@@ -89,9 +86,8 @@ class Alphabet extends FlxSpriteGroup {
 
 				if (isBold)
 					letter.createBold(character);
-				else {
+				else
 					letter.createLetter(character);
-				}
 
 				add(letter);
 
@@ -128,9 +124,8 @@ class Alphabet extends FlxSpriteGroup {
 				curRow += 1;
 			}
 
-			if (splitWords[loopNum] == " ") {
+			if (splitWords[loopNum] == " ")
 				lastWasSpace = true;
-			}
 
 			var isNumber:Bool = AlphaCharacter.numbers.contains(splitWords[loopNum]);
 			var isSymbol:Bool = AlphaCharacter.symbols.contains(splitWords[loopNum]);
@@ -139,9 +134,8 @@ class Alphabet extends FlxSpriteGroup {
 				if (lastSprite != null && !xPosResetted) {
 					lastSprite.updateHitbox();
 					xPos += lastSprite.width + 3;
-				} else {
+				} else
 					xPosResetted = false;
-				}
 
 				if (lastWasSpace) {
 					xPos += 20;
@@ -150,9 +144,9 @@ class Alphabet extends FlxSpriteGroup {
 
 				var letter:AlphaCharacter = new AlphaCharacter(xPos, 55 * yMulti);
 				letter.row = curRow;
-				if (isBold) {
+				if (isBold)
 					letter.createBold(splitWords[loopNum]);
-				} else {
+				else {
 					if (isNumber)
 						letter.createNumber(splitWords[loopNum]);
 					else if (isSymbol)
