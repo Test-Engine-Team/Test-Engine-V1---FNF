@@ -135,15 +135,10 @@ class Alphabet extends FlxSpriteGroup {
 			var isNumber:Bool = AlphaCharacter.numbers.contains(splitWords[loopNum]);
 			var isSymbol:Bool = AlphaCharacter.symbols.contains(splitWords[loopNum]);
 
-			if (AlphaCharacter.alphabet.indexOf(splitWords[loopNum].toLowerCase()) != -1 || isNumber || isSymbol)
-				// if (AlphaCharacter.alphabet.contains(splitWords[loopNum].toLowerCase()) || isNumber || isSymbol)
-
-			{
+			if (AlphaCharacter.alphabet.indexOf(splitWords[loopNum].toLowerCase()) != -1 || isNumber || isSymbol) {
 				if (lastSprite != null && !xPosResetted) {
 					lastSprite.updateHitbox();
 					xPos += lastSprite.width + 3;
-					// if (isBold)
-					// xPos -= 80;
 				} else {
 					xPosResetted = false;
 				}
@@ -152,21 +147,18 @@ class Alphabet extends FlxSpriteGroup {
 					xPos += 20;
 					lastWasSpace = false;
 				}
-				// trace(_finalText.fastCodeAt(loopNum) + " " + _finalText.charAt(loopNum));
 
-				// var letter:AlphaCharacter = new AlphaCharacter(30 * loopNum, 0);
 				var letter:AlphaCharacter = new AlphaCharacter(xPos, 55 * yMulti);
 				letter.row = curRow;
 				if (isBold) {
 					letter.createBold(splitWords[loopNum]);
 				} else {
-					if (isNumber) {
+					if (isNumber)
 						letter.createNumber(splitWords[loopNum]);
-					} else if (isSymbol) {
+					else if (isSymbol)
 						letter.createSymbol(splitWords[loopNum]);
-					} else {
+					else
 						letter.createLetter(splitWords[loopNum]);
-					}
 
 					letter.x += 90;
 				}
@@ -186,8 +178,8 @@ class Alphabet extends FlxSpriteGroup {
 		if (isMenuItem) {
 			var scaledY = FlxMath.remapToRange(targetY, 0, 1, 0, 1.3);
 
-			y = FlxMath.lerp(y, (scaledY * 120) + (FlxG.height * 0.48), 0.16);
-			x = FlxMath.lerp(x, (targetY * 20) + 90, 0.16);
+			y = FlxMath.lerp(y, (scaledY * 120) + (FlxG.height * 0.48), elapsed * 9);
+			x = FlxMath.lerp(x, (targetY * 20) + 90, elapsed * 9);
 		}
 
 		super.update(elapsed);
@@ -195,19 +187,15 @@ class Alphabet extends FlxSpriteGroup {
 }
 
 class AlphaCharacter extends FlxSprite {
-	public static var alphabet:String = "abcdefghijklmnopqrstuvwxyz1234567890|~#$%()*+:;<=>@[]^_.,'!?";
-
-	public static var numbers:String = "1234567890";
-
-	public static var symbols:String = "|~#$%()*+-:;<=>@[]^_.,'!?";
+	public static final alphabet:String = "abcdefghijklmnopqrstuvwxyz1234567890|~#$%()*+:;<=>@[]^_.,'!?";
+	public static final numbers:String = "1234567890";
+	public static final symbols:String = "|~#$%()*+-:;<=>@[]^_.,'!?";
 
 	public var row:Int = 0;
 
 	public function new(x:Float, y:Float) {
 		super(x, y);
-		var tex = FlxAtlasFrames.fromSparrow('assets/images/alphabet.png', 'assets/images/alphabet.xml');
-		frames = tex;
-
+		frames = FlxAtlasFrames.fromSparrow('assets/images/alphabet.png', 'assets/images/alphabet.xml');
 		antialiasing = true;
 	}
 
@@ -218,16 +206,11 @@ class AlphaCharacter extends FlxSprite {
 	}
 
 	public function createLetter(letter:String):Void {
-		var letterCase:String = "lowercase";
-		if (letter.toLowerCase() != letter) {
-			letterCase = 'capital';
-		}
+		var letterCase:String = letter.toLowerCase() == letter ? 'lowercase' : 'capital';
 
-		animation.addByPrefix(letter, letter + " " + letterCase, 24);
+		animation.addByPrefix(letter, '$letter $letterCase', 24);
 		animation.play(letter);
 		updateHitbox();
-
-		FlxG.log.add('the row' + row);
 
 		y = (110 - height);
 		y += row * 60;

@@ -243,6 +243,7 @@ class FreeplayState extends MusicBeatState {
 			}
 
 			FlxG.sound.playMusic(Files.song(songList[curSelected].path + "/Inst"));
+			FlxG.sound.music.pause();
 			Highscore.diffArray = songList[curSelected].diffs;
 
 			var jsonPath = 'assets/data/${songList[curSelected].path}/${Highscore.formatSong(songList[curSelected].path, curDifficulty)}.json';
@@ -255,11 +256,10 @@ class FreeplayState extends MusicBeatState {
 			FlxG.sound.list.add(vocals);
 
 			// mackery, have you ever heard of null checks
-			if (vocals != null) {
-				FlxG.sound.music.pause();
-				FlxG.sound.music.play(true);
+			FlxG.sound.music.play(true);
+
+			if (vocals != null)
 				vocals.play();
-			}
 			vocals.persist = false;
 			vocals.looped = true;
 		}
