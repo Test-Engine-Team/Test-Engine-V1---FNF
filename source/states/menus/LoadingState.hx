@@ -112,9 +112,8 @@ class LoadingState extends MusicBeatState {
 			var xmlWeeks = defaultXml.elementsNamed("week");
 			if (xmlWeeks != null && xmlWeeks.hasNext()) {
 				daModData.weekList = [];
-				for (week in xmlWeeks) {
+				for (week in xmlWeeks)
 					daModData.weekList.push(addModWeek(week));
-				}
 			}
 
 			var color:String = defaultXml.get("color");

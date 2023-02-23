@@ -26,7 +26,7 @@ class CreditsState extends MusicBeatState {
 	var grpMenuShit:FlxTypedGroup<Alphabet>;
 
 	var menuItems:Array<String> = [
-		'Megalo', '[504] brandon', 'mackery', 'SRT', 'MemeHoovy', 'SIG7Ivan', 'Alik Guh', 'Void', 'YeeterOk', 'Swordcube', 'Chocolate (Iris)', 'Bash Bush',
+		'Megalo', '[504] Brandon', 'Mackery', 'SRT', 'MemeHoovy', 'SIG7Ivan', 'Alik Guh', 'Void', 'YeeterOk', 'Swordcube', 'Chocolate (Iris)', 'Bash Bush',
 		'your mother'
 	];
 	var curSelected:Int = 0;

@@ -139,9 +139,8 @@ class MainMenuState extends MusicBeatState {
 		#if SCRIPTS_ENABLED
 		script.callFunction("update", [elapsed]);
 		#end
-		if (FlxG.sound.music.volume < 0.8) {
+		if (FlxG.sound.music.volume < 0.8)
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
-		}
 
 		if (!selectedSomethin) {
 			if (controls.UP_P) {
@@ -195,15 +194,15 @@ class MainMenuState extends MusicBeatState {
 			#end
 
 			if (FlxG.keys.justPressed.U)
-				ugheasteregg = true;
+				ugheasteregg = !ugheasteregg;
 
 			if (controls.BACK)
 				FlxG.switchState(new TitleState());
 
 			if (controls.ACCEPT) {
-				if (optionShit[curSelected] == 'discord') {
+				if (optionShit[curSelected] == 'discord')
 					CoolUtil.openLink('https://discord.gg/MsnfKgzMzV');
-				} else {
+				else {
 					selectedSomethin = true;
 					FlxG.sound.play(Files.sound('confirmMenu'));
 

@@ -145,14 +145,12 @@ class Note extends FlxSprite {
 		} else {
 			canBeHit = false;
 
-			if (strumTime <= Conductor.songPosition) {
+			if (strumTime <= Conductor.songPosition)
 				wasGoodHit = true;
-			}
 		}
 
-		if (tooLate) {
+		if (tooLate)
 			if (alpha > 0.3)
 				alpha = 0.3;
-		}
 	}
 }

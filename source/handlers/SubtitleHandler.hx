@@ -118,9 +118,8 @@ class SubtitleSprite extends FlxTypedGroup<FlxSprite> {
 			lerpValue = 1.0;
 
 			lerpFrom = lerpTo;
-		} else {
+		} else
 			subBG.y = subText.y = FlxMath.lerp(lerpFrom, lerpTo, lerpValue);
-		}
 
 		if (subText.alpha <= 0) {
 			FlxTween.cancelTweensOf(subText);

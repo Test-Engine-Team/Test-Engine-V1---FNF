@@ -61,11 +61,10 @@ class UpdateState extends MusicBeatState {
 	function alright() {
 		downloadedFiles++;
 		percentLabel.text = '${Math.floor(downloadedFiles / totalFiles * 100)}%';
-		if (fileList.length > 0) {
+		if (fileList.length > 0)
 			doFile();
-		} else {
+		else
 			applyUpdate();
-		}
 	}
 
 	function doFile() {

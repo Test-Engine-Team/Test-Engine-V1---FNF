@@ -648,9 +648,8 @@ class Stage extends FlxTypedGroup<FlxBasic> {
 				tankBop6.animation.play('bop', true);
 		}
 
-		if (isHalloween && FlxG.random.bool(10) && curBeat > lightningStrikeBeat + lightningOffset) {
+		if (isHalloween && FlxG.random.bool(10) && curBeat > lightningStrikeBeat + lightningOffset)
 			lightningStrikeShit(curBeat);
-		}
 		#end
 	}
 
