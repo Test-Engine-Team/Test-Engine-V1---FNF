@@ -112,8 +112,6 @@ class PlayState extends MusicBeatState {
 
 	var dialogue:Array<String> = ['dad:blah blah blah', 'bf:coolswag'];
 
-	var talking:Bool = true;
-
 	public var songScore:Int = 0;
 	public var songMisses:Int = 0;
 	public var fcing:Bool = false;
@@ -417,7 +415,6 @@ class PlayState extends MusicBeatState {
 		generateStaticArrows(0);
 		generateStaticArrows(1);
 
-		talking = false;
 		startedCountdown = true;
 		Conductor.songPosition = 0;
 		Conductor.songPosition -= Conductor.crochet * 5;
