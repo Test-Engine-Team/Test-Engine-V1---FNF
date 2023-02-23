@@ -195,13 +195,8 @@ class FreeplayState extends MusicBeatState {
 		else if (controls.RIGHT_P)
 			changeDiff(1);
 
-		if (controls.BACK) {
+		if (controls.BACK)
 			FlxG.switchState(new MainMenuState());
-			if (vocals != null) {
-				vocals.stop();
-				vocals.destroy();
-			}
-		}
 
 		/*
 			if (songList[curSelected].name != null || songList[curSelected].name != 'test')
@@ -260,9 +255,13 @@ class FreeplayState extends MusicBeatState {
 			FlxG.sound.list.add(vocals);
 
 			// mackery, have you ever heard of null checks
-			if (vocals != null)
+			if (vocals != null) {
+				FlxG.sound.music.pause();
+				FlxG.sound.music.play(true);
 				vocals.play();
-			vocals.persist = vocals.looped = true;
+			}
+			vocals.persist = false;
+			vocals.looped = true;
 		}
 
 		#if SCRIPTS_ENABLED
