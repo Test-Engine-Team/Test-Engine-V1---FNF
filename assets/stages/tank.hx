@@ -12,8 +12,8 @@ var tower:FlxSprite;
 var steve:FlxSprite;
 
 function create() {
-    defaultCamZoom = 0.9;
-	
+	defaultCamZoom = 0.9;
+
 	var sky:FlxSprite = new FlxSprite(-400, -400).loadGraphic('assets/images/tank/tankSky.png');
 	sky.scrollFactor.set(0, 0);
 	sky.antialiasing = true;
@@ -43,17 +43,17 @@ function create() {
 	steve.setGraphicSize(Std.int(steve.width * 1.15));
 	steve.updateHitbox();
 
-		var tankResetShit:Bool = false;
-		var tankMoving:Bool = false;
-		var tankAngle:Float = FlxG.random.int(-90, 45);
-		var tankSpeed:Float = FlxG.random.float(5, 7);
-		var tankX:Float = 400;
-	
-		tankAngle += tankSpeed * FlxG.elapsed;
-		steve.angle = (tankAngle - 90 + 15);
-		steve.x = tankX + 1500 * Math.cos(Math.PI / 180 * (1 * tankAngle + 180));
-		steve.y = 1300 + 1100 * Math.sin(Math.PI / 180 * (1 * tankAngle + 180));
-		
+	var tankResetShit:Bool = false;
+	var tankMoving:Bool = false;
+	var tankAngle:Float = FlxG.random.int(-90, 45);
+	var tankSpeed:Float = FlxG.random.float(5, 7);
+	var tankX:Float = 400;
+
+	tankAngle += tankSpeed * FlxG.elapsed;
+	steve.angle = (tankAngle - 90 + 15);
+	steve.x = tankX + 1500 * Math.cos(Math.PI / 180 * (1 * tankAngle + 180));
+	steve.y = 1300 + 1100 * Math.sin(Math.PI / 180 * (1 * tankAngle + 180));
+
 	add(steve);
 
 	if (ClientPrefs.quality != 'Low') {
@@ -100,7 +100,7 @@ function createPost() {
 		tankBop1.animation.addByPrefix('bop', 'fg tankhead far right', 24);
 		tankBop1.scrollFactor.set(1.7, 1.5);
 		tankBop1.antialiasing = true;
-		//foregroundSprites.add(tankBop1);
+		// foregroundSprites.add(tankBop1);
 		add(tankBop1);
 
 		tankBop2 = new FlxSprite(-300, 750);
@@ -109,7 +109,7 @@ function createPost() {
 		tankBop2.animation.addByPrefix('bop', 'fg tankhead 5', 24);
 		tankBop2.scrollFactor.set(2.0, 0.2);
 		tankBop2.antialiasing = true;
-		//foregroundSprites.add(tankBop2);
+		// foregroundSprites.add(tankBop2);
 		add(tankBop2);
 
 		tankBop3 = new FlxSprite(450, 940);
@@ -118,7 +118,7 @@ function createPost() {
 		tankBop3.animation.addByPrefix('bop', 'foreground man 3', 24);
 		tankBop3.scrollFactor.set(1.5, 1.5);
 		tankBop3.antialiasing = true;
-		//foregroundSprites.add(tankBop3);
+		// foregroundSprites.add(tankBop3);
 		add(tankBop3);
 
 		tankBop4 = new FlxSprite(1300, 1200);
@@ -127,7 +127,7 @@ function createPost() {
 		tankBop4.animation.addByPrefix('bop', 'fg tankhead 4', 24);
 		tankBop4.scrollFactor.set(3.5, 2.5);
 		tankBop4.antialiasing = true;
-		//foregroundSprites.add(tankBop4);
+		// foregroundSprites.add(tankBop4);
 		add(tankBop4);
 
 		tankBop5 = new FlxSprite(1300, 900);
@@ -136,7 +136,7 @@ function createPost() {
 		tankBop5.animation.addByPrefix('bop', 'fg tankman bobbin 3', 24);
 		tankBop5.scrollFactor.set(1.5, 1.5);
 		tankBop5.antialiasing = true;
-		//foregroundSprites.add(tankBop5);
+		// foregroundSprites.add(tankBop5);
 		add(tankBop5);
 
 		tankBop6 = new FlxSprite(1620, 700);
@@ -145,32 +145,33 @@ function createPost() {
 		tankBop6.animation.addByPrefix('bop', 'fg tankhead far right', 24);
 		tankBop6.scrollFactor.set(1.5, 1.5);
 		tankBop6.antialiasing = true;
-		//foregroundSprites.add(tankBop6);
+		// foregroundSprites.add(tankBop6);
 		add(tankBop6);
 	}
 }
 
 function update(elapsed:Float) {
-    var tankResetShit:Bool = false;
-    var tankMoving:Bool = false;
-    var tankAngle:Float = FlxG.random.int(-90, 45);
-    var tankSpeed:Float = FlxG.random.float(5, 7);
-    var tankX:Float = 400;
+	var tankResetShit:Bool = false;
+	var tankMoving:Bool = false;
+	var tankAngle:Float = FlxG.random.int(-90, 45);
+	var tankSpeed:Float = FlxG.random.float(5, 7);
+	var tankX:Float = 400;
 
-    tankAngle += tankSpeed * FlxG.elapsed;
-    steve.angle = (tankAngle - 90 + 15);
-    steve.x = tankX + 1500 * Math.cos(Math.PI / 180 * (1 * tankAngle + 180));
-    steve.y = 1300 + 1100 * Math.sin(Math.PI / 180 * (1 * tankAngle + 180));
+	tankAngle += tankSpeed * FlxG.elapsed;
+	steve.angle = (tankAngle - 90 + 15);
+	steve.x = tankX + 1500 * Math.cos(Math.PI / 180 * (1 * tankAngle + 180));
+	steve.y = 1300 + 1100 * Math.sin(Math.PI / 180 * (1 * tankAngle + 180));
 }
 
 function beatHit() {
-    tower.animation.play('idle', true);
+	tower.animation.play('idle');
+
 	if (ClientPrefs.quality != 'Low') {
-		tankBop1.animation.play('bop', true);
-		tankBop2.animation.play('bop', true);
-		tankBop3.animation.play('bop', true);
-		tankBop4.animation.play('bop', true);
-		tankBop5.animation.play('bop', true);
-		tankBop6.animation.play('bop', true);
+		tankBop1.animation.play('bop');
+		tankBop2.animation.play('bop');
+		tankBop3.animation.play('bop');
+		tankBop4.animation.play('bop');
+		tankBop5.animation.play('bop');
+		tankBop6.animation.play('bop');
 	}
 }
