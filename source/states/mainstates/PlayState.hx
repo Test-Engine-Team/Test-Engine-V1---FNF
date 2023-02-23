@@ -1802,9 +1802,15 @@ class PlayState extends MusicBeatState {
 		super.stepHit();
 		stage.stepHit(curStep);
 		#if SCRIPTS_ENABLED scripts_call("stepHit", [], false); #end
-		if (Math.abs(FlxG.sound.music.time - (Conductor.songPosition - Conductor.offset)) > 20
-			|| (SONG.needsVoices && Math.abs(vocals.time - (Conductor.songPosition - Conductor.offset)) > 20))
-			resyncVocals();
+		if (SONG.needsVoices) {
+			if (vocals.time > Conductor.songPosition + 20|| vocals.time < Conductor.songPosition - 20) {
+				resyncVocals();
+			}
+		}else {
+			if (FlxG.sound.music.time > Conductor.songPosition + 20 || FlxG.sound.music.time < Conductor.songPosition - 20) {
+				resyncVocals();
+			}
+		}
 	}
 
 	override function beatHit() {
