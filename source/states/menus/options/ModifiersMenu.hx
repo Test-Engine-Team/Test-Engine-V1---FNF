@@ -14,6 +14,8 @@ import handlers.ClientPrefs;
 class ModifiersMenu extends MusicBeatState {
 	var maintextgroup:FlxTypedGroup<Alphabet>;
 	var curSelected:Int = 0;
+	public static var preResetPoisonHits:Int = 3;
+	public static var preResetMaxMisses:Int = 2;
 	var options:Array<MenuOption> = [
 		{
 			name: "Do A Barrel Roll",
@@ -23,10 +25,18 @@ class ModifiersMenu extends MusicBeatState {
 			max: 1,
 			// conflicts: null,
 			updateFunc: function(menuOption:MenuOption, elapsed:Float) {
-				if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true))
+				if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
 					ClientPrefs.spinnyspin = !ClientPrefs.spinnyspin;
-				if (FlxG.keys.justPressed.R)
+					if (ClientPrefs.spinnyspin) {
+						ClientPrefs.scoreMultiplier += 0.2;
+					} else {
+						ClientPrefs.scoreMultiplier -= 0.2;
+					}
+				}
+				if (FlxG.keys.justPressed.R) {
 					ClientPrefs.spinnyspin = false; // most of the modifiers will be false
+					ClientPrefs.scoreMultiplier -= 0.2;
+				}
 			},
 			valueFunc: function() {
 				return (ClientPrefs.spinnyspin) ? "Enabled" : "Disabled";
@@ -40,10 +50,18 @@ class ModifiersMenu extends MusicBeatState {
 			max: 1,
 			// conflicts: null,
 			updateFunc: function(menuOption:MenuOption, elapsed:Float) {
-				if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true))
+				if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
 					ClientPrefs.fairFight = !ClientPrefs.fairFight;
-				if (FlxG.keys.justPressed.R)
+					if (ClientPrefs.fairFight) {
+						ClientPrefs.scoreMultiplier += 1;
+					} else {
+						ClientPrefs.scoreMultiplier -= 1;
+					}
+				}
+				if (FlxG.keys.justPressed.R) {
 					ClientPrefs.fairFight = false;
+					ClientPrefs.scoreMultiplier -= 1;
+				}
 			},
 			valueFunc: function() {
 				return (ClientPrefs.fairFight) ? "Enabled" : "Disabled";
@@ -57,25 +75,38 @@ class ModifiersMenu extends MusicBeatState {
 			max: 20,
 			// conflicts: ['FC Mode'],
 			updateFunc: function(menuOption:MenuOption, elapsed:Float) {
+				ClientPrefs.scoreMultiplier += preResetPoisonHits * 0.5;
 				switch ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].indexOf(true)) {
 					case 0:
 						ClientPrefs.poisonPlus = !ClientPrefs.poisonPlus;
+						if (ClientPrefs.poisonPlus)
+							ClientPrefs.scoreMultiplier += preResetPoisonHits * 0.5;
+						else
+							ClientPrefs.scoreMultiplier -= preResetPoisonHits * 0.5;
 						ClientPrefs.maxPoisonHits = 3;
 						ClientPrefs.fcMode = false;
 					case 1:
-						if (ClientPrefs.poisonPlus)
+						if (ClientPrefs.poisonPlus) {
 							ClientPrefs.maxPoisonHits -= 1;
+							preResetPoisonHits -= 1;
+							ClientPrefs.scoreMultiplier -= ClientPrefs.maxPoisonHits * 0.5;
+						}
 						if (ClientPrefs.maxPoisonHits < menuOption.min)
 							ClientPrefs.maxPoisonHits = Std.int(menuOption.min);
 					case 2:
-						if (ClientPrefs.poisonPlus)
+						if (ClientPrefs.poisonPlus) {
 							ClientPrefs.maxPoisonHits += 1;
+							preResetPoisonHits += 1;
+							ClientPrefs.scoreMultiplier += ClientPrefs.maxPoisonHits * 0.5;
+						}
 						if (ClientPrefs.maxPoisonHits > menuOption.max)
 							ClientPrefs.maxPoisonHits = Std.int(menuOption.max);
 				}
 				if (FlxG.keys.justPressed.R) {
 					ClientPrefs.poisonPlus = false;
 					ClientPrefs.maxPoisonHits = 3;
+					ClientPrefs.scoreMultiplier -= preResetPoisonHits * 0.5;
+					preResetPoisonHits = 3;
 				}
 			},
 			valueFunc: function() {
@@ -92,9 +123,15 @@ class ModifiersMenu extends MusicBeatState {
 			updateFunc: function(menuOption:MenuOption, elapsed:Float) {
 				if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)) {
 					ClientPrefs.fcMode = !ClientPrefs.fcMode;
+					if (ClientPrefs.poisonPlus)
+						ClientPrefs.scoreMultiplier -= preResetPoisonHits * 0.5;
 					ClientPrefs.poisonPlus = false;
 					ClientPrefs.limitMisses = false;
 					ClientPrefs.maxMisses = 2;
+					if (ClientPrefs.fcMode)
+						ClientPrefs.scoreMultiplier += 2;
+					else
+						ClientPrefs.scoreMultiplier -= 2;
 				}
 				if (FlxG.keys.justPressed.R)
 					ClientPrefs.fcMode = false;
@@ -114,21 +151,31 @@ class ModifiersMenu extends MusicBeatState {
 				switch ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].indexOf(true)) {
 					case 0:
 						ClientPrefs.limitMisses = !ClientPrefs.limitMisses;
+						if (ClientPrefs.limitMisses)
+							ClientPrefs.scoreMultiplier += preResetMaxMisses * 0.5;
+						else
+							ClientPrefs.scoreMultiplier -= preResetMaxMisses * 0.5;
 						ClientPrefs.fcMode = false;
 					case 1:
-						if (ClientPrefs.limitMisses)
+						if (ClientPrefs.limitMisses) {
 							ClientPrefs.maxMisses -= 1;
+							preResetMaxMisses -= 1;
+						}
 						if (ClientPrefs.maxMisses < menuOption.min)
 							ClientPrefs.maxMisses = Std.int(menuOption.min);
 					case 2:
-						if (ClientPrefs.limitMisses)
+						if (ClientPrefs.limitMisses) {
 							ClientPrefs.maxMisses += 1;
+							preResetMaxMisses += 1;
+						}
 						if (ClientPrefs.maxMisses > menuOption.max)
 							ClientPrefs.maxMisses = Std.int(menuOption.max);
 				}
 				if (FlxG.keys.justPressed.R) {
 					ClientPrefs.limitMisses = false;
 					ClientPrefs.maxMisses = 2;
+					ClientPrefs.scoreMultiplier -= preResetMaxMisses * 0.5;
+					preResetMaxMisses = 2;
 				}
 			},
 			valueFunc: function() {
@@ -171,19 +218,25 @@ class ModifiersMenu extends MusicBeatState {
 					ClientPrefs.constantHeal = 0;
 					if (ClientPrefs.constantDrain != 0)
 						ClientPrefs.constantDrain = 0;
-					else
+					else {
 						ClientPrefs.constantDrain = 10;
+						ClientPrefs.scoreMultiplier += 0.1;
+					}
 				} else if (FlxG.keys.justPressed.LEFT && ClientPrefs.constantDrain != 0) {
 					ClientPrefs.constantDrain -= 10;
+					ClientPrefs.scoreMultiplier -= 0.1;
 					if (ClientPrefs.constantDrain < menuOption.min)
 						ClientPrefs.constantDrain = Std.int(menuOption.min);
 				} else if (FlxG.keys.justPressed.RIGHT && ClientPrefs.constantDrain != 0) {
 					ClientPrefs.constantDrain += 10;
+					ClientPrefs.scoreMultiplier += 0.1;
 					if (ClientPrefs.constantDrain > menuOption.max)
 						ClientPrefs.constantDrain = Std.int(menuOption.max);
 				}
-				if (FlxG.keys.justPressed.R)
+				if (FlxG.keys.justPressed.R) {
+					ClientPrefs.scoreMultiplier -= ClientPrefs.constantDrain * 0.1;
 					ClientPrefs.constantDrain = 0;
+				}
 			},
 			valueFunc: function() {
 				if (ClientPrefs.constantDrain != 0)
@@ -204,19 +257,25 @@ class ModifiersMenu extends MusicBeatState {
 					ClientPrefs.constantDrain = 0;
 					if (ClientPrefs.constantHeal != 0)
 						ClientPrefs.constantHeal = 0;
-					else
+					else {
 						ClientPrefs.constantHeal = 10;
+						ClientPrefs.scoreMultiplier += 0.1;
+					}
 				} else if (FlxG.keys.justPressed.LEFT && ClientPrefs.constantDrain != 0) {
 					ClientPrefs.constantHeal -= 10;
+					ClientPrefs.scoreMultiplier -= 0.1;
 					if (ClientPrefs.constantHeal < menuOption.min)
 						ClientPrefs.constantHeal = Std.int(menuOption.min);
 				} else if (FlxG.keys.justPressed.RIGHT && ClientPrefs.constantDrain != 0) {
 					ClientPrefs.constantHeal += 10;
+					ClientPrefs.scoreMultiplier += 0.1;
 					if (ClientPrefs.constantHeal > menuOption.max)
 						ClientPrefs.constantHeal = Std.int(menuOption.max);
 				}
-				if (FlxG.keys.justPressed.R)
+				if (FlxG.keys.justPressed.R) {
 					ClientPrefs.constantHeal = 0;
+					ClientPrefs.scoreMultiplier -= ClientPrefs.constantHeal * 0.1;
+				}
 			},
 			valueFunc: function() {
 				if (ClientPrefs.constantHeal != 0)
@@ -232,6 +291,7 @@ class ModifiersMenu extends MusicBeatState {
 	var curSubSelected:Int = 3;
 	var valueTxt:FlxText;
 	var descTxt:FlxText;
+	var multiplierTxt:FlxText;
 
 	override function create() {
 		var bg:FlxSprite = new FlxSprite().loadGraphic(Files.image('menus/mainmenu/menuDesat'));
@@ -248,6 +308,12 @@ class ModifiersMenu extends MusicBeatState {
 		descTxt.scrollFactor.set();
 		descTxt.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(descTxt);
+
+		multiplierTxt = new FlxText(0, descTxt.y - descTxt.height - 200, 460, "69420 hehe haha now laugh", 16);
+		multiplierTxt.screenCenter(y);
+		multiplierTxt.scrollFactor.set();
+		multiplierTxt.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		add(multiplierTxt);
 
 		maintextgroup = new FlxTypedGroup<Alphabet>();
 		add(maintextgroup);
@@ -276,6 +342,8 @@ class ModifiersMenu extends MusicBeatState {
 		}
 		options[curSelected].updateFunc(options[curSelected], elapsed);
 		valueTxt.text = "< " + options[curSelected].valueFunc() + " >";
+
+		multiplierTxt.text = "Score Multiplier: " + Std.string(ClientPrefs.scoreMultiplier) + "x";
 
 		#if debug
 		descTxt.text = options[curSelected].description;
