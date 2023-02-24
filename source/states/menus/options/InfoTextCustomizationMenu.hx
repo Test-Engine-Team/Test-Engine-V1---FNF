@@ -103,6 +103,23 @@ class InfoTextCustomizationMenu extends MusicBeatState {
 		},
 		*/
 		{
+			name: "Health Text",
+			description: "Gives you a persentage of your health",
+			type: BOOL,
+			min: 0,
+			max: 1,
+			// conflicts: null,
+			updateFunc: function(menuOption:MenuOption, elapsed:Float) {
+				if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)
+					&& ClientPrefs.infoTxtX < 5) {
+					ClientPrefs.healthTxt = !ClientPrefs.healthTxt;
+				}
+			},
+			valueFunc: function() {
+				return (ClientPrefs.healthTxt) ? "Enabled" : "Disabled";
+			}
+		},
+		{
 			name: "Notes Hit Text",
 			description: "Shows the amount of notes you hit",
 			type: BOOL,

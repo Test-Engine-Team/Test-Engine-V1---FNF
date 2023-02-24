@@ -14,7 +14,7 @@ class ClientPrefs {
 	static var settingNames:Array<String> = [
 		"flashingLights", "spinnyspin", "fairFight", "poisonPlus", "fcMode", "maxPoisonHits", "limitMisses", "maxMisses", "freeplayCutscenes",
 		"downscroll", "safeFrames", "botPlay", "practice", "speed", "ghostTapping", "showComboSprite", "antialiasing", "quality", "uiAlpha", "camMoveOnHit",
-		"noteSplashes", "ogTitle", "showTimeBar", "fullscreen", "autoPause", "scoreMultiplier", "scoreTxt", "missTxt", "comboTxt", "noteHitTxt", "accuracyTxt"
+		"noteSplashes", "ogTitle", "showTimeBar", "fullscreen", "autoPause", "scoreMultiplier", "scoreTxt", "missTxt", "comboTxt", "noteHitTxt", "accuracyTxt", "healthTxt"
 	];
 	// Options
 	public static var flashingLights:Bool = true; // this assumes this is true which is bad but i dunno how to make a popup on the start of the game like PE
@@ -65,6 +65,7 @@ class ClientPrefs {
 	public static var missTxt:Bool = true;
 	public static var comboTxt:Bool = true;
 	public static var accuracyTxt:Bool = false;
+	public static var healthTxt:Bool = false;
 	public static var noteHitTxt:Bool = true;
 
 	// easter eggs
@@ -77,10 +78,11 @@ class ClientPrefs {
 	// Extra
 	public static var fullscreen:Bool = false;
 	public static var autoPause:Bool = true;
-	public static var scoreMultiplier:Float = 1; // for future multiplier stuff
+	public static var scoreMultiplier:Float = 1.0; // for future multiplier stuff
 
 	// modifiable stuff for modding
 	public static var fairFightHealthLossCount:Float = 0.02;
+	public static var fairFightSafetyNet:Bool = false;
 	public static var defaultFont:String = 'vcr';
 
 	public static function saveSettings() {

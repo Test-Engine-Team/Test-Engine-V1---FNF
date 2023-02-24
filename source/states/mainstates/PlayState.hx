@@ -912,6 +912,7 @@ class PlayState extends MusicBeatState {
 		var comboText = "";
 		var noteHitText = "";
 		//var accuracyText = "";
+		var healthText = "";
 		if (ClientPrefs.scoreTxt) {
 			scoreText = "|| Score: " + songScore + " ";
 		}
@@ -925,9 +926,12 @@ class PlayState extends MusicBeatState {
 				missText = "|| Misses: " + songMisses + " ";
 			}
 		}
+		if (ClientPrefs.healthTxt) {
+			healthText = "|| Health: " + Math.round(health * 50) + "% ";
+		}
 		/*
 		if (ClientPrefs.accuracyTxt) {
-			accuracyText = "|| Accuracy: " + Math.round(songAccuracy) + "% ";
+			accuracyText = "|| Accuracy: " + songAccuracy + "% ";
 		}
 		*/
 		if (ClientPrefs.comboTxt) {
@@ -936,11 +940,11 @@ class PlayState extends MusicBeatState {
 		if (ClientPrefs.noteHitTxt) {
 			noteHitText = "|| Notes Hit: " + notesHit + " ";
 		}
-		infoText.text = "" + scoreText + missText + /*accuracyText + */comboText + noteHitText + "||";
+		infoText.text = "" + scoreText + missText + /*accuracyText + */comboText + healthText + noteHitText + "||";
 
 		#if desktop
 		DiscordHandler.changePresence('Playing '
-			+ SONG.song.toLowerCase()
+			+ SONG.song
 			+ '-'
 			+ Highscore.diffArray[storyDifficulty].toUpperCase(),
 			'With '
@@ -1150,11 +1154,23 @@ class PlayState extends MusicBeatState {
 						camZooming = true;
 
 					if (ClientPrefs.fairFight) {
-						if (SONG.song.toLowerCase() == 'high' || SONG.song.toLowerCase() == 'test' || SONG.song.toLowerCase() == 'cocoa'
-							|| SONG.song.toLowerCase() == 'ugh')
-							health -= ClientPrefs.fairFightHealthLossCount - 0.005;
+						if (ClientPrefs.fairFightSafetyNet) {
+							if (health >= 0.05) {
+								if (SONG.song.toLowerCase() == 'high' || SONG.song.toLowerCase() == 'test' || SONG.song.toLowerCase() == 'cocoa'
+									|| SONG.song.toLowerCase() == 'ugh')
+									health -= ClientPrefs.fairFightHealthLossCount - 0.005;
+								else
+									health -= ClientPrefs.fairFightHealthLossCount;
+							}
+						}
 						else
-							health -= ClientPrefs.fairFightHealthLossCount;
+						{
+							if (SONG.song.toLowerCase() == 'high' || SONG.song.toLowerCase() == 'test' || SONG.song.toLowerCase() == 'cocoa'
+								|| SONG.song.toLowerCase() == 'ugh')
+								health -= ClientPrefs.fairFightHealthLossCount - 0.005;
+							else
+								health -= ClientPrefs.fairFightHealthLossCount;
+						}
 					}
 
 					// hopefully i make the cam offset customizable...
