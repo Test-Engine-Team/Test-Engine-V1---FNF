@@ -64,7 +64,8 @@ class PlayState extends MusicBeatState {
 
 	public var scripts:Array<HiScript> = [];
 
-	var songLength:Float = 0;
+	@:isVar
+	var songLength(get, set):Float = 0;
 
 	private var vocals:FlxSound;
 
@@ -655,7 +656,7 @@ class PlayState extends MusicBeatState {
 			timeBarBG.scrollFactor.set();
 
 			timeBarBar = new FlxBar(640 - (Std.int(timeBarBG.width - 100) / 2), timeBarBG.y + 4, LEFT_TO_RIGHT, Std.int(timeBarBG.width - 100),
-				Std.int(timeBarBG.height + 6), this, 'songPositionBar', 0, 1);
+				Std.int(timeBarBG.height + 6), this, 'songPositionBar', 0, songLength);
 			timeBarBar.scrollFactor.set();
 			//if (forceDifferentColor)
 				//timeBarBar.createFilledBar(FlxColor.BLACK, timeBarColor);
@@ -693,7 +694,6 @@ class PlayState extends MusicBeatState {
 
 			if (ClientPrefs.timeBarType != 'Nothing') {
 				add(timeBarTxt);
-
 				timeBarTxt.screenCenter(X);
 			}
 
@@ -708,6 +708,14 @@ class PlayState extends MusicBeatState {
 
 		generatedMusic = true;
 	}
+
+	inline function get_songLength(){
+		return (FlxG.sound.music != null) ? FlxG.sound.music.length / 1000 : 0;
+	}
+
+	inline function set_songLength(newLength) {
+		return songLength = newLength;
+	}	
 
 	function sortByShit(Obj1:Note, Obj2:Note):Int {
 		return FlxSort.byValues(FlxSort.ASCENDING, Obj1.strumTime, Obj2.strumTime);
@@ -1002,15 +1010,12 @@ class PlayState extends MusicBeatState {
 
 			if (!paused)
 			{
-
 				var curTime:Float = FlxG.sound.music.time;
 				if (curTime < 0)
 					curTime = 0;
-
 				var secondsTotal:Int = Math.floor(((curTime - songLength) / 1000));
 				if (secondsTotal < 0)
 					secondsTotal = 0;
-
 
 				if (ClientPrefs.showTimeBar && ClientPrefs.timeBarType == 'Time')
 					timeBarTxt.text = FlxStringUtil.formatTime((songLength - secondsTotal), false);
