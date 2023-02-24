@@ -40,4 +40,4 @@ NONE
 Make sure you test before you commit team and pull requesters!
 
 ## Cool Links
-![Discord](https://discord.com/api/guilds/1045839043113537596/widget.json)
+(https://discord.com/api/guilds/1045839043113537596/widget.json)
