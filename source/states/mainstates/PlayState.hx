@@ -656,7 +656,7 @@ class PlayState extends MusicBeatState {
 			timeBarBG.scrollFactor.set();
 
 			timeBarBar = new FlxBar(640 - (Std.int(timeBarBG.width - 100) / 2), timeBarBG.y + 4, LEFT_TO_RIGHT, Std.int(timeBarBG.width - 100),
-				Std.int(timeBarBG.height + 6), this, 'songPositionBar', 0, 1);
+				Std.int(timeBarBG.height + 6), this, 'songPositionBar', 0, songLength);
 			timeBarBar.scrollFactor.set();
 			//if (forceDifferentColor)
 				//timeBarBar.createFilledBar(FlxColor.BLACK, timeBarColor);
