@@ -40,4 +40,4 @@ NONE
 Make sure you test before you commit team and pull requesters!
 
 ## Cool Links
-<iframe src="https://discord.com/widget?id=1045839043113537596&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+![Discord](https://discord.com/api/guilds/1045839043113537596/widget.json)
