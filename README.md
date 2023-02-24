@@ -15,6 +15,7 @@ Heres some features in the engine:
 * Custom Discord RPC
 * Subtitles
 * Softcoded Menus, Stages, & Cutscenes
+* Credits
 * Custom Score Text (its called info text in the engine)
 * Shaders
 * Video Cutscenes (BETA)
