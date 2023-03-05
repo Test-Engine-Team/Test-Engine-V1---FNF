@@ -47,4 +47,4 @@ GameJolt: https://gamejolt.com/games/test_engine/771294
 
 GameBanana: https://gamebanana.com/mods/421447
 
-Discord: https://discord.gg/HTNAv3YMSk
+Discord: https://discord.gg/tGrqrAF85y
