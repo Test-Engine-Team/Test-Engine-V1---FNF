@@ -238,6 +238,23 @@ class GameplayMenu extends MusicBeatState {
 		},
 		#end
 		{
+			name: "Show Results Screen",
+			description: "Show the results screen after a song, the results screen will show stuff such as how good you did on a song. (Currently does nothing)",
+			type: BOOL,
+			min: 0,
+			max: 1,
+			// conflicts: null,
+			updateFunc: function(menuOption:MenuOption, elapsed:Float) {
+				if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true))
+					ClientPrefs.showResultsScreen = !ClientPrefs.showResultsScreen;
+				if (FlxG.keys.justPressed.R)
+					ClientPrefs.showResultsScreen = true;
+			},
+			valueFunc: function() {
+				return (ClientPrefs.showResultsScreen) ? "Enabled" : "Disabled";
+			}
+		},
+		{
 			name: "Reset Cache",
 			description: "Resets the Cache.",
 			type: BUTTON,

@@ -135,6 +135,23 @@ class InfoTextCustomizationMenu extends MusicBeatState {
 			valueFunc: function() {
 				return (ClientPrefs.noteHitTxt) ? "Enabled" : "Disabled";
 			}
+		},
+		{
+			name: "OG Info Text",
+			description: "Shows the OG info text",
+			type: BOOL,
+			min: 0,
+			max: 1,
+			// conflicts: null,
+			updateFunc: function(menuOption:MenuOption, elapsed:Float) {
+				if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true)
+					&& ClientPrefs.infoTxtX < 5) {
+					ClientPrefs.ogInfoTxt = !ClientPrefs.ogInfoTxt;
+				}
+			},
+			valueFunc: function() {
+				return (ClientPrefs.ogInfoTxt) ? "Enabled" : "Disabled";
+			}
 		}
 	];
 	var valueTxt:FlxText;
