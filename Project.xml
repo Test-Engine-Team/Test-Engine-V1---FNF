@@ -2,7 +2,7 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="Friday Night Funkin': Test Engine" file="TEST" packageName="com.megalo.test" main="Main" version="0.2.7.9.1" company="megalo" />
+	<app title="Friday Night Funkin': Test Engine" file="Test Engine" packageName="com.megalo.test" main="Main" version="0.2.7.9.1" company="megalo" />
 	<app preloader="flixel.system.FlxPreloader" />
 
 	<!--Minimum without FLX_NO_GAMEPAD: 11.8, without FLX_NO_NATIVE_CURSOR: 11.2-->
@@ -42,6 +42,7 @@
 	<assets path="assets/sounds"/>
 	<assets path="assets/stages" />
 	<assets path="assets/videos" />
+	<assets path="assets/brandon" />
 
 	<assets path="CHANGELOG.md" rename='changelog.txt'/>
 
