@@ -134,6 +134,23 @@ class GraphicsMenu extends MusicBeatState {
 			}
 		},
 		{
+			name: "Rating Counter",
+			description: "Shows a counter that shows how many of what rating you got for each note hit.",
+			type: BOOL,
+			min: 0,
+			max: 1,
+			// conflicts: null,
+			updateFunc: function(menuOption:MenuOption, elapsed:Float) {
+				if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true))
+					ClientPrefs.ratingCounter = !ClientPrefs.ratingCounter;
+				if (FlxG.keys.justPressed.R)
+					ClientPrefs.ratingCounter = true;
+			},
+			valueFunc: function() {
+				return (ClientPrefs.ratingCounter) ? "Enabled" : "Disabled";
+			}
+		},
+		{
 			name: "Info Text Customization",
 			description: "",
 			type: BUTTON,

@@ -133,6 +133,7 @@ class PlayState extends MusicBeatState {
 	public var fcing:Bool = false;
 
 	var infoText:FlxText;
+	var ratingCounter:FlxText;
 
 	var grpNoteSplashes:FlxTypedGroup<NoteSplash>;
 
@@ -357,6 +358,17 @@ class PlayState extends MusicBeatState {
 		infoText.visible = ClientPrefs.infoTxt;
 		add(infoText);
 
+		ratingCounter = new FlxText(20, 0, 0, '', 20);
+		ratingCounter.setFormat(Files.font("vcr", "ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		ratingCounter.borderSize = 2;
+		ratingCounter.borderQuality = 2;
+		ratingCounter.scrollFactor.set();
+		ratingCounter.cameras = [camHUD];
+		ratingCounter.screenCenter(Y);
+		ratingCounter.text = 'Sicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\n';//\nTotal hit: ${totals}\n';
+		ratingCounter.visible = ClientPrefs.ratingCounter;
+		add(ratingCounter);
+
 		grpNoteSplashes.cameras = [camHUD];
 		strumLineNotes.cameras = [camHUD];
 		notes.cameras = [camHUD];
@@ -365,6 +377,7 @@ class PlayState extends MusicBeatState {
 		iconP1.cameras = [camHUD];
 		iconP2.cameras = [camHUD];
 		infoText.cameras = [camHUD];
+		ratingCounter.cameras = [camHUD];
 
 		startingSong = true;
 
@@ -906,6 +919,8 @@ class PlayState extends MusicBeatState {
 
 		if (curStep > 895 && curStep < 1398 && SONG.song.toLowerCase() == 'guns' && ClientPrefs.tankmanFloat == true)
 			tankFloat = true;
+
+		ratingCounter.text = 'Sicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\n';//\nTotal hit: ${totals}\n;
 
 		var scoreText = "";
 		var missText = "";
@@ -1495,6 +1510,8 @@ class PlayState extends MusicBeatState {
 		});
 
 		curSection += 1;
+
+		ratingCounter.text = 'Sicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\n';//\nTotal hit: ${totals}\n;
 	}
 
 	private function keyShit():Void {

@@ -14,7 +14,8 @@ class ClientPrefs {
 	static var settingNames:Array<String> = [
 		"flashingLights", "spinnyspin", "fairFight", "poisonPlus", "fcMode", "maxPoisonHits", "limitMisses", "maxMisses", "freeplayCutscenes",
 		"downscroll", "safeFrames", "botPlay", "practice", "speed", "ghostTapping", "showComboSprite", "antialiasing", "quality", "uiAlpha", "camMoveOnHit",
-		"noteSplashes", "ogTitle", "showTimeBar", "fullscreen", "autoPause", "scoreMultiplier", "scoreTxt", "missTxt", "comboTxt", "noteHitTxt", "accuracyTxt", "healthTxt"
+		"noteSplashes", "ogTitle", "showTimeBar", "ratingCounter", "fullscreen", "autoPause", "scoreMultiplier", "scoreTxt", "missTxt", "comboTxt", "noteHitTxt",
+		"accuracyTxt", "healthTxt"
 	];
 	// Options
 	public static var flashingLights:Bool = true; // this assumes this is true which is bad but i dunno how to make a popup on the start of the game like PE
@@ -57,6 +58,7 @@ class ClientPrefs {
 	public static var showTimeBar:Bool = true;
 	public static var timeBarType:String = 'Time';
 	public static var quality:String = 'Medium';
+	public static var ratingCounter:Bool = false;
 
 	// Info Text stuff
 	public static var infoTxtX:Float = 3;
