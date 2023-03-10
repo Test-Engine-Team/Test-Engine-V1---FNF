@@ -28,6 +28,7 @@ class ClientPrefs {
 	public static var practice:Bool = false;
 	public static var shitSystem:Bool = true;
 	public static var camMoveOnHit:Bool = true;
+	public static var showResultsScreen:Bool = true;
 
 	// Keybinds
 	public static var leftKeybinds:Array<FlxKey> = [FlxKey.A, FlxKey.LEFT];
@@ -69,6 +70,7 @@ class ClientPrefs {
 	public static var accuracyTxt:Bool = false;
 	public static var healthTxt:Bool = false;
 	public static var noteHitTxt:Bool = true;
+	public static var ogInfoTxt:Bool = false;
 
 	// easter eggs
 	public static var tristanPlayer:Bool = false;
