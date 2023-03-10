@@ -44,6 +44,7 @@ import handlers.Stage;
 import handlers.NoteSplash;
 import Song.SwagSong;
 import Controls;
+//import states.menus.ResultsState;
 #if discord_rpc
 import handlers.DiscordHandler;
 #end
@@ -55,6 +56,10 @@ class PlayState extends MusicBeatState {
 	public static var SONG:SwagSong;
 	public static var songPath:String;
 	public static var isStoryMode:Bool = false;
+	public var storySicks:Int = 0;
+	public var storyGoods:Int = 0;
+	public var storyBads:Int = 0;
+	public var storyShits:Int = 0;
 	public static var storyWeek:String = "tutorial";
 	public static var storyPlaylist:Array<String> = [];
 	public static var storyDifficulty:Int = 1;
@@ -355,6 +360,10 @@ class PlayState extends MusicBeatState {
 		infoText.setFormat("assets/fonts/vcr.ttf", 16, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		infoText.scrollFactor.set();
 		infoText.visible = ClientPrefs.infoTxt;
+		if (ClientPrefs.downscroll)
+			infoText.y = 0.11 * FlxG.height + 40;
+		if (ClientPrefs.ogInfoTxt)
+			infoText.x -= 190;
 		add(infoText);
 
 		grpNoteSplashes.cameras = [camHUD];
@@ -907,41 +916,47 @@ class PlayState extends MusicBeatState {
 		if (curStep > 895 && curStep < 1398 && SONG.song.toLowerCase() == 'guns' && ClientPrefs.tankmanFloat == true)
 			tankFloat = true;
 
-		var scoreText = "";
-		var missText = "";
-		var comboText = "";
-		var noteHitText = "";
-		//var accuracyText = "";
-		var healthText = "";
-		if (ClientPrefs.scoreTxt) {
-			scoreText = "|| Score: " + songScore + " ";
-		}
-		if (ClientPrefs.missTxt) {
-			if (fcing) {
-				if (ClientPrefs.limitMisses)
-					missText = "|| Misses: " + songMisses + " / " + ClientPrefs.maxMisses + " (FC) ";
-				else
-					missText = "|| Misses: " + songMisses + " (FC) ";
-			} else {
-				missText = "|| Misses: " + songMisses + " ";
+		if (!ClientPrefs.ogInfoTxt)
+		{
+			var scoreText = "";
+			var missText = "";
+			var comboText = "";
+			var noteHitText = "";
+			//var accuracyText = "";
+			var healthText = "";
+			if (ClientPrefs.scoreTxt) {
+				scoreText = "|| Score: " + songScore + " ";
 			}
+			if (ClientPrefs.missTxt) {
+				if (fcing) {
+					if (ClientPrefs.limitMisses)
+						missText = "|| Misses: " + songMisses + " / " + ClientPrefs.maxMisses + " (FC) ";
+					else
+						missText = "|| Misses: " + songMisses + " (FC) ";
+				} else {
+					missText = "|| Misses: " + songMisses + " ";
+				}
+			}
+			if (ClientPrefs.healthTxt) {
+				healthText = "|| Health: " + Math.round(health * 50) + "% ";
+			}
+			/*
+			if (ClientPrefs.accuracyTxt) {
+				accuracyText = "|| Accuracy: " + songAccuracy + "% ";
+			}
+			*/
+			if (ClientPrefs.comboTxt) {
+				comboText = "|| Combo: " + combo + " ";
+			}
+			if (ClientPrefs.noteHitTxt) {
+				noteHitText = "|| Notes Hit: " + notesHit + " ";
+			}
+			infoText.text = "" + scoreText + missText + /*accuracyText + */comboText + healthText + noteHitText + "||";
 		}
-		if (ClientPrefs.healthTxt) {
-			healthText = "|| Health: " + Math.round(health * 50) + "% ";
+		else
+		{
+			infoText.text = "Score: " + songScore;
 		}
-		/*
-		if (ClientPrefs.accuracyTxt) {
-			accuracyText = "|| Accuracy: " + songAccuracy + "% ";
-		}
-		*/
-		if (ClientPrefs.comboTxt) {
-			comboText = "|| Combo: " + combo + " ";
-		}
-		if (ClientPrefs.noteHitTxt) {
-			noteHitText = "|| Notes Hit: " + notesHit + " ";
-		}
-		infoText.text = "" + scoreText + missText + /*accuracyText + */comboText + healthText + noteHitText + "||";
-
 		#if desktop
 		DiscordHandler.changePresence('Playing '
 			+ SONG.song
@@ -1295,6 +1310,11 @@ class PlayState extends MusicBeatState {
 			campaignScore += songScore;
 			campaignMisses += songMisses;
 
+			storySicks += sicks;
+			storyGoods += goods;
+			storyBads += bads;
+			storyShits += shits;
+
 			storyPlaylist.remove(storyPlaylist[0]);
 
 			if (storyPlaylist.length <= 0) {
@@ -1309,6 +1329,15 @@ class PlayState extends MusicBeatState {
 
 				transIn = FlxTransitionableState.defaultTransIn;
 				transOut = FlxTransitionableState.defaultTransOut;
+
+				/*
+				ResultsState.score = songScore;
+				ResultsState.misses = campaignMisses;
+				ResultsState.sicks = sicks;
+				ResultsState.goods = goods;
+				ResultsState.bads = bads;
+				ResultsState.shits = shits;
+				*/
 
 				FlxG.switchState(new StoryMenuState());
 
