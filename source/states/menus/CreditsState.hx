@@ -60,7 +60,7 @@ class CreditsState extends MusicBeatState {
 			changeSelection(1);
 
 		#if discord_rpc
-		DiscordHandler.updatePresence('Viewing the credits', 'In the credits menu', 'credits');
+		DiscordHandler.changePresence('Viewing the credits', 'In the credits menu', 'credits');
 		#end
 
 		if (controls.BACK)

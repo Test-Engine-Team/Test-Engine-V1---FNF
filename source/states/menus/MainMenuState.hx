@@ -21,6 +21,9 @@ import handlers.Files;
 import handlers.MusicBeatState;
 import states.menus.options.Options;
 import flixel.FlxState;
+#if discord_rpc
+import handlers.DiscordHandler;
+#end
 
 using StringTools;
 
@@ -141,6 +144,10 @@ class MainMenuState extends MusicBeatState {
 		#end
 		if (FlxG.sound.music.volume < 0.8)
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
+		
+		#if discord_rpc
+		DiscordHandler.changePresence('Viewing the menu', 'In the main menu', 'main menu');
+		#end
 
 		if (!selectedSomethin) {
 			if (controls.UP_P) {
