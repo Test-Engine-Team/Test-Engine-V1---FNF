@@ -113,8 +113,11 @@ class PlayState extends MusicBeatState {
 	public static var timeBarColor:FlxColor;
 
 	private var healthBarBG:FlxSprite;
+	private var healthBarOverlay:FlxSprite;
 	private var healthBar:FlxBar;
 	private var songPositionBar:Float = 0;
+
+	public static var healthBarOverlayAlpha:Float = 0.2;
 
 	private var generatedMusic:Bool = false;
 	private var startingSong:Bool = false;
@@ -336,17 +339,7 @@ class PlayState extends MusicBeatState {
 
 		FlxG.worldBounds.set(0, 0, FlxG.width, FlxG.height);
 
-		var pixelShitPart1:String = "";
-		var pixelShitPart2:String = '';
-
-		// RecalculateRating(false);
-
-		if (pixelStage) {
-			pixelShitPart1 = 'weeb/pixelUI/';
-			pixelShitPart2 = '-pixel';
-		}
-
-		healthBarBG = new FlxSprite(0, FlxG.height * 0.9).loadGraphic('assets/images/' + pixelShitPart1 + 'healthBar.png' + pixelShitPart2);
+		healthBarBG = new FlxSprite(0, FlxG.height * 0.9).loadGraphic('assets/images/healthBar.png');
 		healthBarBG.screenCenter(X);
 		healthBarBG.scrollFactor.set();
 		add(healthBarBG);
@@ -358,6 +351,19 @@ class PlayState extends MusicBeatState {
 		healthBar.scrollFactor.set();
 		healthBar.createFilledBar(dad.hpcolor, boyfriend.hpcolor);
 		add(healthBar);
+
+		if (Files.fileExists('images', 'healthBarOverlay', 'png')) {
+			trace('cool health bar overlay!!!');
+			healthBarOverlay = new FlxSprite(0, FlxG.height * 0.9).loadGraphic('assets/images/healthBarOverlay.png');
+			healthBarOverlay.screenCenter(X);
+			healthBarOverlay.scrollFactor.set();
+			healthBarOverlay.alpha = healthBarOverlayAlpha;
+			add(healthBarOverlay);
+			if (ClientPrefs.downscroll)
+				healthBarOverlay.y = 0.11 * FlxG.height;
+			if (ClientPrefs.quality == 'Low')
+				healthBarOverlay.visible = false;
+		}
 
 		iconP1 = new HealthIcon(boyfriend.charData.iconImage, true);
 		iconP1.y = healthBar.y - (iconP1.height / 2);
@@ -393,6 +399,8 @@ class PlayState extends MusicBeatState {
 		notes.cameras = [camHUD];
 		healthBar.cameras = [camHUD];
 		healthBarBG.cameras = [camHUD];
+		if (Files.fileExists('images', 'healthBarOverlay', 'png') && ClientPrefs.quality != 'Low')
+			healthBarOverlay.cameras = [camHUD];
 		iconP1.cameras = [camHUD];
 		iconP2.cameras = [camHUD];
 		infoText.cameras = [camHUD];
