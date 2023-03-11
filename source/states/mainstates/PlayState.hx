@@ -119,6 +119,8 @@ class PlayState extends MusicBeatState {
 
 	public static var healthBarOverlayAlpha:Float = 0.2;
 
+	public static var swappedHealthbarSide:Bool = false;
+
 	private var generatedMusic:Bool = false;
 	private var startingSong:Bool = false;
 
@@ -346,11 +348,11 @@ class PlayState extends MusicBeatState {
 		if (ClientPrefs.downscroll)
 			healthBarBG.y = 0.11 * FlxG.height;
 
-		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8), this,
+		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, swappedHealthbarSide ? LEFT_TO_RIGHT : RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8), this,
 			'health', 0, 2);
 		healthBar.scrollFactor.set();
 		healthBar.createFilledBar(dad.hpcolor, boyfriend.hpcolor);
-		add(healthBar);
+		insert(members.indexOf(healthBarBG), healthBar);
 
 		if (Files.fileExists('images', 'healthBarOverlay', 'png')) {
 			trace('cool health bar overlay!!!');
