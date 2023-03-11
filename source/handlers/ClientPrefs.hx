@@ -29,6 +29,7 @@ class ClientPrefs {
 	public static var shitSystem:Bool = true;
 	public static var camMoveOnHit:Bool = true;
 	public static var showResultsScreen:Bool = true;
+	public static var testEngineScore:Bool = true;
 
 	// Keybinds
 	public static var leftKeybinds:Array<FlxKey> = [FlxKey.A, FlxKey.LEFT];

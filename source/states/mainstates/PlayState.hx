@@ -336,7 +336,17 @@ class PlayState extends MusicBeatState {
 
 		FlxG.worldBounds.set(0, 0, FlxG.width, FlxG.height);
 
-		healthBarBG = new FlxSprite(0, FlxG.height * 0.9).loadGraphic('assets/images/healthBar.png');
+		var pixelShitPart1:String = "";
+		var pixelShitPart2:String = '';
+
+		// RecalculateRating(false);
+
+		if (pixelStage) {
+			pixelShitPart1 = 'weeb/pixelUI/';
+			pixelShitPart2 = '-pixel';
+		}
+
+		healthBarBG = new FlxSprite(0, FlxG.height * 0.9).loadGraphic('assets/images/' + pixelShitPart1 + 'healthBar.png' + pixelShitPart2);
 		healthBarBG.screenCenter(X);
 		healthBarBG.scrollFactor.set();
 		add(healthBarBG);
@@ -698,14 +708,14 @@ class PlayState extends MusicBeatState {
 			{
 				case 'Song Name':
 					timeBarTxt = new FlxText(timeBarBG.x + (timeBarBG.width / 2) - (SONG.song.length * 5), timeBarBG.y - 15, 0, SONG.song, 16);
-					timeBarTxt.setFormat(Files.font("assets/fonts/vcr.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+					timeBarTxt.setFormat(Files.font("vcr"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 					timeBarTxt.scrollFactor.set();
 
 					timeBarTxt.text = SONG.song;
 					timeBarTxt.y = timeBarBG.y + (timeBarBG.height / 3);
 				case 'Time':
 					timeBarTxt = new FlxText(timeBarBG.x + (timeBarBG.width / 2) - (SONG.song.length * 5), timeBarBG.y - 15, 0, SONG.song, 16);
-					timeBarTxt.setFormat(Files.font("assets/fonts/vcr.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+					timeBarTxt.setFormat(Files.font("vcr"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 					timeBarTxt.scrollFactor.set();
 
 					timeBarTxt.text = FlxStringUtil.formatTime(songLength, false);
@@ -975,8 +985,8 @@ class PlayState extends MusicBeatState {
 		#if desktop
 		DiscordHandler.changePresence('Playing '
 			+ SONG.song
-			+ '-'
-			+ Highscore.diffArray[storyDifficulty].toUpperCase(),
+			+ ' on '
+			+ Highscore.diffArray[storyDifficulty],
 			'With '
 			+ songScore
 			+ ' Score And '
@@ -1430,8 +1440,10 @@ class PlayState extends MusicBeatState {
 		}
 
 		if (!ClientPrefs.botPlay && !ClientPrefs.practice) {
-			var scoreIncrease:Float = (score * ((combo + 1) * 0.05)) * ClientPrefs.scoreMultiplier;
-			score += Math.floor(scoreIncrease);
+			if (ClientPrefs.testEngineScore) {
+				var scoreIncrease:Float = (score * ((combo + 1) * 0.05)) * ClientPrefs.scoreMultiplier;
+				score += Math.floor(scoreIncrease);
+			}
 			songScore += score;
 		}
 

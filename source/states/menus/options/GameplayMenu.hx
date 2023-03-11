@@ -110,6 +110,23 @@ class GameplayMenu extends MusicBeatState {
 			}
 		},
 		{
+			name: "Score Handling Type",
+			description: "How the game handles your score.",
+			type: BOOL,
+			min: 0,
+			max: 1,
+			// conflicts: null,
+			updateFunc: function(menuOption:MenuOption, elapsed:Float) {
+				if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true))
+					ClientPrefs.testEngineScore = !ClientPrefs.testEngineScore;
+				if (FlxG.keys.justPressed.R)
+					ClientPrefs.testEngineScore = true;
+			},
+			valueFunc: function() {
+				return (ClientPrefs.testEngineScore) ? "Test Engine" : "OG FNF";
+			}
+		},
+		{
 			name: "Safe Frames",
 			description: "What frames you can hit a note on.",
 			type: INT,
