@@ -1,7 +1,7 @@
 package states.menus;
 
 import scriptStuff.HiScript;
-#if desktop
+#if discord_rpc
 import handlers.DiscordHandler;
 #end
 import handlers.shaders.BuildingShaders;

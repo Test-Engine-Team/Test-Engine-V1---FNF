@@ -12,8 +12,8 @@ import Controls;
 class ClientPrefs {
 	// For load and save.
 	static var settingNames:Array<String> = [
-		"flashingLights", "spinnyspin", "fairFight", "poisonPlus", "fcMode", "maxPoisonHits", "limitMisses", "maxMisses", "freeplayCutscenes",
-		"downscroll", "safeFrames", "botPlay", "practice", "speed", "ghostTapping", "showComboSprite", "antialiasing", "quality", "uiAlpha", "camMoveOnHit",
+		"flashingLights", "spinnyspin", "fairFight", "fairFightSafetyNet", "poisonPlus", "fcMode", "maxPoisonHits", "limitMisses", "maxMisses", "freeplayCutscenes",
+		"downscroll", "safeFrames", "botPlay", "practice", "speed", "ghostTapping", "disableReset", "showComboSprite", "antialiasing", "quality", "uiAlpha", "camMoveOnHit",
 		"noteSplashes", "ogTitle", "showTimeBar", "ratingCounter", "fullscreen", "autoPause", "scoreMultiplier", "scoreTxt", "missTxt", "comboTxt", "noteHitTxt",
 		"accuracyTxt", "healthTxt"
 	];
@@ -30,6 +30,7 @@ class ClientPrefs {
 	public static var camMoveOnHit:Bool = true;
 	public static var showResultsScreen:Bool = true;
 	public static var testEngineScore:Bool = true;
+	public static var disableReset:Bool = false;
 
 	// Keybinds
 	public static var leftKeybinds:Array<FlxKey> = [FlxKey.A, FlxKey.LEFT];
@@ -42,6 +43,7 @@ class ClientPrefs {
 	// Modifiers
 	public static var spinnyspin:Bool = false;
 	public static var fairFight:Bool = false;
+	public static var fairFightSafetyNet:Bool = false;
 	public static var poisonPlus:Bool = false;
 	public static var maxPoisonHits:Int = 3;
 	public static var fcMode:Bool = false;
@@ -87,7 +89,6 @@ class ClientPrefs {
 
 	// modifiable stuff for modding
 	public static var fairFightHealthLossCount:Float = 0.02;
-	public static var fairFightSafetyNet:Bool = false;
 	public static var defaultFont:String = 'vcr';
 
 	public static function saveSettings() {

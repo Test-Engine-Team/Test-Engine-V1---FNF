@@ -17,7 +17,7 @@ import ui.Alphabet;
 import handlers.MusicBeatSubstate;
 import handlers.Files;
 import handlers.Highscore;
-#if desktop
+#if discord_rpc
 import handlers.DiscordHandler;
 #end
 
@@ -59,8 +59,13 @@ class PauseSubState extends MusicBeatSubstate {
 		script.callFunction("createBelowItems");
 		#end
 
-		levelinfotext = new FlxText(20, 15, 0,
-			'${PlayState.SONG.song}\nSpeed:${PlayState.speed}\n${Highscore.diffArray[PlayState.storyDifficulty].toUpperCase()}');
+		if (!PlayState.isStoryMode) {
+			levelinfotext = new FlxText(20, 15, 0,
+				'${PlayState.SONG.song}\nSpeed:${PlayState.speed}\n${Highscore.diffArray[PlayState.storyDifficulty].toUpperCase()}');
+		} else {
+			levelinfotext = new FlxText(20, 15, 0,
+				'${PlayState.SONG.song}\nSpeed:${PlayState.speed}\n${Highscore.diffArray[PlayState.storyDifficulty].toUpperCase()}\n${PlayState.storySongAmountPlayed} / ${PlayState.storyPlaylistIndex.length}');
+		}
 		levelinfotext.setFormat("assets/fonts/vcr.ttf", 25, FlxColor.WHITE, null, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		levelinfotext.borderSize = 3;
 		add(levelinfotext);
@@ -111,7 +116,7 @@ class PauseSubState extends MusicBeatSubstate {
 				case "Restart Song":
 					FlxG.resetState();
 				case "Exit to menu":
-					#if desktop
+					#if discord_rpc
 					DiscordHandler.changePresence('In The Menus The Last Song They Played Was', PlayState.SONG.song.toLowerCase());
 					#end
 

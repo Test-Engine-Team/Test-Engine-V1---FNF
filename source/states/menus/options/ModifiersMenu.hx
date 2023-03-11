@@ -50,6 +50,23 @@ class ModifiersMenu extends MusicBeatState {
 			}
 		},
 		{
+			name: "Fair Fight Safety Net",
+			description: "The opponent can decrease your health when playing as well.\nBasically healthdrain.\nBut since you can't go below 2% HP, you can't die from it.",
+			type: BOOL,
+			min: 0,
+			max: 1,
+			// conflicts: null,
+			updateFunc: function(menuOption:MenuOption, elapsed:Float) {
+				if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true))
+					ClientPrefs.fairFightSafetyNet = !ClientPrefs.fairFightSafetyNet;
+				if (FlxG.keys.justPressed.R)
+					ClientPrefs.fairFightSafetyNet = false;
+			},
+			valueFunc: function() {
+				return (ClientPrefs.fairFightSafetyNet) ? "Enabled" : "Disabled";
+			}
+		},
+		{
 			name: "Poison",
 			description: "Missed a Note? Get ready to lose health over time.\n(Note that the number you set is the Max amont of times you can be poisoned\n0 being infinite)",
 			type: INT,

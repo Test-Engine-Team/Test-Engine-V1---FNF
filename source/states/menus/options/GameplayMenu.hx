@@ -127,6 +127,23 @@ class GameplayMenu extends MusicBeatState {
 			}
 		},
 		{
+			name: "Disable Reset Button",
+			description: "Disables the reset button.",
+			type: BOOL,
+			min: 0,
+			max: 1,
+			// conflicts: null,
+			updateFunc: function(menuOption:MenuOption, elapsed:Float) {
+				if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true))
+					ClientPrefs.disableReset = !ClientPrefs.disableReset;
+				if (FlxG.keys.justPressed.R)
+					ClientPrefs.disableReset = false;
+			},
+			valueFunc: function() {
+				return (ClientPrefs.disableReset) ? "Enabled" : "Disabled";
+			}
+		},
+		{
 			name: "Safe Frames",
 			description: "What frames you can hit a note on.",
 			type: INT,

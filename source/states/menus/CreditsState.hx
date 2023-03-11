@@ -59,6 +59,10 @@ class CreditsState extends MusicBeatState {
 		if (controls.DOWN_P)
 			changeSelection(1);
 
+		#if discord_rpc
+		DiscordHandler.updatePresence('Viewing the credits', 'In the credits menu', 'credits');
+		#end
+
 		if (controls.BACK)
 			FlxG.switchState(new MainMenuState());
 		if (controls.ACCEPT) {

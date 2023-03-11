@@ -8,6 +8,9 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import handlers.MusicBeatState;
 import flixel.FlxG;
 import ui.Alphabet;
+#if discord_rpc
+import handlers.DiscordHandler;
+#end
 
 // hehe i copy pasted this from my engine lol -Srt
 typedef MenuOption = {
@@ -89,6 +92,10 @@ class Options extends MusicBeatState {
 				}
 			}
 		}
+
+		#if discord_rpc
+		DiscordHandler.changePresence('Configurin\' stuff', 'In the options menu', 'options');
+		#end
 
 		super.update(elapsed);
 		for (item in maintextgroup.members) {

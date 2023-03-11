@@ -62,6 +62,9 @@ class PlayState extends MusicBeatState {
 	public var storyShits:Int = 0;
 	public static var storyWeek:String = "tutorial";
 	public static var storyPlaylist:Array<String> = [];
+	public static var storyPlaylistIndex:Array<String>;
+	public static var storyRemainingSongs:Int = 1;
+	public static var storySongAmountPlayed:Int = 0;
 	public static var storyDifficulty:Int = 1;
 	public static var speed:Int = 1;
 
@@ -216,6 +219,16 @@ class PlayState extends MusicBeatState {
 
 		Conductor.mapBPMChanges(SONG);
 		Conductor.changeBPM(SONG.bpm);
+
+		if (isStoryMode)
+		{
+			storyRemainingSongs = storyPlaylist.length;
+
+			if (storyPlaylistIndex == null)
+				storyPlaylistIndex = storyPlaylist;
+
+			FlxG.save.data.storyPlaylistIndex = storyPlaylistIndex;
+		}
 
 		var gfVersion:String = 'gf';
 
@@ -992,16 +1005,32 @@ class PlayState extends MusicBeatState {
 		{
 			infoText.text = "Score: " + songScore;
 		}
-		#if desktop
+		#if discord_rpc
+		if (!isStoryMode) {
 		DiscordHandler.changePresence('Playing '
 			+ SONG.song
 			+ ' on '
-			+ Highscore.diffArray[storyDifficulty],
+			+ Highscore.diffArray[storyDifficulty]
+			+ ' (Freeplay)',
 			'With '
 			+ songScore
 			+ ' Score And '
 			+ songMisses
 			+ ' Misses');
+		}
+		else
+		{
+			DiscordHandler.changePresence('Playing '
+			+ SONG.song
+			+ ' on '
+			+ Highscore.diffArray[storyDifficulty]
+			+ ' (Story Mode)',
+			'With '
+			+ songScore
+			+ ' Score And '
+			+ songMisses
+			+ ' Misses');
+		}
 		#end
 
 		if (PlayState.curStage.startsWith('school'))
@@ -1018,7 +1047,7 @@ class PlayState extends MusicBeatState {
 		if (FlxG.keys.justPressed.SEVEN) {
 			FlxG.switchState(new states.debug.ChartingState());
 			#if SCRIPTS_ENABLED scripts_call("chartPress"); #end
-			#if desktop
+			#if discord_rpc
 			DiscordHandler.changePresence('Charting ', SONG.song.toLowerCase());
 			#end
 		}
@@ -1131,7 +1160,7 @@ class PlayState extends MusicBeatState {
 		}
 
 		// RESET = Quick Game Over Screen
-		if (gameControls.RESET) {
+		if (gameControls.RESET && !ClientPrefs.disableReset) {
 			health = 0;
 			trace("RESET = True");
 		}
@@ -1330,7 +1359,7 @@ class PlayState extends MusicBeatState {
 	}
 
 	public function endSong():Void {
-		#if desktop
+		#if discord_rpc
 		DiscordHandler.changePresence('In The Menus The Last Song They Played Was', SONG.song.toLowerCase()); // holy shit its discord
 		#end
 
@@ -1351,6 +1380,7 @@ class PlayState extends MusicBeatState {
 			storyShits += shits;
 
 			storyPlaylist.remove(storyPlaylist[0]);
+			storySongAmountPlayed++;
 
 			if (storyPlaylist.length <= 0) {
 				FlxG.sound.playMusic(Files.music('freakyMenu'));
@@ -1361,6 +1391,8 @@ class PlayState extends MusicBeatState {
 					FlxTween.tween(bar, {alpha: 0}, 1);
 					FlxTween.tween(timeBarTxt, {alpha: 0}, 1);
 				}
+
+				FlxG.save.data.storyPlaylistIndex = null;
 
 				transIn = FlxTransitionableState.defaultTransIn;
 				transOut = FlxTransitionableState.defaultTransOut;

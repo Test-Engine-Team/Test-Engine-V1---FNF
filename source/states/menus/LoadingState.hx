@@ -285,7 +285,7 @@ class LoadingState extends MusicBeatState {
 		});
 		discordClient = Assets.getText(Files.txt('data/discord'));
 
-		#if desktop
+		#if discord_rpc
 		handlers.DiscordHandler.initialize();
 		#end
 

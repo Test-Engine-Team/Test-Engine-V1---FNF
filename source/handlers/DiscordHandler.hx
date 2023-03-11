@@ -1,14 +1,14 @@
 package handlers;
 
 import Sys.sleep;
-#if desktop
+#if discord_rpc
 import discord_rpc.DiscordRpc;
 #end
 
 using StringTools;
 
 class DiscordHandler {
-	#if desktop
+	#if discord_rpc
 	public function new() {
 		trace("Discord Client starting...");
 		DiscordRpc.start({
