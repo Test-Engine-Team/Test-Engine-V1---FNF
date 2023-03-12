@@ -27,7 +27,8 @@
 	<set name="BUILD_DIR" value="export/debug" if="debug" />
 	<set name="BUILD_DIR" value="export/release" unless="debug" />
 	<set name="BUILD_DIR" value="export/32bit" if="32bit" />
-
+	<set name="BUILD_DIR" value="export/clean" if="clean" />
+	
 	<classpath name="source" />
 
 	<assets path='example_mods' rename='mods' embed='false'/>
@@ -39,10 +40,11 @@
 	<assets path="assets/images" />
 	<assets path="assets/music"/>
 	<assets path="assets/songs"/>
+	<assets path="assets/brandon" />
 	<assets path="assets/sounds"/>
 	<assets path="assets/stages" />
 	<assets path="assets/videos" />
-	<assets path="assets/brandon" />
+
 
 	<assets path="CHANGELOG.md" rename='changelog.txt'/>
 
