@@ -107,5 +107,6 @@ class Main extends Sprite {
 		#end
 
 		FlxG.fullscreen = FlxG.save.data.fullscreen;
+		FlxG.sound.volume = FlxG.save.data.volume;
 	}
 }
