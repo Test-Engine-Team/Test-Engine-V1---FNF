@@ -5,6 +5,7 @@ import ui.FpsText;
 import ui.LogHandler;
 import openfl.display.Sprite;
 import handlers.Files;
+import handlers.ClientPrefs;
 #if sys
 import sys.io.File;
 import sys.FileSystem;
@@ -104,5 +105,7 @@ class Main extends Sprite {
 
 		FlxG.mouse.visible = false;
 		#end
+
+		FlxG.fullscreen = FlxG.save.data.fullscreen;
 	}
 }
