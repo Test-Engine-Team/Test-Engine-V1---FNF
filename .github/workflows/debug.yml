@@ -53,12 +53,12 @@ jobs:
         uses: actions/upload-artifact@v2.2.4
         with:
           name: linuxBuild
-          path: 'export/release/linux/bin' 
+          path: 'export/debug/linux/bin' 
       - name: Publish Linux Updator
         uses: actions/upload-artifact@v2.2.4
         with:
           name: linuxUpdator
-          path: 'export/release/linux/bin/Test Engine'
+          path: 'export/debug/linux/bin/Test Engine'
 
   buildHTML5:
     # The type of runner that the job will run on
@@ -96,12 +96,12 @@ jobs:
         uses: actions/upload-artifact@v2.2.4
         with:
           name: html5Build
-          path: 'export/release/html5/bin'
+          path: 'export/debug/html5/bin'
       - name: Publish HTML5 Updator
         uses: actions/upload-artifact@v2.2.4
         with:
           name: html5Updator
-          path: 'export/release/html5/bin/index.html'
+          path: 'export/debug/html5/bin/index.html'
 
   buildWindows:
     runs-on: windows-latest
@@ -143,12 +143,12 @@ jobs:
         uses: actions/upload-artifact@v2.2.4
         with:
           name: windowsBuild
-          path: export/release/windows/bin
+          path: export/debug/windows/bin
       - name: Publish Windows Updator
         uses: actions/upload-artifact@v2.2.4
         with:
           name: windowsUpdator
-          path: 'export/release/windows/bin/Test Engine.exe'
+          path: 'export/debug/windows/bin/Test Engine.exe'
 
   buildMac:
     runs-on: macos-latest
@@ -189,10 +189,10 @@ jobs:
         uses: actions/upload-artifact@v2.2.4
         with:
           name: macBuild
-          path: export/release/macos/bin
+          path: export/debug/macos/bin
       - name: Publish Mac Updator
         uses: actions/upload-artifact@v2.2.4
         with:
           name: macUpdator
-          path: 'export/release/macos/bin/Test Engine.app'
+          path: 'export/debug/macos/bin/Test Engine.app'
           

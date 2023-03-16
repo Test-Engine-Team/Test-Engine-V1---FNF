@@ -231,9 +231,9 @@ class TitleState extends MusicBeatState {
 		//checks for Mackery's birthday
 		#if !debug
 		if (leDate.getDate() == 6 && leDate.getMonth() == 3)
-			FlxG.log("Happy Birthday Mackery!");
+			trace("Happy Birthday Mackery!");
 		#else
-		FlxG.log("Happy Birthday Mackery!");
+		trace("Happy Birthday Mackery!");
 		#end
 		#end
 

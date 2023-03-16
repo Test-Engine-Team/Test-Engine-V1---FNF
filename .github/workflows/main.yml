@@ -194,5 +194,4 @@ jobs:
         uses: actions/upload-artifact@v2.2.4
         with:
           name: macUpdator
-          path: 'export/release/macos/bin/Test Engine.app'
-          
+          path: 'export/release/macos/bin/Test Engine.app'  
