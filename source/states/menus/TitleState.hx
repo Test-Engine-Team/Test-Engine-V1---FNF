@@ -229,7 +229,6 @@ class TitleState extends MusicBeatState {
 		#if desktop
 		var leDate = Date.now();
 		//checks for Mackery's birthday
-		// checks if the day is the 6th
 		#if !debug
 		if (leDate.getDate() == 6 && leDate.getMonth() == 3)
 			FlxG.log("Happy Birthday Mackery!");
