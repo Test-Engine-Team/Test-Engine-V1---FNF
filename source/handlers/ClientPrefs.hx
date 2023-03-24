@@ -12,10 +12,10 @@ import Controls;
 class ClientPrefs {
 	// For load and save.
 	static var settingNames:Array<String> = [
-		"flashingLights", "spinnyspin", "fairFight", "fairFightSafetyNet", "poisonPlus", "fcMode", "maxPoisonHits", "limitMisses", "maxMisses", "freeplayCutscenes",
-		"downscroll", "safeFrames", "botPlay", "practice", "speed", "ghostTapping", "disableReset", "showComboSprite", "antialiasing", "quality", "uiAlpha", "camMoveOnHit",
-		"noteSplashes", "ogTitle", "showTimeBar", "ratingCounter", "fullscreen", "autoPause", "scoreMultiplier", "scoreTxt", "missTxt", "comboTxt", "noteHitTxt",
-		"accuracyTxt", "healthTxt"
+		"flashingLights", "spinnyspin", "fairFight", "fairFightSafetyNet", "poisonPlus", "fcMode", "maxPoisonHits", "limitMisses", "maxMisses", "noteSpeedPenalty", "freeplayCutscenes",
+		"downscroll", "safeFrames", "botPlay", "practice", "speed", "ghostTapping", "disableReset", "overrideNoteSpeed", "noteSpeed", "showComboSprite", "antialiasing",
+		"quality", "uiAlpha", "camMoveOnHit", "noteSplashes", "ogTitle", "showTimeBar", "ratingCounter", "fullscreen", "autoPause", "scoreMultiplier", "scoreTxt", "missTxt",
+		"comboTxt", "noteHitTxt", "accuracyTxt", "healthTxt"
 	];
 	// Options
 	public static var flashingLights:Bool = true; // this assumes this is true which is bad but i dunno how to make a popup on the start of the game like PE
@@ -31,6 +31,8 @@ class ClientPrefs {
 	public static var showResultsScreen:Bool = true;
 	public static var testEngineScore:Bool = true;
 	public static var disableReset:Bool = false;
+	public static var overrideNoteSpeed:Bool = false;
+	public static var noteSpeed:Float = 1.0;
 
 	// Keybinds
 	public static var leftKeybinds:Array<FlxKey> = [FlxKey.A, FlxKey.LEFT];
@@ -53,6 +55,7 @@ class ClientPrefs {
 	public static var noteSplashes:Bool = true;
 	public static var constantDrain:Int = 0;
 	public static var constantHeal:Int = 0;
+	public static var noteSpeedPenalty:Bool = false;
 
 	// Graphics
 	public static var showComboSprite:Bool = true;

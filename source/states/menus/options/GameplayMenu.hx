@@ -127,6 +127,61 @@ class GameplayMenu extends MusicBeatState {
 			}
 		},
 		{
+			name: "Note Speed Overrides Normal Speed",
+			description: "if enabled, will override the song\'s note speed,\nbut if disabled, will add your speed onto the songs speed\n(allowing your speed to go into the negitives)",
+			type: BOOL,
+			min: 0,
+			max: 1,
+			// conflicts: null,
+			updateFunc: function(menuOption:MenuOption, elapsed:Float) {
+				if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true))
+					ClientPrefs.overrideNoteSpeed = !ClientPrefs.overrideNoteSpeed;
+				if (FlxG.keys.justPressed.R)
+					ClientPrefs.overrideNoteSpeed = false;
+			},
+			valueFunc: function() {
+				return (ClientPrefs.overrideNoteSpeed) ? "Enabled" : "Disabled";
+			}
+		},
+		{
+			name: "Note Speed",
+			description: "How fast the notes move.",
+			type: FLOAT,
+			min: 0,
+			max: 20,
+			// conflicts: null,
+			updateFunc: function(menuOption:MenuOption, elapsed:Float) {
+				if (ClientPrefs.overrideNoteSpeed) {
+					switch ([FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].indexOf(true)) {
+						case 0:
+							ClientPrefs.noteSpeed -= 0.1;
+							if (ClientPrefs.noteSpeed < menuOption.min)
+								ClientPrefs.noteSpeed = menuOption.min;
+						case 1:
+							ClientPrefs.noteSpeed += 0.1;
+							if (ClientPrefs.noteSpeed > menuOption.max)
+								ClientPrefs.noteSpeed = menuOption.max;
+					}
+				} else {
+					switch ([FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].indexOf(true)) {
+						case 0:
+							ClientPrefs.noteSpeed -= 0.1;
+							if (ClientPrefs.noteSpeed < -20)
+								ClientPrefs.noteSpeed = -20;
+						case 1:
+							ClientPrefs.noteSpeed += 0.1;
+							if (ClientPrefs.noteSpeed > menuOption.max)
+								ClientPrefs.noteSpeed = menuOption.max;
+					}
+				}
+				if (FlxG.keys.justPressed.R)
+					ClientPrefs.noteSpeed = 1;
+			},
+			valueFunc: function() {
+				return Std.string(ClientPrefs.noteSpeed);
+			}
+		},
+		{
 			name: "Disable Reset Button",
 			description: "Disables the reset button.",
 			type: BOOL,

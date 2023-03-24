@@ -97,6 +97,9 @@ class PlayState extends MusicBeatState {
 	private var playerStrums:FlxTypedGroup<FlxSprite>;
 	private var opponentStrums:FlxTypedGroup<FlxSprite>;
 
+	private var daSpeed:Float = 1.0;
+	private var daCreateSongSpeed:Float = 1.0;
+
 	private var camZooming:Bool = false;
 
 	private var gfSpeed:Int = 1;
@@ -123,6 +126,7 @@ class PlayState extends MusicBeatState {
 	public static var healthBarOverlayAlpha:Float = 0.2;
 
 	public static var swappedHealthbarSide:Bool = false;
+	public static var allowNoteSpeedOverride:Bool = true;
 
 	private var generatedMusic:Bool = false;
 	private var startingSong:Bool = false;
@@ -143,6 +147,7 @@ class PlayState extends MusicBeatState {
 
 	public var songScore:Int = 0;
 	public var songMisses:Int = 0;
+	private var notesHitForFunni:Int = 0;
 	public var fcing:Bool = false;
 
 	var infoText:FlxText;
@@ -155,7 +160,7 @@ class PlayState extends MusicBeatState {
 
 	public var defaultCamZoom:Float = 1.05;
 
-	public var foregroundSprites:FlxTypedGroup<FlxSprite>;
+	public static var foregroundSprites:FlxTypedGroup<FlxSprite>;
 
 	// how big to stretch the pixel art assets
 	public static final daPixelZoom:Float = 6.0;
@@ -183,6 +188,17 @@ class PlayState extends MusicBeatState {
 		#end
 
 		speed = ClientPrefs.speed;
+		daSpeed = FlxMath.roundDecimal(SONG.speed, 2);
+
+		daCreateSongSpeed = daSpeed;
+
+		if (allowNoteSpeedOverride) {
+			if (ClientPrefs.overrideNoteSpeed)
+				daSpeed = FlxMath.roundDecimal(ClientPrefs.noteSpeed, 2);
+			else if (ClientPrefs.noteSpeed != 1.0)
+				daSpeed += FlxMath.roundDecimal(ClientPrefs.noteSpeed, 2);
+		}
+
 
 		camGame = new FlxCamera();
 		camHUD = new FlxCamera();
@@ -1198,7 +1214,7 @@ class PlayState extends MusicBeatState {
 		if (generatedMusic) {
 			notes.forEachAlive(function(daNote:Note) {
 				daNote.visible = daNote.active = daNote.y <= FlxG.height;
-				daNote.y = (strumLine.y - (Conductor.songPosition - daNote.strumTime) * (0.45 * FlxMath.roundDecimal(SONG.speed, 2)));
+				daNote.y = (strumLine.y - (Conductor.songPosition - daNote.strumTime) * (0.45 * daSpeed));
 
 				// i am so fucking sorry for this if condition
 				if (daNote.isSustainNote
@@ -1298,6 +1314,8 @@ class PlayState extends MusicBeatState {
 							songScore -= 10;
 							combo = 0;
 							fcing = false;
+							if (ClientPrefs.noteSpeedPenalty && daSpeed != 10)
+								daSpeed += 0.1;
 							#if SCRIPTS_ENABLED scripts_call("noteMiss"); #end
 							if (tankFloat)
 								boyfriend.y -= 10;
@@ -1772,8 +1790,13 @@ class PlayState extends MusicBeatState {
 			popUpScore(note.strumTime, note, noteHitParams.noteSplashes);
 			combo += 1;
 			notesHit++;
+			notesHitForFunni++;
 			if (notesHit == 1 && songMisses == 0)
 				fcing = true; // ik this is a dumb way to do it but it works!
+			if (notesHitForFunni == 5 && ClientPrefs.noteSpeedPenalty && daSpeed != daCreateSongSpeed) {
+				daSpeed -= 0.1;
+				notesHitForFunni = 0;
+			}
 		}
 
 		// hopefully i make the cam offset customizable...

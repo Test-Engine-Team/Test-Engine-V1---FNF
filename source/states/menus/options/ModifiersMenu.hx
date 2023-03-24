@@ -241,6 +241,22 @@ class ModifiersMenu extends MusicBeatState {
 				else
 					return "Disabled";
 			}
+		},
+		{
+			name: "Note Speed Penalty",
+			description: "if you miss a note, the speed goes up, if you hit 5 notes it slowly goes back to normal.",
+			type: BOOL,
+			min: 0,
+			max: 0,
+			// conflicts: null,
+			updateFunc: function(menuOption:MenuOption, elapsed:Float) {
+				if (FlxG.keys.justPressed.ENTER) {
+					ClientPrefs.noteSpeedPenalty = !ClientPrefs.noteSpeedPenalty;
+				}
+			},
+			valueFunc: function() {
+				return (ClientPrefs.noteSpeedPenalty) ? "Enabled" : "Disabled";
+			}
 		}
 	];
 	var Items:Array<String> = ['Do A Barrel Roll', 'Fair Fight', 'Poison Plus'];
