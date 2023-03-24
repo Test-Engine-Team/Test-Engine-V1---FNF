@@ -2,7 +2,7 @@
 
 This is a tutorial on how to compile
 
-first, install [Haxe](https://haxe.org/download/) and then install [HaxeFlixel](https://haxeflixel.com/documentation/install-haxeflixel/)
+first, install [Haxe](https://haxe.org/download/) (MAKE SURE ITS 4.2.5 OR FLIXEL LEATHER WILL NOT WORK!!!) and then install [HaxeFlixel](https://haxeflixel.com/documentation/install-haxeflixel/)
 
 Once your done with all those, run these lines in command prompt/terminal.
 
