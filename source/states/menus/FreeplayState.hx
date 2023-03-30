@@ -7,6 +7,7 @@ import scriptStuff.HiScript;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup.FlxTypedGroup;
+import flixel.util.FlxStringUtil;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
@@ -41,6 +42,7 @@ class FreeplayState extends MusicBeatState {
 
 	var scoreText:FlxText;
 	var diffText:FlxText;
+	var timeText:FlxText;
 	var lerpScore:Int = 0;
 	var intendedScore:Int = 0;
 
@@ -48,6 +50,9 @@ class FreeplayState extends MusicBeatState {
 	private var curPlaying:Bool = false;
 
 	private static var vocals:FlxSound = null;
+	var songMusic:FlxSound = null;
+
+	public var playingSong:Bool = false;
 
 	var script:HiScript;
 
@@ -96,6 +101,9 @@ class FreeplayState extends MusicBeatState {
 		});
 		#end
 
+		songMusic = new FlxSound().loadEmbedded((Files.song(songList[curSelected].path + '/Inst')));
+		songMusic.volume = 0;
+
 		bg = new FlxSprite().loadGraphic(Files.image('menus/mainmenu/menuBGBlue'));
 		add(bg);
 
@@ -137,6 +145,15 @@ class FreeplayState extends MusicBeatState {
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
+
+		timeText = new FlxText(FlxG.width - 100, FlxG.height - 36.2, 0, "0:00", 12);
+		timeText.scrollFactor.set();
+		timeText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		timeText.alpha = 0.7;
+		add(timeText);
+
+		var songLength = ((songMusic.length) / 1000);
+		timeText.text = FlxStringUtil.formatTime(songLength, false);
 
 		var bullShit:Int = 0;
 
@@ -238,6 +255,8 @@ class FreeplayState extends MusicBeatState {
 			script.callFunction("playSong");
 			#end
 
+			playingSong = !playingSong;
+
 			// destroy old vocals lmfao
 			if (vocals != null) {
 				vocals.stop();
@@ -268,7 +287,7 @@ class FreeplayState extends MusicBeatState {
 
 			FlxG.sound.list.add(vocals);
 
-			// mackery, have you ever heard of null checks
+			// mackery, have you ever heard of null checks  no
 			FlxG.sound.music.play(true);
 
 			if (vocals != null)
@@ -362,7 +381,19 @@ class FreeplayState extends MusicBeatState {
 		if (oldDiffs.length != currentSong.diffs.length || !checkDiffs(oldDiffs, currentSong.diffs))
 			setDiff(Math.floor(currentSong.diffs.length / 2));
 
+		// destroy old song playing muted lmfao
+		if (songMusic != null) {
+			songMusic.stop();
+			songMusic.destroy();
+			songMusic = null;
+		}
+
+		songMusic = new FlxSound().loadEmbedded((Files.song(songList[curSelected].path + '/Inst')));
+
 		intendedScore = Highscore.getScore(currentSong.path, curDifficulty);
+
+		var songLength = ((songMusic.length) / 1000);
+		timeText.text = FlxStringUtil.formatTime(songLength, false);
 
 		var bullShit:Int = 0;
 

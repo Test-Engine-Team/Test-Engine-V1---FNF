@@ -610,7 +610,7 @@ class LoadingState extends MusicBeatState {
 			}
 			message += "\n";
 		}
-		message += "\nTest Engine could always be better.\n\nPlease report this crash at\nhttps://github.com/504brandon/Test-Engine-V1---FNF";
+		message += "\nTest Engine could always be better.\n\nPlease report this crash at\nhttps://github.com/Test-Engine-Team/Test-Engine-V1---FNF";
 
 		Application.current.window.alert(message, errorMessage);
 		Sys.exit(1);

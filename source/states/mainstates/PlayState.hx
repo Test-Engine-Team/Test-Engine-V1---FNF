@@ -106,10 +106,13 @@ class PlayState extends MusicBeatState {
 	private var health:Float = 1;
 	private var combo:Int = 0;
 	private var notesHit:Int = 0;
+	private var notesThatHitTheStrumline:Int = 0;
+	private var coolNoteFloat:Float = 0.0;
 	private var sicks:Int = 0;
 	private var goods:Int = 0;
 	private var bads:Int = 0;
 	private var shits:Int = 0;
+	private var songAccuracy:Float = 0;
 	private var poisonTimes:Int = 0;
 
 	public static var timeBarBG:FlxSprite;
@@ -493,6 +496,7 @@ class PlayState extends MusicBeatState {
 					openSubState(cutscene);
 				#end
 		}
+		recalculateAccuracy();
 	}
 
 	var startTimer:FlxTimer;
@@ -773,6 +777,20 @@ class PlayState extends MusicBeatState {
 			timeBarBar.cameras = [camHUD];
 			if (ClientPrefs.timeBarType != 'Nothing')
 				timeBarTxt.cameras = [camHUD];
+
+			if (!paused) {
+				var curTime:Float = FlxG.sound.music.time;
+				if (curTime < 0)
+					curTime = 0;
+		
+				var secondsTotal:Int = Math.floor(((curTime - songLength) / 1000));
+				if (secondsTotal < 0)
+					secondsTotal = 0;
+		
+				songPositionBar = (Conductor.songPosition - songLength) / 1000;
+				if (ClientPrefs.timeBarType == 'Time')
+					timeBarTxt.text = FlxStringUtil.formatTime((songLength - secondsTotal), false);
+			}
 		}
 
 		unspawnNotes.sort(sortByShit);
@@ -986,7 +1004,7 @@ class PlayState extends MusicBeatState {
 			var missText = "";
 			var comboText = "";
 			var noteHitText = "";
-			//var accuracyText = "";
+			var accuracyText = "";
 			var healthText = "";
 			if (ClientPrefs.scoreTxt) {
 				scoreText = "|| Score: " + songScore + " ";
@@ -1004,18 +1022,16 @@ class PlayState extends MusicBeatState {
 			if (ClientPrefs.healthTxt) {
 				healthText = "|| Health: " + Math.round(health * 50) + "% ";
 			}
-			/*
 			if (ClientPrefs.accuracyTxt) {
 				accuracyText = "|| Accuracy: " + songAccuracy + "% ";
 			}
-			*/
 			if (ClientPrefs.comboTxt) {
 				comboText = "|| Combo: " + combo + " ";
 			}
 			if (ClientPrefs.noteHitTxt) {
 				noteHitText = "|| Notes Hit: " + notesHit + " ";
 			}
-			infoText.text = "" + scoreText + missText + /*accuracyText + */comboText + healthText + noteHitText + "||";
+			infoText.text = "" + scoreText + missText + accuracyText + comboText + healthText + noteHitText + "||";
 		}
 		else
 		{
@@ -1107,7 +1123,7 @@ class PlayState extends MusicBeatState {
 		} else {
 			Conductor.songPosition += FlxG.elapsed * 1000;
 
-			if (!paused)
+			if (!paused && ClientPrefs.showTimeBar)
 			{
 				var curTime:Float = FlxG.sound.music.time;
 				if (curTime < 0)
@@ -1116,7 +1132,7 @@ class PlayState extends MusicBeatState {
 				if (secondsTotal < 0)
 					secondsTotal = 0;
 
-				if (ClientPrefs.showTimeBar && ClientPrefs.timeBarType == 'Time')
+				if (ClientPrefs.timeBarType == 'Time')
 					timeBarTxt.text = FlxStringUtil.formatTime((songLength - secondsTotal), false);
 			}
 		}
@@ -1468,6 +1484,7 @@ class PlayState extends MusicBeatState {
 		var coolX:Float = FlxG.width * 0.55;
 
 		var rating:FlxSprite = new FlxSprite();
+		var ratingMod:Float = 1;
 		var score:Int = 350;
 		var noteSplash:Bool = true;
 		var ratingMiss:Bool = false;
@@ -1476,21 +1493,26 @@ class PlayState extends MusicBeatState {
 
 		if (noteDiff > Conductor.safeZoneOffset * 0.9) {
 			daRating = 'shit';
+			ratingMod = 0;
 			score = 50;
 			noteSplash = false;
 			ratingMiss = true;
 			shits++;
 		} else if (noteDiff > Conductor.safeZoneOffset * 0.75) {
 			daRating = 'bad';
+			ratingMod = 0.4;
 			score = 100;
 			noteSplash = false;
 			bads++;
 		} else if (noteDiff > Conductor.safeZoneOffset * 0.2) {
 			daRating = 'good';
+			ratingMod = 0.7;
 			score = 200;
 			noteSplash = false;
 			goods++;
 		}
+
+		coolNoteFloat += ratingMod;
 
 		if (noteSplash && canSplash) {
 			sicks++;
@@ -1722,7 +1744,10 @@ class PlayState extends MusicBeatState {
 
 			songScore -= 10;
 
-			songMisses += 1;
+			recalculateAccuracy(true);
+
+			songMisses++;
+			notesThatHitTheStrumline++;
 
 			FlxG.sound.play(Files.sound('missnote${FlxG.random.int(1, 3)}'), FlxG.random.float(0.1, 0.2));
 
@@ -1790,6 +1815,7 @@ class PlayState extends MusicBeatState {
 			popUpScore(note.strumTime, note, noteHitParams.noteSplashes);
 			combo += 1;
 			notesHit++;
+			notesThatHitTheStrumline++;
 			notesHitForFunni++;
 			if (notesHit == 1 && songMisses == 0)
 				fcing = true; // ik this is a dumb way to do it but it works!
@@ -1797,6 +1823,7 @@ class PlayState extends MusicBeatState {
 				daSpeed -= 0.1;
 				notesHitForFunni = 0;
 			}
+			recalculateAccuracy(false);
 		}
 
 		// hopefully i make the cam offset customizable...
@@ -1945,4 +1972,15 @@ class PlayState extends MusicBeatState {
 		return value;
 	}
 	#end
+
+	function recalculateAccuracy(miss:Bool = false) {
+		if (miss)
+			coolNoteFloat -= 1;
+
+		//to make sure we don't divide by 0
+		if (notesThatHitTheStrumline == 0)
+			songAccuracy = 100;
+		else
+			songAccuracy = Math.round(Math.max(0, coolNoteFloat / notesThatHitTheStrumline * 100)); //idk how to round to the nearest hundreth so this is all we get...
+	}
 }
