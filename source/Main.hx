@@ -18,9 +18,11 @@ class Main extends Sprite {
 	static public var buildNumber:Int;
 	static public var log:LogHandler;
 
+	static public var skipHaxeIntro:Bool = true;
+
 	public function new() {
 		super();
-		addChild(new FlxGame(0, 0, states.menus.LoadingState));
+		addChild(new FlxGame(0, 0, states.menus.LoadingState, ClientPrefs.framerate, ClientPrefs.framerate, skipHaxeIntro, ClientPrefs.fullscreen));
 
 		addChild(new FpsText(10, 3, 0xFFFFFF));
 		addChild(log = new LogHandler());
@@ -105,8 +107,5 @@ class Main extends Sprite {
 
 		FlxG.mouse.visible = false;
 		#end
-
-		FlxG.fullscreen = FlxG.save.data.fullscreen;
-		FlxG.sound.volume = FlxG.save.data.volume;
 	}
 }
