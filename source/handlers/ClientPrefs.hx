@@ -65,6 +65,7 @@ class ClientPrefs {
 	public static var showTimeBar:Bool = true;
 	public static var timeBarType:String = 'Time';
 	public static var quality:String = 'Medium';
+	public static var newComboSprite:Bool = true;
 	public static var ratingCounter:Bool = false;
 
 	// Info Text stuff

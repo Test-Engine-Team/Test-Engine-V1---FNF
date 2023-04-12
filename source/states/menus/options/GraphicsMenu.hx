@@ -33,6 +33,23 @@ class GraphicsMenu extends MusicBeatState {
 			}
 		},
 		{
+			name: "New Combo Sprite",
+			description: "Shows the brand new combo sprite",
+			type: BOOL,
+			min: 0,
+			max: 1,
+			//conflicts: null,
+			updateFunc: function(menuOption:MenuOption, elapsed:Float) {
+				if ([FlxG.keys.justPressed.ENTER, FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT].contains(true))
+					ClientPrefs.newComboSprite = !ClientPrefs.newComboSprite;
+				if (FlxG.keys.justPressed.R)
+					ClientPrefs.newComboSprite = true;
+			},
+			valueFunc: function() {
+				return (ClientPrefs.newComboSprite) ? "Enabled" : "Disabled";
+			}
+		},
+		{
 			name: "Note Splashes",
 			description: "Shows a Splash Animation when you hit Sick on a Note.",
 			type: BOOL,

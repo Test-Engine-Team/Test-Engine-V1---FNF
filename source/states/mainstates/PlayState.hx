@@ -1,5 +1,6 @@
 package states.mainstates;
 
+import Section;
 import haxe.io.Path;
 import openfl.Assets;
 import flixel.addons.transition.FlxTransitionableState;
@@ -81,6 +82,9 @@ class PlayState extends MusicBeatState {
 	public var gf:Character;
 	public var boyfriend:Character;
 
+	public var preBoyfriendX:Int = 779;
+	public var preBoyfriendY:Int = 100;
+
 	var stage:Stage;
 
 	private var notes:FlxTypedGroup<Note>;
@@ -102,18 +106,24 @@ class PlayState extends MusicBeatState {
 
 	private var camZooming:Bool = false;
 
-	private var gfSpeed:Int = 1;
-	private var health:Float = 1;
-	private var combo:Int = 0;
-	private var notesHit:Int = 0;
+	public static var gfSpeed:Int = 1;
+	public var health:Float = 1;
+	public var combo:Int = 0;
+	public var notesHit:Int = 0;
 	private var notesThatHitTheStrumline:Int = 0;
 	private var coolNoteFloat:Float = 0.0;
-	private var sicks:Int = 0;
-	private var goods:Int = 0;
-	private var bads:Int = 0;
-	private var shits:Int = 0;
-	private var songAccuracy:Float = 0;
+	public var sicks:Int = 0;
+	public var goods:Int = 0;
+	public var bads:Int = 0;
+	public var shits:Int = 0;
+	public var songAccuracy:Float = 0;
+	public var songRank:String = '?';
 	private var poisonTimes:Int = 0;
+
+	private var comboX:Float = 0;
+	private var comboY:Float = 0;
+	private var numScore:FlxSprite;
+	private var comboSpr:FlxSprite;
 
 	public static var timeBarBG:FlxSprite;
 	public static var timeBarBar:FlxBar;
@@ -152,6 +162,9 @@ class PlayState extends MusicBeatState {
 	public var songMisses:Int = 0;
 	private var notesHitForFunni:Int = 0;
 	public var fcing:Bool = false;
+
+	public var mustHitSection:Bool;
+	var seperatedHits:Int = 0;
 
 	var infoText:FlxText;
 	var ratingCounter:FlxText;
@@ -966,6 +979,13 @@ class PlayState extends MusicBeatState {
 		if (songMisses > 0)
 			fcing = false;
 
+		if (curSection >= 1) {
+			if (PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection)
+				mustHitSection = true;
+			else
+				mustHitSection = false;
+		}
+
 		if (speed != 1) {
 			Conductor.songPosition += elapsed * speed * 100;
 			FlxG.sound.music.time += elapsed * speed * 100;
@@ -1023,7 +1043,7 @@ class PlayState extends MusicBeatState {
 				healthText = "|| Health: " + Math.round(health * 50) + "% ";
 			}
 			if (ClientPrefs.accuracyTxt) {
-				accuracyText = "|| Accuracy: " + songAccuracy + "% ";
+				accuracyText = "|| Accuracy: " + songAccuracy + "% (" + songRank + ") ";
 			}
 			if (ClientPrefs.comboTxt) {
 				comboText = "|| Combo: " + combo + " ";
@@ -1146,7 +1166,7 @@ class PlayState extends MusicBeatState {
 			var dadMidpoint = dad.getMidpoint();
 
 			if (camFollow.x != dadMidpoint.x + 150 + dad.charData.offsets[2] + opOffsetX
-				&& !PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection) {
+				&& !mustHitSection) {
 				camFollow.x = dadMidpoint.x + 150 + dad.charData.offsets[2] + opOffsetX;
 				camFollow.y = dadMidpoint.y - 100 + dad.charData.offsets[3] + opOffsetY;
 
@@ -1155,7 +1175,7 @@ class PlayState extends MusicBeatState {
 				}
 			}
 
-			if (PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection
+			if (mustHitSection
 				&& camFollow.x != bfMidpoint.x
 					- 100
 					- boyfriend.charData.offsets[2]
@@ -1287,7 +1307,7 @@ class PlayState extends MusicBeatState {
 					// hopefully i make the cam offset customizable...
 					if (ClientPrefs.camMoveOnHit
 						&& noteHitParams.camMoveOnHit
-						&& !PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection
+						&& !mustHitSection
 						&& !daNote.isSustainNote) {
 						switch (noteHitParams.animToPlay) {
 							case "singLEFT":
@@ -1558,83 +1578,156 @@ class PlayState extends MusicBeatState {
 		rating.velocity.y -= FlxG.random.int(140, 175);
 		rating.velocity.x -= FlxG.random.int(0, 10);
 
-		var comboSpr:FlxSprite = new FlxSprite().loadGraphic(Files.image(pixelShitPart1 + 'combo' + pixelShitPart2));
-		comboSpr.screenCenter();
-		comboSpr.x = coolX;
-		comboSpr.acceleration.y = 600;
-		comboSpr.velocity.y -= 150;
+		if (!ClientPrefs.newComboSprite) {
+			comboSpr = new FlxSprite().loadGraphic(Files.image(pixelShitPart1 + 'combo' + pixelShitPart2));
+			comboSpr.screenCenter();
+			comboSpr.x = coolX;
+			comboSpr.acceleration.y = 600;
+			comboSpr.velocity.y -= 150;
 
-		comboSpr.velocity.x += FlxG.random.int(1, 10);
-		add(rating);
+			comboSpr.velocity.x += FlxG.random.int(1, 10);
+			add(rating);
 
-		if (!curStage.startsWith('school')) {
-			rating.setGraphicSize(Std.int(rating.width * 0.7));
-			rating.antialiasing = true;
-			comboSpr.setGraphicSize(Std.int(comboSpr.width * 0.7));
-			comboSpr.antialiasing = true;
+			if (!curStage.startsWith('school')) {
+				rating.setGraphicSize(Std.int(rating.width * 0.7));
+				rating.antialiasing = ClientPrefs.antialiasing;
+				comboSpr.setGraphicSize(Std.int(comboSpr.width * 0.7));
+				comboSpr.antialiasing = ClientPrefs.antialiasing;
+			} else {
+				rating.setGraphicSize(Std.int(rating.width * daPixelZoom * 0.7));
+				comboSpr.setGraphicSize(Std.int(comboSpr.width * daPixelZoom * 0.7));
+			}
 		} else {
-			rating.setGraphicSize(Std.int(rating.width * daPixelZoom * 0.7));
-			comboSpr.setGraphicSize(Std.int(comboSpr.width * daPixelZoom * 0.7));
+			comboX = preBoyfriendX / 10 + boyfriend.x / 4;
+			comboY = preBoyfriendY / 10 + boyfriend.y / 6 + 300;
+			if (pixelStage || camGame.zoom > 1) {
+				comboX = comboX - 180;
+				comboY = comboY / 1.3;
+			}
+			
+			comboSpr = new FlxSprite().loadGraphic(Files.image('noteCombo'));
+			comboSpr.x = comboX;
+			comboSpr.y = comboY;
+			comboSpr.visible = false;
 		}
 
 		comboSpr.updateHitbox();
 		rating.updateHitbox();
 
 		var seperatedScore:Array<Int> = [];
+		var lastMustHit = false;
 
 		seperatedScore.push(Math.floor(combo / 100));
 		seperatedScore.push(Math.floor((combo - (seperatedScore[0] * 100)) / 10));
 		seperatedScore.push(combo % 10);
 
 		var daLoop:Int = 0;
-		for (i in seperatedScore) {
-			var numScore:FlxSprite = new FlxSprite().loadGraphic(Files.image(pixelShitPart1 + 'num' + Std.int(i) + pixelShitPart2));
+		if (!ClientPrefs.newComboSprite)
+		{
+			for (i in seperatedScore) {
+				numScore = new FlxSprite().loadGraphic(Files.image(pixelShitPart1 + 'num' + Std.int(i) + pixelShitPart2));
+				numScore.screenCenter();
+				numScore.x = coolX + (43 * daLoop) - 90;
+				numScore.y += 80;
+
+				if (!curStage.startsWith('school')) {
+					numScore.antialiasing = true;
+					numScore.setGraphicSize(Std.int(numScore.width * 0.5));
+				} else
+					numScore.setGraphicSize(Std.int(numScore.width * daPixelZoom));
+				numScore.updateHitbox();
+
+				numScore.acceleration.y = FlxG.random.int(200, 300);
+				numScore.velocity.y -= FlxG.random.int(140, 160);
+				numScore.velocity.x = FlxG.random.float(-5, 5);
+
+				if (combo >= 10)
+					add(numScore);
+
+				if (combo > 9 && ClientPrefs.showComboSprite)
+					add(comboSpr);
+
+				FlxTween.tween(numScore, {alpha: 0}, 0.2, {
+					onComplete: function(tween:FlxTween) {
+						numScore.destroy();
+					},
+					startDelay: Conductor.crochet * 0.002
+				});
+
+				daLoop++;
+			}
+		}
+		else
+		{
+			for (i in 1...3) {
+				numScore = new FlxSprite().loadGraphic(Files.image('noteComboNumbers'));
+				numScore.x = comboX - 170 + i * 160;
+				numScore.y = comboY + 110 - i * 50;
+				numScore.scrollFactor.set(0.5, 0.5);
+				numScore.scale.set(0.99, 0.99);
+				numScore.visible = false;
+				for (m in seperatedScore) {
+					numScore.animation.addByPrefix('appear', Std.int(m) + '_appear', 24, false);
+					numScore.animation.addByPrefix('dissappear', Std.int(m) + '_disappear', 24, false);
+				}
+			}
 			numScore.screenCenter();
-			numScore.x = coolX + (43 * daLoop) - 90;
-			numScore.y += 80;
-
-			if (!curStage.startsWith('school')) {
-				numScore.antialiasing = true;
-				numScore.setGraphicSize(Std.int(numScore.width * 0.5));
-			} else
-				numScore.setGraphicSize(Std.int(numScore.width * daPixelZoom));
-			numScore.updateHitbox();
-
-			numScore.acceleration.y = FlxG.random.int(200, 300);
-			numScore.velocity.y -= FlxG.random.int(140, 160);
-			numScore.velocity.x = FlxG.random.float(-5, 5);
-
-			if (combo >= 10)
-				add(numScore);
-
-			if (combo > 9 && ClientPrefs.showComboSprite)
-				add(comboSpr);
-
-			FlxTween.tween(numScore, {alpha: 0}, 0.2, {
-				onComplete: function(tween:FlxTween) {
-					numScore.destroy();
-				},
-				startDelay: Conductor.crochet * 0.002
-			});
-
-			daLoop++;
+			comboSpr.screenCenter();
 		}
 
-		FlxTween.tween(rating, {alpha: 0}, 0.2, {
-			startDelay: Conductor.crochet * 0.001
-		});
+		if (!ClientPrefs.newComboSprite) {
+			FlxTween.tween(rating, {alpha: 0}, 0.2, {
+				startDelay: Conductor.crochet * 0.001
+			});
 
-		FlxTween.tween(comboSpr, {alpha: 0}, 0.2, {
-			onComplete: function(tween:FlxTween) {
-				comboSpr.destroy();
-				rating.destroy();
-			},
-			startDelay: Conductor.crochet * 0.001
-		});
+			FlxTween.tween(comboSpr, {alpha: 0}, 0.2, {
+				onComplete: function(tween:FlxTween) {
+					comboSpr.destroy();
+					rating.destroy();
+				},
+				startDelay: Conductor.crochet * 0.001
+			});
+		}
 
 		curSection += 1;
 
-		ratingCounter.text = 'Sicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\n';//\nTotal hit: ${totals}\n;
+		if (ClientPrefs.newComboSprite) {
+			if (lastMustHit != mustHitSection) { 
+				lastMustHit = mustHitSection;
+				if (!lastMustHit && combo > 12 && (curBeat % 4 == 0 || curBeat % 6 == 0)) {
+					comboSpr.visible = true;
+					forceBullshit('appear', true);
+
+					seperatedScore = [];
+				}
+			}
+		}
+
+		//ratingCounter.text = 'Sicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\n';//\nTotal hit: ${totals}\n;
+	}
+
+	private function forceBullshit(anim:String, ?force:Bool = false)
+	{
+		if (force == null) force = false;
+
+		numScore.visible = true;
+		numScore.animation.play(anim, force);
+		comboSpr.visible = true;
+
+		var ox = 0;
+		if (anim == 'disappear') ox = -150;
+
+		numScore.x = ox;
+		numScore.y = 0;
+
+		numScore.animation.finishCallback = (animationName:String)->{
+			if(animationName == "appear")
+				forceBullshit('disappear')
+			else if (animationName == "disappear") {
+				numScore.visible = false;
+				comboSpr.visible = false;
+			}
+		};
 	}
 
 	private function keyShit():Void {
@@ -1982,5 +2075,24 @@ class PlayState extends MusicBeatState {
 			songAccuracy = 100;
 		else
 			songAccuracy = Math.round(Math.max(0, coolNoteFloat / notesThatHitTheStrumline * 100)); //idk how to round to the nearest hundreth so this is all we get...
+
+		// Determines the rank you got based on your accuracy
+		// it goes from S+ to F
+		if (notesThatHitTheStrumline == 0)
+			songRank = '?';
+		else if (songAccuracy == 100)
+			songRank = 'S+';
+		else if (songAccuracy >= 90)
+			songRank = 'S';
+		else if (songAccuracy >= 80)
+			songRank = 'A';
+		else if (songAccuracy >= 70)
+			songRank = 'B';
+		else if (songAccuracy >= 60)
+			songRank = 'C';
+		else if (songAccuracy >= 50)
+			songRank = 'D';
+		else
+			songRank = 'F';
 	}
 }
