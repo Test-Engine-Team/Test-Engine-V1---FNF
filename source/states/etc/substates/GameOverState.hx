@@ -49,10 +49,6 @@ class GameOverState extends MusicBeatSubstate {
 		add(camFollow);
 
 		FlxG.sound.play(Files.sound('fnf_loss_sfx'));
-		Conductor.changeBPM(100);
-
-		// FlxG.camera.followLerp = 1;
-		// FlxG.camera.focusOn(FlxPoint.get(FlxG.width / 2, FlxG.height / 2));
 		FlxG.camera.scroll.set();
 		FlxG.camera.target = null;
 
@@ -89,12 +85,6 @@ class GameOverState extends MusicBeatSubstate {
 			Conductor.songPosition = FlxG.sound.music.time;
 	}
 
-	override function beatHit() {
-		super.beatHit();
-
-		FlxG.log.add('beat');
-	}
-
 	var isEnding:Bool = false;
 
 	function endBullshit():Void {
@@ -109,7 +99,7 @@ class GameOverState extends MusicBeatSubstate {
 			FlxG.sound.play(Files.music('gameOverEnd$stageSuffix'));
 			new FlxTimer().start(0.7, function(tmr:FlxTimer) {
 				FlxG.camera.fade(FlxColor.BLACK, 2, false, function() {
-					FlxG.switchState(new PlayState());
+					FlxG.resetState();
 				});
 			});
 		}

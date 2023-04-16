@@ -146,8 +146,6 @@ class PlayState extends MusicBeatState {
 
 	var timeBarTxt:FlxText;
 
-	var talking:Bool = true;
-
 	public var songScore:Int = 0;
 	public var songMisses:Int = 0;
 	private var notesHitForFunni:Int = 0;
@@ -340,7 +338,7 @@ class PlayState extends MusicBeatState {
 
 		// fake notesplash cache type deal so that it loads in the graphic?
 
-		grpNoteSplashes = new FlxTypedGroup<NoteSplash>();
+		grpNoteSplashes = new FlxTypedGroup<NoteSplash>(8);
 
 		var noteSplash:NoteSplash = new NoteSplash(100, 100, 0);
 		grpNoteSplashes.add(noteSplash);
@@ -1196,26 +1194,7 @@ class PlayState extends MusicBeatState {
 			health = 0;
 			trace("RESET = True");
 		}
-
-		if (health <= 0 && !ClientPrefs.practice) {
-			boyfriend.stunned = true;
-
-			persistentUpdate = persistentDraw = false;
-			paused = true;
-
-			vocals.stop();
-			FlxG.sound.music.stop();
-
-			#if SCRIPTS_ENABLED
-			scripts_call("onDeath", [], false);
-			#end
-
-			// 1 / 1000 chance for Gitaroo Man easter egg
-			if (FlxG.random.bool(0.1))
-				FlxG.switchState(new GitarooPause()); // gitaroo man easter egg
-			else
-				openSubState(new GameOverState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
-		}
+		gameOver();
 
 		if (unspawnNotes[0] != null) {
 			if (unspawnNotes[0].strumTime - Conductor.songPosition < 1500) {
@@ -1391,6 +1370,38 @@ class PlayState extends MusicBeatState {
 			scripts_call("updatePost", [elapsed], false);
 		#end
 	}
+
+	public var isDead:Bool = false;
+
+	/*
+	inline function canGameOver() {
+		return health <= 0 && isDead && !ClientPrefs.practice;
+	}*/
+
+	function gameOver(?overrideDeath:Bool = false){
+		if (((overrideDeath) || health <= 0) && !ClientPrefs.practice && !isDead){
+			boyfriend.stunned = true;
+
+			persistentUpdate = persistentDraw = false;
+			paused = true;
+
+			vocals.stop();
+			FlxG.sound.music.stop();
+
+			#if SCRIPTS_ENABLED
+			scripts_call("onDeath", [], false);
+			#end
+
+			// 1 / 1000 chance for Gitaroo Man easter egg
+			if (FlxG.random.bool(0.1))
+				FlxG.switchState(new GitarooPause()); // gitaroo man easter egg
+			else
+				openSubState(new GameOverState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
+			isDead = true;
+			return true;
+		}
+		return false;
+	}	
 
 	public function endSong():Void {
 		#if discord_rpc
@@ -1887,7 +1898,6 @@ class PlayState extends MusicBeatState {
 
 			dad.dance();
 		}
-		// FlxG.log.add('change bpm' + SONG.notes[Std.int(curStep / 16)].changeBPM);
 		// HARDCODING FOR MILF ZOOMS!
 		if (SONG.song.toLowerCase() == 'milf' && curBeat >= 168 && curBeat < 200 && camZooming && FlxG.camera.zoom < 1.35) {
 			FlxG.camera.zoom += 0.015;

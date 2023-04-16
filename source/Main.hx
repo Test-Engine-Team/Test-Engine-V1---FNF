@@ -6,6 +6,7 @@ import ui.LogHandler;
 import openfl.display.Sprite;
 import handlers.Files;
 import handlers.ClientPrefs;
+import openfl.Lib;
 #if sys
 import sys.io.File;
 import sys.FileSystem;
@@ -20,9 +21,26 @@ class Main extends Sprite {
 
 	static public var skipHaxeIntro:Bool = true;
 
+	var gameWidth:Int = 1280; // Width of the game in pixels (might be less / more in actual pixels depending on your zoom).
+	var gameHeight:Int = 720; // Height of the game in pixels (might be less / more in actual pixels depending on your zoom).
+	var zoom:Float = -1; // If -1, zoom is automatically calculated to fit the window dimensions.
+
 	public function new() {
 		super();
-		addChild(new FlxGame(0, 0, states.menus.LoadingState, ClientPrefs.framerate, ClientPrefs.framerate, skipHaxeIntro, ClientPrefs.fullscreen));
+
+		final stageWidth:Int = Lib.current.stage.stageWidth;
+		final stageHeight:Int = Lib.current.stage.stageHeight;
+
+		if (zoom == -1.0)
+		{
+			final ratioX:Float = stageWidth / width;
+			final ratioY:Float = stageHeight / height;
+			zoom = Math.min(ratioX, ratioY);
+			width = Math.ceil(stageWidth / zoom);
+			height = Math.ceil(stageHeight / zoom);
+		}
+
+		addChild(new FlxGame(gameWidth, gameHeight, states.menus.LoadingState, #if (flixel < "5.0.0") zoom, #end ClientPrefs.framerate, ClientPrefs.framerate, skipHaxeIntro, ClientPrefs.fullscreen));
 
 		addChild(new FpsText(10, 3, 0xFFFFFF));
 		addChild(log = new LogHandler());
