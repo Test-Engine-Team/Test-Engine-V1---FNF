@@ -34,8 +34,8 @@ class MusicBeatState extends FlxUIState {
 		if (oldStep != curStep && curStep > 0)
 			stepHit();
 
-		if(FlxG.save.data != null) FlxG.save.data.fullscreen = FlxG.fullscreen;
-		if(FlxG.save.data != null) FlxG.save.data.volume = FlxG.sound.volume;
+		if(FlxG.save.data != null) 
+			FlxG.save.data.fullscreen = FlxG.fullscreen;
 
 		super.update(elapsed);
 	}

@@ -19,11 +19,15 @@ class Main extends Sprite {
 	static public var buildNumber:Int;
 	static public var log:LogHandler;
 
-	static public var skipHaxeIntro:Bool = true;
-
-	var gameWidth:Int = 1280; // Width of the game in pixels (might be less / more in actual pixels depending on your zoom).
-	var gameHeight:Int = 720; // Height of the game in pixels (might be less / more in actual pixels depending on your zoom).
-	var zoom:Float = -1; // If -1, zoom is automatically calculated to fit the window dimensions.
+	var game = {
+		width: 1280, // WINDOW width
+		height: 720, // WINDOW height
+		initialState: states.menus.LoadingState, // initial game state
+		zoom: -1.0, // game state bounds
+		framerate: 60, // default framerate
+		skipSplash: true, // if the default flixel splash screen should be skipped
+		startFullscreen: false // if the game should start at fullscreen mode
+	};
 
 	public function new() {
 		super();
@@ -31,16 +35,17 @@ class Main extends Sprite {
 		final stageWidth:Int = Lib.current.stage.stageWidth;
 		final stageHeight:Int = Lib.current.stage.stageHeight;
 
-		if (zoom == -1.0)
+		if (game.zoom == -1.0)
 		{
-			final ratioX:Float = stageWidth / width;
-			final ratioY:Float = stageHeight / height;
-			zoom = Math.min(ratioX, ratioY);
-			width = Math.ceil(stageWidth / zoom);
-			height = Math.ceil(stageHeight / zoom);
+			final ratioX:Float = stageWidth / game.width;
+			final ratioY:Float = stageHeight / game.height;
+			game.zoom = Math.min(ratioX, ratioY);
+			game.width = Math.ceil(stageWidth / game.zoom);
+			game.height = Math.ceil(stageHeight / game.zoom);
 		}
 
-		addChild(new FlxGame(gameWidth, gameHeight, states.menus.LoadingState, #if (flixel < "5.0.0") zoom, #end ClientPrefs.framerate, ClientPrefs.framerate, skipHaxeIntro, ClientPrefs.fullscreen));
+		addChild(new FlxGame(game.width, game.height, game.initialState, #if (flixel < "5.0.0") game.zoom, #end game.framerate, game.framerate, 
+			game.skipSplash, game.startFullscreen));
 
 		addChild(new FpsText(10, 3, 0xFFFFFF));
 		addChild(log = new LogHandler());
@@ -119,11 +124,12 @@ class Main extends Sprite {
 		#end
 		#end
 
+		// we need an actual option for this, instead of just this
+		// FlxG.fullscreen = ClientPrefs.fullscreen;
+
 		#if html5
 		ClientPrefs.fullscreen = true;
-		ClientPrefs.autoPause = false;
-
-		FlxG.mouse.visible = false;
+		ClientPrefs.autoPause = FlxG.mouse.visible = false;
 		#end
 	}
 }
